@@ -50,4 +50,13 @@ public class GameSpace {
 			things.get(i).draw(g, x, y, w, h);
 		}
 	}
+	
+	public boolean isSolid() {
+		for(Thing th : things) {
+			if(th instanceof SolidThing) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

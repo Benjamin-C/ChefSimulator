@@ -26,8 +26,8 @@ public class GamePanel extends JPanel {
 	
 	public GamePanel(Room lvl) {
 		level = lvl;
-		boxWidth = 128;
-		boxHeight = 128;
+		boxWidth = 64;
+		boxHeight = 64;
 		width = (int) level.getSize().getWidth();
 		height = (int) level.getSize().getHeight();
 		jf = new JFrame("I am bob");
