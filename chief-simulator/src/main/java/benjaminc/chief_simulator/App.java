@@ -2,21 +2,16 @@ package benjaminc.chief_simulator;
 
 import benjaminc.util.Logger;
 
-/**
- * Hello world!
- *
- */
 public class App {
 	
-	Logger logger;
-    public static void main( String[] args ) {
-    	System.out.println( "Hello World!" );
-    	App a = new App();
-	}
+	static Logger logger;
 	
-	public App() {
-        // Setup logger
- 		logger = new Logger();
+    @SuppressWarnings("unused")
+	public static void main( String[] args ) {
+    	System.out.println( "Hello World!" );
+    	logger = new Logger();
  		logger.start();
+ 		System.out.println("I am logging now");
+ 		Game g = new Game();
     }
 }

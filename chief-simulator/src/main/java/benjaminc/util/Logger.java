@@ -40,7 +40,6 @@ public class Logger {
  		tracedPrintStream = new TracedPrintStream(outputPrintStream, true);
  		System.setOut(tracedPrintStream);
  		System.setErr(outputPrintStream);
- 		System.out.println("Jeopardy");
  		logPrintStream.flush();
 	}
 	
