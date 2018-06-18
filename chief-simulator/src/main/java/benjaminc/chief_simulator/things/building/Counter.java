@@ -15,4 +15,6 @@ public class Counter implements SolidThing {
 		g.setColor(new Color(64, 64, 64));
 		g.fillRect(x,  y,  w,  h);
 	}
+	
+	
 }

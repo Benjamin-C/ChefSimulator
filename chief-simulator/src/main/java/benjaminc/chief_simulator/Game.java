@@ -14,6 +14,7 @@ import benjaminc.chief_simulator.graphics.GamePanel;
 import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.things.building.Counter;
 import benjaminc.chief_simulator.things.building.CuttingBoard;
+import benjaminc.chief_simulator.things.building.Spawner;
 import benjaminc.chief_simulator.things.food.Apple;
 import benjaminc.chief_simulator.things.food.ChoppedApple;
 import benjaminc.chief_simulator.things.food.ChoppedLettuce;
@@ -57,7 +58,8 @@ public class Game {
 			map.addThing(new Counter(), i, 0);
 		}
 		map.getSpace(4, 0).removeAll(new Counter());
-		map.addThing(new CuttingBoard(),  4, 0);
+		map.addThing(new CuttingBoard(), 4, 0);
+		map.addThing(new Spawner(new Lettuce()), 5, 0);
 		updateGraphics();
 	}
 	

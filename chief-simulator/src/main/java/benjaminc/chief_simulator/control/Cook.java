@@ -59,27 +59,29 @@ public class Cook {
 			List<Thing> whatIsHere = game.getRoom().getSpace(newX, newY).getThings();
 			ToolThing tool = null;
 			int loc = whatIsHere.size() - 1;
-			do {
-				Thing thingHere = whatIsHere.get(loc);
-				if (thingHere instanceof ToolThing) {
-					tool = (ToolThing) thingHere;
-				}
-			} while(tool == null && loc-- >= 0);
-			if(tool != null) {
-				Thing food = null;
-				loc = whatIsHere.size() - 1;
+			if(loc >= 0) {
 				do {
 					Thing thingHere = whatIsHere.get(loc);
-					if (!(thingHere instanceof AttachedThing)) {
-						food = thingHere;
-						game.getRoom().getSpace(newX, newY).removeThing(food);
+					if (thingHere instanceof ToolThing) {
+						tool = (ToolThing) thingHere;
 					}
-				} while(food == null && loc-- <= 0);
-				Thing tempThing = tool.useTool(food);
-				game.getRoom().getSpace(newX, newY).addThing(tempThing);
+				} while(tool == null && loc-- > 0);
+				if(tool != null) {
+					Thing food = null;
+					loc = whatIsHere.size() - 1;
+					do {
+						Thing thingHere = whatIsHere.get(loc);
+						if (!(thingHere instanceof AttachedThing)) {
+							food = thingHere;
+							game.getRoom().getSpace(newX, newY).removeThing(food);
+						}
+					} while(food == null && loc-- <= 0);
+					Thing tempThing = tool.useTool(food);
+					game.getRoom().getSpace(newX, newY).addThing(tempThing);
+				}
+			game.updateGraphics();
 			}
 		}
-		game.updateGraphics();
 	}
 	
 	public void pickUp() {

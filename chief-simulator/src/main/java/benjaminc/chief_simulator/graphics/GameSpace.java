@@ -17,11 +17,15 @@ public class GameSpace {
 	}
 	
 	public void addThing(Thing t) {
-		things.add(t);
+		if(t != null) {
+			things.add(t);
+		}
 	}
 	
 	public void addThing(int loc, Thing t) {
-		things.add(loc, t);
+		if(t != null) {
+			things.add(loc, t);
+		}
 	}
 	
 	public void removeThing(Thing t) {
