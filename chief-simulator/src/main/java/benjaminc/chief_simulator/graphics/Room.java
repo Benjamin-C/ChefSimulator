@@ -13,8 +13,8 @@ public class Room {
 	protected GameSpace[][] room;
 	
 	protected List<Cook> cooks;
-	int width;
-	int height;
+	protected int width;
+	protected int height;
 	
 	public Room(int w, int h) {
 		width = w;
@@ -46,14 +46,14 @@ public class Room {
 	public void addCook(Cook c) {
 		cooks.add(c);
 	}
-	public void draw(Graphics g, int w, int h) {
+	public void draw(Graphics g, int x, int y, int w, int h) {
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
-				room[i][j].draw(g, i * w,  j * h,  w,  h);
+				room[i][j].draw(g, (i * w) + x,  (j * h) + y,  w,  h);
 			}
 		}
 		for(Cook c : cooks) {
-			c.draw(g,  w,  h);
+			c.draw(g, x, y, w,  h);
 		}
 	}
 }

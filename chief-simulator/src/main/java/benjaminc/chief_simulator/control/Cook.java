@@ -58,32 +58,24 @@ public class Cook {
 		if(newX < game.getRoom().getSize().width && newX >= 0 && newY < game.getRoom().getSize().height && newY >= 0) {
 			List<Thing> whatIsHere = game.getRoom().getSpace(newX, newY).getThings();
 			ToolThing tool = null;
-			int loc = whatIsHere.size() - 1;
-			System.out.println(whatIsHere);
-			for(Thing t : whatIsHere) {
-				System.out.println(t);
-			}
-			if(loc >= 0) {
+			int loc = 0;
+			if(whatIsHere.size() > 0) {
 				do {
 					Thing thingHere = whatIsHere.get(loc);
 					if (thingHere instanceof ToolThing) {
 						tool = (ToolThing) thingHere;
 					}
-				} while(tool == null && loc-- > 0);
-				System.out.println(tool);
+				} while(tool == null && ++loc < whatIsHere.size());
 				if(tool != null && whatIsHere.size() > 0) {
 					Thing food = null;
-					loc = whatIsHere.size() - 1;
+					loc = 0;
 					do {
-						System.out.println(loc);
 						Thing thingHere = whatIsHere.get(loc);
-						System.out.println(loc + " " + thingHere + " " + tool + " " + (thingHere == tool));
 						if (!(thingHere instanceof AttachedThing) && (thingHere != tool)) {
 							food = thingHere;
 							game.getRoom().getSpace(newX, newY).removeThing(food);
 						}
-						System.out.println(loc + " " + food);
-					} while(food == null && loc-- > 0);
+					} while(food == null && ++loc < whatIsHere.size());
 					List<Thing> tempThing = tool.useTool(food);
 					if(tempThing != null) {
 						for(Thing t : tempThing) {
@@ -159,9 +151,9 @@ public class Cook {
 		game.updateGraphics();
 	}
 	
-	public void draw(Graphics g, int w, int h) {
-		int drawX = w * x;
-		int drawY = h * y;
+	public void draw(Graphics g, int xos, int yos, int w, int h) {
+		int drawX = (w * x) + xos;
+		int drawY = (h * y) + yos;
 		g.setColor(Color.BLUE);
 		g.fillRect(drawX+1,  drawY+1,  w-2, h-2);
 		g.setColor(Color.CYAN);
@@ -171,8 +163,8 @@ public class Cook {
 		int handX = x + direction.getX();
 		int handY = y + direction.getY();
 		if(handX < game.getRoom().getSize().width && handX >= 0 && handY < game.getRoom().getSize().height && handY >= 0) {
-			handX = handX * w;
-			handY = handY * h;
+			handX = (handX * w) + xos;
+			handY = (handY * h) + yos;
 			if(hand != null) {
 				hand.draw(g, handX + w / 4, handY + w / 4, w / 2, h / 2);
 			} else {

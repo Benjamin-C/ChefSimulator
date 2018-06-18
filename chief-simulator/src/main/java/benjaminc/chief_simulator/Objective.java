@@ -13,7 +13,7 @@ public class Objective {
 	}
 	
 	public boolean isMet(Thing t) {
-		if(target.sameAs(t)) {
+		if(target.isSame(t)) {
 			return true;
 		} else {
 			return false;

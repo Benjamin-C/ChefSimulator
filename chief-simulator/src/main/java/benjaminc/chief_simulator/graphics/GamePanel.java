@@ -19,6 +19,8 @@ public class GamePanel extends JPanel {
 	private int height;
 	private int boxWidth;
 	private int boxHeight;
+	private int xloc;
+	private int yloc;
 	
 	private Room level;
 	
@@ -26,15 +28,17 @@ public class GamePanel extends JPanel {
 	
 	public GamePanel(Room lvl) {
 		level = lvl;
-		boxWidth = 64;
-		boxHeight = 64;
+		boxWidth = 32;
+		boxHeight = 32;
+		xloc = 0;
+		yloc = 32;
 		width = (int) level.getSize().getWidth();
 		height = (int) level.getSize().getHeight();
 		jf = new JFrame("I am bob");
-		jf.setSize((width * boxWidth) + 17, (height * boxHeight) + 40);
+		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("I make picture now");
-		drawRoom();
+		drawRoom(xloc, yloc);
         keyListen = new KeyListen();
         jf.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {keyListen.keyTyped(e);}
@@ -47,18 +51,18 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void update() {
-		drawRoom();
+		drawRoom(xloc, yloc);
 	}
 	
 	public void addKeyListener(KeyListenAction a) {
 		keyListen.addKeyListen(a);
 	}
 	
-	private void drawRoom() {
+	private void drawRoom(int x, int y) {
 		panel = new JPanel() {
 			@Override
             public void paintComponent(Graphics g) {
-				level.draw(g, boxWidth, boxHeight);
+				level.draw(g, x, y, boxWidth, boxHeight);
 			}
         };
         jf.add(panel);

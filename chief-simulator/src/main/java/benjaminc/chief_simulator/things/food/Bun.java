@@ -42,7 +42,6 @@ public class Bun implements FoodThing, ContainerThing{
 	@Override
 	public List<Thing> useTool(Thing t) {
 		addItem(t);
-		System.out.println("Adding " + t);
 		return null;
 	}
 
