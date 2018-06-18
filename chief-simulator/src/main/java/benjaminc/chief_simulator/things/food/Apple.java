@@ -22,4 +22,18 @@ public class Apple implements FoodThing {
 	public Thing getChoppedThing() {
 		return new ChoppedApple();
 	}
+
+	@Override
+	public Thing duplicate() {
+		return new Apple();
+	}
+	
+	@Override
+	public boolean isSame(Thing t) {
+		if(t.getClass() == this.getClass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -19,5 +19,18 @@ public class ChoppedApple extends Apple {
 		g.setColor(Color.GRAY);
 		g.drawLine(x+(w/2), y+(int)(h*0.05), x+(w/2), y+(int)(h*0.95));
 	}
+	
+	@Override
+	public Thing duplicate() {
+		return new ChoppedApple();
+	}
 
+	@Override
+	public boolean isSame(Thing t) {
+		if(t.getClass() == this.getClass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

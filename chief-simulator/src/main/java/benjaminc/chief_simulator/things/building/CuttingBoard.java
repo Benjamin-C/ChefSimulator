@@ -2,6 +2,8 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
@@ -25,13 +27,27 @@ public class CuttingBoard implements ToolThing, SolidThing {
 	}
 	
 	@Override
-	public Thing useTool(Thing t) {
+	public List<Thing> useTool(Thing t) {
+		List<Thing> temp = new ArrayList<Thing>();
 		if(t instanceof FoodThing) {
-			return ((FoodThing) t).getChoppedThing();
-			
+			temp.add(((FoodThing) t).getChoppedThing());
 		} else {
-			System.out.println("not Food");
-			return t;
+			temp.add(t);
+		}
+		return temp;
+	}
+
+	@Override
+	public Thing duplicate() {
+		return new CuttingBoard();
+	}
+	
+	@Override
+	public boolean isSame(Thing t) {
+		if(t.getClass() == this.getClass()) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

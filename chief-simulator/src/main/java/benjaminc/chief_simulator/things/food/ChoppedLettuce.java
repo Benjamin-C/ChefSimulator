@@ -19,4 +19,17 @@ public class ChoppedLettuce extends Lettuce{
 		g.drawLine(x+(w/2), y, x+(w/2), y+h);
 	}
 
+	@Override
+	public Thing duplicate() {
+		return new ChoppedLettuce();
+	}
+	
+	@Override
+	public boolean isSame(Thing t) {
+		if(t.getClass() == this.getClass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

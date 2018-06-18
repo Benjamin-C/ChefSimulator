@@ -2,6 +2,8 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
@@ -29,12 +31,26 @@ public class Spawner implements ToolThing, SolidThing {
 	}
 
 	@Override
-	public Thing useTool(Thing t) {
+	public List<Thing> useTool(Thing t) {
+		List<Thing> temp = new ArrayList<Thing>();
 		if(t == null) {
-			return toMake;
-		} else {
-			return t;
+			temp.add(toMake.duplicate());
 		}
+		temp.add(t);
+		return temp;
 	}
 
+	@Override
+	public Thing duplicate() {
+		return new Spawner(toMake.duplicate());
+	}
+
+	@Override
+	public boolean isSame(Thing t) {
+		if(t.getClass() == this.getClass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

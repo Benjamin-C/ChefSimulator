@@ -18,5 +18,19 @@ public class Tomato implements FoodThing{
 	public Thing getChoppedThing() {
 		return new ChoppedTomato();
 	}
+	
+	@Override
+	public Thing duplicate() {
+		return new Tomato();
+	}
+	
+	@Override
+	public boolean isSame(Thing t) {
+		if(t.getClass() == this.getClass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

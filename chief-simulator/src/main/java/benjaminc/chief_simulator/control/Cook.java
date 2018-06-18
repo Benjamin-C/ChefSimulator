@@ -59,6 +59,10 @@ public class Cook {
 			List<Thing> whatIsHere = game.getRoom().getSpace(newX, newY).getThings();
 			ToolThing tool = null;
 			int loc = whatIsHere.size() - 1;
+			System.out.println(whatIsHere);
+			for(Thing t : whatIsHere) {
+				System.out.println(t);
+			}
 			if(loc >= 0) {
 				do {
 					Thing thingHere = whatIsHere.get(loc);
@@ -66,18 +70,26 @@ public class Cook {
 						tool = (ToolThing) thingHere;
 					}
 				} while(tool == null && loc-- > 0);
-				if(tool != null) {
+				System.out.println(tool);
+				if(tool != null && whatIsHere.size() > 0) {
 					Thing food = null;
 					loc = whatIsHere.size() - 1;
 					do {
+						System.out.println(loc);
 						Thing thingHere = whatIsHere.get(loc);
-						if (!(thingHere instanceof AttachedThing)) {
+						System.out.println(loc + " " + thingHere + " " + tool + " " + (thingHere == tool));
+						if (!(thingHere instanceof AttachedThing) && (thingHere != tool)) {
 							food = thingHere;
 							game.getRoom().getSpace(newX, newY).removeThing(food);
 						}
-					} while(food == null && loc-- <= 0);
-					Thing tempThing = tool.useTool(food);
-					game.getRoom().getSpace(newX, newY).addThing(tempThing);
+						System.out.println(loc + " " + food);
+					} while(food == null && loc-- > 0);
+					List<Thing> tempThing = tool.useTool(food);
+					if(tempThing != null) {
+						for(Thing t : tempThing) {
+							game.getRoom().getSpace(newX, newY).addThing(t);
+						}
+					}
 				}
 			game.updateGraphics();
 			}
