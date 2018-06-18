@@ -1,5 +1,7 @@
 package benjaminc.chief_simulator.graphics;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,6 +9,7 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.control.KeyListen;
 import benjaminc.chief_simulator.control.KeyListenAction;
 
@@ -23,10 +26,12 @@ public class GamePanel extends JPanel {
 	private int yloc;
 	
 	private Room level;
+	private Game game;
 	
 	private KeyListen keyListen;
 	
-	public GamePanel(Room lvl) {
+	public GamePanel(Game g, Room lvl) {
+		game = g;
 		level = lvl;
 		boxWidth = 32;
 		boxHeight = 32;
@@ -63,6 +68,19 @@ public class GamePanel extends JPanel {
 			@Override
             public void paintComponent(Graphics g) {
 				level.draw(g, x, y, boxWidth, boxHeight);
+				for(int i = 0; i < level.getWidth(); i++) {
+					if(game.getObjectives().size() > i) {
+						game.getObjectives().get(i).draw(g, (i * boxWidth) + x, 0, boxWidth, boxHeight);
+					}
+					if(i == width - 1) {
+						g.setColor(Color.GREEN);
+						g.fillRect(x+(i*boxWidth), 0, boxWidth, boxHeight);
+						g.setColor(Color.BLACK);
+						g.setFont(new Font("arial", 0, boxHeight));
+						g.drawString(game.getScore() + "", x+(i*boxWidth), boxHeight);
+					}
+				}
+				
 			}
         };
         jf.add(panel);

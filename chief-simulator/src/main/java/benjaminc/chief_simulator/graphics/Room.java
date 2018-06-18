@@ -1,10 +1,13 @@
 package benjaminc.chief_simulator.graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chief_simulator.Game;
+import benjaminc.chief_simulator.Objective;
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.things.Thing;
 
@@ -28,6 +31,13 @@ public class Room {
 		cooks = new ArrayList<Cook>();
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
 	public void addThing(Thing t, int x, int y) {
 		room[x][y].addThing(t);
 	}
@@ -55,5 +65,6 @@ public class Room {
 		for(Cook c : cooks) {
 			c.draw(g, x, y, w,  h);
 		}
+		
 	}
 }

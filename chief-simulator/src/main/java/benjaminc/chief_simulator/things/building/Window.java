@@ -4,11 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
+import benjaminc.chief_simulator.Game;
+import benjaminc.chief_simulator.Objective;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class Window implements ToolThing, Thing, SolidThing{
+	
+	protected Game game;
+	public Window(Game g) {
+		game = g;
+	}
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
@@ -22,7 +29,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 
 	@Override
 	public Thing duplicate() {
-		return new Window();
+		return new Window(game);
 	}
 
 	@Override
@@ -36,7 +43,14 @@ public class Window implements ToolThing, Thing, SolidThing{
 
 	@Override
 	public List<Thing> useTool(Thing t) {
-		
+		for(int i = 0; i < game.getObjectives().size(); i++) {
+			Objective o = game.getObjectives().get(i);
+			if(o.isMet(t)) {
+				System.out.println("isMet");
+				game.completeObjectiives(o);
+				break;
+			}
+		}
 		return null;
 	}
 
