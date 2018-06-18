@@ -3,7 +3,9 @@ package benjaminc.chief_simulator.things;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Floor extends AttachedThing {
+import benjaminc.chief_simulator.things.types.AttachedThing;
+
+public class Floor implements AttachedThing {
 
 	public Floor() {
 		super();

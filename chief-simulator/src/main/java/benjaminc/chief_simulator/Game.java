@@ -7,17 +7,17 @@ import java.util.Map;
 
 import javax.script.SimpleBindings;
 
+import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.KeyListenAction;
 import benjaminc.chief_simulator.graphics.ActionType;
 import benjaminc.chief_simulator.graphics.GamePanel;
 import benjaminc.chief_simulator.graphics.Room;
-import benjaminc.chief_simulator.things.Apple;
-import benjaminc.chief_simulator.things.ChoppedApple;
-import benjaminc.chief_simulator.things.ChoppedLettuce;
-import benjaminc.chief_simulator.things.Cook;
 import benjaminc.chief_simulator.things.Counter;
 import benjaminc.chief_simulator.things.CuttingBoard;
-import benjaminc.chief_simulator.things.Lettuce;
+import benjaminc.chief_simulator.things.food.Apple;
+import benjaminc.chief_simulator.things.food.ChoppedApple;
+import benjaminc.chief_simulator.things.food.ChoppedLettuce;
+import benjaminc.chief_simulator.things.food.Lettuce;
 
 public class Game {
 

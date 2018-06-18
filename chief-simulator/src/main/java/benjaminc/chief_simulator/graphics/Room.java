@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chief_simulator.things.Cook;
+import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.things.Thing;
 
 public class Room {

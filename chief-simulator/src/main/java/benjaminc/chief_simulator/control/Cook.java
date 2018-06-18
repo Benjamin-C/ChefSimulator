@@ -1,4 +1,4 @@
-package benjaminc.chief_simulator.things;
+package benjaminc.chief_simulator.control;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,11 +9,13 @@ import java.util.Map;
 import java.awt.event.KeyEvent;
 
 import benjaminc.chief_simulator.Game;
-import benjaminc.chief_simulator.control.KeyListenAction;
 import benjaminc.chief_simulator.graphics.ActionType;
+import benjaminc.chief_simulator.things.MovmentDirection;
+import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.AttachedThing;
+import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Cook extends Thing {
-
+public class Cook {
 	protected int x;
 	protected int y;
 	protected Game game;
@@ -23,8 +25,10 @@ public class Cook extends Thing {
 	int randomnum = 0;
 	protected Map<ActionType,Integer> keys;
 
+	protected String name;
+	
 	public Cook(Game g, String name, Map<ActionType,Integer> k) {
-		super(name);
+		this.name = name;
 		x = 0;
 		y = 0;
 		game = g;
@@ -148,7 +152,7 @@ public class Cook extends Thing {
 		g.fillRect(drawX+1,  drawY+1,  w-2, h-2);
 		g.setColor(Color.CYAN);
 		g.setFont(new Font(name, 0, (int) ((w * 0.9) * Toolkit.getDefaultToolkit().getScreenResolution() / 72.0)));
-		String printName = super.name.substring(0, Math.min(super.name.length(), 1));
+		String printName = name.substring(0, Math.min(name.length(), 1));
 		g.drawString(printName,drawX + ((w - g.getFontMetrics().stringWidth(printName)) / 2), (drawY + w - 4));
 		int handX = x + direction.getX();
 		int handY = y + direction.getY();

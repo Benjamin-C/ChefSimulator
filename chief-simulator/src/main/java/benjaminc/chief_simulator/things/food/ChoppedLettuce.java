@@ -1,9 +1,12 @@
-package benjaminc.chief_simulator.things;
+package benjaminc.chief_simulator.things.food;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class ChoppedLettuce extends FoodThing{
+import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.FoodThing;
+
+public class ChoppedLettuce implements FoodThing{
 	public ChoppedLettuce() {
 		super();
 	}
@@ -14,5 +17,10 @@ public class ChoppedLettuce extends FoodThing{
 		g.fillRect(x+1,  y+1,  w-2,  h-2);
 		g.setColor(Color.GRAY);
 		g.drawLine(x+(w/2), y, x+(w/2), y+h);
+	}
+
+	@Override
+	public Thing getChoppedThing() {
+		return this;
 	}
 }

@@ -3,7 +3,9 @@ package benjaminc.chief_simulator.things;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Counter extends SolidThing {
+import benjaminc.chief_simulator.things.types.SolidThing;
+
+public class Counter implements SolidThing {
 	public Counter() {
 		super();
 	}

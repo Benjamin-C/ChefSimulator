@@ -3,7 +3,11 @@ package benjaminc.chief_simulator.things;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class CuttingBoard extends ToolThing {
+import benjaminc.chief_simulator.things.types.FoodThing;
+import benjaminc.chief_simulator.things.types.SolidThing;
+import benjaminc.chief_simulator.things.types.ToolThing;
+
+public class CuttingBoard implements ToolThing, SolidThing {
 
 	public CuttingBoard() {
 		super();

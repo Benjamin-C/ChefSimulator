@@ -1,9 +1,12 @@
-package benjaminc.chief_simulator.things;
+package benjaminc.chief_simulator.things.food;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Apple extends FoodThing {
+import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.FoodThing;
+
+public class Apple implements FoodThing {
 
 	public Apple() {
 		super();
