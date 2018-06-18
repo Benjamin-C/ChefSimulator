@@ -27,7 +27,7 @@ public class Spawner implements ToolThing, SolidThing {
 		g.fillRect(x,  y,  w,  h);
 		g.setColor(new Color(0, 0, 0));
 		g.drawRect(x,  y,  w,  h);
-		g.setColor(new Color(192, 192, 192));
+		g.setColor(new Color(104, 70, 3));
 		g.fillRect(x+indw,  y+indh,  w-(2*indw),  h-(2*indh));
 		toMake.draw(g, x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
 	}

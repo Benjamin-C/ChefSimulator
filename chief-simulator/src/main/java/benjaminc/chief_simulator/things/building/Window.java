@@ -19,7 +19,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 		g.setColor(new Color(0, 0, 0));
 		g.drawRect(x,  y,  w,  h);
 		g.setColor(new Color(192, 192, 192));
-		g.fillRect(x+indw,  y+indh,  w-(2*indw),  h-(2*indh));
+		g.fillRect(x+indw,  y,  w-(2*indw),  h-indh);
 	}
 
 	@Override
