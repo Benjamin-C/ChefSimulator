@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chief_simulator.things.*;
+import benjaminc.chief_simulator.things.building.Floor;
 import benjaminc.chief_simulator.things.types.SolidThing;
 
 public class GameSpace {

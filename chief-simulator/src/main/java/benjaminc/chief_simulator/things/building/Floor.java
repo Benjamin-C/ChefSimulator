@@ -1,4 +1,4 @@
-package benjaminc.chief_simulator.things;
+package benjaminc.chief_simulator.things.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
