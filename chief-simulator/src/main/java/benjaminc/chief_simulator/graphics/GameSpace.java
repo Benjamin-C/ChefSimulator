@@ -25,6 +25,13 @@ public class GameSpace {
 	public void removeThing(Thing t) {
 		things.remove(t);
 	}
+	public void removeAll(Thing t) {
+		for(int i = 0; i < things.size(); i++) {
+			if(things.get(i).getClass().isAssignableFrom( t.getClass() )) {
+				things.remove(i--);
+			}
+		}
+	}
 	public Thing removeThing(int loc) {
 		Thing temp = things.remove(loc);
 		if(things.size() < 1) {

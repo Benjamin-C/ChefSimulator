@@ -7,7 +7,7 @@ public class Thing {
 	protected String name;
 	
 	public Thing() {
-		
+		name = "null";
 	}
 	
 	public Thing(String name) {
@@ -19,5 +19,6 @@ public class Thing {
 	}
 	
 	public void draw(Graphics g, int x, int y, int w, int h) {
+		
 	}
 }

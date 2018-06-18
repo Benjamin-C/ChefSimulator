@@ -43,8 +43,39 @@ public class Cook extends Thing {
 				else if (key==keys.get(ActionType.MOVE_LEFT)) { move(MovmentDirection.LEFT); }
 				else if (key==keys.get(ActionType.MOVE_RIGHT)) { move(MovmentDirection.RIGHT); }
 				else if (key==keys.get(ActionType.PICKUP_ITEM)) { pickUp(); }
+				else if (key==keys.get(ActionType.USE_ITEM)) { useItem(); }
 			}
 		});
+	}
+	
+	public void useItem() {
+		int newX = x + direction.getX();
+		int newY = y + direction.getY();
+		if(newX < game.getRoom().getSize().width && newX >= 0 && newY < game.getRoom().getSize().height && newY >= 0) {
+			List<Thing> whatIsHere = game.getRoom().getSpace(newX, newY).getThings();
+			ToolThing tool = null;
+			int loc = whatIsHere.size() - 1;
+			do {
+				Thing thingHere = whatIsHere.get(loc);
+				if (thingHere instanceof ToolThing) {
+					tool = (ToolThing) thingHere;
+				}
+			} while(tool == null && loc-- >= 0);
+			if(tool != null) {
+				Thing food = null;
+				loc = whatIsHere.size() - 1;
+				do {
+					Thing thingHere = whatIsHere.get(loc);
+					if (!(thingHere instanceof AttachedThing)) {
+						food = thingHere;
+						game.getRoom().getSpace(newX, newY).removeThing(food);
+					}
+				} while(food == null && loc-- <= 0);
+				Thing tempThing = tool.useTool(food);
+				game.getRoom().getSpace(newX, newY).addThing(tempThing);
+			}
+		}
+		game.updateGraphics();
 	}
 	
 	public void pickUp() {
@@ -60,7 +91,6 @@ public class Cook extends Thing {
 						if (!(thingHere instanceof AttachedThing)) {
 							hand = thingHere;
 							game.getRoom().getSpace(newX, newY).removeThing(hand);
-							System.out.println(thingHere);
 						}
 					} while(hand == null && loc-- <= 0);
 				}

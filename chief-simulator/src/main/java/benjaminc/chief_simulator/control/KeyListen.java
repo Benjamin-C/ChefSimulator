@@ -12,7 +12,7 @@ public class KeyListen {
 		actions = new ArrayList<KeyListenAction>();
 	}
 
-	public void keyTyped(KeyEvent e) {System.out.println(e.getKeyCode());}
+	public void keyTyped(KeyEvent e) {}
 	
 	public void keyReleased(KeyEvent e) { for(KeyListenAction a : actions) { a.keyReleaseEvent(e.getKeyCode());} }
 	

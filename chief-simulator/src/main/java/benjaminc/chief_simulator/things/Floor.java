@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class Floor extends AttachedThing {
 
 	public Floor() {
+		super();
 	}
 
 	@Override

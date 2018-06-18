@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 public class Counter extends SolidThing {
 	public Counter() {
+		super();
 	}
 
 	@Override

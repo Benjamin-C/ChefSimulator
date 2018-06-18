@@ -3,9 +3,9 @@ package benjaminc.chief_simulator.things;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Apple extends FoodThing {
+public class ChoppedApple extends FoodThing {
 
-	public Apple() {
+	public ChoppedApple() {
 		super();
 	}
 	
@@ -13,10 +13,7 @@ public class Apple extends FoodThing {
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		g.setColor(new Color(255, 0, 0));
 		g.fillOval(x+(int)(w*0.05),  y+(int)(h*0.05), (int)(w*0.9),  (int)(h*0.9));
-	}
-	
-	@Override
-	public Thing getChoppedThing() {
-		return new ChoppedApple();
+		g.setColor(Color.GRAY);
+		g.drawLine(x+(w/2), y+(int)(h*0.05), x+(w/2), y+(int)(h*0.95));
 	}
 }
