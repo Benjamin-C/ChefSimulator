@@ -16,6 +16,8 @@ public class Counter implements SolidThing {
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		g.setColor(new Color(64, 64, 64));
 		g.fillRect(x,  y,  w,  h);
+		g.setColor(new Color(0, 0, 0));
+		g.drawRect(x,  y,  w,  h);
 	}
 
 	@Override

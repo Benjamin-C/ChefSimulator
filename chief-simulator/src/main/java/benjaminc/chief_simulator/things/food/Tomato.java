@@ -12,6 +12,8 @@ public class Tomato implements FoodThing{
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		g.setColor(new Color(255, 0, 0));
 		g.fillRect(x+1,  y+1,  w-2,  h-2);
+		g.setColor(new Color(200, 0, 0));
+		g.fillRect(x+3, y+3, w/2, h/2);
 	}
 
 	@Override

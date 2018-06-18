@@ -16,6 +16,8 @@ public class Window implements ToolThing, Thing, SolidThing{
 		int indh = h / 8;
 		g.setColor(new Color(64, 64, 64));
 		g.fillRect(x,  y,  w,  h);
+		g.setColor(new Color(0, 0, 0));
+		g.drawRect(x,  y,  w,  h);
 		g.setColor(new Color(192, 192, 192));
 		g.fillRect(x+indw,  y+indh,  w-(2*indw),  h-(2*indh));
 	}
