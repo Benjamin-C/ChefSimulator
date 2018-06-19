@@ -26,11 +26,13 @@ public class Cook {
 	protected Map<ActionType,Integer> keys;
 
 	protected String name;
-	
 	public Cook(Game g, String name, Map<ActionType,Integer> k) {
+		this(g, name, k, 0, 0);
+	}
+	public Cook(Game g, String name, Map<ActionType,Integer> k, int x, int y) {
 		this.name = name;
-		x = 0;
-		y = 0;
+		this.x = x;
+		this.y = y;
 		game = g;
 		direction = MovmentDirection.DOWN;
 		keys = k;

@@ -13,10 +13,12 @@ public class ChoppedLettuce extends Lettuce{
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
+		g.setColor(new Color(0, 180 ,0));
+		g.fillRect(x+(int)(w*0.9), y+(int)(h*.425), (int)(w*.1), (int)(h*.15));
 		g.setColor(new Color(0, 255, 0));
-		g.fillOval(x+(w/20),  y+(h/20),  w-(w/10),  h-(h/10));
-		g.setColor(Color.GRAY);
-		g.drawLine(x+(w/2), y+(h/20), x+(w/2), y+(h-(h/20)));
+		g.fillOval(x+(w/20),  y+(h/5),  w-(int)(w*.15),  h-(int)(h/2.5));
+		/*g.setColor(Color.GRAY);
+		g.drawLine(x+(w/2), y+(h/20), x+(w/2), y+(h-(h/20)));*/
 	}
 
 	@Override
