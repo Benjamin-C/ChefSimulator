@@ -1,5 +1,7 @@
 package benjaminc.chief_simulator;
 
+import java.awt.Graphics;
+
 import benjaminc.chief_simulator.things.Thing;
 
 public class Objective {
@@ -18,5 +20,12 @@ public class Objective {
 		} else {
 			return false;
 		}
+	}
+	
+	public int getScore() {
+		return points;
+	}
+	public void draw(Graphics g, int x, int y, int w, int h) {
+		target.draw(g, x, y, w, h);
 	}
 }

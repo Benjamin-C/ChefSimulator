@@ -35,15 +35,19 @@ public class Game {
 	private int roomWidth;
 	private int roomHeight;
 	private Room map;
-	
-	private List<Objective> objects;
+	private int score;
+
+	private List<Objective> objectives;
 	
 	@SuppressWarnings("unused")
 	public Game() {
 		roomWidth = 16;
 		roomHeight = 16;
 		map = new Room(roomWidth, roomHeight);
-		gamePanel = new GamePanel(map);
+		gamePanel = new GamePanel(this, map);
+		objectives = new ArrayList<Objective>();
+		score = 0;
+		
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
 		benKeys.put(ActionType.MOVE_UP, KeyEvent.VK_UP);
 		benKeys.put(ActionType.MOVE_DOWN, KeyEvent.VK_DOWN);
@@ -83,22 +87,33 @@ public class Game {
 		map.addThing(new Spawner(new Bun()), 8, 0);
 		map.addThing(new Spawner(new RawPatty()), 9, 0);
 		map.addThing(new Disposal(), 15, 0);
-		map.addThing(new Window(), 14, 0);
+		map.addThing(new Window(this), 14, 0);
 		
-		objects = new ArrayList<Objective>();
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce());
 		toppings.add(new CookedPatty());
 		objects.add(new Objective(new Bun(toppings), 5));
+		toppings.add(new Patty());
+		Bun bun1 = new Bun(toppings);
+		Bun bun2 = new Bun(toppings);
+		objectives.add(new Objective(bun1.duplicate(), 5));
+		objectives.add(new Objective(bun2.duplicate(), 5));
+		map.addThing(new Spawner(bun1), 10, 0);
+		map.addThing(new Spawner(bun1), 11, 0);
 		updateGraphics();
 	}
 	
-	public List<Objective> getObjects() {
-		return objects;
+	public List<Objective> getObjectives() {
+		return objectives;
+	}
+	
+	public void completeObjectiives(Objective o) {
+		addScore(o.getScore());
+		objectives.remove(o);
 	}
 
-	public void setObjects(List<Objective> objects) {
-		this.objects = objects;
+	public void setObjects(List<Objective> objectives) {
+		this.objectives = objectives;
 	}
 
 	public Room getRoom() {
@@ -110,5 +125,17 @@ public class Game {
 	
 	public void registerKeylistener(KeyListenAction a) {
 		gamePanel.addKeyListener(a);
+	}
+	
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public void addScore(int score) {
+		this.score = this.score + score;
 	}
 }
