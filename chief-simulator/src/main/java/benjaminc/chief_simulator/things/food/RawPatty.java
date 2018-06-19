@@ -6,22 +6,26 @@ import java.awt.Graphics;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class ChoppedLettuce extends Lettuce{
-	public ChoppedLettuce() {
+public class RawPatty implements FoodThing {
+
+	public RawPatty() {
 		super();
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		g.setColor(new Color(0, 255, 0));
-		g.fillOval(x+(w/20),  y+(h/20),  w-(w/10),  h-(h/10));
-		g.setColor(Color.GRAY);
-		g.drawLine(x+(w/2), y+(h/20), x+(w/2), y+(h-(h/20)));
+		g.setColor(new Color(225, 60, 30));
+		g.fillOval(x+(int)(w*0.05),  y+(int)(h*0.05), (int)(w*0.9),  (int)(h*0.9));
+	}
+	
+	@Override
+	public Thing getChoppedThing() {
+		return new CookedPatty();
 	}
 
 	@Override
 	public Thing duplicate() {
-		return new ChoppedLettuce();
+		return new RawPatty();
 	}
 	
 	@Override

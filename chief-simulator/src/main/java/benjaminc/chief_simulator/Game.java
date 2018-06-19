@@ -25,7 +25,8 @@ import benjaminc.chief_simulator.things.food.Bun;
 import benjaminc.chief_simulator.things.food.ChoppedApple;
 import benjaminc.chief_simulator.things.food.ChoppedLettuce;
 import benjaminc.chief_simulator.things.food.Lettuce;
-import benjaminc.chief_simulator.things.food.Patty;
+import benjaminc.chief_simulator.things.food.RawPatty;
+import benjaminc.chief_simulator.things.food.CookedPatty;
 import benjaminc.chief_simulator.things.food.Tomato;
 
 public class Game {
@@ -60,27 +61,34 @@ public class Game {
 		mattKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_Q);
 		mattKeys.put(ActionType.USE_ITEM, KeyEvent.VK_E);
 		map.addCook(new Cook(this, "Peter", mattKeys));
-		map.addThing(new Apple(), 2, 1);
-		map.addThing(new ChoppedApple(), 3, 1);
-		map.addThing(new Lettuce(), 5, 7);
-		map.addThing(new ChoppedLettuce(), 6, 7);
+		
 		for(int i = 0; i < map.getSize().width; i++) {
 			map.addThing(new Counter(), i, 0);
 		}
+		map.addThing(new Apple(), 2, 0);
+		map.addThing(new ChoppedApple(), 3, 0);
+		map.addThing(new Lettuce(), 10, 0);
+		map.addThing(new ChoppedLettuce(), 11, 0);
 		map.getSpace(4, 0).removeAll(new Counter());
 		map.addThing(new CuttingBoard(), 4, 0);
+		map.addThing(new CuttingBoard(), 4, 3);	
+		map.addThing(new Counter(), 4, 4);
+		map.addThing(new CuttingBoard(), 5, 3);
+		map.addThing(new Counter(), 5, 4);
+		map.addThing(new CuttingBoard(), 6, 3);
+		map.addThing(new Counter(), 6, 4);
 		map.addThing(new Spawner(new Apple()), 5, 0);
 		map.addThing(new Spawner(new Lettuce()), 6, 0);
 		map.addThing(new Spawner(new Tomato()), 7, 0);
 		map.addThing(new Spawner(new Bun()), 8, 0);
-		map.addThing(new Spawner(new Patty()), 9, 0);
+		map.addThing(new Spawner(new RawPatty()), 9, 0);
 		map.addThing(new Disposal(), 15, 0);
 		map.addThing(new Window(), 14, 0);
 		
 		objects = new ArrayList<Objective>();
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce());
-		toppings.add(new Patty());
+		toppings.add(new CookedPatty());
 		objects.add(new Objective(new Bun(toppings), 5));
 		updateGraphics();
 	}

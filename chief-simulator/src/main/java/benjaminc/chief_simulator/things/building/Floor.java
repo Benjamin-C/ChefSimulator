@@ -14,9 +14,12 @@ public class Floor implements AttachedThing {
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		g.setColor(new Color(255, 128, 0));
+		g.setColor(new Color(180, 180, 180));
 		g.fillRect(x,  y,  w,  h);
-		g.setColor(new Color(128, 64, 0));
+		g.setColor(new Color(120, 120, 120));
+		g.fillRect(x,  y,  w/2,  h/2);
+		g.fillRect(x+(int)(w*.5),  y+(int)(h*.5),  w/2,  h/2);
+		g.setColor(new Color(20, 20, 20));
 		g.drawRect(x,  y,  w,  h);
 	}
 

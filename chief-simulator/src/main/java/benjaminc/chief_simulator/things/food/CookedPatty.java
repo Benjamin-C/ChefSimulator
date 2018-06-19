@@ -6,15 +6,15 @@ import java.awt.Graphics;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Patty implements FoodThing {
+public class CookedPatty implements FoodThing {
 
-	public Patty() {
+	public CookedPatty() {
 		super();
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		g.setColor(new Color(210, 105, 30));
+		g.setColor(new Color(140, 70, 30));
 		g.fillOval(x+(int)(w*0.05),  y+(int)(h*0.05), (int)(w*0.9),  (int)(h*0.9));
 	}
 	
@@ -25,7 +25,7 @@ public class Patty implements FoodThing {
 
 	@Override
 	public Thing duplicate() {
-		return new Patty();
+		return new CookedPatty();
 	}
 	
 	@Override
