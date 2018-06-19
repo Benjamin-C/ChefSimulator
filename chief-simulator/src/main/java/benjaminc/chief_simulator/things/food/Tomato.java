@@ -54,7 +54,10 @@ public class Tomato implements FoodThing{
 			return false;
 		}
 	}
-
+	@Override
+	public Thing getCookedThing() {
+		return this;
+	}
 	public void setVariant(int var) {
 		variant = var;
 	}

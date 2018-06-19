@@ -63,4 +63,8 @@ public class Apple implements FoodThing {
 			return false;
 		}
 	}
+	@Override
+	public Thing getCookedThing() {
+		return this;
+	}
 }

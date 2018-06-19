@@ -5,5 +5,6 @@ import benjaminc.chief_simulator.things.Thing;
 public interface FoodThing extends Thing {
 	
 	public abstract Thing getChoppedThing();
+	public abstract Thing getCookedThing();
 	
 }

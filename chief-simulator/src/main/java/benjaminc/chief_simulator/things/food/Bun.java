@@ -138,4 +138,8 @@ public class Bun implements FoodThing, ContainerThing{
 	public FoodState getFoodState() {
 		return state;
 	}
+	@Override
+	public Thing getCookedThing() {
+		return this;
+	}
 }

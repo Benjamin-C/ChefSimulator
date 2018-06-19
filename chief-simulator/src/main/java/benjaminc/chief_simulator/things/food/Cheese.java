@@ -1,44 +1,38 @@
 package benjaminc.chief_simulator.things.food;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
-import benjaminc.chief_simulator.graphics.food.GraphicalBeef;
-import benjaminc.chief_simulator.graphics.food.GraphicalBun;
+import benjaminc.chief_simulator.graphics.food.GraphicalCheese;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Beef implements FoodThing {
+public class Cheese implements FoodThing {
 
-	protected GraphicalBeef graphics;
+	protected GraphicalCheese graphics;
 	protected int variant;
 	protected FoodState state;
 	
-	public Beef() {
+	public Cheese() {
 		this(-1, FoodState.RAW);
 	}
-	public Beef(int variant, FoodState state) {
+	public Cheese(int variant, FoodState state) {
 		super();
 		if(variant == -1) {
 			Random r = new Random();
-			variant = r.nextInt(GraphicalBeef.VARIANT_COUNT);
+			variant = r.nextInt(GraphicalCheese.VARIANT_COUNT);
 		}
 		this.state = state;
-		graphics = new GraphicalBeef(variant, state);
+		System.out.println(variant + " " + state);
+		graphics = new GraphicalCheese(variant, state);
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
 	}
-	
-	@Override
 	public Thing getChoppedThing() {
-		if(state == FoodState.RAW) {
-			state = FoodState.CHOPPED;
-		}
+		state = FoodState.CHOPPED;
 		graphics.setState(state);
 		return this;
 	}
@@ -57,7 +51,7 @@ public class Beef implements FoodThing {
 	}
 	@Override
 	public Thing duplicate() {
-		return new Beef(variant, state);
+		return new Cheese(variant, state);
 	}
 	
 	@Override
@@ -70,19 +64,6 @@ public class Beef implements FoodThing {
 	}
 	@Override
 	public Thing getCookedThing() {
-		switch(state) {
-		case CHOPPED: {
-			state = FoodState.CHOPPED_COOKED;
-		} break;
-		case CHOPPED_COOKED:
-			break;
-		case COOKED:
-			break;
-		case RAW: {
-			state = FoodState.COOKED;
-		} break;
-		}
-		graphics.setState(state);
 		return this;
 	}
 }

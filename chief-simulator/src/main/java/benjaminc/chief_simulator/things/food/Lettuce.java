@@ -28,7 +28,10 @@ public class Lettuce implements FoodThing {
 		this.state = state;
 		graphics = new GraphicalLettuce(variant, state);
 	}
-	
+	@Override
+	public Thing getCookedThing() {
+		return this;
+	}
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
