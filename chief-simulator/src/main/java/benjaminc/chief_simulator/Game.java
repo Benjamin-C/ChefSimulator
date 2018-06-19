@@ -71,8 +71,8 @@ public class Game {
 		}
 		map.addThing(new Apple(), 2, 0);
 		map.addThing(new ChoppedApple(), 3, 0);
-		map.addThing(new Lettuce(), 10, 0);
-		map.addThing(new ChoppedLettuce(), 11, 0);
+		map.addThing(new Lettuce(), 12, 0);
+		map.addThing(new ChoppedLettuce(), 13, 0);
 		map.getSpace(4, 0).removeAll(new Counter());
 		map.addThing(new CuttingBoard(), 4, 0);
 		map.addThing(new CuttingBoard(), 4, 3);	
