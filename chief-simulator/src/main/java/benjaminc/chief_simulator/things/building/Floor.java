@@ -3,24 +3,25 @@ package benjaminc.chief_simulator.things.building;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import benjaminc.chief_simulator.graphics.building.GraphicalFloor;
+import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 
 public class Floor implements AttachedThing {
 
+	protected GraphicalFloor graphics;
+	
 	public Floor() {
-		super();
+		this(0);
+	}
+	public Floor(int var) {
+		graphics = new GraphicalFloor(var);
 	}
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		g.setColor(new Color(180, 180, 180));
-		g.fillRect(x,  y,  w,  h);
-		g.setColor(new Color(120, 120, 120));
-		g.fillRect(x,  y,  w/2,  h/2);
-		g.fillRect(x+(int)(w*.5),  y+(int)(h*.5),  w/2,  h/2);
-		g.setColor(new Color(20, 20, 20));
-		g.drawRect(x,  y,  w,  h);
+		graphics.draw(g, x, y, w, h);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package benjaminc.chief_simulator.things.food;
 
-public enum CookedState {
+public enum FoodState {
 	RAW,
 	COOKED,
 	CHOPPED,

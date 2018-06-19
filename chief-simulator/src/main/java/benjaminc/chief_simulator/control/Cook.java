@@ -170,8 +170,10 @@ public class Cook {
 			if(hand != null) {
 				hand.draw(g, handX + w / 4, handY + w / 4, w / 2, h / 2);
 			} else {
-				g.setColor(new Color(170, 170, 80));
-				g.fillOval(handX + (w/4),  handY + (w/4),  w/2, h/2);
+				g.setColor(new Color(255, 128, 0));
+				for(int i = 0; i < Math.max(w/16, 1); i++) {
+					g.drawRect(handX + i,  handY + i,  w - (2*i), h - (2*i));
+				}
 			}
 			
 		}

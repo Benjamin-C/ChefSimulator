@@ -3,21 +3,26 @@ package benjaminc.chief_simulator.things.building;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import benjaminc.chief_simulator.graphics.building.GraphicalCounter;
+import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 
 public class Counter implements SolidThing {
 	
+	protected GraphicalCounter graphics;
+	
 	public Counter() {
+		this(0);
+	}
+	public Counter(int variant) {
 		super();
+		graphics = new GraphicalCounter(variant);
 	}
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		g.setColor(new Color(64, 64, 64));
-		g.fillRect(x,  y,  w,  h);
-		g.setColor(new Color(0, 0, 0));
-		g.drawRect(x,  y,  w,  h);
+		graphics.draw(g, x, y, w, h);
 	}
 
 	@Override

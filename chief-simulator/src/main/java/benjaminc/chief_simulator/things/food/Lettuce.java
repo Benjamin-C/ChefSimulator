@@ -2,29 +2,48 @@ package benjaminc.chief_simulator.things.food;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
+import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.graphics.food.GraphicalBun;
+import benjaminc.chief_simulator.graphics.food.GraphicalLettuce;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Lettuce implements FoodThing{
+public class Lettuce implements FoodThing {
+	
+	protected GraphicalLettuce graphics;
+	protected int variant;
+	protected FoodState state;
+	
 	public Lettuce() {
+		this(-1, FoodState.RAW);
+	}
+	public Lettuce(int variant, FoodState state) {
 		super();
+		if(variant == -1) {
+			Random r = new Random();
+			variant = r.nextInt(GraphicalLettuce.VARIANT_COUNT);
+		}
+		this.state = state;
+		graphics = new GraphicalLettuce(variant, state);
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		g.setColor(new Color(0, 255, 0));
-		g.fillOval(x+(w/20),  y+(h/20),  w-(w/10),  h-(h/10));
+		graphics.draw(g, x, y, w, h);
 	}
 	
 	@Override
 	public Thing getChoppedThing() {
-		return new ChoppedLettuce();
+		state = FoodState.CHOPPED;
+		graphics.setState(state);
+		return this;
 	}
 	
 	@Override
 	public Thing duplicate() {
-		return new Lettuce();
+		return new Lettuce(variant, state);
 	}
 	
 	@Override
@@ -34,5 +53,18 @@ public class Lettuce implements FoodThing{
 		} else {
 			return false;
 		}
+	}
+	
+	public void setVariant(int var) {
+		variant = var;
+	}
+	public void setState(FoodState state) {
+		this.state = state;
+	}
+	public int getVariant() {
+		return variant;
+	}
+	public FoodState getFoodState() {
+		return state;
 	}
 }

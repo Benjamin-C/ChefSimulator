@@ -5,33 +5,36 @@ import java.awt.Graphics;
 import java.util.Random;
 
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.graphics.food.GraphicalBeef;
+import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Apple implements FoodThing {
+public class Beef implements FoodThing {
 
-	protected GraphicalApple graphics;
+	protected GraphicalBeef graphics;
 	protected int variant;
 	protected FoodState state;
 	
-	public Apple() {
+	public Beef() {
 		this(-1, FoodState.RAW);
 	}
-	public Apple(int variant, FoodState state) {
+	public Beef(int variant, FoodState state) {
 		super();
 		if(variant == -1) {
 			Random r = new Random();
-			variant = r.nextInt(GraphicalApple.VARIANT_COUNT);
+			variant = r.nextInt(GraphicalBeef.VARIANT_COUNT);
 		}
 		this.state = state;
-		System.out.println(variant + " " + state);
-		graphics = new GraphicalApple(variant, state);
+		graphics = new GraphicalBeef(variant, state);
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
 	}
+	
+	@Override
 	public Thing getChoppedThing() {
 		state = FoodState.CHOPPED;
 		graphics.setState(state);
@@ -52,7 +55,7 @@ public class Apple implements FoodThing {
 	}
 	@Override
 	public Thing duplicate() {
-		return new Apple(variant, state);
+		return new Beef(variant, state);
 	}
 	
 	@Override

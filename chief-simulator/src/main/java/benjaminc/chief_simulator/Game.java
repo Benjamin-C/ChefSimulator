@@ -22,12 +22,9 @@ import benjaminc.chief_simulator.things.building.Spawner;
 import benjaminc.chief_simulator.things.building.Window;
 import benjaminc.chief_simulator.things.food.Apple;
 import benjaminc.chief_simulator.things.food.Bun;
-import benjaminc.chief_simulator.things.food.ChoppedApple;
-import benjaminc.chief_simulator.things.food.ChoppedLettuce;
-import benjaminc.chief_simulator.things.food.ChoppedTomato;
 import benjaminc.chief_simulator.things.food.Lettuce;
-import benjaminc.chief_simulator.things.food.RawPatty;
-import benjaminc.chief_simulator.things.food.CookedPatty;
+import benjaminc.chief_simulator.things.food.Beef;
+import benjaminc.chief_simulator.things.food.FoodState;
 import benjaminc.chief_simulator.things.food.Tomato;
 
 public class Game {
@@ -80,7 +77,7 @@ public class Game {
 			map.addThing(new Counter(), 15, i);
 		}
 		map.getSpace(4, 0).removeAll(new Counter());
-		map.addThing(new ChoppedLettuce(), 3, 0);
+		map.addThing(new Lettuce(-1, FoodState.CHOPPED), 3, 0);
 		map.addThing(new CuttingBoard(), 4, 0);
 		map.addThing(new Counter(), 4, 4);
 		map.addThing(new Counter(), 4, 3);
@@ -109,13 +106,13 @@ public class Game {
 		map.addThing(new Spawner(new Apple()), 7, 0);
 		map.addThing(new Spawner(new Lettuce()), 5, 4);
 		map.addThing(new Spawner(new Tomato()), 6, 4);
-		map.addThing(new Spawner(new Bun()), 9, 4);
-		map.addThing(new Spawner(new RawPatty()), 10, 4);
+		map.addThing(new Spawner(new Bun(new ArrayList<Thing>())), 9, 4);
+		map.addThing(new Spawner(new Beef()), 10, 4);
 		map.addThing(new Spawner(new Apple()), 8, 15);
 		map.addThing(new Spawner(new Lettuce()), 5, 11);
 		map.addThing(new Spawner(new Tomato()), 6, 11);
 		map.addThing(new Spawner(new Bun()), 9, 11);
-		map.addThing(new Spawner(new RawPatty()), 10, 11);
+		map.addThing(new Spawner(new Beef()), 10, 11);
 		map.addThing(new Disposal(), 15, 1);
 		map.addThing(new Disposal(), 0, 14);
 		map.addThing(new Disposal(), 1, 0);
@@ -123,12 +120,12 @@ public class Game {
 		map.addThing(new Window(this), 14, 0);
 		
 		List<Thing> toppings = new ArrayList<Thing>();
-		toppings.add(new ChoppedLettuce());
-		toppings.add(new CookedPatty());
-		toppings.add(new ChoppedTomato());
+		toppings.add(new Lettuce(-1, FoodState.CHOPPED));
+		toppings.add(new Beef(-1, FoodState.CHOPPED));
+		toppings.add(new Tomato(-1, FoodState.CHOPPED));
 		objectives.add(new Objective(new Bun(toppings), 5));
 		List<Thing> toppings2 = new ArrayList<Thing>();
-		toppings2.add(new CookedPatty());
+		toppings2.add(new Beef(-1, FoodState.CHOPPED));
 		objectives.add(new Objective(new Bun(toppings2), 5));
 		Bun bun1 = new Bun(toppings);
 		Bun bun2 = new Bun(toppings2);
@@ -169,9 +166,9 @@ public class Game {
 			map.addThing(new Counter(), i, 0);
 		}
 		map.addThing(new Apple(), 2, 0);
-		map.addThing(new ChoppedApple(), 3, 0);
+		map.addThing(new Apple(-1, FoodState.CHOPPED), 3, 0);
 		map.addThing(new Lettuce(), 11, 0);
-		map.addThing(new ChoppedLettuce(), 12, 0);
+		map.addThing(new Lettuce(-1, FoodState.CHOPPED), 12, 0);
 		map.getSpace(4, 0).removeAll(new Counter());
 		map.addThing(new CuttingBoard(), 4, 0);
 		map.addThing(new CuttingBoard(), 4, 3);	
@@ -184,13 +181,13 @@ public class Game {
 		map.addThing(new Spawner(new Lettuce()), 6, 0);
 		map.addThing(new Spawner(new Tomato()), 7, 0);
 		map.addThing(new Spawner(new Bun()), 8, 0);
-		map.addThing(new Spawner(new RawPatty()), 9, 0);
+		map.addThing(new Spawner(new Beef()), 9, 0);
 		map.addThing(new Disposal(), 15, 0);
 		map.addThing(new Window(this), 14, 0);
 		
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce());
-		toppings.add(new CookedPatty());
+		toppings.add(new Beef(-1, FoodState.COOKED));
 		objectives.add(new Objective(new Bun(toppings), 5));
 		//toppings.add(new Patty());
 		Bun bun1 = new Bun(toppings);
