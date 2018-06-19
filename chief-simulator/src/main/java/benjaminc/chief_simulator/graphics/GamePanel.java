@@ -33,8 +33,8 @@ public class GamePanel extends JPanel {
 	public GamePanel(Game g, Room lvl) {
 		game = g;
 		level = lvl;
-		boxWidth = 64;
-		boxHeight = 64;
+		boxWidth = 60;
+		boxHeight = 60;
 		xloc = 0;
 		yloc = boxHeight;
 		width = (int) level.getSize().getWidth();
