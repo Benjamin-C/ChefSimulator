@@ -94,11 +94,28 @@ public class Game {
 		map.addThing(new CuttingBoard(), 10, 3);
 		map.addThing(new Counter(), 11, 4);
 		map.addThing(new Counter(), 11, 3);
+		map.addThing(new Counter(), 4, 12);
+		map.addThing(new Counter(), 4, 11);
+		map.addThing(new CuttingBoard(), 5, 12);
+		map.addThing(new CuttingBoard(), 6, 12);
+		map.addThing(new Counter(), 7, 12);
+		map.addThing(new Counter(), 7, 11);
+		map.addThing(new Counter(), 8, 12);
+		map.addThing(new Counter(), 8, 11);
+		map.addThing(new CuttingBoard(), 9, 12);
+		map.addThing(new CuttingBoard(), 10, 12);
+		map.addThing(new Counter(), 11, 12);
+		map.addThing(new Counter(), 11, 11);
 		map.addThing(new Spawner(new Apple()), 7, 0);
 		map.addThing(new Spawner(new Lettuce()), 5, 4);
 		map.addThing(new Spawner(new Tomato()), 6, 4);
 		map.addThing(new Spawner(new Bun()), 9, 4);
 		map.addThing(new Spawner(new RawPatty()), 10, 4);
+		map.addThing(new Spawner(new Apple()), 8, 15);
+		map.addThing(new Spawner(new Lettuce()), 5, 11);
+		map.addThing(new Spawner(new Tomato()), 6, 11);
+		map.addThing(new Spawner(new Bun()), 9, 11);
+		map.addThing(new Spawner(new RawPatty()), 10, 11);
 		map.addThing(new Disposal(), 15, 1);
 		map.addThing(new Disposal(), 0, 14);
 		map.addThing(new Disposal(), 1, 0);
@@ -110,14 +127,15 @@ public class Game {
 		toppings.add(new CookedPatty());
 		toppings.add(new ChoppedTomato());
 		objectives.add(new Objective(new Bun(toppings), 5));
-		//toppings.add(new Patty());
+		List<Thing> toppings2 = new ArrayList<Thing>();
+		toppings2.add(new CookedPatty());
+		objectives.add(new Objective(new Bun(toppings2), 5));
 		Bun bun1 = new Bun(toppings);
-		Bun bun2 = new Bun(toppings);
+		Bun bun2 = new Bun(toppings2);
 		objectives.add(new Objective(bun1.duplicate(), 5));
 		objectives.add(new Objective(bun2.duplicate(), 5));
-		objectives.add(new Objective(bun2.duplicate(), 5));
 		map.addThing(new Spawner(bun1), 10, 0);
-		//map.addThing(new Spawner(bun1), 11, 0);
+		map.addThing(new Spawner(bun2), 11, 0);
 		updateGraphics();
 	}
 	
