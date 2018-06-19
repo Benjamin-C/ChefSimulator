@@ -14,7 +14,7 @@ public class Lettuce implements FoodThing{
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		g.setColor(new Color(0, 255, 0));
-		g.fillRect(x+1,  y+1,  w-2,  h-2);
+		g.fillOval(x+(w/20),  y+(h/20),  w-(w/10),  h-(h/10));
 	}
 	
 	@Override

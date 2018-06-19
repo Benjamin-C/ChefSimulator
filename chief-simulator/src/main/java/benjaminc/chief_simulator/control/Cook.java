@@ -154,10 +154,10 @@ public class Cook {
 	public void draw(Graphics g, int xos, int yos, int w, int h) {
 		int drawX = (w * x) + xos;
 		int drawY = (h * y) + yos;
-		g.setColor(Color.BLUE);
-		g.fillRect(drawX+1,  drawY+1,  w-2, h-2);
-		g.setColor(Color.CYAN);
-		g.setFont(new Font(name, 0, (int) ((w * 0.9) * Toolkit.getDefaultToolkit().getScreenResolution() / 72.0)));
+		g.setColor(new Color(240, 240, 240));
+		g.fillOval(drawX+1,  drawY+1,  w-2, h-2);
+		g.setColor(new Color(255, 128, 0));
+		g.setFont(new Font(name, 0, (int) ((w * 0.65) * Toolkit.getDefaultToolkit().getScreenResolution() / 72.0)));
 		String printName = name.substring(0, Math.min(name.length(), 1));
 		g.drawString(printName,drawX + ((w - g.getFontMetrics().stringWidth(printName)) / 2), (drawY + w - 4));
 		int handX = x + direction.getX();
@@ -168,8 +168,8 @@ public class Cook {
 			if(hand != null) {
 				hand.draw(g, handX + w / 4, handY + w / 4, w / 2, h / 2);
 			} else {
-				g.setColor(Color.BLUE);
-				g.fillRect(handX + (w/4),  handY + (w/4),  w/2, h/2);
+				g.setColor(new Color(170, 170, 80));
+				g.fillOval(handX + (w/4),  handY + (w/4),  w/2, h/2);
 			}
 			
 		}

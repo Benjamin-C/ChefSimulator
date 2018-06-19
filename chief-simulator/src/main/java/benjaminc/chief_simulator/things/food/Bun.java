@@ -24,6 +24,8 @@ public class Bun implements FoodThing, ContainerThing{
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		g.setColor(new Color(210, 180, 140));
 		g.fillOval(x+(int)(w*0.05),  y+(int)(h*0.05), (int)(w*0.9),  (int)(h*0.9));
+		g.setColor(new Color(200, 170, 130));
+		g.fillOval(x+(int)(w*0.15),  y+(int)(h*0.15), (int)(w*0.7),  (int)(h*0.7));
 		for(int i = 0; i < items.size(); i++) {
 			switch(i%4) {
 			case 0: { items.get(i).draw(g,  x,  y,  w/2,  h/2); } break;
@@ -31,6 +33,11 @@ public class Bun implements FoodThing, ContainerThing{
 			case 2: { items.get(i).draw(g,  x,  y+(h/2),  w/2,  h/2); } break;
 			case 3: { items.get(i).draw(g,  x+(w/2),  y+(h/2),  w/2,  h/2); } break;
 			}
+		g.setColor(new Color(210, 180, 140));
+		g.fillOval(x+(int)(w*0.05),  y+(int)(h*0.05), (int)(w*0.9),  (int)(h*0.9));
+		g.setColor(new Color(200, 170, 130));
+		g.fillOval(x+(int)(w*0.15),  y+(int)(h*0.15), (int)(w*0.7),  (int)(h*0.7));
+		
 		}
 	}
 
