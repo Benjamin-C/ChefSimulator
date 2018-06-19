@@ -92,8 +92,8 @@ public class Game {
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce());
 		toppings.add(new CookedPatty());
-		objects.add(new Objective(new Bun(toppings), 5));
-		toppings.add(new Patty());
+		objectives.add(new Objective(new Bun(toppings), 5));
+		//toppings.add(new Patty());
 		Bun bun1 = new Bun(toppings);
 		Bun bun2 = new Bun(toppings);
 		objectives.add(new Objective(bun1.duplicate(), 5));
@@ -105,11 +105,6 @@ public class Game {
 	
 	public List<Objective> getObjectives() {
 		return objectives;
-	}
-	
-	public void completeObjectiives(Objective o) {
-		addScore(o.getScore());
-		objectives.remove(o);
 	}
 
 	public void setObjects(List<Objective> objectives) {

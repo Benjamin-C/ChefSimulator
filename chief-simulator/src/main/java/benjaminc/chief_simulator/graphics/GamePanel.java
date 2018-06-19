@@ -69,15 +69,16 @@ public class GamePanel extends JPanel {
             public void paintComponent(Graphics g) {
 				level.draw(g, x, y, boxWidth, boxHeight);
 				for(int i = 0; i < level.getWidth(); i++) {
+					g.setColor(new Color(16, 64, 16));
+					g.fillRect(x+(i*boxWidth), 0, boxWidth, boxHeight);
 					if(game.getObjectives().size() > i) {
 						game.getObjectives().get(i).draw(g, (i * boxWidth) + x, 0, boxWidth, boxHeight);
 					}
 					if(i == width - 1) {
-						g.setColor(Color.GREEN);
-						g.fillRect(x+(i*boxWidth), 0, boxWidth, boxHeight);
-						g.setColor(Color.BLACK);
+						g.setColor(Color.WHITE);
 						g.setFont(new Font("arial", 0, boxHeight));
-						g.drawString(game.getScore() + "", x+(i*boxWidth), boxHeight);
+						int textWidth = g.getFontMetrics().stringWidth(game.getScore() + "");
+						g.drawString(game.getScore() + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
 					}
 				}
 				

@@ -84,21 +84,23 @@ public class Bun implements FoodThing, ContainerThing{
 
 	@Override
 	public boolean isSame(Thing t) {
-		if(t.getClass() == this.getClass()) {
-			if(t instanceof Bun) {
-				List<Thing> theirItems = ((Bun) t).getItems();
-				List<Thing> ourItems = getItems();
-				if(theirItems.size() == ourItems.size()) {
-					for(Thing oth : ourItems) {
-						for(Thing tth : theirItems) {
-							if(oth.isSame(tth)) {
-								theirItems.remove(tth);
-								break;
+		if(t != null) {
+			if(t.getClass() == this.getClass()) {
+				if(t instanceof Bun) {
+					List<Thing> theirItems = ((Bun) t).getItems();
+					List<Thing> ourItems = getItems();
+					if(theirItems.size() == ourItems.size()) {
+						for(Thing oth : ourItems) {
+							for(Thing tth : theirItems) {
+								if(oth.isSame(tth)) {
+									theirItems.remove(tth);
+									break;
+								}
 							}
 						}
-					}
-					if(theirItems.isEmpty()) {
-						return true;
+						if(theirItems.isEmpty()) {
+							return true;
+						}
 					}
 				}
 			}

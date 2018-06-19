@@ -2,6 +2,7 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chief_simulator.Game;
@@ -51,11 +52,15 @@ public class Window implements ToolThing, Thing, SolidThing{
 			Objective o = game.getObjectives().get(i);
 			if(o.isMet(t)) {
 				System.out.println("isMet");
-				game.completeObjectiives(o);
-				break;
+				game.addScore(o.getScore());
+				game.getObjectives().remove(i);
+				System.out.println(game.getObjectives().size());
+				return null;
 			}
 		}
-		return null;
+		List<Thing> li = new ArrayList<Thing>();
+		li.add(t);
+		return li;
 	}
 
 }
