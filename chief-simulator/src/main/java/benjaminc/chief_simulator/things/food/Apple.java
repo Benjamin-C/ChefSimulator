@@ -5,12 +5,13 @@ import java.awt.Graphics;
 import java.util.Random;
 
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.graphics.food.GraphicalPotato;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
 public class Apple implements FoodThing {
 
-	protected GraphicalApple graphics;
+	protected GraphicalPotato graphics;
 	protected int variant;
 	protected FoodState state;
 	
@@ -21,11 +22,11 @@ public class Apple implements FoodThing {
 		super();
 		if(variant == -1) {
 			Random r = new Random();
-			variant = r.nextInt(GraphicalApple.VARIANT_COUNT);
+			variant = r.nextInt(GraphicalPotato.VARIANT_COUNT);
 		}
 		this.state = state;
 		System.out.println(variant + " " + state);
-		graphics = new GraphicalApple(variant, state);
+		graphics = new GraphicalPotato(variant, state);
 	}
 	
 	@Override

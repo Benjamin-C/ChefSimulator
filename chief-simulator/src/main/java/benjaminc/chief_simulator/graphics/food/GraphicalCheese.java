@@ -20,7 +20,7 @@ public class GraphicalCheese implements GraphicalThing {
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		g.setColor(Color.YELLOW);
-		g.fillRect(x+1, y+1, w-2, h-2);
+		g.fillRect(x+(w/20), y+(h/20), w-(w/10), h-(h/10));
 	}
 	
 	@Override
