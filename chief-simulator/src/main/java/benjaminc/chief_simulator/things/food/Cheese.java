@@ -23,7 +23,6 @@ public class Cheese implements FoodThing {
 			variant = r.nextInt(GraphicalCheese.VARIANT_COUNT);
 		}
 		this.state = state;
-		System.out.println(variant + " " + state);
 		graphics = new GraphicalCheese(variant, state);
 	}
 	

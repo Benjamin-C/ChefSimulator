@@ -12,7 +12,6 @@ public class GraphicalApple implements GraphicalThing {
 	protected int variant;
 	protected FoodState state;
 	public GraphicalApple(int variant, FoodState state) {
-		System.out.println(variant + " " + state);
 		this.variant = variant;
 		this.state = state;
 	}

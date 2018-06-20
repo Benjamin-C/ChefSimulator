@@ -40,7 +40,6 @@ public class Bun implements FoodThing, ContainerThing{
 		if(items == null) {
 			this.items = new ArrayList<Thing>();
 		}
-		System.out.println(randomInt + ": " + items);
 		this.state = state;
 		graphics = new GraphicalBun(variant, state);
 	}

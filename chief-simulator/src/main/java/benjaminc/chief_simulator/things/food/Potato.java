@@ -9,23 +9,23 @@ import benjaminc.chief_simulator.graphics.food.GraphicalPotato;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Apple implements FoodThing {
+public class Potato implements FoodThing {
 
-	protected GraphicalApple graphics;
+	protected GraphicalPotato graphics;
 	protected int variant;
 	protected FoodState state;
 	
-	public Apple() {
+	public Potato() {
 		this(-1, FoodState.RAW);
 	}
-	public Apple(int variant, FoodState state) {
+	public Potato(int variant, FoodState state) {
 		super();
 		if(variant == -1) {
 			Random r = new Random();
-			variant = r.nextInt(GraphicalApple.VARIANT_COUNT);
+			variant = r.nextInt(GraphicalPotato.VARIANT_COUNT);
 		}
 		this.state = state;
-		graphics = new GraphicalApple(variant, state);
+		graphics = new GraphicalPotato(variant, state);
 	}
 	
 	@Override
@@ -33,8 +33,10 @@ public class Apple implements FoodThing {
 		graphics.draw(g, x, y, w, h);
 	}
 	public Thing getChoppedThing() {
-		state = FoodState.CHOPPED;
-		graphics.setState(state);
+		if(state == FoodState.RAW) {
+			state = FoodState.CHOPPED;
+			graphics.setState(state);
+		}
 		return this;
 	}
 
@@ -52,7 +54,7 @@ public class Apple implements FoodThing {
 	}
 	@Override
 	public Thing duplicate() {
-		return new Apple(variant, state);
+		return new Potato(variant, state);
 	}
 	
 	@Override
@@ -65,6 +67,17 @@ public class Apple implements FoodThing {
 	}
 	@Override
 	public Thing getCookedThing() {
+		switch(state) {
+		case CHOPPED: state = FoodState.CHOPPED_COOKED;
+			break;
+		case CHOPPED_COOKED:
+			break;
+		case COOKED:
+			break;
+		case RAW: state = FoodState.COOKED;
+			break;
+		}
+		graphics.setState(state);
 		return this;
 	}
 }
