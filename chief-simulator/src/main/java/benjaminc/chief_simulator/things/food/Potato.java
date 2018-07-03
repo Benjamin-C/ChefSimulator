@@ -7,9 +7,12 @@ import java.util.Random;
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalPotato;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
+import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;
+import benjaminc.chief_simulator.things.types.Fryable;
 
-public class Potato implements FoodThing {
+public class Potato implements FoodThing, Cookable, Choppable, Fryable {
 
 	protected GraphicalPotato graphics;
 	protected int variant;
@@ -32,6 +35,8 @@ public class Potato implements FoodThing {
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
 	}
+	
+	@Override
 	public Thing getChoppedThing() {
 		if(state == FoodState.RAW) {
 			state = FoodState.CHOPPED;
@@ -68,13 +73,28 @@ public class Potato implements FoodThing {
 	@Override
 	public Thing getCookedThing() {
 		switch(state) {
-		case CHOPPED: state = FoodState.CHOPPED_COOKED;
+		case CHOPPED:
 			break;
 		case CHOPPED_COOKED:
 			break;
 		case COOKED:
 			break;
 		case RAW: state = FoodState.COOKED;
+			break;
+		}
+		graphics.setState(state);
+		return this;
+	}
+	@Override
+	public Thing getFriedThing() {
+		switch(state) {
+		case CHOPPED: state = FoodState.CHOPPED_COOKED;
+			break;
+		case CHOPPED_COOKED:
+			break;
+		case COOKED:
+			break;
+		case RAW:
 			break;
 		}
 		graphics.setState(state);

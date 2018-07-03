@@ -8,9 +8,10 @@ import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.graphics.food.GraphicalLettuce;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Lettuce implements FoodThing {
+public class Lettuce implements FoodThing, Choppable {
 	
 	protected GraphicalLettuce graphics;
 	protected int variant;
@@ -27,10 +28,6 @@ public class Lettuce implements FoodThing {
 		}
 		this.state = state;
 		graphics = new GraphicalLettuce(variant, state);
-	}
-	@Override
-	public Thing getCookedThing() {
-		return this;
 	}
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {

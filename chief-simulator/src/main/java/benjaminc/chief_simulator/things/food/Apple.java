@@ -7,9 +7,10 @@ import java.util.Random;
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalPotato;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Apple implements FoodThing {
+public class Apple implements FoodThing, Choppable {
 
 	protected GraphicalApple graphics;
 	protected int variant;
@@ -62,9 +63,5 @@ public class Apple implements FoodThing {
 		} else {
 			return false;
 		}
-	}
-	@Override
-	public Thing getCookedThing() {
-		return this;
 	}
 }

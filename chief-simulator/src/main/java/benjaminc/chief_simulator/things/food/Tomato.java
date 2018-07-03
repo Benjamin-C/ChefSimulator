@@ -8,9 +8,10 @@ import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.graphics.food.GraphicalTomato;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Tomato implements FoodThing{
+public class Tomato implements FoodThing, Choppable{
 
 	protected GraphicalTomato graphics;
 	protected int variant;
@@ -53,10 +54,6 @@ public class Tomato implements FoodThing{
 		} else {
 			return false;
 		}
-	}
-	@Override
-	public Thing getCookedThing() {
-		return this;
 	}
 	public void setVariant(int var) {
 		variant = var;

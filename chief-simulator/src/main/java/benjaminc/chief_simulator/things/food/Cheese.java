@@ -5,9 +5,10 @@ import java.util.Random;
 
 import benjaminc.chief_simulator.graphics.food.GraphicalCheese;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Cheese implements FoodThing {
+public class Cheese implements FoodThing, Choppable {
 
 	protected GraphicalCheese graphics;
 	protected int variant;
@@ -60,9 +61,5 @@ public class Cheese implements FoodThing {
 		} else {
 			return false;
 		}
-	}
-	@Override
-	public Thing getCookedThing() {
-		return this;
 	}
 }

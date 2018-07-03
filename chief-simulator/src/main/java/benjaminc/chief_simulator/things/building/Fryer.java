@@ -1,15 +1,12 @@
 package benjaminc.chief_simulator.things.building;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chief_simulator.graphics.building.GraphicalCuttingBoard;
 import benjaminc.chief_simulator.graphics.building.GraphicalFryer;
-import benjaminc.chief_simulator.graphics.building.GraphicalStove;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -33,8 +30,8 @@ public class Fryer implements ToolThing, SolidThing {
 	@Override
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
-		if(t instanceof FoodThing) {
-			temp.add(((FoodThing) t).getCookedThing());
+		if(t instanceof Cookable) {
+			temp.add(((Cookable) t).getCookedThing());
 		} else {
 			temp.add(t);
 		}

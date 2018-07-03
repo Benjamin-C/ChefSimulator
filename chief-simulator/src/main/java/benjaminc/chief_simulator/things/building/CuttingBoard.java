@@ -8,6 +8,7 @@ import java.util.List;
 import benjaminc.chief_simulator.graphics.building.GraphicalCuttingBoard;
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -31,8 +32,8 @@ public class CuttingBoard implements ToolThing, SolidThing {
 	@Override
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
-		if(t instanceof FoodThing) {
-			temp.add(((FoodThing) t).getChoppedThing());
+		if(t instanceof Choppable) {
+			temp.add(((Choppable) t).getChoppedThing());
 		} else {
 			temp.add(t);
 		}

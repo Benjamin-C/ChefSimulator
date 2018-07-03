@@ -11,6 +11,7 @@ import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.FoodThing;
+import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class Bun implements FoodThing, ContainerThing{
 
@@ -56,11 +57,6 @@ public class Bun implements FoodThing, ContainerThing{
 			}
 		}
 		graphics.draw(g, x, y, w, h);
-	}
-
-	@Override
-	public Thing getChoppedThing() {
-		return this;
 	}
 
 	@Override
@@ -136,9 +132,5 @@ public class Bun implements FoodThing, ContainerThing{
 	}
 	public FoodState getFoodState() {
 		return state;
-	}
-	@Override
-	public Thing getCookedThing() {
-		return this;
 	}
 }

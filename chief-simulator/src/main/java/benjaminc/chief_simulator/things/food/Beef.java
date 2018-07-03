@@ -8,9 +8,11 @@ import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalBeef;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Choppable;
+import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Beef implements FoodThing {
+public class Beef implements FoodThing, Cookable, Choppable {
 
 	protected GraphicalBeef graphics;
 	protected int variant;
