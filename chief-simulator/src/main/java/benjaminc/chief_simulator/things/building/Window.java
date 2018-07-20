@@ -7,22 +7,24 @@ import java.util.List;
 
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.Objective;
+import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.graphics.building.GraphicalWindow;
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
+import benjaminc.util.Util;
 
 public class Window implements ToolThing, Thing, SolidThing{
 	
-	protected Game game;
 	protected GraphicalWindow graphics;
+	protected Room room;
 	
-	public Window(Game g) {
-		this(g, 0);
+	public Window(Room r) {
+		this(r, 0);
 	}
-	public Window(Game g, int var) {
-		game = g;
+	public Window(Room r, int var) {
+		room = r;
 		graphics = new GraphicalWindow(var);
 	}
 
@@ -33,7 +35,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 
 	@Override
 	public Thing duplicate() {
-		return new Window(game);
+		return new Window(room);
 	}
 
 	@Override
@@ -47,12 +49,15 @@ public class Window implements ToolThing, Thing, SolidThing{
 
 	@Override
 	public List<Thing> useTool(Thing t) {
-		for(int i = 0; i < game.getObjectives().size(); i++) {
-			Objective o = game.getObjectives().get(i);
+		for(int i = 0; i < room.getObjectives().size(); i++) {
+			Objective o = room.getObjectives().get(i);
 			if(o.isMet(t)) {
 				//System.out.println("isMet");
-				game.addScore(o.getScore());
-				game.getObjectives().remove(i);
+				room.getScore().addScore(o.getScore());
+				room.getObjectives().remove(i);
+				if(room.getObjectives().size() == 0) {
+					Util.resume(room.getSyncObj());
+				}
 				//System.out.println(game.getObjectives().size());
 				return null;
 			}

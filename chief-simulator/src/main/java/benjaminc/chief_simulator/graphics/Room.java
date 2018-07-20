@@ -1,13 +1,12 @@
 package benjaminc.chief_simulator.graphics;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.Objective;
+import benjaminc.chief_simulator.Score;
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.things.Thing;
 
@@ -20,8 +19,10 @@ public class Room {
 	protected int height;
 	protected Object whenDoneSync;
 	protected List<Objective> objective;
+	protected Score score;
+	protected Object syncObj;
 	
-	public Room(int w, int h, Object whenDone) {
+	public Room(int w, int h, Object whenDone, Score score) {
 		width = w;
 		height = h;
 		room = new GameSpace[width][height];
@@ -33,8 +34,17 @@ public class Room {
 		cooks = new ArrayList<Cook>();
 		whenDoneSync = whenDone;
 		objective = new ArrayList<Objective>();
+		if(score == null) {
+			this.score = new Score();
+		} else {
+			this.score = score;
+		}
+		syncObj = new Object();
 	}
 	
+	public Object getSyncObj() {
+		return syncObj;
+	}
 	public List<Objective> getObjectives() {
 		return objective;
 	}
@@ -84,5 +94,8 @@ public class Room {
 			c.draw(g, x, y, w,  h);
 		}
 		
+	}
+	public Score getScore() {
+		return score;
 	}
 }

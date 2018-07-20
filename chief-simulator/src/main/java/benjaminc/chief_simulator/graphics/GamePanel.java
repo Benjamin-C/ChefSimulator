@@ -55,6 +55,14 @@ public class GamePanel extends JPanel {
         
 	}
 	
+	public void setLevel(Room lvl) {
+		level = lvl;
+		width = (int) level.getSize().getWidth();
+		height = (int) level.getSize().getHeight();
+		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
+		System.out.println("I make picture now");
+		drawRoom(xloc, yloc);
+	}
 	public void update() {
 		drawRoom(xloc, yloc);
 	}
