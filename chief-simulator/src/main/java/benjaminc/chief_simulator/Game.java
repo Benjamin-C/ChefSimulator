@@ -38,8 +38,7 @@ public class Game {
 	private int roomHeight;
 	private Room map;
 	private int score;
-
-	private List<Objective> objectives;
+	private Object roomSync;
 	
 	@SuppressWarnings("unused")
 	public Game() {
@@ -49,9 +48,9 @@ public class Game {
 	public void mapDraw2() {
 		roomWidth = 16;
 		roomHeight = 16;
-		map = new Room(roomWidth, roomHeight);
+		roomSync = new Object();
+		map = new Room(roomWidth, roomHeight, roomSync);
 		gamePanel = new GamePanel(this, map);
-		objectives = new ArrayList<Objective>();
 		score = 0;
 		
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
@@ -130,16 +129,16 @@ public class Game {
 		toppings.add(new Lettuce(-1, FoodState.CHOPPED));
 		toppings.add(new Beef(-1, FoodState.CHOPPED_COOKED));
 		toppings.add(new Tomato(-1, FoodState.CHOPPED));
-		objectives.add(new Objective(new Bun(toppings), 10));
+		map.addObjectives(new Objective(new Bun(toppings), 10));
 		List<Thing> toppings2 = new ArrayList<Thing>();
 		toppings2.add(new Beef(-1, FoodState.CHOPPED_COOKED));
 		toppings2.add(new Cheese());
-		objectives.add(new Objective(new Bun(toppings2), 10));
+		map.addObjectives(new Objective(new Bun(toppings2), 10));
 		Bun bun1 = new Bun(toppings);
 		Bun bun2 = new Bun(toppings2);
-		objectives.add(new Objective(bun1.duplicate(), 10));
-		objectives.add(new Objective(bun2.duplicate(), 10));
-		objectives.add(new Objective(new Beef(-1, FoodState.COOKED), 5));
+		map.addObjectives(new Objective(bun1.duplicate(), 10));
+		map.addObjectives(new Objective(bun2.duplicate(), 10));
+		map.addObjectives(new Objective(new Beef(-1, FoodState.COOKED), 5));
 		map.addThing(new Spawner(bun1), 10, 0);
 		map.addThing(new Spawner(bun2), 11, 0);
 		updateGraphics();
@@ -148,9 +147,9 @@ public class Game {
 	public void mapDraw() {
 		roomWidth = 16;
 		roomHeight = 16;
-		map = new Room(roomWidth, roomHeight);
+		roomSync = new Object();
+		map = new Room(roomWidth, roomHeight, roomSync);
 		gamePanel = new GamePanel(this, map);
-		objectives = new ArrayList<Objective>();
 		score = 0;
 		
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
@@ -197,23 +196,23 @@ public class Game {
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce());
 		toppings.add(new Beef(-1, FoodState.COOKED));
-		objectives.add(new Objective(new Bun(toppings), 5));
+		map.addObjectives(new Objective(new Bun(toppings), 5));
 		//toppings.add(new Patty());
 		Bun bun1 = new Bun(toppings);
 		Bun bun2 = new Bun(toppings);
-		objectives.add(new Objective(bun1.duplicate(), 5));
-		objectives.add(new Objective(bun2.duplicate(), 5));
+		map.addObjectives(new Objective(bun1.duplicate(), 5));
+		map.addObjectives(new Objective(bun2.duplicate(), 5));
 		map.addThing(new Spawner(bun1), 10, 0);
 		//map.addThing(new Spawner(bun1), 11, 0);
 		updateGraphics();
 	}
 	
 	public List<Objective> getObjectives() {
-		return objectives;
+		return map.getObjectives();
 	}
 
 	public void setObjects(List<Objective> objectives) {
-		this.objectives = objectives;
+		map.setObjectives(objectives);
 	}
 
 	public Room getRoom() {

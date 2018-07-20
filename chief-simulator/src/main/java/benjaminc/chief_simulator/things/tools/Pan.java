@@ -1,12 +1,13 @@
-package benjaminc.chief_simulator.things;
+package benjaminc.chief_simulator.things.tools;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import benjaminc.chief_simulator.graphics.GraphicalPan;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
+import benjaminc.chief_simulator.graphics.tools.GraphicalPan;
+import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.food.FoodState;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 

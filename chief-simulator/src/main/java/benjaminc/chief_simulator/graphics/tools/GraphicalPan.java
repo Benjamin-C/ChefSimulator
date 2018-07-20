@@ -1,4 +1,4 @@
-package benjaminc.chief_simulator.graphics;
+package benjaminc.chief_simulator.graphics.tools;
 
 import java.awt.Color;
 import java.awt.Graphics;

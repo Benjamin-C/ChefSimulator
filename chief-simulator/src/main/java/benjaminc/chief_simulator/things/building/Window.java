@@ -50,10 +50,10 @@ public class Window implements ToolThing, Thing, SolidThing{
 		for(int i = 0; i < game.getObjectives().size(); i++) {
 			Objective o = game.getObjectives().get(i);
 			if(o.isMet(t)) {
-				System.out.println("isMet");
+				//System.out.println("isMet");
 				game.addScore(o.getScore());
 				game.getObjectives().remove(i);
-				System.out.println(game.getObjectives().size());
+				//System.out.println(game.getObjectives().size());
 				return null;
 			}
 		}

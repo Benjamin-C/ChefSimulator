@@ -18,8 +18,10 @@ public class Room {
 	protected List<Cook> cooks;
 	protected int width;
 	protected int height;
+	protected Object whenDoneSync;
+	protected List<Objective> objective;
 	
-	public Room(int w, int h) {
+	public Room(int w, int h, Object whenDone) {
 		width = w;
 		height = h;
 		room = new GameSpace[width][height];
@@ -29,7 +31,23 @@ public class Room {
 			}
 		}
 		cooks = new ArrayList<Cook>();
+		whenDoneSync = whenDone;
+		objective = new ArrayList<Objective>();
 	}
+	
+	public List<Objective> getObjectives() {
+		return objective;
+	}
+	public void setObjectives(List<Objective> o) {
+		objective = o;
+	}
+	public void addObjectives(List<Objective> o) {
+		objective.addAll(o);
+	}
+	public void addObjectives(Objective o) {
+		objective.add(o);
+	}
+	
 	
 	public int getWidth() {
 		return width;
