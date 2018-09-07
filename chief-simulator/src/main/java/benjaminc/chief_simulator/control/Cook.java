@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.graphics.ActionType;
-import benjaminc.chief_simulator.things.MovmentDirection;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -179,5 +178,10 @@ public class Cook {
 		}
 		
 		
+	}
+	
+	@Override
+	public String toString() {
+		return "Cook[name=" + name + ",x=" + x + ",y=" + y + ",d=" + direction + ",h=" + hand + "]";
 	}
 }

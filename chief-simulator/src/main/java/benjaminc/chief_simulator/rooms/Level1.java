@@ -29,10 +29,11 @@ public class Level1 extends Room {
 	private int cookStart[][] = {{1, 1}, {14, 1}};
 	
 	public Level1(List<Cook> cooks, Score score) {
-		super(16, 16, new Object(), score); // Change these to width and height!
-		
-		for(int i = 0;i < cooks.size(); i++) {
+		super(16, 16, new Object(), score, cooks); // Change these to width and height!
+
+		for(int i = 0; i < cooks.size(); i++) {
 			cooks.get(i).setLocation(cookStart[i%cookStart.length][0], cookStart[i%cookStart.length][1]);
+			System.out.println(cooks.get(i));
 		}
 		
 		for(int i = 0; i < getSize().width; i++) {

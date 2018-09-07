@@ -85,8 +85,9 @@ public class GamePanel extends JPanel {
 					if(i == width - 1) {
 						g.setColor(Color.WHITE);
 						g.setFont(new Font("arial", 0, boxHeight));
-						int textWidth = g.getFontMetrics().stringWidth(game.getScore() + "");
-						g.drawString(game.getScore() + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
+						String score = game.getScore().getScore() + "";
+						int textWidth = g.getFontMetrics().stringWidth(score+ "");
+						g.drawString(score + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
 					}
 				}
 				

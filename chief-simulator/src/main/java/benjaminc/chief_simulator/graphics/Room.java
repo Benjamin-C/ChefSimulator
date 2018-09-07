@@ -23,6 +23,10 @@ public class Room {
 	protected Object syncObj;
 	
 	public Room(int w, int h, Object whenDone, Score score) {
+		this(w, h, whenDone, score, new ArrayList<Cook>());
+	}
+	
+	public Room(int w, int h, Object whenDone, Score score, List<Cook> cooks) {
 		width = w;
 		height = h;
 		room = new GameSpace[width][height];
@@ -31,7 +35,7 @@ public class Room {
 				room[i][j] = new GameSpace();
 			}
 		}
-		cooks = new ArrayList<Cook>();
+		this.cooks = cooks;
 		whenDoneSync = whenDone;
 		objective = new ArrayList<Objective>();
 		if(score == null) {
@@ -90,10 +94,11 @@ public class Room {
 				room[i][j].draw(g, (i * w) + x,  (j * h) + y,  w,  h);
 			}
 		}
-		for(Cook c : cooks) {
-			c.draw(g, x, y, w,  h);
+		if(cooks != null) {
+			for(Cook c : cooks) {
+				c.draw(g, x, y, w,  h);
+			}
 		}
-		
 	}
 	public Score getScore() {
 		return score;
