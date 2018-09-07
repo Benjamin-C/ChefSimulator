@@ -19,8 +19,6 @@ public class GraphicalStove implements GraphicalThing {
 	@Override
 	public void draw(Graphics ga, int x, int y, int w, int h) {
 		Graphics2D g = (Graphics2D) ga;
-		int indw = w / 8;
-		int indh = h / 8;
 		g.setColor(new Color(64, 64, 64));
 		g.fillRect(x,  y,  w,  h);
 		g.setColor(new Color(0, 0, 0));

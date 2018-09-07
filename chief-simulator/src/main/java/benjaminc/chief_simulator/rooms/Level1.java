@@ -45,7 +45,7 @@ public class Level1 extends Room {
 		}
 		
 		getSpace(4, 0).removeAll(new Counter()); 
-		addThing(new Beef(), 0, 0);
+		addThing(new Beef(), 0, 1);
 		addThing(new CuttingBoard(), 4, 0);
 		addThing(new Counter(), 4, 4);
 		addThing(new Counter(), 4, 3);
