@@ -1,4 +1,4 @@
-package benjaminc.chief_simulator.things;
+package benjaminc.chief_simulator.control;
 
 public enum MovmentDirection {
 	UP(0, -1),

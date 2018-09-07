@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.KeyListenAction;
 import benjaminc.chief_simulator.graphics.ActionType;
@@ -36,9 +35,10 @@ public class Game {
 
 	public Game() {
 		final Game thisGame = this;
-		map = new Room(1, 1, new Object(), score);
-		gamePanel = new GamePanel(thisGame, map);
 		List<Cook> cooks = new ArrayList<Cook>();
+		score = new Score();
+		map = new Room(1, 1, new Object(), score, cooks);
+		gamePanel = new GamePanel(thisGame, map);
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
 		benKeys.put(ActionType.MOVE_UP, KeyEvent.VK_UP);
 		benKeys.put(ActionType.MOVE_DOWN, KeyEvent.VK_DOWN);
@@ -56,9 +56,13 @@ public class Game {
 		mattKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_Q);
 		mattKeys.put(ActionType.USE_ITEM, KeyEvent.VK_E);
 		cooks.add(new Cook(thisGame, "Peter", mattKeys, 1, 1));
+		
+		thisGame.updateGraphics();
+		
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
+				System.out.println(cooks.size());
 				map = new Level1(cooks, score);
 				gamePanel.setLevel(map);
 				updateGraphics();
@@ -74,7 +78,7 @@ public class Game {
 		
 	}
 	
-	public void mapDraw() {
+	protected void mapDraw() {
 		roomWidth = 16;
 		roomHeight = 16;
 		roomSync = new Object();
@@ -149,6 +153,7 @@ public class Game {
 		return map;
 	}
 	public void updateGraphics() {
+		System.out.println("I make picture now");
 		gamePanel.update();
 	}
 	
