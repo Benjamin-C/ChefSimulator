@@ -1,11 +1,11 @@
 package benjaminc.chief_simulator.things.food;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
-import benjaminc.chief_simulator.graphics.food.GraphicalPotato;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
@@ -15,6 +15,7 @@ public class Apple implements FoodThing, Choppable {
 	protected GraphicalApple graphics;
 	protected int variant;
 	protected FoodState state;
+	Map<DataMapKey, Object> dataMap;
 	
 	public Apple() {
 		this(-1, FoodState.RAW);
@@ -27,6 +28,7 @@ public class Apple implements FoodThing, Choppable {
 		}
 		this.state = state;
 		graphics = new GraphicalApple(variant, state);
+		dataMap = new HashMap<DataMapKey, Object>();
 	}
 	
 	@Override
@@ -63,5 +65,9 @@ public class Apple implements FoodThing, Choppable {
 		} else {
 			return false;
 		}
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

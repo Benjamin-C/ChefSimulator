@@ -5,10 +5,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.Objective;
 import benjaminc.chief_simulator.Score;
 import benjaminc.chief_simulator.control.Cook;
+import benjaminc.chief_simulator.control.Location;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.types.Tickable;
 
 public class Room {
 	
@@ -21,14 +24,16 @@ public class Room {
 	protected List<Objective> objective;
 	protected Score score;
 	protected Object syncObj;
+	protected Game game;
 	
-	public Room(int w, int h, Object whenDone, Score score) {
-		this(w, h, whenDone, score, new ArrayList<Cook>());
+	public Room(int w, int h, Game game, Object whenDone, Score score) {
+		this(w, h, game, whenDone, score, new ArrayList<Cook>());
 	}
 	
-	public Room(int w, int h, Object whenDone, Score score, List<Cook> cooks) {
+	public Room(int w, int h, Game game, Object whenDone, Score score, List<Cook> cooks) {
 		width = w;
 		height = h;
+		this.game = game;
 		room = new GameSpace[width][height];
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
@@ -70,20 +75,20 @@ public class Room {
 	public int getHeight() {
 		return height;
 	}
-	public void addThing(Thing t, int x, int y) {
-		room[x][y].addThing(t);
+	public void addThing(Thing t, Location loc) {
+		room[loc.getX()][loc.getY()].addThing(t);
 	}
 	
 	public Dimension getSize() {
 		return new Dimension(width, height);
 	}
 	
-	public GameSpace getSpace(int x, int y) {
-		return room[x][y];
+	public GameSpace getSpace(Location loc) {
+		return room[loc.getX()][loc.getY()];
 	}
 	
-	public List<Thing> getThings(int x, int y) {
-		return room[x][y].getThings();
+	public List<Thing> getThings(Location loc) {
+		return room[loc.getX()][loc.getY()].getThings();
 	}
 	public void addCook(Cook c) {
 		cooks.add(c);
@@ -98,9 +103,18 @@ public class Room {
 			for(Cook c : cooks) {
 				c.draw(g, x, y, w,  h);
 			}
+		} else {
+			System.err.println("[ERROR] Cooks = NULL!");
 		}
 	}
 	public Score getScore() {
 		return score;
+	}
+	public void tick(long frame) {
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
+				room[i][j].tick(this, new Location(i, j), frame, game);
+			}
+		}
 	}
 }

@@ -1,28 +1,28 @@
 package benjaminc.chief_simulator.things.building;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import benjaminc.chief_simulator.graphics.building.GraphicalCuttingBoard;
+import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalStove;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Cookable;
-import benjaminc.chief_simulator.things.types.FoodThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class Stove implements ToolThing, SolidThing {
 
 	protected GraphicalStove graphics;
+	Map<DataMapKey, Object> dataMap;
 	
 	public Stove() {
 		this(0);
 	}
 	public Stove(int var) {
 		graphics = new GraphicalStove(var);
+		dataMap = new HashMap<DataMapKey, Object>();
 	}
 	
 	@Override
@@ -53,5 +53,9 @@ public class Stove implements ToolThing, SolidThing {
 		} else {
 			return false;
 		}
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

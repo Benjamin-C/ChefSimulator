@@ -1,5 +1,5 @@
 package benjaminc.chief_simulator.things.types;
 
-public interface SolidThing extends AttachedThing{
+public interface SolidThing extends AttachedThing {
 	
 }

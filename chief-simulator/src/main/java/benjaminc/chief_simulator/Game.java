@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.KeyListenAction;
+import benjaminc.chief_simulator.control.Location;
+import benjaminc.chief_simulator.control.TickTimer;
 import benjaminc.chief_simulator.graphics.ActionType;
 import benjaminc.chief_simulator.graphics.GamePanel;
 import benjaminc.chief_simulator.graphics.Room;
@@ -32,12 +36,15 @@ public class Game {
 	private Room map;
 	private Score score;
 	private Object roomSync;
+	private TickTimer tickTimer;
+	List<Cook> cooks;
+	
 
 	public Game() {
 		final Game thisGame = this;
-		List<Cook> cooks = new ArrayList<Cook>();
+		cooks = new ArrayList<Cook>();
 		score = new Score();
-		map = new Room(1, 1, new Object(), score, cooks);
+		map = new Room(1, 1, this, new Object(), score, cooks);
 		gamePanel = new GamePanel(thisGame, map);
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
 		benKeys.put(ActionType.MOVE_UP, KeyEvent.VK_UP);
@@ -46,7 +53,7 @@ public class Game {
 		benKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_RIGHT);
 		benKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_CONTROL);
 		benKeys.put(ActionType.USE_ITEM, KeyEvent.VK_NUMPAD0);
-		cooks.add(new Cook(thisGame, "Ben", benKeys, 14, 1));
+		cooks.add(new Cook(thisGame, "WBen", benKeys, new Location(14, 1)));
 		
 		Map<ActionType, Integer> mattKeys = new HashMap<ActionType, Integer>();
 		mattKeys.put(ActionType.MOVE_UP, KeyEvent.VK_W);
@@ -55,23 +62,29 @@ public class Game {
 		mattKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_D);
 		mattKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_Q);
 		mattKeys.put(ActionType.USE_ITEM, KeyEvent.VK_E);
-		cooks.add(new Cook(thisGame, "Peter", mattKeys, 1, 1));
+		cooks.add(new Cook(thisGame, "Peter", mattKeys, new Location(1, 1)));
 		
 		thisGame.updateGraphics();
 		
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
-				System.out.println(cooks.size());
-				map = new Level1(cooks, score);
-				gamePanel.setLevel(map);
-				updateGraphics();
-				Util.pause(map.getSyncObj());
-				System.out.println("Done");
+				startMap(new Level1(cooks, score, thisGame));
 			}
 		};
 		control.start();
-		
+	}
+	
+	
+	private void startMap(Room lvl) {
+		map = lvl;
+		gamePanel.setLevel(lvl);
+		tickTimer = new TickTimer(3, lvl);
+		System.out.println("Started");
+		Util.showThreads();
+		updateGraphics();
+		Util.pause(lvl.getSyncObj());
+		System.out.println("Done");
 	}
 	
 	public void mapDraw2() {
@@ -82,7 +95,7 @@ public class Game {
 		roomWidth = 16;
 		roomHeight = 16;
 		roomSync = new Object();
-		map = new Room(roomWidth, roomHeight, roomSync, score);
+		map = new Room(roomWidth, roomHeight, this, roomSync, score);
 		gamePanel = new GamePanel(this, map);
 		score = new Score();
 		
@@ -105,26 +118,26 @@ public class Game {
 		map.addCook(new Cook(this, "Peter", mattKeys));
 		
 		for(int i = 0; i < map.getSize().width; i++) {
-			map.addThing(new Counter(), i, 0);
+			map.addThing(new Counter(), new Location(i, 0));
 		}
-		map.addThing(new Apple(), 2, 0);
-		map.addThing(new Apple(-1, FoodState.CHOPPED), 3, 0);
-		map.addThing(new Lettuce(), 11, 0);
-		map.addThing(new Lettuce(-1, FoodState.CHOPPED), 12, 0);
-		map.getSpace(4, 0).removeAll(new Counter());
-		map.addThing(new CuttingBoard(), 4, 0);
-		map.addThing(new CuttingBoard(), 4, 3);	
-		map.addThing(new Counter(), 4, 4);
-		map.addThing(new CuttingBoard(), 5, 3);
-		map.addThing(new Counter(), 5, 4);
-		map.addThing(new CuttingBoard(), 6, 3);
-		map.addThing(new Counter(), 6, 4);
-		map.addThing(new Spawner(new Apple()), 5, 0);
-		map.addThing(new Spawner(new Lettuce()), 6, 0);
-		map.addThing(new Spawner(new Tomato()), 7, 0);
-		map.addThing(new Spawner(new Bun()), 8, 0);
-		map.addThing(new Spawner(new Beef()), 9, 0);
-		map.addThing(new Disposal(), 15, 0);
+		map.addThing(new Apple(), new Location(2, 0));
+		map.addThing(new Apple(-1, FoodState.CHOPPED), new Location(3, 0));
+		map.addThing(new Lettuce(), new Location(11, 0));
+		map.addThing(new Lettuce(-1, FoodState.CHOPPED), new Location(12, 0));
+		map.getSpace(new Location(4, 0)).removeAll(new Counter());
+		map.addThing(new CuttingBoard(), new Location(4, 0));
+		map.addThing(new CuttingBoard(), new Location(4, 3));	
+		map.addThing(new Counter(), new Location(4, 4));
+		map.addThing(new CuttingBoard(), new Location(5, 3));
+		map.addThing(new Counter(), new Location(5, 4));
+		map.addThing(new CuttingBoard(), new Location(6, 3));
+		map.addThing(new Counter(), new Location(6, 4));
+		map.addThing(new Spawner(new Apple()), new Location(5, 0));
+		map.addThing(new Spawner(new Lettuce()), new Location(6, 0));
+		map.addThing(new Spawner(new Tomato()), new Location(7, 0));
+		map.addThing(new Spawner(new Bun()), new Location(8, 0));
+		map.addThing(new Spawner(new Beef()), new Location(9, 0));
+		map.addThing(new Disposal(), new Location(15, 0));
 		//map.addThing(new Window(this), 14, 0);
 		
 		List<Thing> toppings = new ArrayList<Thing>();
@@ -136,7 +149,7 @@ public class Game {
 		Bun bun2 = new Bun(toppings);
 		map.addObjectives(new Objective(bun1.duplicate(), 5));
 		map.addObjectives(new Objective(bun2.duplicate(), 5));
-		map.addThing(new Spawner(bun1), 10, 0);
+		map.addThing(new Spawner(bun1), new Location(10, 0));
 		//map.addThing(new Spawner(bun1), 11, 0);
 		updateGraphics();
 	}
@@ -153,7 +166,6 @@ public class Game {
 		return map;
 	}
 	public void updateGraphics() {
-		System.out.println("I make picture now");
 		gamePanel.update();
 	}
 	

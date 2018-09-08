@@ -1,14 +1,13 @@
 package benjaminc.chief_simulator.things.building;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalSpawner;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.food.Bun;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
@@ -16,6 +15,7 @@ public class Spawner implements ToolThing, SolidThing {
 
 	protected Thing toMake;
 	protected GraphicalSpawner graphics;
+	Map<DataMapKey, Object> dataMap;
 	
 	public Spawner(Thing t) {
 		this(t, 0);
@@ -23,6 +23,7 @@ public class Spawner implements ToolThing, SolidThing {
 	public Spawner(Thing t, int var) {
 		toMake = t;
 		graphics = new GraphicalSpawner(var);
+		dataMap = new HashMap<DataMapKey, Object>();
 	}
 	
 	@Override
@@ -55,5 +56,9 @@ public class Spawner implements ToolThing, SolidThing {
 		} else {
 			return false;
 		}
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

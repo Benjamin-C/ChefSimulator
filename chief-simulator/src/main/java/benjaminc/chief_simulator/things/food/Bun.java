@@ -1,17 +1,16 @@
 package benjaminc.chief_simulator.things.food;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.FoodThing;
-import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class Bun implements FoodThing, ContainerThing{
 
@@ -19,8 +18,8 @@ public class Bun implements FoodThing, ContainerThing{
 	protected GraphicalBun graphics;
 	protected int variant;
 	protected FoodState state;
-	
-	private double randomInt;
+	Map<DataMapKey, Object> dataMap;
+
 	public Bun() {
 		this(-1, FoodState.RAW, null);
 	}
@@ -32,7 +31,7 @@ public class Bun implements FoodThing, ContainerThing{
 	}
 	public Bun(int variant, FoodState state, List<Thing> items) {
 		super();
-		randomInt = Math.random();
+		dataMap = new HashMap<DataMapKey, Object>();
 		if(variant == -1) {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalBun.VARIANT_COUNT);
@@ -132,5 +131,9 @@ public class Bun implements FoodThing, ContainerThing{
 	}
 	public FoodState getFoodState() {
 		return state;
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

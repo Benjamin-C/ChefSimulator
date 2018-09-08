@@ -1,11 +1,11 @@
 package benjaminc.chief_simulator.things.building;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalDisposal;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -13,12 +13,14 @@ import benjaminc.chief_simulator.things.types.ToolThing;
 public class Disposal implements SolidThing, ToolThing{
 
 	protected GraphicalDisposal graphics;
+	Map<DataMapKey, Object> dataMap;
 	
 	public Disposal() {
 		this(0);
 	}
 	public Disposal(int var) {
 		graphics = new GraphicalDisposal(var);
+		dataMap = new HashMap<DataMapKey, Object>();
 	}
 	
 	@Override
@@ -43,5 +45,9 @@ public class Disposal implements SolidThing, ToolThing{
 		} else {
 			return false;
 		}
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

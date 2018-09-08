@@ -4,9 +4,12 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chief_simulator.Game;
+import benjaminc.chief_simulator.control.Location;
 import benjaminc.chief_simulator.things.*;
 import benjaminc.chief_simulator.things.building.Floor;
 import benjaminc.chief_simulator.things.types.SolidThing;
+import benjaminc.chief_simulator.things.types.Tickable;
 
 public class GameSpace {
 
@@ -28,8 +31,9 @@ public class GameSpace {
 		}
 	}
 	
-	public void removeThing(Thing t) {
+	public Thing removeThing(Thing t) {
 		things.remove(t);
+		return t;
 	}
 	public void removeAll(Thing t) {
 		for(int i = 0; i < things.size(); i++) {
@@ -71,5 +75,14 @@ public class GameSpace {
 			}
 		}
 		return false;
+	}
+	
+	public void tick(Room r, Location l, long frame, Game g) {
+		for(int i = 0; i < things.size(); i++) {
+			Thing t = things.get(i);
+			if(t instanceof Tickable) {
+				((Tickable) t).tick(r, l, frame, g);
+			}
+		}
 	}
 }

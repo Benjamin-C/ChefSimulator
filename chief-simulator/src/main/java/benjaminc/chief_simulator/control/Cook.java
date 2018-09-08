@@ -15,25 +15,23 @@ import benjaminc.chief_simulator.things.types.AttachedThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class Cook {
-	protected int x;
-	protected int y;
+	Location loc;
 	protected Game game;
 	protected Thing hand;
-	protected MovmentDirection direction;
+	protected Direction direction;
 	
 	int randomnum = 0;
 	protected Map<ActionType,Integer> keys;
 
 	protected String name;
 	public Cook(Game g, String name, Map<ActionType,Integer> k) {
-		this(g, name, k, 0, 0);
+		this(g, name, k, new Location(0, 0));
 	}
-	public Cook(Game g, String name, Map<ActionType,Integer> k, int x, int y) {
+	public Cook(Game g, String name, Map<ActionType,Integer> k, Location l) {
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		loc = l;
 		game = g;
-		direction = MovmentDirection.DOWN;
+		direction = Direction.DOWN;
 		keys = k;
 		game.registerKeylistener(new KeyListenAction() {
 			@Override
@@ -43,10 +41,10 @@ public class Cook {
 			
 			@Override
 			public void keyPressEvent(int key) {
-				if(key==keys.get(ActionType.MOVE_UP)) { move(MovmentDirection.UP); }
-				else if (key==keys.get(ActionType.MOVE_DOWN)) { move(MovmentDirection.DOWN); }
-				else if (key==keys.get(ActionType.MOVE_LEFT)) { move(MovmentDirection.LEFT); }
-				else if (key==keys.get(ActionType.MOVE_RIGHT)) { move(MovmentDirection.RIGHT); }
+				if(key==keys.get(ActionType.MOVE_UP)) { move(Direction.UP); }
+				else if (key==keys.get(ActionType.MOVE_DOWN)) { move(Direction.DOWN); }
+				else if (key==keys.get(ActionType.MOVE_LEFT)) { move(Direction.LEFT); }
+				else if (key==keys.get(ActionType.MOVE_RIGHT)) { move(Direction.RIGHT); }
 				else if (key==keys.get(ActionType.PICKUP_ITEM)) { pickUp(); }
 				else if (key==keys.get(ActionType.USE_ITEM)) { useItem(); }
 			}
@@ -54,10 +52,9 @@ public class Cook {
 	}
 	
 	public void useItem() {
-		int newX = x + direction.getX();
-		int newY = y + direction.getY();
-		if(newX < game.getRoom().getSize().width && newX >= 0 && newY < game.getRoom().getSize().height && newY >= 0) {
-			List<Thing> whatIsHere = game.getRoom().getSpace(newX, newY).getThings();
+		Location newloc = loc.clone().add(direction);
+		if(newloc.inside(0, game.getRoom().getSize().width, 0, game.getRoom().getSize().height)) {
+			List<Thing> whatIsHere = game.getRoom().getSpace(newloc).getThings();
 			ToolThing tool = null;
 			int loc = 0;
 			if(whatIsHere.size() > 0) {
@@ -74,13 +71,13 @@ public class Cook {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing) && (thingHere != tool)) {
 							food = thingHere;
-							game.getRoom().getSpace(newX, newY).removeThing(food);
+							game.getRoom().getSpace(newloc).removeThing(food);
 						}
 					} while(food == null && ++loc < whatIsHere.size());
 					List<Thing> tempThing = tool.useTool(food);
 					if(tempThing != null) {
 						for(Thing t : tempThing) {
-							game.getRoom().getSpace(newX, newY).addThing(t);
+							game.getRoom().getSpace(newloc).addThing(t);
 						}
 					}
 				}
@@ -90,69 +87,53 @@ public class Cook {
 	}
 	
 	public void pickUp() {
-		int newX = x + direction.getX();
-		int newY = y + direction.getY();
-		if(newX < game.getRoom().getSize().width && newX >= 0 && newY < game.getRoom().getSize().height && newY >= 0) {
+		Location newloc = loc.clone().add(direction);
+		if(newloc.inside(0, game.getRoom().getSize().width, 0, game.getRoom().getSize().height)) {
 			if(hand == null) {
-				List<Thing> whatIsHere = game.getRoom().getSpace(newX, newY).getThings();
+				List<Thing> whatIsHere = game.getRoom().getSpace(newloc).getThings();
 				int loc = whatIsHere.size() - 1;
 				if(whatIsHere.size() > 1) {
 					do {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing)) {
 							hand = thingHere;
-							game.getRoom().getSpace(newX, newY).removeThing(hand);
+							game.getRoom().getSpace(newloc).removeThing(hand);
 						}
 					} while(hand == null && loc-- <= 0);
 				}
 			} else {
-				game.getRoom().getSpace(newX, newY).addThing(hand);
+				game.getRoom().getSpace(newloc).addThing(hand);
 				hand = null;
 			}
 			game.updateGraphics();
 		}
 	}
-	public void setX(int x) {
-		this.x = x;
+	public void setLocation(Location l) {
+		loc = l;
 		game.updateGraphics();
 	}
 	
-	public void setY(int y) {
-		this.y = y;
-		game.updateGraphics();
-	}
-	
-	public void setLocation(int x, int y) {
-		this.x = x;
-		this.y = y;
-		game.updateGraphics();
-	}
-	
-	public void move(MovmentDirection dir) {
+	public void move(Direction dir) {
 		direction = dir;
-		int newX = x + dir.getX();
-		int newY = y + dir.getY();
-		if(newX >= 0 && newX < game.getRoom().getSize().width) {
-			if(y + dir.getY() >= 0 && newY < game.getRoom().getSize().getHeight()) {
-				if(!game.getRoom().getSpace(newX, newY).isSolid()) {
-					x = newX;
-					y = newY;
-				}
+		Location newloc = loc.clone().add(dir);
+		if(newloc.inside(0, game.getRoom().getSize().width, 0, game.getRoom().getSize().height)) {
+			if(!game.getRoom().getSpace(newloc).isSolid()) {
+				loc = newloc;
 			}
 		}
-		
 		game.updateGraphics();
 	}
-	public void setDirection(MovmentDirection d) {
+	public void setDirection(Direction d) {
 		direction = d;
 	}
-	public void gotoLocation(int xdif, int ydif) {
-		x = x + xdif;
-		y = y + ydif;
+	public void addLocation(Location l) {
+		loc.add(l);
 		game.updateGraphics();
 	}
 	
 	public void draw(Graphics g, int xos, int yos, int w, int h) {
+		int x = loc.getX();
+		int y = loc.getY();
 		int drawX = (w * x) + xos;
 		int drawY = (h * y) + yos;
 		g.setColor(new Color(240, 240, 240));
@@ -182,6 +163,6 @@ public class Cook {
 	
 	@Override
 	public String toString() {
-		return "Cook[name=" + name + ",x=" + x + ",y=" + y + ",d=" + direction + ",h=" + hand + "]";
+		return "Cook[name=" + name + ",loc= " + loc.toString() + ",d=" + direction + ",h=" + hand + "]";
 	}
 }

@@ -2,19 +2,20 @@ package benjaminc.chief_simulator.things.tools;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-
-import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.graphics.tools.GraphicalPan;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.food.FoodState;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 
 public class Pan implements ContainerThing{
 
 	protected Thing thing;
 	protected int variant;
+	Map<DataMapKey, Object> dataMap;
 	
 	GraphicalPan graphics;
 	
@@ -29,6 +30,7 @@ public class Pan implements ContainerThing{
 	}
 	public Pan(int variant, Thing item) {
 		super();
+		dataMap = new HashMap<DataMapKey, Object>();
 		if(variant == -1) {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalPan.VARIANT_COUNT);
@@ -88,5 +90,8 @@ public class Pan implements ContainerThing{
 		}
 		return false;
 	}
-
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
+	}
 }

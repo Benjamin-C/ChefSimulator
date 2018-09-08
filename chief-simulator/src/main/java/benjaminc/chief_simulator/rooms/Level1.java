@@ -3,11 +3,15 @@ package benjaminc.chief_simulator.rooms;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.Objective;
 import benjaminc.chief_simulator.Score;
 import benjaminc.chief_simulator.control.Cook;
+import benjaminc.chief_simulator.control.Direction;
+import benjaminc.chief_simulator.control.Location;
 import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.building.Belt;
 import benjaminc.chief_simulator.things.building.Counter;
 import benjaminc.chief_simulator.things.building.CuttingBoard;
 import benjaminc.chief_simulator.things.building.Disposal;
@@ -28,68 +32,68 @@ public class Level1 extends Room {
 	
 	private int cookStart[][] = {{1, 1}, {14, 1}};
 	
-	public Level1(List<Cook> cooks, Score score) {
-		super(16, 16, new Object(), score, cooks); // Change these to width and height!
+	public Level1(List<Cook> cooks, Score score, Game g) {
+		super(16, 16, g, new Object(), score, cooks); // Change these to width and height!
 
 		for(int i = 0; i < cooks.size(); i++) {
-			cooks.get(i).setLocation(cookStart[i%cookStart.length][0], cookStart[i%cookStart.length][1]);
-			System.out.println(cooks.get(i));
+			cooks.get(i).setLocation(new Location(cookStart[i%cookStart.length][0], cookStart[i%cookStart.length][1]));
 		}
 		
 		for(int i = 0; i < getSize().width; i++) {
-			addThing(new Counter(), i, 0);
-			addThing(new Counter(), i, 15);
+			addThing(new Counter(), new Location(i, 0));
+			addThing(new Counter(), new Location(i, 15));
 		}
 		for(int i = 0; i < getSize().height; i++) {
-			addThing(new Counter(), 0, i);
-			addThing(new Counter(), 15, i);
+			addThing(new Counter(), new Location(0, i));
+			addThing(new Counter(), new Location(15, i));
 		}
 		
-		getSpace(4, 0).removeAll(new Counter()); 
-		addThing(new Beef(), 0, 0);
-		addThing(new CuttingBoard(), 4, 0);
-		addThing(new Counter(), 4, 4);
-		addThing(new Counter(), 4, 3);
-		addThing(new CuttingBoard(), 5, 3);
-		addThing(new CuttingBoard(), 6, 3);
-		addThing(new Fryer(), 7, 4);
-		addThing(new Counter(), 7, 3);
-		addThing(new Stove(), 8, 4);
-		addThing(new Counter(), 8, 3);
-		addThing(new CuttingBoard(), 9, 3);
-		addThing(new CuttingBoard(), 10, 3);
-		addThing(new Counter(), 11, 4);
-		addThing(new Counter(), 11, 3);
-		addThing(new Counter(), 4, 12);
-		addThing(new Counter(), 4, 11);
-		addThing(new CuttingBoard(), 5, 12);
-		addThing(new CuttingBoard(), 6, 12);
-		addThing(new Fryer(), 7, 11);
-		addThing(new Stove(), 8, 11);
-		addThing(new Counter(), 7, 12);
-		addThing(new Counter(), 8, 12);
-		addThing(new CuttingBoard(), 9, 12);
-		addThing(new CuttingBoard(), 10, 12);
-		addThing(new Counter(), 11, 12);
-		addThing(new Counter(), 11, 11);
-		addThing(new Spawner(new Apple()), 7, 0);
-		addThing(new Spawner(new Lettuce()), 5, 4);
-		addThing(new Spawner(new Tomato()), 6, 4);
-		addThing(new Spawner(new Bun()), 9, 4);
-		addThing(new Spawner(new Beef()), 10, 4);
-		addThing(new Spawner(new Cheese()), 8, 0);
-		addThing(new Spawner(new Apple()), 8, 15);
-		addThing(new Spawner(new Potato()), 3, 3);
-		addThing(new Spawner(new Lettuce()), 5, 11);
-		addThing(new Spawner(new Tomato()), 6, 11);
-		addThing(new Spawner(new Bun()), 9, 11);
-		addThing(new Spawner(new Beef()), 10, 11);
-		addThing(new Spawner(new Cheese()), 7, 15);
-		addThing(new Disposal(), 15, 1);
-		addThing(new Disposal(), 0, 14);
-		addThing(new Disposal(), 1, 0);
-		addThing(new Disposal(), 14, 15);
-		addThing(new Window(this), 14, 0);
+		getSpace(new Location(4, 0)).removeAll(new Counter());
+		addThing(new Beef(), new Location(1, 2));
+		addThing(new Beef(), new Location(0, 0));
+		addThing(new CuttingBoard(), new Location(4, 0));
+		addThing(new Counter(), new Location(4, 4));
+		addThing(new Counter(), new Location(4, 3));
+		addThing(new CuttingBoard(), new Location(5, 3));
+		addThing(new CuttingBoard(), new Location(6, 3));
+		addThing(new Fryer(), new Location(7, 4));
+		addThing(new Counter(), new Location(7, 3));
+		addThing(new Stove(), new Location(8, 4));
+		addThing(new Counter(), new Location(8, 3));
+		addThing(new CuttingBoard(), new Location(9, 3));
+		addThing(new CuttingBoard(), new Location(10, 3));
+		addThing(new Counter(), new Location(11, 4));
+		addThing(new Counter(), new Location(11, 3));
+		addThing(new Counter(), new Location(4, 12));
+		addThing(new Counter(), new Location(4, 11));
+		addThing(new CuttingBoard(), new Location(5, 12));
+		addThing(new CuttingBoard(), new Location(6, 12));
+		addThing(new Fryer(), new Location(7, 11));
+		addThing(new Stove(), new Location(8, 11));
+		addThing(new Counter(), new Location(7, 12));
+		addThing(new Counter(), new Location(8, 12));
+		addThing(new CuttingBoard(), new Location(9, 12));
+		addThing(new CuttingBoard(), new Location(10, 12));
+		addThing(new Counter(), new Location(11, 12));
+		addThing(new Counter(), new Location(11, 11));
+		addThing(new Spawner(new Apple()), new Location(7, 0));
+		addThing(new Spawner(new Lettuce()), new Location(5, 4));
+		addThing(new Spawner(new Tomato()), new Location(6, 4));
+		addThing(new Spawner(new Bun()), new Location(9, 4));
+		addThing(new Spawner(new Beef()), new Location(10, 4));
+		addThing(new Spawner(new Cheese()), new Location(8, 0));
+		addThing(new Spawner(new Apple()), new Location(8, 15));
+		addThing(new Spawner(new Potato()), new Location(3, 3));
+		addThing(new Spawner(new Lettuce()), new Location(5, 11));
+		addThing(new Spawner(new Tomato()), new Location(6, 11));
+		addThing(new Spawner(new Bun()), new Location(9, 11));
+		addThing(new Spawner(new Beef()), new Location(10, 11));
+		addThing(new Spawner(new Cheese()), new Location(7, 15));
+		addThing(new Disposal(), new Location(15, 1));
+		addThing(new Disposal(), new Location(0, 14));
+		addThing(new Disposal(), new Location(1, 0));
+		addThing(new Disposal(), new Location(14, 15));
+		addThing(new Window(this), new Location(14, 0));
 		
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce(-1, FoodState.CHOPPED));
@@ -105,8 +109,19 @@ public class Level1 extends Room {
 		addObjectives(new Objective(bun1.duplicate(), 10));
 		addObjectives(new Objective(bun2.duplicate(), 10));
 		addObjectives(new Objective(new Beef(-1, FoodState.COOKED), 5));
-		addThing(new Spawner(bun1), 10, 0);
-		addThing(new Spawner(bun2), 11, 0);
+		addThing(new Spawner(bun1), new Location(10, 0));
+		addThing(new Spawner(bun2), new Location(11, 0));
+		
+		addThing(new Belt(Direction.RIGHT), new Location(3, 1));
+		addThing(new Belt(Direction.RIGHT), new Location(4, 1));
+		addThing(new Belt(Direction.RIGHT), new Location(5, 1));
+		addThing(new Belt(Direction.RIGHT), new Location(6, 1));
+		addThing(new Belt(Direction.DOWN), new Location(7, 1));
+		addThing(new Belt(Direction.UP), new Location(3, 2));
+		addThing(new Belt(Direction.LEFT), new Location(4, 2));
+		addThing(new Belt(Direction.LEFT), new Location(5, 2));
+		addThing(new Belt(Direction.LEFT), new Location(6, 2));
+		addThing(new Belt(Direction.LEFT), new Location(7, 2));
 	}
 
 }

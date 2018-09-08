@@ -1,9 +1,12 @@
 package benjaminc.chief_simulator.things.food;
 
 import java.awt.Graphics;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import benjaminc.chief_simulator.graphics.food.GraphicalCheese;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
@@ -13,12 +16,14 @@ public class Cheese implements FoodThing, Choppable {
 	protected GraphicalCheese graphics;
 	protected int variant;
 	protected FoodState state;
+	Map<DataMapKey, Object> dataMap;
 	
 	public Cheese() {
 		this(-1, FoodState.RAW);
 	}
 	public Cheese(int variant, FoodState state) {
 		super();
+		dataMap = new HashMap<DataMapKey, Object>();
 		if(variant == -1) {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalCheese.VARIANT_COUNT);
@@ -61,5 +66,9 @@ public class Cheese implements FoodThing, Choppable {
 		} else {
 			return false;
 		}
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

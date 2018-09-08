@@ -1,27 +1,28 @@
 package benjaminc.chief_simulator.things.building;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalCuttingBoard;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
-import benjaminc.chief_simulator.things.types.FoodThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class CuttingBoard implements ToolThing, SolidThing {
 
 	protected GraphicalCuttingBoard graphics;
+	Map<DataMapKey, Object> dataMap;
 	
 	public CuttingBoard() {
 		this(0);
 	}
 	public CuttingBoard(int var) {
 		graphics = new GraphicalCuttingBoard(var);
+		dataMap = new HashMap<DataMapKey, Object>();
 	}
 	
 	@Override
@@ -52,5 +53,9 @@ public class CuttingBoard implements ToolThing, SolidThing {
 		} else {
 			return false;
 		}
+	}
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
 	}
 }

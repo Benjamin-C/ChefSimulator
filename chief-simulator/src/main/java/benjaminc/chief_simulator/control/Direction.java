@@ -1,6 +1,6 @@
 package benjaminc.chief_simulator.control;
 
-public enum MovmentDirection {
+public enum Direction {
 	UP(0, -1),
 	DOWN(0, 1),
 	LEFT(-1, 0),
@@ -9,7 +9,7 @@ public enum MovmentDirection {
 	private int xdir;
 	private int ydir;
 	
-	private MovmentDirection(int x, int y) {
+	private Direction(int x, int y) {
 		xdir = x;
 		ydir = y;
 	}

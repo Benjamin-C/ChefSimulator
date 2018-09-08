@@ -1,15 +1,14 @@
 package benjaminc.chief_simulator.things.building;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import benjaminc.chief_simulator.Game;
+import java.util.Map;
 import benjaminc.chief_simulator.Objective;
 import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.graphics.building.GraphicalWindow;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -19,6 +18,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 	
 	protected GraphicalWindow graphics;
 	protected Room room;
+	Map<DataMapKey, Object> dataMap;
 	
 	public Window(Room r) {
 		this(r, 0);
@@ -26,6 +26,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 	public Window(Room r, int var) {
 		room = r;
 		graphics = new GraphicalWindow(var);
+		dataMap = new HashMap<DataMapKey, Object>();
 	}
 
 	@Override
@@ -66,5 +67,8 @@ public class Window implements ToolThing, Thing, SolidThing{
 		li.add(t);
 		return li;
 	}
-
+	@Override
+	public Map<DataMapKey, Object> getDataMap() {
+		return dataMap;
+	}
 }
