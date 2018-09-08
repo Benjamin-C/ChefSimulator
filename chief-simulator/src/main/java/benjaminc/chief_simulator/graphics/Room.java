@@ -4,14 +4,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.Objective;
 import benjaminc.chief_simulator.Score;
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.Location;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.types.Tickable;
 
 public class Room {
 	

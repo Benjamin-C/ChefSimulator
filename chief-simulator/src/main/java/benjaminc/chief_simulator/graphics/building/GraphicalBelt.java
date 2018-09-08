@@ -2,10 +2,8 @@ package benjaminc.chief_simulator.graphics.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
 import benjaminc.chief_simulator.control.Direction;
 import benjaminc.chief_simulator.graphics.DirectionalGraphicalThing;
-import benjaminc.chief_simulator.graphics.GraphicalThing;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalBelt implements DirectionalGraphicalThing {

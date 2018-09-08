@@ -15,6 +15,9 @@ import benjaminc.chief_simulator.control.KeyListenAction;
 
 public class GamePanel extends JPanel {
 	
+	// IDK why this is needed, but Eclipse complained without it
+	private static final long serialVersionUID = -2595814863243266971L;
+	
 	private JFrame jf;
 	private JPanel panel;
 	
@@ -73,6 +76,10 @@ public class GamePanel extends JPanel {
 	
 	private void drawRoom(int x, int y) {
 		panel = new JPanel() {
+
+			// IDK why Eclipse needs this, but it complains when I don't give it
+			private static final long serialVersionUID = -6353780231591627020L;
+
 			@Override
             public void paintComponent(Graphics g) {
 				level.draw(g, x, y, boxWidth, boxHeight);

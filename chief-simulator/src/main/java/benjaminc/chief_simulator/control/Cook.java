@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.List;
 import java.util.Map;
-import java.awt.event.KeyEvent;
-
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.graphics.ActionType;
 import benjaminc.chief_simulator.things.Thing;

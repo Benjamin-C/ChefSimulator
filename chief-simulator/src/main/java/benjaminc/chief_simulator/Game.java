@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.KeyListenAction;
 import benjaminc.chief_simulator.control.Location;
@@ -36,6 +34,9 @@ public class Game {
 	private Room map;
 	private Score score;
 	private Object roomSync;
+	
+	// This is used, it just doesn't appear to be to Eclipse
+	@SuppressWarnings("unused")
 	private TickTimer tickTimer;
 	List<Cook> cooks;
 	
