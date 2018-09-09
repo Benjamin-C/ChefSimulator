@@ -24,18 +24,20 @@ public class GraphicalPotato implements GraphicalThing {
 		switch(state) {
 		case CHOPPED: {
 			switch(variant) {
-			case 0: { 
-				g.setColor(new Color(209, 190, 23));
+			case 0: {
+				Color a = new Color(209, 190, 23).brighter();
+				Color b = new Color(189, 170, 23);
+				g.setColor(a);
 				g.fillRect(x+pos1, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
-				g.setColor(new Color(189, 170, 23));
+				g.setColor(b);
 				g.drawRect(x+pos1, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
-				g.setColor(new Color(209, 190, 23));
+				g.setColor(a);
 				g.fillRect(x+pos3, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
-				g.setColor(new Color(189, 170, 23));
+				g.setColor(b);
 				g.drawRect(x+pos3, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
-				g.setColor(new Color(209, 190, 23));
+				g.setColor(a);
 				g.fillRect(x+pos2, y+(int)(h*0.2), (int)(w*0.1), (int)(h*0.6));
-				g.setColor(new Color(189, 170, 23));
+				g.setColor(b);
 				g.drawRect(x+pos2, y+(int)(h*0.2), (int)(w*0.1), (int)(h*0.6));
 			} break;
 			}

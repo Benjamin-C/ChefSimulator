@@ -93,6 +93,10 @@ public class Level1 extends Room {
 		addThing(new Disposal(), new Location(0, 14));
 		addThing(new Disposal(), new Location(1, 0));
 		addThing(new Disposal(), new Location(14, 15));
+		addThing(new Belt(Direction.DOWN), new Location(14, 14));
+		addThing(new Belt(Direction.DOWN), new Location(14, 13));
+		addThing(new Belt(Direction.DOWN), new Location(14, 12));
+		addThing(new Belt(Direction.DOWN), new Location(14, 11));
 		addThing(new Window(this), new Location(14, 0));
 		
 		List<Thing> toppings = new ArrayList<Thing>();
