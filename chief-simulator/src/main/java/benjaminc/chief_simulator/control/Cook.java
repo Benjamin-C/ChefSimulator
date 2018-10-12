@@ -17,16 +17,17 @@ public class Cook {
 	protected Game game;
 	protected Thing hand;
 	protected Direction direction;
-	
+	Color color;
 	int randomnum = 0;
 	protected Map<ActionType,Integer> keys;
 
 	protected String name;
-	public Cook(Game g, String name, Map<ActionType,Integer> k) {
-		this(g, name, k, new Location(0, 0));
+	public Cook(Game g, String name, Color color, Map<ActionType,Integer> k) {
+		this(g, name, color, k, new Location(0, 0));
 	}
-	public Cook(Game g, String name, Map<ActionType,Integer> k, Location l) {
+	public Cook(Game g, String name, Color color, Map<ActionType,Integer> k, Location l) {
 		this.name = name;
+		this.color = color;
 		loc = l;
 		game = g;
 		direction = Direction.DOWN;
@@ -136,7 +137,7 @@ public class Cook {
 		int drawY = (h * y) + yos;
 		g.setColor(new Color(240, 240, 240));
 		g.fillOval(drawX+1,  drawY+1,  w-2, h-2);
-		g.setColor(new Color(255, 128, 0));
+		g.setColor(color);
 		g.setFont(new Font(name, 0, (int) ((w * 0.65) * Toolkit.getDefaultToolkit().getScreenResolution() / 72.0)));
 		String printName = name.substring(0, Math.min(name.length(), 1));
 		g.drawString(printName,drawX + ((w - g.getFontMetrics().stringWidth(printName)) / 2), (drawY + w - 4));
@@ -148,7 +149,7 @@ public class Cook {
 			if(hand != null) {
 				hand.draw(g, handX + w / 4, handY + w / 4, w / 2, h / 2);
 			} else {
-				g.setColor(new Color(255, 128, 0));
+				g.setColor(color);
 				for(int i = 0; i < Math.max(w/16, 1); i++) {
 					g.drawRect(handX + i,  handY + i,  w - (2*i), h - (2*i));
 				}

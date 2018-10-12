@@ -1,5 +1,6 @@
 package benjaminc.chief_simulator;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class Game {
 		benKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_RIGHT);
 		benKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_CONTROL);
 		benKeys.put(ActionType.USE_ITEM, KeyEvent.VK_NUMPAD0);
-		cooks.add(new Cook(thisGame, "WBen", benKeys, new Location(14, 1)));
+		cooks.add(new Cook(thisGame, "Ben", new Color(255, 128, 0), benKeys, new Location(14, 1)));
 		
 		Map<ActionType, Integer> mattKeys = new HashMap<ActionType, Integer>();
 		mattKeys.put(ActionType.MOVE_UP, KeyEvent.VK_W);
@@ -63,7 +64,7 @@ public class Game {
 		mattKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_D);
 		mattKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_Q);
 		mattKeys.put(ActionType.USE_ITEM, KeyEvent.VK_E);
-		cooks.add(new Cook(thisGame, "Peter", mattKeys, new Location(1, 1)));
+		cooks.add(new Cook(thisGame, "Peter", Color.GREEN, mattKeys, new Location(1, 1)));
 		
 		thisGame.updateGraphics();
 		
@@ -107,7 +108,7 @@ public class Game {
 		benKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_RIGHT);
 		benKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_CONTROL);
 		benKeys.put(ActionType.USE_ITEM, KeyEvent.VK_NUMPAD0);
-		map.addCook(new Cook(this, "Ben", benKeys));
+		map.addCook(new Cook(this, "Ben", Color.ORANGE, benKeys));
 		
 		Map<ActionType, Integer> mattKeys = new HashMap<ActionType, Integer>();
 		mattKeys.put(ActionType.MOVE_UP, KeyEvent.VK_W);
@@ -116,7 +117,7 @@ public class Game {
 		mattKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_D);
 		mattKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_Q);
 		mattKeys.put(ActionType.USE_ITEM, KeyEvent.VK_E);
-		map.addCook(new Cook(this, "Peter", mattKeys));
+		map.addCook(new Cook(this, "Peter", Color.ORANGE, mattKeys));
 		
 		for(int i = 0; i < map.getSize().width; i++) {
 			map.addThing(new Counter(), new Location(i, 0));

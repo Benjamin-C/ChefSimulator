@@ -27,6 +27,7 @@ import benjaminc.chief_simulator.things.food.FoodState;
 import benjaminc.chief_simulator.things.food.Lettuce;
 import benjaminc.chief_simulator.things.food.Potato;
 import benjaminc.chief_simulator.things.food.Tomato;
+import benjaminc.chief_simulator.things.tools.Plate;
 
 public class Level1 extends Room {
 	
@@ -70,8 +71,9 @@ public class Level1 extends Room {
 		addThing(new CuttingBoard(), new Location(6, 12));
 		addThing(new Fryer(), new Location(7, 11));
 		addThing(new Stove(), new Location(8, 11));
-		addThing(new Counter(), new Location(7, 12));
-		addThing(new Counter(), new Location(8, 12));
+		addThing(new Spawner(new Plate()), new Location(7, 12));
+		addThing(new Spawner(new Plate()), new Location(8, 12));
+		addThing(new Spawner(new Plate()), new Location(8, 8));
 		addThing(new CuttingBoard(), new Location(9, 12));
 		addThing(new CuttingBoard(), new Location(10, 12));
 		addThing(new Counter(), new Location(11, 12));

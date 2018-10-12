@@ -36,9 +36,12 @@ public class TickTimer extends Thread {
 					System.out.println("[ERROR] Room is NULL!");
 				}
 			} else {
-				if(System.currentTimeMillis() > next) {
+				long del = next - System.currentTimeMillis();
+				del = Long.MAX_VALUE;
+				System.out.println(del);
+				if(del > 1) {
 					try {
-						Thread.sleep(next - System.currentTimeMillis());
+						Thread.sleep(del);
 					} catch (InterruptedException e) { }
 				}
 			}
