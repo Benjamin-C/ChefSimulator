@@ -13,7 +13,7 @@ import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Plate implements FoodThing, ContainerThing{
+public class Plate implements ContainerThing{
 
 	protected List<Thing> items;
 	protected GraphicalPlate graphics;

@@ -123,13 +123,15 @@ public class Bun implements FoodThing, ContainerThing{
 	public void setVariant(int var) {
 		variant = var;
 	}
+	@Override
 	public void setState(FoodState state) {
 		this.state = state;
 	}
 	public int getVariant() {
 		return variant;
 	}
-	public FoodState getFoodState() {
+	@Override
+	public FoodState getState() {
 		return state;
 	}
 	@Override

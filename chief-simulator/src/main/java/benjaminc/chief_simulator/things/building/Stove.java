@@ -9,6 +9,7 @@ import benjaminc.chief_simulator.graphics.building.GraphicalStove;
 import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Cookable;
+import benjaminc.chief_simulator.things.types.CookwareThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
@@ -33,8 +34,8 @@ public class Stove implements ToolThing, SolidThing {
 	@Override
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
-		if(t instanceof Cookable) {
-			temp.add(((Cookable) t).getCookedThing());
+		if(t instanceof CookwareThing) {
+			temp.add(((CookwareThing) t).getCookedThing());
 		} else {
 			temp.add(t);
 		}

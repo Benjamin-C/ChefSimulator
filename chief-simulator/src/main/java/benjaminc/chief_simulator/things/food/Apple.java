@@ -50,7 +50,7 @@ public class Apple implements FoodThing, Choppable {
 	public int getVariant() {
 		return variant;
 	}
-	public FoodState getFoodState() {
+	public FoodState getState() {
 		return state;
 	}
 	@Override

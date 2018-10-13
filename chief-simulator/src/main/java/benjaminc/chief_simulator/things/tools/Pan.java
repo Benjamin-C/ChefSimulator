@@ -6,12 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import javax.management.InstanceNotFoundException;
+
 import benjaminc.chief_simulator.graphics.tools.GraphicalPan;
 import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.food.FoodState;
 import benjaminc.chief_simulator.things.types.ContainerThing;
+import benjaminc.chief_simulator.things.types.Cookable;
+import benjaminc.chief_simulator.things.types.CookwareThing;
 
-public class Pan implements ContainerThing{
+public class Pan implements CookwareThing, ContainerThing{
 
 	protected Thing thing;
 	protected int variant;
@@ -45,11 +51,20 @@ public class Pan implements ContainerThing{
 		if(thing == null) {
 			thing = t;
 		} else {
-			
+			out.add(thing);
+			thing = null;
 		}
 		return out;
 	}
 
+	@Override
+	public Thing getCookedThing() {
+		if(thing instanceof Cookable) {
+			thing = ((Cookable) thing).getCookedThing();
+		}
+		return this;
+	}
+	
 	@Override
 	public void addItem(Thing t) {
 		thing = t;
@@ -72,7 +87,9 @@ public class Pan implements ContainerThing{
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
-		thing.draw(g, x, y, w, h);
+		if(thing != null) {
+			thing.draw(g, x+(w/4), y+(h/4), w/2, h/2);
+		}
 	}
 	
 	@Override
