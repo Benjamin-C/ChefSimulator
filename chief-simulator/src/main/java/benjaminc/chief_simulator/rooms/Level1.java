@@ -102,24 +102,6 @@ public class Level1 extends Room {
 		addThing(new Belt(Direction.DOWN), new Location(14, 12));
 		addThing(new Belt(Direction.DOWN), new Location(14, 11));
 		addThing(new Window(this), new Location(14, 0));
-		
-		List<Thing> toppings = new ArrayList<Thing>();
-		toppings.add(new Lettuce(-1, FoodState.CHOPPED));
-		toppings.add(new Beef(-1, FoodState.CHOPPED_COOKED));
-		toppings.add(new Tomato(-1, FoodState.CHOPPED));
-		addObjectives(new Objective(new Bun(toppings), 10));
-		List<Thing> toppings2 = new ArrayList<Thing>();
-		toppings2.add(new Beef(-1, FoodState.CHOPPED_COOKED));
-		toppings2.add(new Cheese());
-		addObjectives(new Objective(new Bun(toppings2), 10));
-		Bun bun1 = new Bun(toppings);
-		Bun bun2 = new Bun(toppings2);
-		addObjectives(new Objective(bun1.duplicate(), 10));
-		addObjectives(new Objective(bun2.duplicate(), 10));
-		addObjectives(new Objective(new Beef(-1, FoodState.COOKED), 5));
-		addThing(new Spawner(bun1), new Location(10, 0));
-		addThing(new Spawner(bun2), new Location(11, 0));
-		
 		addThing(new Belt(Direction.RIGHT), new Location(3, 1));
 		addThing(new Belt(Direction.RIGHT), new Location(4, 1));
 		addThing(new Belt(Direction.RIGHT), new Location(5, 1));
@@ -130,6 +112,25 @@ public class Level1 extends Room {
 		addThing(new Belt(Direction.LEFT), new Location(5, 2));
 		addThing(new Belt(Direction.LEFT), new Location(6, 2));
 		addThing(new Belt(Direction.LEFT), new Location(7, 2));
+		
+		List<Thing> toppings = new ArrayList<Thing>();
+		toppings.add(new Lettuce(-1, FoodState.CHOPPED));
+		toppings.add(new Beef(-1, FoodState.CHOPPED_COOKED));
+		toppings.add(new Tomato(-1, FoodState.CHOPPED));
+		addObjectives(new Objective(new Plate(new Bun(toppings)), 10));
+		List<Thing> toppings2 = new ArrayList<Thing>();
+		toppings2.add(new Beef(-1, FoodState.CHOPPED_COOKED));
+		toppings2.add(new Cheese());
+		addObjectives(new Objective(new Plate(new Bun(toppings2)), 10));
+		Bun bun1 = new Bun(toppings);
+		Bun bun2 = new Bun(toppings2);
+		addObjectives(new Objective(new Plate(bun1.duplicate()), 10));
+		addObjectives(new Objective(new Plate(bun2.duplicate()), 10));
+		addObjectives(new Objective(new Plate(new Beef(-1, FoodState.COOKED)), 5));
+		addThing(new Spawner(bun1), new Location(10, 0));
+		addThing(new Spawner(bun2), new Location(11, 0));
+		
+		
 	}
 
 }

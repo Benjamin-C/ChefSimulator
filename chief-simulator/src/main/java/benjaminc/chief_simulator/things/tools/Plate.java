@@ -21,15 +21,24 @@ public class Plate implements ContainerThing{
 	Map<DataMapKey, Object> dataMap;
 
 	public Plate() {
-		this(-1, null);
+		this(-1, null, null);
+	}
+	public Plate(Thing item) {
+		this(-1, null, item);
+	}
+	public Plate(int variant, Thing item) {
+		this(variant, null, item);
 	}
 	public Plate(List<Thing> items) {
-		this(-1, items);
+		this(-1, items, null);
 	}
 	public Plate(int variant) {
-		this(variant, null);
+		this(variant, null, null);
 	}
 	public Plate(int variant, List<Thing> items) {
+		this(variant, items, null);
+	}
+	private Plate(int variant, List<Thing> items, Thing t) {
 		super();
 		dataMap = new HashMap<DataMapKey, Object>();
 		if(variant == -1) {
@@ -39,6 +48,9 @@ public class Plate implements ContainerThing{
 		this.items = items;
 		if(items == null) {
 			this.items = new ArrayList<Thing>();
+			if(t != null) {
+				this.items.add(t);
+			}
 		}
 		graphics = new GraphicalPlate(variant);
 	}
