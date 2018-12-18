@@ -37,7 +37,7 @@ public class TickTimer extends Thread {
 				}
 			} else {
 				long del = next - System.currentTimeMillis();
-				del = Long.MAX_VALUE;
+				//del = Long.MAX_VALUE;
 				System.out.println(del);
 				if(del > 1) {
 					try {
