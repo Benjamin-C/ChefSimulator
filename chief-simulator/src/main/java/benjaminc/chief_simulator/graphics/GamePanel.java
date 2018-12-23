@@ -34,15 +34,19 @@ public class GamePanel extends JPanel {
 	private KeyListen keyListen;
 	
 	public GamePanel(Game g, Room lvl) {
+		this(g, lvl, 40);
+	}
+	public GamePanel(Game g, Room lvl, int scale) {
 		game = g;
 		level = lvl;
-		boxWidth = 40;
+		boxWidth = scale;
 		boxHeight = boxWidth;
 		xloc = 0;
 		yloc = boxHeight;
 		width = (int) level.getSize().getWidth();
 		height = (int) level.getSize().getHeight();
 		jf = new JFrame("I am bob");
+		jf.setResizable(false);
 		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("I make picture now");

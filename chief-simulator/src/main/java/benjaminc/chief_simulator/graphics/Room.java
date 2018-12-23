@@ -1,5 +1,6 @@
 package benjaminc.chief_simulator.graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Room {
 	protected Score score;
 	protected Object syncObj;
 	protected Game game;
+	protected double fps;
 	
 	public Room(int w, int h, Game game, Object whenDone, Score score) {
 		this(w, h, game, whenDone, score, new ArrayList<Cook>());
@@ -104,6 +106,14 @@ public class Room {
 		} else {
 			System.err.println("[ERROR] Cooks = NULL!");
 		}
+		//g.setColor(Color.GREEN);
+		//g.drawString("fps:", x, y);
+	}
+	public void setFps(double fps) {
+		this.fps = fps;
+	}
+	public double getFps() {
+		return fps;
 	}
 	public Score getScore() {
 		return score;
@@ -114,5 +124,9 @@ public class Room {
 				room[i][j].tick(this, new Location(i, j), frame, game);
 			}
 		}
+		for(Cook c : cooks) {
+			c.tick(this, c.getLocation(), frame, game);
+		}
+		game.updateGraphics();
 	}
 }

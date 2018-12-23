@@ -36,6 +36,7 @@ public class Game {
 	private Score score;
 	private Object roomSync;
 	
+	private int tps = 60;
 	// This is used, it just doesn't appear to be to Eclipse
 	@SuppressWarnings("unused")
 	private TickTimer tickTimer;
@@ -43,11 +44,14 @@ public class Game {
 	
 
 	public Game() {
+		this(40);
+	}
+	public Game(int scale) {
 		final Game thisGame = this;
 		cooks = new ArrayList<Cook>();
 		score = new Score();
 		map = new Room(1, 1, this, new Object(), score, cooks);
-		gamePanel = new GamePanel(thisGame, map);
+		gamePanel = new GamePanel(thisGame, map, scale);
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
 		benKeys.put(ActionType.MOVE_UP, KeyEvent.VK_UP);
 		benKeys.put(ActionType.MOVE_DOWN, KeyEvent.VK_DOWN);
@@ -81,7 +85,7 @@ public class Game {
 	private void startMap(Room lvl) {
 		map = lvl;
 		gamePanel.setLevel(lvl);
-		tickTimer = new TickTimer(3, lvl);
+		tickTimer = new TickTimer(tps, lvl);
 		System.out.println("Started");
 		Util.showThreads();
 		updateGraphics();
@@ -185,5 +189,12 @@ public class Game {
 	
 	public void addScore(int score) {
 		this.score.addScore(score);
+	}
+	
+	public int getTps() {
+		return tps;
+	}
+	public void setTps(int tps) {
+		this.tps = tps;
 	}
 }

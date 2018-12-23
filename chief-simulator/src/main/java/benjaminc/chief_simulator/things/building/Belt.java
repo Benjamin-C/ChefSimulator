@@ -99,8 +99,6 @@ public class Belt implements SolidThing, DirectionalThing, Tickable {
 			for(Thing t : toMove) {
 				ngs.addThing(gs.removeThing(t));
 			}
-			//System.out.println("Tick! " + this);
-			g.updateGraphics();
 		}
 	}
 	@Override

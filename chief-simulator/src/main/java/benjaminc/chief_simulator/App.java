@@ -12,6 +12,6 @@ public class App {
     	logger = new Logger();
  		logger.start();
  		System.out.println("I am logging now");
- 		Game g = new Game();
+ 		new Starter();
     }
 }

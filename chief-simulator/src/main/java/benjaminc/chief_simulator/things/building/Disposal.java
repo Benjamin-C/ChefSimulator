@@ -69,7 +69,7 @@ public class Disposal implements SolidThing, ToolThing, Tickable {
 				}
 				Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
 				if(data instanceof Long) {
-					if(!((Long) data).equals(new Long(frame))) {
+					if(((Long) data).longValue() != frame) {
 						toRemove.add(t);
 						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
 					}

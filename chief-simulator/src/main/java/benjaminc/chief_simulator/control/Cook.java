@@ -4,22 +4,28 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.graphics.ActionType;
+import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.AttachedThing;
+import benjaminc.chief_simulator.things.types.Tickable;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Cook {
-	Location loc;
+public class Cook implements Tickable {
+	protected Location loc;
 	protected Game game;
 	protected Thing hand;
 	protected Direction direction;
-	Color color;
-	int randomnum = 0;
+	protected Color color;
+	protected int randomnum = 0;
 	protected Map<ActionType,Integer> keys;
+	protected Map<ActionType,Action> keyActions;
+	protected double movesPerSecond = 6.5d;
+	protected long movesDel;
 
 	protected String name;
 	public Cook(Game g, String name, Color color, Map<ActionType,Integer> k) {
@@ -32,22 +38,77 @@ public class Cook {
 		game = g;
 		direction = Direction.DOWN;
 		keys = k;
+		keyActions = new HashMap<ActionType, Action>();
+		for(Map.Entry<ActionType, Integer> e : keys.entrySet()) {
+			keyActions.put(e.getKey(), new Action(e.getKey(), e.getValue(), 0L, false, false, false));
+		}
+		movesDel = Math.round((double) game.getTps() / movesPerSecond);
 		game.registerKeylistener(new KeyListenAction() {
 			@Override
 			public void keyReleaseEvent(int key) {
-				
+				for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
+					Action a = e.getValue();
+					if(a.getKey() == key) {
+						a.setPressed(false);
+						if(!a.isUsed()) {
+							a.setDoOnce(true);
+						}
+						a.setUsed(false);
+						break;
+					}
+				}
 			}
 			
 			@Override
 			public void keyPressEvent(int key) {
-				if(key==keys.get(ActionType.MOVE_UP)) { move(Direction.UP); }
-				else if (key==keys.get(ActionType.MOVE_DOWN)) { move(Direction.DOWN); }
-				else if (key==keys.get(ActionType.MOVE_LEFT)) { move(Direction.LEFT); }
-				else if (key==keys.get(ActionType.MOVE_RIGHT)) { move(Direction.RIGHT); }
-				else if (key==keys.get(ActionType.PICKUP_ITEM)) { pickUp(); }
-				else if (key==keys.get(ActionType.USE_ITEM)) { useItem(); }
+				for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
+					if(e.getValue().getKey() == key) {
+						e.getValue().setPressed(true);
+						break;
+					}
+				}
 			}
 		});
+	}
+	
+	private boolean tryTick(Action a, long now, long del) {
+		if(a.getLastUse() <= (now - del) || a.isDoOnce()) {
+			a.setLastUse(now);
+			if(a.isDoOnce()) {
+				a.setDoOnce(false);
+			} else {
+				a.setUsed(true);
+			}
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public void tick(Room r, Location l, long f, Game g) {
+		for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
+			Action a = e.getValue();
+			if(a.isPressed() || a.isDoOnce()) {
+				switch(e.getKey()) {
+				case MOVE_DOWN: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.DOWN); } break;
+				case MOVE_LEFT: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.LEFT); } break;
+				case MOVE_RIGHT: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.RIGHT); } break;
+				case MOVE_UP: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.UP); } break;
+				case PICKUP_ITEM: if(tryTick(e.getValue(), f, movesDel)) { pickUp(); } break;
+				case USE_ITEM: if(tryTick(e.getValue(), f, movesDel)) { useItem(); } break;
+				default: System.out.println("Cook tick reached default state. Something messed up"); break;
+				}
+			}
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	private void doAction(int key) {
+		if(key==keys.get(ActionType.MOVE_UP)) { move(Direction.UP); }
+		else if (key==keys.get(ActionType.MOVE_DOWN)) { move(Direction.DOWN); }
+		else if (key==keys.get(ActionType.MOVE_LEFT)) { move(Direction.LEFT); }
+		else if (key==keys.get(ActionType.MOVE_RIGHT)) { move(Direction.RIGHT); }
+		else if (key==keys.get(ActionType.PICKUP_ITEM)) { pickUp(); }
+		else if (key==keys.get(ActionType.USE_ITEM)) { useItem(); }
 	}
 	
 	public void useItem() {
@@ -120,16 +181,16 @@ public class Cook {
 				loc = newloc;
 			}
 		}
-		game.updateGraphics();
 	}
 	public void setDirection(Direction d) {
 		direction = d;
 	}
 	public void addLocation(Location l) {
 		loc.add(l);
-		game.updateGraphics();
 	}
-	
+	public Location getLocation() {
+		return loc;
+	}
 	public void draw(Graphics g, int xos, int yos, int w, int h) {
 		int x = loc.getX();
 		int y = loc.getY();
