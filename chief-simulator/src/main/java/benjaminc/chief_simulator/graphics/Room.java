@@ -106,14 +106,9 @@ public class Room {
 		} else {
 			System.err.println("[ERROR] Cooks = NULL!");
 		}
-		//g.setColor(Color.GREEN);
-		//g.drawString("fps:", x, y);
 	}
 	public void setFps(double fps) {
-		this.fps = fps;
-	}
-	public double getFps() {
-		return fps;
+		game.setObservedFps(fps);
 	}
 	public Score getScore() {
 		return score;

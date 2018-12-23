@@ -3,6 +3,8 @@ package benjaminc.chief_simulator.graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel {
 		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("I make picture now");
-		drawRoom(xloc, yloc);
+		drawRoom(xloc, yloc, 0);
         keyListen = new KeyListen();
         jf.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {keyListen.keyTyped(e);}
@@ -68,17 +70,17 @@ public class GamePanel extends JPanel {
 		height = (int) level.getSize().getHeight();
 		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
 		System.out.println("I make picture now");
-		drawRoom(xloc, yloc);
+		drawRoom(xloc, yloc, 0);
 	}
-	public void update() {
-		drawRoom(xloc, yloc);
+	public void update(double fps) {
+		drawRoom(xloc, yloc, fps);
 	}
 	
 	public void addKeyListener(KeyListenAction a) {
 		keyListen.addKeyListen(a);
 	}
 	
-	private void drawRoom(int x, int y) {
+	private void drawRoom(int x, int y, double fps) {
 		panel = new JPanel() {
 
 			// IDK why Eclipse needs this, but it complains when I don't give it
@@ -101,7 +103,11 @@ public class GamePanel extends JPanel {
 						g.drawString(score + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
 					}
 				}
-				
+				g.setFont(new Font(g.getFont().getName(), 0, (int) ((boxWidth * 0.5) * Toolkit.getDefaultToolkit().getScreenResolution() / 72.0)));
+				g.setColor(Color.RED);
+				int h = g.getFontMetrics().getHeight();
+				String fpss = Double.toString(fps);
+				g.drawString("fps:" + fpss.substring(0, Math.min(fpss.length(), 4)), level.getWidth() * boxWidth / 2, h);
 			}
         };
         jf.add(panel);

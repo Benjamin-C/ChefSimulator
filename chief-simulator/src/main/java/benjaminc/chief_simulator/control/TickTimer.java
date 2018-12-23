@@ -15,12 +15,14 @@ public class TickTimer extends Thread {
 	Room room;
 	boolean running;
 	long frame;
+	int fps;
 	
 	private List<Long> vals;
 	
 	public TickTimer(int fps, Room r) {
 		super("TickTimer");
-		del = 1000 / fps;
+		this.fps = fps;
+		del = 1000 / this.fps;
 		room = r;
 		frame = -1;
 		next = System.currentTimeMillis() + del;
@@ -38,17 +40,17 @@ public class TickTimer extends Thread {
 	public void run() {
 		while(running) {
 			if(next <= System.currentTimeMillis()) {
-				long dif = System.currentTimeMillis() - next;
+				long dif = System.currentTimeMillis() - (next - del);
 				vals.add(dif);
-				while(vals.size() > 30) {
-					vals.remove(0);
+				if(vals.size() == fps) {
+					long tot = 0;
+					for(Long l : vals) {
+						tot += l;
+					}
+					Double avg = (double) tot / (double) vals.size();
+					room.setFps(1000 / avg);
+					vals.clear();
 				}
-				long tot = 0;
-				for(Long l : vals) {
-					tot += l;
-				}
-				Double avg = (double) tot / (double) vals.size();
-				room.setFps(avg);
 				next = next + del;
 				frame++;
 				if(room != null) {

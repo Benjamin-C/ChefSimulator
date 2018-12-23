@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.omg.CORBA.portable.ServantObject;
+
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.KeyListenAction;
 import benjaminc.chief_simulator.control.Location;
@@ -35,6 +38,8 @@ public class Game {
 	private Room map;
 	private Score score;
 	private Object roomSync;
+	
+	private double observedFps;
 	
 	private int tps = 60;
 	// This is used, it just doesn't appear to be to Eclipse
@@ -81,7 +86,9 @@ public class Game {
 		control.start();
 	}
 	
-	
+	public void setObservedFps(double fps) {
+		observedFps = fps;
+	}
 	private void startMap(Room lvl) {
 		map = lvl;
 		gamePanel.setLevel(lvl);
@@ -172,7 +179,7 @@ public class Game {
 		return map;
 	}
 	public void updateGraphics() {
-		gamePanel.update();
+		gamePanel.update(observedFps);
 	}
 	
 	public void registerKeylistener(KeyListenAction a) {
