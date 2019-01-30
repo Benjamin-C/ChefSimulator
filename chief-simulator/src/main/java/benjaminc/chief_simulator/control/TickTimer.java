@@ -16,6 +16,7 @@ public class TickTimer extends Thread {
 	long frame;
 	int fps;
 	
+	@SuppressWarnings("unused")
 	private List<Long> vals;
 	
 	private Map<UUID, TickEvent> todo;
