@@ -39,7 +39,10 @@ public class GamePanel extends JPanel {
 	
 	private boolean lagometer;
 	private double maxFPS;
-	private List<Double> lagometerdata;
+	private List<LagOBar> lagometerdata;
+	private long nextlinems;
+	private int linedel = 1000;
+	private int lagoheight = 100;
 	
 	public GamePanel(Game g, Room lvl) {
 		this(g, lvl, 40, false, 0);
@@ -59,7 +62,7 @@ public class GamePanel extends JPanel {
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("I make picture now");
 		drawRoom(xloc, yloc, 0);
-        keyListen = new KeyListen();
+        keyListen = new KeyListen(game, this);
         jf.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {keyListen.keyTyped(e);}
 			public void keyReleased(KeyEvent e) {keyListen.keyReleased(e);}
@@ -85,6 +88,14 @@ public class GamePanel extends JPanel {
 	
 	public void addKeyListener(KeyListenAction a) {
 		keyListen.addKeyListen(a);
+	}
+	
+	public void enableLagometer(boolean enabled) {
+		lagometer = enabled;
+	}
+	
+	public boolean getLagometerEnabled() {
+		return lagometer;
 	}
 	
 	private void drawRoom(int x, int y, double fps) {
@@ -115,28 +126,45 @@ public class GamePanel extends JPanel {
 				int h = g.getFontMetrics().getHeight();
 				String fpss = Double.toString(fps);
 				g.drawString("fps:" + fpss.substring(0, Math.min(fpss.length(), 4)), level.getWidth() * boxWidth / 2, h);
+				if(lagometerdata == null) {
+					lagometerdata = new ArrayList<LagOBar>();
+				}
+				int rv = 128;
+				int gv = 128;
+				int bv = 128;
+				int av = 256-64;
+				
+				double value = fps / maxFPS;
+				rv = rv + (int) (rv * (1 - value));
+				gv = gv + (int) (gv * value);
+				
+				Color c = Color.BLACK;
+				if(nextlinems < System.currentTimeMillis() && value > .9d) {
+					c = new Color(128, 128, 128, av);
+					nextlinems = System.currentTimeMillis() + linedel;
+				} else {
+					c = new Color(Math.min(rv, 255), Math.min(gv, 255), Math.min(bv, 255), Math.min(av, 255));
+				}
+				lagometerdata.add(new LagOBar(value, (int) (value * lagoheight), c));
+				while(lagometerdata.size() > (width * boxWidth)) {
+					lagometerdata.remove(0);
+				}
+				int bottom = (height + 1) * boxHeight;
+				int side = width * boxWidth;
 				if(lagometer) {
-					if(lagometerdata == null) {
-						lagometerdata = new ArrayList<Double>();
-					}
-					lagometerdata.add(fps);
-					while(lagometerdata.size() > (width * boxWidth)) {
-						lagometerdata.remove(0);
-					}
-					int bottom = height * boxHeight;
 					for(int i = 0; i < lagometerdata.size(); i++) {
-						int rv = 128;
-						int gv = 128;
-						int bv = 128;
-						int av = 256-64;
-						
-						double value = lagometerdata.get(i).doubleValue() / maxFPS;
-						rv = rv + (int) (rv * (1 - value));
-						gv = gv + (int) (gv * value);
-						
-						g.setColor(new Color(Math.min(rv, 255), Math.min(gv, 255), Math.min(bv, 255), Math.min(av, 255)));
-						
-						g.drawLine(i, bottom, i, bottom - (int) (value * 100));
+						g.setColor(lagometerdata.get(i).getColor());
+						g.drawLine(i, bottom, i, bottom - lagometerdata.get(i).getHeight());
+					}
+					g.setColor(new Color(255, 0, 0, 255));
+					double locs[] = {.5d, .75d, 1d};
+					g.setColor(new Color(255, 0, 0, 255));
+					g.setFont(g.getFont().deriveFont(12f));
+					for(int i = 0; i < locs.length; i++) {
+						int l = bottom - (int) (locs[i] * lagoheight);
+						g.drawLine(0, l, side, l);
+						String txt = Integer.toString((int) (maxFPS * locs[i]));
+						g.drawString(txt, 0, l + 2);
 					}
 				}
 			}

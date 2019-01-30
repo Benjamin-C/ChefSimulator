@@ -11,7 +11,6 @@ public class App {
 	
 	static Logger logger;
 	
-    @SuppressWarnings("unused")
 	public static void main( String[] args ) {
     	doit();
     }

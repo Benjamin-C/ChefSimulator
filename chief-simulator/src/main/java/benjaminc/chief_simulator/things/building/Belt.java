@@ -23,7 +23,8 @@ public class Belt implements SolidThing, DirectionalThing, Tickable {
 	
 	protected GraphicalBelt graphics;
 	protected Direction dir;
-	long lastFrame;
+	protected long lastFrame;
+	protected int movedel = 100; 
 	List<Thing> toMove;
 	Map<DataMapKey, Object> dataMap;
 	
@@ -85,9 +86,9 @@ public class Belt implements SolidThing, DirectionalThing, Tickable {
 					}
 					Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
 					if(data instanceof Long) {
-						if(!((Long) data).equals(new Long(frame))) {
+						if(((Long) data).longValue() + movedel < System.currentTimeMillis()) {
 							toMove.add(t);
-							t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
+							t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, System.currentTimeMillis());
 						}
 					} else {
 						String oldtype = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getClass().toString();

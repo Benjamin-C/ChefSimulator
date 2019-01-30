@@ -53,16 +53,17 @@ public class TickTimer extends Thread {
 		while(running) {
 			if(next <= System.currentTimeMillis()) {
 				long dif = System.currentTimeMillis() - (next - del);
-				vals.add(dif);
-				if(vals.size() == fps) {
-					long tot = 0;
-					for(Long l : vals) {
-						tot += l;
-					}
-					Double avg = (double) tot / (double) vals.size();
-					room.setFps(1000 / avg);
-					vals.clear();
-				}
+				//vals.add(dif);
+				room.setFps(1000 / dif);
+//				if(vals.size() == fps/10) {
+//					long tot = 0;
+//					for(Long l : vals) {
+//						tot += l;
+//					}
+//					Double avg = (double) tot / (double) vals.size();
+//					room.setFps(1000 / avg);
+//					vals.clear();
+//				}
 				next = next + del;
 				frame++;
 				for(TickEvent t : todo.values()) {

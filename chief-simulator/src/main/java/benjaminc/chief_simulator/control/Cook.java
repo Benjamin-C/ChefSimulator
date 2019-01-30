@@ -42,7 +42,7 @@ public class Cook implements Tickable {
 		for(Map.Entry<ActionType, Integer> e : keys.entrySet()) {
 			keyActions.put(e.getKey(), new Action(e.getKey(), e.getValue(), 0L, false, false, false));
 		}
-		movesDel = Math.round(((double) game.getTps()) / movesPerSecond);
+		movesDel = Math.round((1000d) / movesPerSecond);
 		System.out.println(movesDel);
 		game.registerKeylistener(new KeyListenAction() {
 			@Override
@@ -88,6 +88,7 @@ public class Cook implements Tickable {
 	public void tick(Room r, Location l, long f, Game g) {
 		for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
 			Action a = e.getValue();
+			f = System.currentTimeMillis();
 			if(a.isPressed() || a.isDoOnce()) {
 				switch(e.getKey()) {
 				case MOVE_DOWN: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.DOWN); } break;

@@ -21,7 +21,7 @@ public class Starter {
 		jp.add(jl); jp.add(jt);
 		jf.add(jp); jf.pack(); jf.validate();
 		JLabel jlf = new JLabel("FPS");
-		JTextArea jtf = new JTextArea("30");
+		JTextArea jtf = new JTextArea("030");
 		JCheckBox jcb = new JCheckBox("Lag-O-Meter");
 		jcb.setSelected(true);
 		JButton jb = new JButton("go");
