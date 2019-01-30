@@ -1,11 +1,10 @@
 package benjaminc.chief_simulator.control;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
+import java.util.Map;
+import java.util.UUID;
 import benjaminc.chief_simulator.graphics.Room;
 
 public class TickTimer extends Thread {
@@ -19,6 +18,8 @@ public class TickTimer extends Thread {
 	
 	private List<Long> vals;
 	
+	private Map<UUID, TickEvent> todo;
+	
 	public TickTimer(int fps, Room r) {
 		super("TickTimer");
 		this.fps = fps;
@@ -29,7 +30,18 @@ public class TickTimer extends Thread {
 		running = true;
 		System.out.println("Ticking");
 		vals = new ArrayList<Long>();
+		todo = new HashMap<UUID, TickEvent>();
 		super.start();
+		addToDo(new TickEvent() { @Override public void tick(long frame) {
+			if(room != null) { room.tick(frame); } else { System.out.println("[ERROR] Room is NULL!"); } }
+			}, UUID.randomUUID());
+	}
+	
+	public void addToDo(TickEvent task, UUID taskUUID) {
+		todo.put(taskUUID, task);
+	}
+	public void removeToDo(UUID taskUUID) {
+		todo.remove(taskUUID);
 	}
 	
 	public void end() {
@@ -53,10 +65,8 @@ public class TickTimer extends Thread {
 				}
 				next = next + del;
 				frame++;
-				if(room != null) {
-					room.tick(frame);
-				} else {
-					System.out.println("[ERROR] Room is NULL!");
+				for(TickEvent t : todo.values()) {
+					t.tick(frame);
 				}
 			} else {
 				long del = next - System.currentTimeMillis();

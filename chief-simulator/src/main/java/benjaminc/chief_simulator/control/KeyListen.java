@@ -16,7 +16,12 @@ public class KeyListen {
 	
 	public void keyReleased(KeyEvent e) { for(KeyListenAction a : actions) { a.keyReleaseEvent(e.getKeyCode());} }
 	
-	public void keyPressed(KeyEvent e) { for(KeyListenAction a : actions) { a.keyPressEvent(e.getKeyCode());} }
+	public void keyPressed(KeyEvent e) {
+		for(KeyListenAction a : actions) { a.keyPressEvent(e.getKeyCode());}
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.exit(1);
+		}
+	}
 	
 	public void addKeyListen(KeyListenAction a) {
 		actions.add(a);

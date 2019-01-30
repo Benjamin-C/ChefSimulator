@@ -13,6 +13,9 @@ public class App {
 	
     @SuppressWarnings("unused")
 	public static void main( String[] args ) {
+    	doit();
+    }
+    public void controllerTest(String agrs[]) {
     	while (true) {
 			/* Get the available controllers */
 			Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();

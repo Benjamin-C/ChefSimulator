@@ -11,7 +11,6 @@ import benjaminc.chief_simulator.graphics.tools.GraphicalPlate;
 import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
-import benjaminc.chief_simulator.things.types.FoodThing;
 
 public class Plate implements ContainerThing{
 
@@ -162,5 +161,11 @@ public class Plate implements ContainerThing{
 	@Override
 	public Map<DataMapKey, Object> getDataMap() {
 		return dataMap;
+	}
+	@Override
+	public List<Thing> giveAllItems() {
+		List<Thing> out = items;
+		items = null;
+		return out;
 	}
 }

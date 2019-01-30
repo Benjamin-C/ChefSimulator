@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.omg.CORBA.portable.ServantObject;
-
 import benjaminc.chief_simulator.control.Cook;
 import benjaminc.chief_simulator.control.KeyListenAction;
 import benjaminc.chief_simulator.control.Location;
@@ -41,22 +38,24 @@ public class Game {
 	
 	private double observedFps;
 	
-	private int tps = 60;
+	private int tps = 6;
+	
 	// This is used, it just doesn't appear to be to Eclipse
 	@SuppressWarnings("unused")
 	private TickTimer tickTimer;
 	List<Cook> cooks;
 	
-
 	public Game() {
-		this(40);
+		this(40, 30, false);
 	}
-	public Game(int scale) {
+	public Game(int scale, int fps, boolean lago) {
+		tps = fps;
+		
 		final Game thisGame = this;
 		cooks = new ArrayList<Cook>();
 		score = new Score();
 		map = new Room(1, 1, this, new Object(), score, cooks);
-		gamePanel = new GamePanel(thisGame, map, scale);
+		gamePanel = new GamePanel(thisGame, map, scale, lago, fps);
 		Map<ActionType, Integer> benKeys = new HashMap<ActionType, Integer>();
 		benKeys.put(ActionType.MOVE_UP, KeyEvent.VK_UP);
 		benKeys.put(ActionType.MOVE_DOWN, KeyEvent.VK_DOWN);

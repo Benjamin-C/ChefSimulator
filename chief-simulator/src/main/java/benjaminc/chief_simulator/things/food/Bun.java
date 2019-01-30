@@ -138,4 +138,10 @@ public class Bun implements FoodThing, ContainerThing{
 	public Map<DataMapKey, Object> getDataMap() {
 		return dataMap;
 	}
+	
+	public List<Thing> giveAllItems() {
+		List<Thing> out = items;
+		items = null;
+		return out;
+	}
 }

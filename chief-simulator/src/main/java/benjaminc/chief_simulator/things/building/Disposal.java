@@ -68,15 +68,14 @@ public class Disposal implements SolidThing, ToolThing, Tickable {
 					System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
 				}
 				Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
-				if(data instanceof Long) {
-					if(((Long) data).longValue() != frame) {
-						toRemove.add(t);
-						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
-					}
-				} else {
+				if(!(data instanceof Long)) {
 					String oldtype = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getClass().toString();
 					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0);
 					System.err.println("LAST_MOVE_FRAME on " + t + " was the wrong type (" + oldtype + "), so I changed it");
+				}
+				if(((Long) data).longValue() != frame) {
+					toRemove.add(t);
+					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
 				}
 			}
 		}

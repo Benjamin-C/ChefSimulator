@@ -16,6 +16,7 @@ import benjaminc.chief_simulator.things.building.Counter;
 import benjaminc.chief_simulator.things.building.CuttingBoard;
 import benjaminc.chief_simulator.things.building.Disposal;
 import benjaminc.chief_simulator.things.building.Fryer;
+import benjaminc.chief_simulator.things.building.Remover;
 import benjaminc.chief_simulator.things.building.Spawner;
 import benjaminc.chief_simulator.things.building.Stove;
 import benjaminc.chief_simulator.things.building.Window;
@@ -51,6 +52,7 @@ public class Level1 extends Room {
 		}
 		
 		getSpace(new Location(4, 0)).removeAll(new Counter());
+		addThing(new Remover(), new Location(15, 8));
 		addThing(new Beef(), new Location(1, 2));
 		addThing(new Beef(), new Location(0, 0));
 		addThing(new CuttingBoard(), new Location(4, 0));

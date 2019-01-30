@@ -1,6 +1,5 @@
 package benjaminc.chief_simulator.graphics;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class Room {
 	protected Object syncObj;
 	protected Game game;
 	protected double fps;
+	protected boolean lagometer;
 	
 	public Room(int w, int h, Game game, Object whenDone, Score score) {
 		this(w, h, game, whenDone, score, new ArrayList<Cook>());
@@ -113,6 +113,7 @@ public class Room {
 	public Score getScore() {
 		return score;
 	}
+	
 	public void tick(long frame) {
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {

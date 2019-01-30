@@ -6,13 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import javax.management.InstanceNotFoundException;
-
 import benjaminc.chief_simulator.graphics.tools.GraphicalPan;
 import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.food.FoodState;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.CookwareThing;
@@ -94,7 +90,11 @@ public class Pan implements CookwareThing, ContainerThing{
 	
 	@Override
 	public Thing duplicate() {
-		return new Pan(variant, thing.duplicate());
+		if(thing == null) {
+			return new Pan(variant, null);
+		} else {
+			return new Pan(variant, thing.duplicate());
+		}
 	}
 	@Override
 	public boolean isSame(Thing t) {
@@ -110,5 +110,12 @@ public class Pan implements CookwareThing, ContainerThing{
 	@Override
 	public Map<DataMapKey, Object> getDataMap() {
 		return dataMap;
+	}
+	@Override
+	public List<Thing> giveAllItems() {
+		List<Thing> out = new ArrayList<Thing>();
+		out.add(thing);
+		thing = null;
+		return out;
 	}
 }

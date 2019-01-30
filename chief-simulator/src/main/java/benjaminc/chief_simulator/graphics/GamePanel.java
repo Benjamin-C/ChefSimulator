@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.control.KeyListen;
@@ -35,10 +37,14 @@ public class GamePanel extends JPanel {
 	
 	private KeyListen keyListen;
 	
+	private boolean lagometer;
+	private double maxFPS;
+	private List<Double> lagometerdata;
+	
 	public GamePanel(Game g, Room lvl) {
-		this(g, lvl, 40);
+		this(g, lvl, 40, false, 0);
 	}
-	public GamePanel(Game g, Room lvl, int scale) {
+	public GamePanel(Game g, Room lvl, int scale, boolean lagometer, double maxFPS) {
 		game = g;
 		level = lvl;
 		boxWidth = scale;
@@ -61,7 +67,8 @@ public class GamePanel extends JPanel {
 		});
         jf.validate();
         jf.setVisible(true);
-        
+        this.lagometer = lagometer;
+        this.maxFPS = maxFPS;
 	}
 	
 	public void setLevel(Room lvl) {
@@ -108,6 +115,30 @@ public class GamePanel extends JPanel {
 				int h = g.getFontMetrics().getHeight();
 				String fpss = Double.toString(fps);
 				g.drawString("fps:" + fpss.substring(0, Math.min(fpss.length(), 4)), level.getWidth() * boxWidth / 2, h);
+				if(lagometer) {
+					if(lagometerdata == null) {
+						lagometerdata = new ArrayList<Double>();
+					}
+					lagometerdata.add(fps);
+					while(lagometerdata.size() > (width * boxWidth)) {
+						lagometerdata.remove(0);
+					}
+					int bottom = height * boxHeight;
+					for(int i = 0; i < lagometerdata.size(); i++) {
+						int rv = 128;
+						int gv = 128;
+						int bv = 128;
+						int av = 256-64;
+						
+						double value = lagometerdata.get(i).doubleValue() / maxFPS;
+						rv = rv + (int) (rv * (1 - value));
+						gv = gv + (int) (gv * value);
+						
+						g.setColor(new Color(Math.min(rv, 255), Math.min(gv, 255), Math.min(bv, 255), Math.min(av, 255)));
+						
+						g.drawLine(i, bottom, i, bottom - (int) (value * 100));
+					}
+				}
 			}
         };
         jf.add(panel);

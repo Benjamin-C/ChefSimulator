@@ -5,24 +5,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import benjaminc.chief_simulator.graphics.building.GraphicalStove;
+
+import benjaminc.chief_simulator.graphics.building.GraphicalRemover;
 import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.types.CookwareThing;
+import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Stove implements ToolThing, SolidThing {
+public class Remover implements ToolThing, SolidThing {
 
-	protected GraphicalStove graphics;
+	protected GraphicalRemover graphics;
 	Map<DataMapKey, Object> dataMap;
 	
-	public Stove() {
+	public Remover() {
 		this(0);
 	}
-	public Stove(int var) {
-		graphics = new GraphicalStove(var);
+	public Remover(int var) {
+		graphics = new GraphicalRemover(var);
 		dataMap = new HashMap<DataMapKey, Object>();
+		
 	}
 	
 	@Override
@@ -33,17 +35,20 @@ public class Stove implements ToolThing, SolidThing {
 	@Override
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
-		if(t instanceof CookwareThing) {
-			temp.add(((CookwareThing) t).getCookedThing());
-		} else {
-			temp.add(t);
+		if(t instanceof ContainerThing) {
+			ContainerThing th = (ContainerThing) t;
+			temp.addAll(th.getItems());
+			for(Thing tm : temp) {
+				th.removeItem(tm);
+			}
 		}
+		temp.add(t);
 		return temp;
 	}
 
 	@Override
 	public Thing duplicate() {
-		return new Stove();
+		return new Remover();
 	}
 	
 	@Override

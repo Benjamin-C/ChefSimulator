@@ -42,7 +42,8 @@ public class Cook implements Tickable {
 		for(Map.Entry<ActionType, Integer> e : keys.entrySet()) {
 			keyActions.put(e.getKey(), new Action(e.getKey(), e.getValue(), 0L, false, false, false));
 		}
-		movesDel = Math.round((double) game.getTps() / movesPerSecond);
+		movesDel = Math.round(((double) game.getTps()) / movesPerSecond);
+		System.out.println(movesDel);
 		game.registerKeylistener(new KeyListenAction() {
 			@Override
 			public void keyReleaseEvent(int key) {
