@@ -90,7 +90,9 @@ public class Plate implements ContainerThing{
 			addItem(t);
 		} else {
 			List<Thing> out = new ArrayList<Thing>();
-			out.add(items.remove(items.size() - 1));
+			if(items.size() > 0) {
+				out.add(items.remove(items.size() - 1));
+			}
 			return out;
 		}
 		return null;

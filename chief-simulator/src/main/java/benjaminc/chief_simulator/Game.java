@@ -72,7 +72,7 @@ public class Game {
 		mattKeys.put(ActionType.MOVE_RIGHT, KeyEvent.VK_D);
 		mattKeys.put(ActionType.PICKUP_ITEM, KeyEvent.VK_Q);
 		mattKeys.put(ActionType.USE_ITEM, KeyEvent.VK_E);
-		cooks.add(new Cook(thisGame, "Peter", Color.GREEN, mattKeys, new Location(1, 1)));
+		cooks.add(new Cook(thisGame, "Matt", Color.GREEN, mattKeys, new Location(1, 1)));
 		
 		thisGame.updateGraphics();
 		
