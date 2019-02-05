@@ -7,6 +7,8 @@ import java.util.Random;
 import benjaminc.chief_simulator.graphics.food.GraphicalBeef;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;
@@ -14,12 +16,14 @@ import benjaminc.chief_simulator.things.types.FoodThing;
 public class Beef implements FoodThing, Cookable, Choppable {
 
 	protected GraphicalBeef graphics;
-	protected int variant;
-	protected FoodState state;
-	Map<DataMapKey, Object> dataMap;
+	Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Beef() {
 		this(-1, FoodState.RAW);
+	}
+	public Beef(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
+		graphics = new GraphicalBeef(dataMap);
 	}
 	public Beef(int variant, FoodState state) {
 		super();
@@ -27,9 +31,14 @@ public class Beef implements FoodThing, Cookable, Choppable {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalBeef.VARIANT_COUNT);
 		}
-		this.state = state;
-		graphics = new GraphicalBeef(variant, state);
-		dataMap = new HashMap<DataMapKey, Object>();
+		
+		graphics = new GraphicalBeef(dataMap);
+		
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		try {
+			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
+			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
 	
 	@Override
@@ -39,30 +48,33 @@ public class Beef implements FoodThing, Cookable, Choppable {
 	
 	@Override
 	public Thing getChoppedThing() {
-		if(state == FoodState.RAW) {
-			state = FoodState.CHOPPED;
-		}
-		graphics.setState(state);
+		try {
+			if(dataMap.get(DataMapKey.FOOD_STATE).getFoodState() == FoodState.RAW) {
+				dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
+			}
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
 
 	public void setVariant(int var) {
-		variant = var;
+		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
-	@Override
 	public void setState(FoodState state) {
-		this.state = state;
+		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		return variant;
+		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
-	@Override
 	public FoodState getState() {
-		return state;
+		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 	@Override
 	public Thing duplicate() {
-		return new Beef(variant, state);
+		return new Beef(dataMap);
 	}
 	
 	@Override
@@ -75,23 +87,24 @@ public class Beef implements FoodThing, Cookable, Choppable {
 	}
 	@Override
 	public Thing getCookedThing() {
-		switch(state) {
-		case CHOPPED: {
-			state = FoodState.CHOPPED_COOKED;
-		} break;
-		case CHOPPED_COOKED:
-			break;
-		case COOKED:
-			break;
-		case RAW: {
-			state = FoodState.COOKED;
-		} break;
-		}
-		graphics.setState(state);
+		try {
+			switch(dataMap.get(DataMapKey.FOOD_STATE).getFoodState()) {
+			case CHOPPED: {
+				dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED_COOKED);
+			} break;
+			case CHOPPED_COOKED:
+				break;
+			case COOKED:
+				break;
+			case RAW: {
+				dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.COOKED);
+			} break;
+			}
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

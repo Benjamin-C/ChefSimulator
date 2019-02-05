@@ -7,22 +7,28 @@ import java.util.Map;
 import benjaminc.chief_simulator.graphics.GraphicalThing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
 import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalApple implements GraphicalThing {
 	
 	public static final int VARIANT_COUNT = 2;
-	protected int variant;
-	protected FoodState state;
-	public GraphicalApple(int variant, FoodState state) {
-		this.variant = variant;
-		this.state = state;
+	protected Map<DataMapKey, DataMapValue> dataMap;
+	public GraphicalApple(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
 	}
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		int five_twelths = (int) ((int) w*0.4583333333333333333);
 	
+		FoodState state = null;
+		int variant = -1;
+		try {
+			state = dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+			variant = dataMap.get(DataMapKey.VARIANT).getInt();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
+
 		switch(state) {
 		case CHOPPED: {
 			switch(variant) {
@@ -63,15 +69,5 @@ public class GraphicalApple implements GraphicalThing {
 			}
 		} break; // End raw case
 		}
-	}
-	
-	@Override
-	public void setState(FoodState state) {
-		this.state = state;
-	}
-
-	@Override
-	public void setVariant(int var) {
-		variant = var;
 	}
 }

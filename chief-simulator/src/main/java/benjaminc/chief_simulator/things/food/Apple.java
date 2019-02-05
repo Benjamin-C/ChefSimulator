@@ -15,8 +15,6 @@ import benjaminc.chief_simulator.things.types.FoodThing;
 public class Apple implements FoodThing, Choppable {
 
 	protected GraphicalApple graphics;
-//	protected int variant;
-//	protected FoodState state;
 	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	
@@ -28,6 +26,9 @@ public class Apple implements FoodThing, Choppable {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalApple.VARIANT_COUNT);
 		}
+		
+		graphics = new GraphicalApple(dataMap);
+		
 		dataMap = new HashMap<DataMapKey, DataMapValue>();
 		try {
 			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
@@ -37,11 +38,9 @@ public class Apple implements FoodThing, Choppable {
 			e.printStackTrace();
 			System.out.println("You goofed!");
 		}
-		
 	}
 	public Apple(Map<DataMapKey, DataMapValue> dataMap) {
 		this.dataMap = dataMap;
-		
 		graphics = new GraphicalApple(dataMap);
 	}
 	
@@ -50,26 +49,31 @@ public class Apple implements FoodThing, Choppable {
 		graphics.draw(g, x, y, w, h);
 	}
 	public Thing getChoppedThing() {
-		dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
-		graphics.setState(state);
+		try { dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
 
 	public void setVariant(int var) {
-		variant = var;
+		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
 	public void setState(FoodState state) {
-		this.state = state;
+		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		return variant;
+		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
 	public FoodState getState() {
-		return state;
+		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
+	
 	@Override
 	public Thing duplicate() {
-		return new Apple(variant, state);
+		return new Apple(dataMap);
 	}
 	
 	@Override
@@ -81,7 +85,7 @@ public class Apple implements FoodThing, Choppable {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

@@ -9,16 +9,18 @@ import java.util.Random;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
 public class Bun implements FoodThing, ContainerThing{
 
+	// TODO serialize this
 	protected List<Thing> items;
 	protected GraphicalBun graphics;
-	protected int variant;
-	protected FoodState state;
-	Map<DataMapKey, Object> dataMap;
+	
+	protected Map<DataMapKey, DataMapValue> dataMap;
 
 	public Bun() {
 		this(-1, FoodState.RAW, null);
@@ -31,7 +33,7 @@ public class Bun implements FoodThing, ContainerThing{
 	}
 	public Bun(int variant, FoodState state, List<Thing> items) {
 		super();
-		dataMap = new HashMap<DataMapKey, Object>();
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
 		if(variant == -1) {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalBun.VARIANT_COUNT);
@@ -40,8 +42,20 @@ public class Bun implements FoodThing, ContainerThing{
 		if(items == null) {
 			this.items = new ArrayList<Thing>();
 		}
-		this.state = state;
-		graphics = new GraphicalBun(variant, state);
+		
+		graphics = new GraphicalBun(dataMap);
+		
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		try {
+			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
+			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
+		} catch (InvalidDatatypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("You goofed!");
+		}
+		
+		
 	}
 	
 	
@@ -91,7 +105,9 @@ public class Bun implements FoodThing, ContainerThing{
 		for(int i = 0; i < items.size(); i++) {
 			temp.add(items.get(i).duplicate());
 		}
-		return new Bun(variant, state, temp);
+		try {
+			return new Bun(dataMap.get(DataMapKey.VARIANT).getInt(), dataMap.get(DataMapKey.FOOD_STATE).getFoodState(), temp);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 
 	@Override
@@ -121,21 +137,23 @@ public class Bun implements FoodThing, ContainerThing{
 	}
 	
 	public void setVariant(int var) {
-		variant = var;
+		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
-	@Override
 	public void setState(FoodState state) {
-		this.state = state;
+		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		return variant;
+		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
-	@Override
 	public FoodState getState() {
-		return state;
+		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 	
