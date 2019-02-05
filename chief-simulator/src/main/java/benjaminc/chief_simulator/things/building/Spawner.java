@@ -8,22 +8,29 @@ import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalSpawner;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
 public class Spawner implements ToolThing, SolidThing {
 
-	protected Thing toMake;
+	// TODO Figure out how to save toMake
+	//protected Thing toMake;
 	protected GraphicalSpawner graphics;
-	Map<DataMapKey, Object> dataMap;
+	Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Spawner(Thing t) {
 		this(t, 0);
 	}
 	public Spawner(Thing t, int var) {
-		toMake = t;
-		graphics = new GraphicalSpawner(var);
-		dataMap = new HashMap<DataMapKey, Object>();
+		graphics = new GraphicalSpawner(dataMap);
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+		dataMap.put(DataMapKey.MAKES, new DataMapValue(t));
+	}
+	public Spawner(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
+		graphics = new GraphicalSpawner(dataMap);
 	}
 	
 	@Override
@@ -31,14 +38,14 @@ public class Spawner implements ToolThing, SolidThing {
 		int indmkw = w / 4;
 		int indmkh = h / 4;
 		graphics.draw(g, x, y, w, h);
-		toMake.draw(g, x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
+		dataMap.get(DataMapKey.MAKES).getThing().draw(g, x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
 	}
 
 	@Override
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
 		if(t == null) {
-			temp.add(toMake.duplicate());
+			temp.add(dataMap.get(DataMapKey.MAKES).getThing().duplicate());
 		}
 		temp.add(t);
 		return temp;
@@ -46,7 +53,7 @@ public class Spawner implements ToolThing, SolidThing {
 
 	@Override
 	public Thing duplicate() {
-		return new Spawner(toMake.duplicate());
+		return new Spawner(dataMap);
 	}
 
 	@Override
@@ -58,7 +65,7 @@ public class Spawner implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

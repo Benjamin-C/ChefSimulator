@@ -2,16 +2,18 @@ package benjaminc.chief_simulator.graphics.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Map;
 
 import benjaminc.chief_simulator.graphics.GraphicalThing;
-import benjaminc.chief_simulator.things.food.FoodState;
+import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 
 public class GraphicalWindow implements GraphicalThing {
 
 	public static final int VARIANT_COUNT = 1;
-	protected int variant;
-	public GraphicalWindow(int variant) {
-		this.variant = variant;
+	protected Map<DataMapKey, DataMapValue> dataMap;
+	public GraphicalWindow(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
 	}
 	
 	@Override
@@ -27,15 +29,4 @@ public class GraphicalWindow implements GraphicalThing {
 		g.setColor(new Color(192, 192, 192));
 		g.fillRect(x+indw,  y,  w-(2*indw),  h-indh);
 	}
-	
-	@Override
-	public void setState(FoodState state) {
-		
-	}
-
-	@Override
-	public void setVariant(int var) {
-		variant = var;
-	}
-
 }

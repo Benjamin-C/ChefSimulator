@@ -12,6 +12,7 @@ import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.graphics.building.GraphicalDisposal;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.Tickable;
@@ -20,14 +21,16 @@ import benjaminc.chief_simulator.things.types.ToolThing;
 public class Disposal implements SolidThing, ToolThing, Tickable {
 
 	protected GraphicalDisposal graphics;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Disposal() {
 		this(0);
 	}
 	public Disposal(int var) {
-		graphics = new GraphicalDisposal(var);
-		dataMap = new HashMap<DataMapKey, Object>();
+		super();
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+		graphics = new GraphicalDisposal(dataMap);
 	}
 	
 	@Override
@@ -54,28 +57,23 @@ public class Disposal implements SolidThing, ToolThing, Tickable {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 	@Override
-	public void tick(Room r, Location l, long frame, Game g) {
+	public void tick(Room r, Location l, double frame, Game g) {
 		List<Thing> stuff = r.getThings(l);
 		List<Thing> toRemove = new ArrayList<Thing>();
 		for(Thing t : stuff) {
 				if(!(t instanceof AttachedThing)) {
 				if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
-					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0L);
+					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, new DataMapValue(0d));
 					System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
 				}
 				Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
-				if(!(data instanceof Long)) {
-					String oldtype = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getClass().toString();
-					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0);
-					System.err.println("LAST_MOVE_FRAME on " + t + " was the wrong type (" + oldtype + "), so I changed it");
-				}
 				if(((Long) data).longValue() != frame) {
 					toRemove.add(t);
-					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
+					t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).update(frame);
 				}
 			}
 		}

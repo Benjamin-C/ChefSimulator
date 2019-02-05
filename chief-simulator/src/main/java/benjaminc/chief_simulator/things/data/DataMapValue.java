@@ -1,12 +1,14 @@
 package benjaminc.chief_simulator.things.data;
 
+import benjaminc.chief_simulator.control.Direction;
+import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class DataMapValue {
 
 	protected Object value;
 	
-	private Class<?> allowedTypes[] = {Integer.class, Double.class, String.class, Boolean.class, FoodState.class};
+	private Class<?> allowedTypes[] = {Integer.class, Double.class, String.class, Boolean.class, FoodState.class, Direction.class, Thing.class};
 	public DataMapValue(Object value) throws InvalidDatatypeException {
 		setValue(value);
 	}
@@ -43,6 +45,14 @@ public class DataMapValue {
 	public FoodState getFoodState() throws InvalidDatatypeException {
 		if(value instanceof FoodState) { return (FoodState) value;
 		} else { throw new InvalidDatatypeException(throwErrorMessage(value, "FoodState")); }
+	}
+	public Direction getDirection() throws InvalidDatatypeException {
+		if(value instanceof Direction) { return (Direction) value;
+		} else { throw new InvalidDatatypeException(throwErrorMessage(value, "Direction")); }
+	}
+	public Thing getThing() throws InvalidDatatypeException {
+		if(value instanceof Thing) { return (Thing) value;
+		} else { throw new InvalidDatatypeException(throwErrorMessage(value, "Direction")); }
 	}
 	private String throwErrorMessage(Object provided, String requiredType) {
 		return "DataMapValue is type" + provided.getClass().getSimpleName() + ", not " + requiredType;

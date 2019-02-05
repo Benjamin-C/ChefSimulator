@@ -3,22 +3,26 @@ package benjaminc.chief_simulator.things.building;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
+
 import benjaminc.chief_simulator.graphics.building.GraphicalFloor;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 
 public class Floor implements AttachedThing {
 
 	protected GraphicalFloor graphics;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Floor() {
 		this(0);
 	}
 	public Floor(int var) {
-		graphics = new GraphicalFloor(var);
-		dataMap = new HashMap<DataMapKey, Object>();
+		super();
+		graphics = new GraphicalFloor(dataMap);
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class Floor implements AttachedThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

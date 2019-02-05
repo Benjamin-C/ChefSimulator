@@ -10,6 +10,7 @@ import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.graphics.building.GraphicalWindow;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 import benjaminc.util.Util;
@@ -18,15 +19,16 @@ public class Window implements ToolThing, Thing, SolidThing{
 	
 	protected GraphicalWindow graphics;
 	protected Room room;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Window(Room r) {
 		this(r, 0);
 	}
 	public Window(Room r, int var) {
 		room = r;
-		graphics = new GraphicalWindow(var);
-		dataMap = new HashMap<DataMapKey, Object>();
+		graphics = new GraphicalWindow(dataMap);
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 		return li;
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

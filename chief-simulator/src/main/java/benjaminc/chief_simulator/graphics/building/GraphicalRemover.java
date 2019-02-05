@@ -2,20 +2,26 @@ package benjaminc.chief_simulator.graphics.building;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Map;
 
 import benjaminc.chief_simulator.graphics.GraphicalThing;
+import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalRemover implements GraphicalThing {
 
 	public static final int VARIANT_COUNT = 1;
-	protected int variant;
-	public GraphicalRemover (int variant) {
-		this.variant = variant;
+	protected Map<DataMapKey, DataMapValue> dataMap;
+	public GraphicalRemover(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
+		@SuppressWarnings("unused")
+		FoodState state = dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		
 		int indw = w / 8;
 		int indh = h / 8;
 		g.setColor(new Color(100, 100, 100));
@@ -32,15 +38,5 @@ public class GraphicalRemover implements GraphicalThing {
 		g.fillRect(x+(int)(indw*1.7),  y+(int)(indw*1.7),  w-(int)(3.4*indw),  h-(int)(3.4*indh));
 		g.setColor(new Color(64, 0, 0));
 		g.fillRect(x+(int)(indw*2.05),  y+(int)(indw*2.05),  w-(int)(4.1*indw),  h-(int)(4.1*indh));
-	}
-	
-	@Override
-	public void setState(FoodState state) {
-		
-	}
-
-	@Override
-	public void setVariant(int var) {
-		variant = var;
 	}
 }

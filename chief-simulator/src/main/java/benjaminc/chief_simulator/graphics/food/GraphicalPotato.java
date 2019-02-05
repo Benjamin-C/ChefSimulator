@@ -2,22 +2,31 @@ package benjaminc.chief_simulator.graphics.food;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Map;
 
 import benjaminc.chief_simulator.graphics.GraphicalThing;
+import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalPotato implements GraphicalThing {
 	
 	public static final int VARIANT_COUNT = 1;
-	protected int variant;
-	protected FoodState state;
-	public GraphicalPotato(int variant, FoodState state) {
-		this.variant = variant;
-		this.state = state;
+	protected Map<DataMapKey, DataMapValue> dataMap;
+	public GraphicalPotato(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
+		FoodState state = null;
+		int variant = -1;
+		try {
+			state = dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+			variant = dataMap.get(DataMapKey.VARIANT).getInt();
+		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
+
 		int pos1 = (int)(w*.35);
 		int pos2 = (int)(w*.45);
 		int pos3 = (int)(w*.55);
@@ -66,15 +75,5 @@ public class GraphicalPotato implements GraphicalThing {
 			}
 		} break; // End raw case
 		}
-	}
-	
-	@Override
-	public void setState(FoodState state) {
-		this.state = state;
-	}
-
-	@Override
-	public void setVariant(int var) {
-		variant = var;
 	}
 }

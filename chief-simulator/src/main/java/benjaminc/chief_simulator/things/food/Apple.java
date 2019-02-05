@@ -17,7 +17,6 @@ public class Apple implements FoodThing, Choppable {
 	protected GraphicalApple graphics;
 	protected Map<DataMapKey, DataMapValue> dataMap;
 	
-	
 	public Apple() {
 		this(-1, FoodState.RAW);
 	}
@@ -30,14 +29,8 @@ public class Apple implements FoodThing, Choppable {
 		graphics = new GraphicalApple(dataMap);
 		
 		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		try {
-			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
-			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
-		} catch (InvalidDatatypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("You goofed!");
-		}
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
+		dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
 	}
 	public Apple(Map<DataMapKey, DataMapValue> dataMap) {
 		this.dataMap = dataMap;
@@ -49,26 +42,21 @@ public class Apple implements FoodThing, Choppable {
 		graphics.draw(g, x, y, w, h);
 	}
 	public Thing getChoppedThing() {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
+		dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
 		return this;
 	}
 
 	public void setVariant(int var) {
-		try { dataMap.get(DataMapKey.VARIANT).update(var);
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
+		dataMap.get(DataMapKey.VARIANT).update(var);
 	}
 	public void setState(FoodState state) {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
+		dataMap.get(DataMapKey.FOOD_STATE).update(state);
 	}
 	public int getVariant() {
-		try { return dataMap.get(DataMapKey.VARIANT).getInt();
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
+		return dataMap.get(DataMapKey.VARIANT).getInt();
 	}
 	public FoodState getState() {
-		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
+		return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
 	}
 	
 	@Override

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import benjaminc.chief_simulator.graphics.building.GraphicalCuttingBoard;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -15,14 +17,16 @@ import benjaminc.chief_simulator.things.types.ToolThing;
 public class CuttingBoard implements ToolThing, SolidThing {
 
 	protected GraphicalCuttingBoard graphics;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public CuttingBoard() {
 		this(0);
 	}
 	public CuttingBoard(int var) {
-		graphics = new GraphicalCuttingBoard(var);
-		dataMap = new HashMap<DataMapKey, Object>();
+		super();
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+		graphics = new GraphicalCuttingBoard(dataMap);
 	}
 	
 	@Override
@@ -55,7 +59,7 @@ public class CuttingBoard implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

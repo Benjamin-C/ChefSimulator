@@ -9,6 +9,7 @@ import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalFryer;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
@@ -16,15 +17,17 @@ import benjaminc.chief_simulator.things.types.ToolThing;
 public class Fryer implements ToolThing, SolidThing {
 
 	protected GraphicalFryer graphics;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Fryer() {
 		this(0);
 	}
 	public Fryer(int var) {
-		graphics = new GraphicalFryer(var);
-		dataMap = new HashMap<DataMapKey, Object>();
+		super();
+		graphics = new GraphicalFryer(dataMap);
 		
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
 	}
 	
 	@Override
@@ -57,7 +60,7 @@ public class Fryer implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

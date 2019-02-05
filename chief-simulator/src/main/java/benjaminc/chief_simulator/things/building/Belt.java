@@ -14,6 +14,7 @@ import benjaminc.chief_simulator.graphics.Room;
 import benjaminc.chief_simulator.graphics.building.GraphicalBelt;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 import benjaminc.chief_simulator.things.types.DirectionalThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
@@ -22,11 +23,11 @@ import benjaminc.chief_simulator.things.types.Tickable;
 public class Belt implements SolidThing, DirectionalThing, Tickable {
 	
 	protected GraphicalBelt graphics;
-	protected Direction dir;
-	protected long lastFrame;
-	protected int movedel = 100; 
-	List<Thing> toMove;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
+	
+	// Not to be saved, only to be used
+	protected static int movedel = 100; 
+	protected List<Thing> toMove;
 	
 	public Belt() {
 		this(0, Direction.UP);
@@ -39,9 +40,10 @@ public class Belt implements SolidThing, DirectionalThing, Tickable {
 	}
 	public Belt(int variant, Direction d) {
 		super();
-		dataMap = new HashMap<DataMapKey, Object>();
-		dir = d;
-		graphics = new GraphicalBelt(variant, dir);
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.DIRECTION, new DataMapValue(d));
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
+		graphics = new GraphicalBelt(dataMap);
 	}
 
 	@Override
@@ -64,37 +66,34 @@ public class Belt implements SolidThing, DirectionalThing, Tickable {
 	}
 	@Override
 	public void setDirection(Direction d) {
-		dir = d;
-		graphics.setDirection(d);
+		dataMap.get(DataMapKey.DIRECTION).update(d);
 	}
 	@Override
 	public Direction getDirection() {
-		return dir;
+		return dataMap.get(DataMapKey.DIRECTION).getDirection();
 	}
 	@Override
-	public void tick(Room r, Location l, long frame, Game g) {
-		if(lastFrame != frame) {
-			lastFrame = frame;
+	public void tick(Room r, Location l, double frame, Game g) {
+		if(dataMap.containsKey(DataMapKey.LAST_MOVE_FRAME) &&
+				dataMap.get(DataMapKey.LAST_MOVE_FRAME).getDouble() != frame) {
+			dataMap.get(DataMapKey.LAST_MOVE_FRAME).update(frame);;
 			GameSpace gs = r.getSpace(l);
-			GameSpace ngs = r.getSpace(l.add(dir));
+			GameSpace ngs = r.getSpace(l.add(dataMap.get(DataMapKey.DIRECTION).getDirection()));
 			toMove = new ArrayList<Thing>();
 			for(Thing t : gs.getThings()) {
 				if(!(t instanceof AttachedThing)) {
 					if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
-						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0L);
+						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, new DataMapValue(0d));
 						System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
 					}
-					Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
-					if(data instanceof Long) {
-						if(((Long) data).longValue() + movedel < System.currentTimeMillis()) {
-							toMove.add(t);
-							t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, System.currentTimeMillis());
-						}
-					} else {
-						String oldtype = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getClass().toString();
-						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0);
-						System.err.println("LAST_MOVE_FRAME on " + t + " was the wrong type (" + oldtype + "), so I changed it");
+					if(t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getDouble() + movedel < System.currentTimeMillis()) {
+						toMove.add(t);
+						t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).update((double) System.currentTimeMillis());
 					}
+				} else {
+					String oldtype = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getClass().toString();
+					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, new DataMapValue(0d));
+					System.err.println("LAST_MOVE_FRAME on " + t + " was the wrong type (" + oldtype + "), so I changed it");
 				}
 			}
 			for(Thing t : toMove) {
@@ -103,7 +102,7 @@ public class Belt implements SolidThing, DirectionalThing, Tickable {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }

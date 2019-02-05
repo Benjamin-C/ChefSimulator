@@ -6,5 +6,5 @@ import benjaminc.chief_simulator.graphics.Room;
 
 public interface Tickable {
 
-	public abstract void tick(Room r, Location l, long f, Game g);
+	public abstract void tick(Room r, Location l, double f, Game g);
 }

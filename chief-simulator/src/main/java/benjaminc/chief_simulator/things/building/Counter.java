@@ -6,21 +6,25 @@ import java.util.Map;
 import benjaminc.chief_simulator.graphics.building.GraphicalCounter;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.SolidThing;
 
 public class Counter implements SolidThing {
 	
 	protected GraphicalCounter graphics;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Counter() {
 		this(0);
 	}
-	public Counter(int variant) {
+	public Counter(int var) {
 		super();
-		dataMap = new HashMap<DataMapKey, Object>();
-		graphics = new GraphicalCounter(variant);
+		graphics = new GraphicalCounter(dataMap);
+		
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
 	}
+	
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
@@ -41,7 +45,7 @@ public class Counter implements SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public Map<DataMapKey, DataMapValue> getDataMap() {
 		return dataMap;
 	}
 }
