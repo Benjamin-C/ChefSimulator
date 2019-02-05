@@ -2,8 +2,11 @@ package benjaminc.chief_simulator.graphics.food;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Map;
 
 import benjaminc.chief_simulator.graphics.GraphicalThing;
+import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalApple implements GraphicalThing {
@@ -15,7 +18,7 @@ public class GraphicalApple implements GraphicalThing {
 		this.variant = variant;
 		this.state = state;
 	}
-	
+
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		int five_twelths = (int) ((int) w*0.4583333333333333333);

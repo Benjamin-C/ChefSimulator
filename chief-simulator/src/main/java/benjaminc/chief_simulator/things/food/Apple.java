@@ -7,28 +7,42 @@ import java.util.Random;
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.data.DataMapKey;
+import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
 public class Apple implements FoodThing, Choppable {
 
 	protected GraphicalApple graphics;
-	protected int variant;
-	protected FoodState state;
-	Map<DataMapKey, Object> dataMap;
+//	protected int variant;
+//	protected FoodState state;
+	protected Map<DataMapKey, DataMapValue> dataMap;
+	
 	
 	public Apple() {
 		this(-1, FoodState.RAW);
 	}
 	public Apple(int variant, FoodState state) {
-		super();
 		if(variant == -1) {
 			Random r = new Random();
 			variant = r.nextInt(GraphicalApple.VARIANT_COUNT);
 		}
-		this.state = state;
-		graphics = new GraphicalApple(variant, state);
-		dataMap = new HashMap<DataMapKey, Object>();
+		dataMap = new HashMap<DataMapKey, DataMapValue>();
+		try {
+			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
+			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
+		} catch (InvalidDatatypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("You goofed!");
+		}
+		
+	}
+	public Apple(Map<DataMapKey, DataMapValue> dataMap) {
+		this.dataMap = dataMap;
+		
+		graphics = new GraphicalApple(dataMap);
 	}
 	
 	@Override
@@ -36,7 +50,7 @@ public class Apple implements FoodThing, Choppable {
 		graphics.draw(g, x, y, w, h);
 	}
 	public Thing getChoppedThing() {
-		state = FoodState.CHOPPED;
+		dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
 		graphics.setState(state);
 		return this;
 	}

@@ -10,10 +10,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import benjaminc.chief_simulator.things.data.DataMapValue;
+
 public class Starter {
 
 	public Starter() {
+		try {
+			new DataMapValue(new Float(3f));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		JFrame jf = new JFrame("Chef Simulator Launcher");
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel jp = new JPanel();
 		
 		JLabel jl = new JLabel("Resolution");
