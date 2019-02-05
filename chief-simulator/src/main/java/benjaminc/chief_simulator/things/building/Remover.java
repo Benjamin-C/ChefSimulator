@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import benjaminc.chief_simulator.graphics.building.GraphicalRemover;
-import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.data.DataMapKey;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;

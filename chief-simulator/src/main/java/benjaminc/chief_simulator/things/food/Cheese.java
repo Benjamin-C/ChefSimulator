@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Random;
 
 import benjaminc.chief_simulator.graphics.food.GraphicalCheese;
-import benjaminc.chief_simulator.things.DataMapKey;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.things.data.DataMapKey;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
