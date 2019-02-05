@@ -32,7 +32,7 @@ public class TickTimer extends Thread {
 		System.out.println("Ticking");
 		vals = new ArrayList<Long>();
 		todo = new HashMap<UUID, TickEvent>();
-		super.start();
+		//super.start();
 		addToDo(new TickEvent() { @Override public void tick(long frame) {
 			if(room != null) { room.tick(frame); } else { System.out.println("[ERROR] Room is NULL!"); } }
 			}, UUID.randomUUID());

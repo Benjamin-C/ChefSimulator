@@ -40,8 +40,6 @@ public class Game {
 	
 	private int tps = 6;
 	
-	// This is used, it just doesn't appear to be to Eclipse
-	@SuppressWarnings("unused")
 	private TickTimer tickTimer;
 	List<Cook> cooks;
 	
@@ -79,7 +77,7 @@ public class Game {
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
-				startMap(new Level1(cooks, score, thisGame));
+				playMap(new Level1(cooks, score, thisGame));
 			}
 		};
 		control.start();
@@ -88,10 +86,11 @@ public class Game {
 	public void setObservedFps(double fps) {
 		observedFps = fps;
 	}
-	private void startMap(Room lvl) {
+	private void playMap(Room lvl) {
 		map = lvl;
 		gamePanel.setLevel(lvl);
 		tickTimer = new TickTimer(tps, lvl);
+		tickTimer.start();
 		System.out.println("Started");
 		Util.showThreads();
 		updateGraphics();
