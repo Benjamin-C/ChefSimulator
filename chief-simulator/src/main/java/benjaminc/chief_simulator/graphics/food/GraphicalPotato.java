@@ -2,31 +2,28 @@ package benjaminc.chief_simulator.graphics.food;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Map;
 
+import benjaminc.chief_simulator.control.Direction;
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.graphics.GraphicalThing;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalPotato implements GraphicalThing {
 	
 	public static final int VARIANT_COUNT = 1;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	public GraphicalPotato(Map<DataMapKey, DataMapValue> data) {
+	protected DataMap dataMap;
+	public GraphicalPotato(DataMap data) {
 		dataMap = data;
-	}
+	}	
 	
 	@Override
+	@SuppressWarnings("unused")
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		FoodState state = null;
-		int variant = -1;
-		try {
-			state = dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
-			variant = dataMap.get(DataMapKey.VARIANT).getInt();
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
-
+		int variant = (Integer) dataMap.get(DataMapKey.VARIANT);
+		Direction dir = (Direction) dataMap.get(DataMapKey.DIRECTION);
+		FoodState state = (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
+		
 		int pos1 = (int)(w*.35);
 		int pos2 = (int)(w*.45);
 		int pos3 = (int)(w*.55);
