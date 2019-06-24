@@ -1,4 +1,4 @@
-package benjaminc.chief_simulator.things.data;
+package benjaminc.chief_simulator.data;
 
 public class InvalidDatatypeException extends IllegalArgumentException {
 	

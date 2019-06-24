@@ -3,8 +3,8 @@ package benjaminc.chief_simulator.things;
 import java.awt.Graphics;
 import java.util.Map;
 
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
 
 public interface Thing {
 

@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import benjaminc.chief_simulator.things.data.DataMapValue;
+import benjaminc.chief_simulator.data.DataMapValue;
 
 public class Starter {
 

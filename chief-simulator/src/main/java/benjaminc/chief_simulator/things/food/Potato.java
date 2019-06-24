@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.graphics.food.GraphicalApple;
 import benjaminc.chief_simulator.graphics.food.GraphicalPotato;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
-import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;

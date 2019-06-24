@@ -6,18 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import benjaminc.chief_simulator.data.DataMapArray;
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.graphics.tools.GraphicalPlate;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 
 public class Plate implements ContainerThing{
 
-	protected List<Thing> items;
 	protected GraphicalPlate graphics;
-	protected int variant;
-	Map<DataMapKey, Object> dataMap;
+	protected Map<DataMapKey, Object> dataMap;
 
 	public Plate() {
 		this(-1, null, null);
@@ -42,18 +43,23 @@ public class Plate implements ContainerThing{
 		dataMap = new HashMap<DataMapKey, Object>();
 		if(variant == -1) {
 			Random r = new Random();
-			variant = r.nextInt(GraphicalBun.VARIANT_COUNT);
+			dataMap.put(DataMapKey.VARIANT, r.nextInt(GraphicalBun.VARIANT_COUNT));
 		}
-		this.items = items;
+		dataMap.put(DataMapKey.ITEM, new DataMapValue(new DataMapArray(items)));
 		if(items == null) {
-			this.items = new ArrayList<Thing>();
+			dataMap.put(DataMapKey.ITEM, new ArrayList<Thing>());
 			if(t != null) {
-				this.items.add(t);
+				List<Thing> bob = (List<Thing>) (dataMap.get(DataMapKey.ITEM));
+				bob.add(t);
+				dataMap.put(DataMapKey.ITEM, bob);
 			}
 		}
-		graphics = new GraphicalPlate(variant);
+		graphics = new GraphicalPlate(dataMap);
 	}
-	
+	public Plate(Map<DataMapKey, DataMapValue> data) {
+		dataMap = data;
+		graphics = new GraphicalPlate(dataMap);
+	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {

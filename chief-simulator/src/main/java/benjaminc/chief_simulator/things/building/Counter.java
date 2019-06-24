@@ -3,10 +3,11 @@ package benjaminc.chief_simulator.things.building;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
+
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
 import benjaminc.chief_simulator.graphics.building.GraphicalCounter;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.SolidThing;
 
 public class Counter implements SolidThing {

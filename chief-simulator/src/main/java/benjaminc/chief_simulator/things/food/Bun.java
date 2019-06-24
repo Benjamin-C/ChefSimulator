@@ -6,11 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
-import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 

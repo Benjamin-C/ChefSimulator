@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
 import benjaminc.chief_simulator.graphics.building.GraphicalSpawner;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 

@@ -4,11 +4,12 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.graphics.food.GraphicalBeef;
 import benjaminc.chief_simulator.things.Thing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
-import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;
@@ -16,7 +17,7 @@ import benjaminc.chief_simulator.things.types.FoodThing;
 public class Beef implements FoodThing, Cookable, Choppable {
 
 	protected GraphicalBeef graphics;
-	Map<DataMapKey, DataMapValue> dataMap;
+	protected Map<DataMapKey, DataMapValue> dataMap;
 	
 	public Beef() {
 		this(-1, FoodState.RAW);

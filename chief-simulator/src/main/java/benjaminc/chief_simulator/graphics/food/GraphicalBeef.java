@@ -6,10 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Map;
 
+import benjaminc.chief_simulator.data.DataMapKey;
+import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.graphics.GraphicalThing;
-import benjaminc.chief_simulator.things.data.DataMapKey;
-import benjaminc.chief_simulator.things.data.DataMapValue;
-import benjaminc.chief_simulator.things.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.food.FoodState;
 
 public class GraphicalBeef implements GraphicalThing {

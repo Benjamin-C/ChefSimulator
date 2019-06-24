@@ -85,7 +85,7 @@ public class Cook implements Tickable {
 		return false;
 	}
 	@Override
-	public void tick(Room r, Location l, long f, Game g) {
+	public void tick(Room r, Location l, double f, Game g) {
 		for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
 			Action a = e.getValue();
 			f = System.currentTimeMillis();
