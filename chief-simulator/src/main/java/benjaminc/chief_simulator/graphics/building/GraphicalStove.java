@@ -4,27 +4,18 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import benjaminc.chief_simulator.control.Direction;
 import benjaminc.chief_simulator.data.DataMap;
-import benjaminc.chief_simulator.data.DataMapKey;
 import benjaminc.chief_simulator.graphics.GraphicalThing;
-import benjaminc.chief_simulator.things.food.FoodState;
 
-public class GraphicalStove implements GraphicalThing {
+public class GraphicalStove extends GraphicalThing {
 
-	public static final int VARIANT_COUNT = 1;
-	protected DataMap dataMap;
 	public GraphicalStove(DataMap data) {
-		dataMap = data;
-	}	
-	
+		super(data);
+	}
+
 	@Override
-	@SuppressWarnings("unused")
 	public void draw(Graphics ga, int x, int y, int w, int h) {
-		int variant = (Integer) dataMap.get(DataMapKey.VARIANT);
-		Direction dir = (Direction) dataMap.get(DataMapKey.DIRECTION);
-		FoodState state = (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
+		prep();
 		
 		Graphics2D g = (Graphics2D) ga;
 		g.setColor(new Color(64, 64, 64));

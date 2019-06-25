@@ -14,7 +14,12 @@ public class DataMap {
 	public Object get(DataMapKey key) {
 		return dataMap.get(key);
 	}
-	
+	public void update() {
+		
+	}
+	public boolean containsKey(DataMapKey test) {
+		return dataMap.containsKey(test);
+	}
 	public void put(DataMapKey key, Object value) {
 		if(key.getType() == value.getClass()) {
 			dataMap.put(key, value);
@@ -22,5 +27,25 @@ public class DataMap {
 			throw new InvalidDatatypeException("DataMapValue must be of type " + key.getType() + ", not " + value.getClass().getSimpleName());
 		}
 	}
-
+	public DataMap clone() {
+		DataMap newdm = new DataMap();
+		for(DataMapKey k : dataMap.keySet()) {
+			newdm.put(k, dataMap.get(k));
+		}
+		return newdm;
+	}
+	public boolean equals(DataMap dm) {
+		if(dataMap.keySet().size() != dm.dataMap.keySet().size()) {
+			return false;
+		}
+		for(DataMapKey k : dataMap.keySet()) {
+			if(!dm.containsKey(k)) {
+				return false;
+			}
+			if(!dataMap.get(k).equals(dm.get(k))) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

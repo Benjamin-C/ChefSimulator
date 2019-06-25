@@ -2,35 +2,28 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import benjaminc.chief_simulator.Game;
 import benjaminc.chief_simulator.control.Location;
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
 import benjaminc.chief_simulator.graphics.Room;
-import benjaminc.chief_simulator.graphics.building.GraphicalDisposal;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.Tickable;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Disposal implements SolidThing, ToolThing, Tickable {
+public class Disposal extends BasicThing implements SolidThing, ToolThing, Tickable {
 
-	protected GraphicalDisposal graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Disposal() {
-		this(0);
+		this(null);
 	}
-	public Disposal(int var) {
-		super();
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
-		graphics = new GraphicalDisposal(dataMap);
+	public Disposal(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Disposal.class);
 	}
 	
 	@Override
@@ -40,7 +33,7 @@ public class Disposal implements SolidThing, ToolThing, Tickable {
 
 	@Override
 	public Thing duplicate() {
-		return new Disposal();
+		return new Disposal(dataMap.clone());
 	}
 
 	@Override
@@ -57,7 +50,7 @@ public class Disposal implements SolidThing, ToolThing, Tickable {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 	@Override
@@ -67,13 +60,13 @@ public class Disposal implements SolidThing, ToolThing, Tickable {
 		for(Thing t : stuff) {
 				if(!(t instanceof AttachedThing)) {
 				if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
-					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, new DataMapValue(0d));
+					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0d);
 					System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
 				}
 				Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
 				if(((Long) data).longValue() != frame) {
 					toRemove.add(t);
-					t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).update(frame);
+					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
 				}
 			}
 		}

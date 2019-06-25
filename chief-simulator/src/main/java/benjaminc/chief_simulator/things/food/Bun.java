@@ -1,67 +1,46 @@
 package benjaminc.chief_simulator.things.food;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.FoodState;
 import benjaminc.chief_simulator.data.InvalidDatatypeException;
-import benjaminc.chief_simulator.graphics.food.GraphicalBun;
+import benjaminc.chief_simulator.data.Inventory;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Bun implements FoodThing, ContainerThing{
+public class Bun extends BasicThing implements FoodThing, ContainerThing{
 
-	// TODO serialize this
-	protected List<Thing> items;
-	protected GraphicalBun graphics;
-	
-	protected Map<DataMapKey, DataMapValue> dataMap;
-
+	protected final static int VARIANT_COUNT = 1;
+	protected final static int MAX_INV_SIZE = 64;
 	public Bun() {
-		this(-1, FoodState.RAW, null);
+		this(null);
 	}
-	public Bun(List<Thing> items) {
-		this(-1, FoodState.RAW, items);
+	public Bun(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Bun.class);
+		finalPrep();
 	}
 	public Bun(int variant, FoodState state) {
-		this(variant, state, null);
+		super(variant, state, VARIANT_COUNT, Bun.class);
+		finalPrep();
 	}
 	public Bun(int variant, FoodState state, List<Thing> items) {
-		super();
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		if(variant == -1) {
-			Random r = new Random();
-			variant = r.nextInt(GraphicalBun.VARIANT_COUNT);
-		}
-		this.items = items;
-		if(items == null) {
-			this.items = new ArrayList<Thing>();
-		}
-		
-		graphics = new GraphicalBun(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		try {
-			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
-			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
-		} catch (InvalidDatatypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("You goofed!");
-		}
-		
-		
+		this(variant, state);
+		dataMap.put(DataMapKey.INVENTORY, new Inventory(items));
+		finalPrep();
 	}
-	
+	private void finalPrep() {
+		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
+			dataMap.put(DataMapKey.INVENTORY, new Inventory(MAX_INV_SIZE));
+		}
+	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
+		Inventory items = (Inventory) dataMap.get(DataMapKey.INVENTORY);
 		for(int i = 0; i < items.size(); i++) {
 			switch(i%4) {
 			case 0: { items.get(i).draw(g,  x,  y,  w/2,  h/2); } break;
@@ -82,33 +61,29 @@ public class Bun implements FoodThing, ContainerThing{
 	@Override
 	public void addItem(Thing t) {
 		if(t != null) {
-			items.add(t);
+			Inventory inv = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+			inv.add(t);
+			dataMap.put(DataMapKey.INVENTORY, inv);
 		}
 	}
 
 	@Override
 	public void removeItem(Thing t) {
-		items.remove(t);
+		if(t != null) {
+			Inventory inv = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+			inv.remove(t);
+			dataMap.put(DataMapKey.INVENTORY, inv);
+		}
 	}
 
 	@Override
-	public List<Thing> getItems() {
-		List<Thing> temp = new ArrayList<Thing>();
-		for(int i = 0; i < items.size(); i++) {
-			temp.add(items.get(i).duplicate());
-		}
-		return temp;
+	public Inventory getItems() {
+		return ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
 	}
 	
 	@Override
 	public Thing duplicate() {
-		List<Thing> temp = new ArrayList<Thing>();
-		for(int i = 0; i < items.size(); i++) {
-			temp.add(items.get(i).duplicate());
-		}
-		try {
-			return new Bun(dataMap.get(DataMapKey.VARIANT).getInt(), dataMap.get(DataMapKey.FOOD_STATE).getFoodState(), temp);
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
+		return new Bun(dataMap.clone());
 	}
 
 	@Override
@@ -116,21 +91,7 @@ public class Bun implements FoodThing, ContainerThing{
 		if(t != null) {
 			if(t.getClass() == this.getClass()) {
 				if(t instanceof Bun) {
-					List<Thing> theirItems = ((Bun) t).getItems();
-					List<Thing> ourItems = getItems();
-					if(theirItems.size() == ourItems.size()) {
-						for(Thing oth : ourItems) {
-							for(Thing tth : theirItems) {
-								if(oth.isSame(tth)) {
-									theirItems.remove(tth);
-									break;
-								}
-							}
-						}
-						if(theirItems.isEmpty()) {
-							return true;
-						}
-					}
+					return getItems().hasSame(((Bun) t).getItems());
 				}
 			}
 		}
@@ -138,29 +99,27 @@ public class Bun implements FoodThing, ContainerThing{
 	}
 	
 	public void setVariant(int var) {
-		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		try { dataMap.put(DataMapKey.VARIANT, var);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
 	public void setState(FoodState state) {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		try { dataMap.put(DataMapKey.FOOD_STATE, state);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		try { return (int) dataMap.get(DataMapKey.VARIANT);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
 	public FoodState getState() {
-		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		try { return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 	
-	public List<Thing> giveAllItems() {
-		List<Thing> out = items;
-		items = null;
-		return out;
+	public Inventory giveAllItems() {
+		return ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
 	}
 }

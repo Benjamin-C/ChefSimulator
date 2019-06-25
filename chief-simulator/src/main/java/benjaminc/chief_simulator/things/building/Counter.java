@@ -1,31 +1,21 @@
 package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
 
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.graphics.building.GraphicalCounter;
+import benjaminc.chief_simulator.data.DataMap;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 
-public class Counter implements SolidThing {
+public class Counter extends BasicThing implements SolidThing {
 	
-	protected GraphicalCounter graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Counter() {
-		this(0);
+		this(null);
 	}
-	public Counter(int var) {
-		super();
-		graphics = new GraphicalCounter(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+	public Counter(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Counter.class);
 	}
-	
 
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
@@ -34,7 +24,7 @@ public class Counter implements SolidThing {
 
 	@Override
 	public Thing duplicate() {
-		return new Counter();
+		return new Counter(dataMap.clone());
 	}
 
 	@Override
@@ -46,7 +36,7 @@ public class Counter implements SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

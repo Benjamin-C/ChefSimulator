@@ -2,31 +2,23 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.graphics.building.GraphicalCuttingBoard;
+import benjaminc.chief_simulator.data.DataMap;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class CuttingBoard implements ToolThing, SolidThing {
+public class CuttingBoard extends BasicThing implements ToolThing, SolidThing {
 
-	protected GraphicalCuttingBoard graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public CuttingBoard() {
-		this(0);
+		this(null);
 	}
-	public CuttingBoard(int var) {
-		super();
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
-		graphics = new GraphicalCuttingBoard(dataMap);
+	public CuttingBoard(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, CuttingBoard.class);
 	}
 	
 	@Override
@@ -47,7 +39,7 @@ public class CuttingBoard implements ToolThing, SolidThing {
 
 	@Override
 	public Thing duplicate() {
-		return new CuttingBoard();
+		return new CuttingBoard(dataMap.clone());
 	}
 	
 	@Override
@@ -59,7 +51,7 @@ public class CuttingBoard implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

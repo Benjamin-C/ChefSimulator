@@ -1,28 +1,20 @@
 package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
 
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.graphics.building.GraphicalFloor;
+import benjaminc.chief_simulator.data.DataMap;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.AttachedThing;
 
-public class Floor implements AttachedThing {
+public class Floor extends BasicThing implements AttachedThing {
 
-	protected GraphicalFloor graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Floor() {
-		this(0);
+		this(null);
 	}
-	public Floor(int var) {
-		super();
-		graphics = new GraphicalFloor(dataMap);
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+	public Floor(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Floor.class);
 	}
 
 	@Override
@@ -32,7 +24,7 @@ public class Floor implements AttachedThing {
 
 	@Override
 	public Thing duplicate() {
-		return new Floor();
+		return new Floor(dataMap.clone());
 	}
 	
 	@Override
@@ -44,7 +36,7 @@ public class Floor implements AttachedThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

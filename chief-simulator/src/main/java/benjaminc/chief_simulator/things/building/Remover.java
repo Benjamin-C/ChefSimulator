@@ -2,32 +2,22 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.graphics.building.GraphicalRemover;
+import benjaminc.chief_simulator.data.DataMap;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Remover implements ToolThing, SolidThing {
+public class Remover extends BasicThing implements ToolThing, SolidThing {
 
-	protected GraphicalRemover graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Remover() {
-		this(0);
+		this(null);
 	}
-	public Remover(int var) {
-		super();
-		graphics = new GraphicalRemover(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+	public Remover(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Remover.class);
 	}
 	
 	@Override
@@ -39,10 +29,8 @@ public class Remover implements ToolThing, SolidThing {
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
 		if(t instanceof ContainerThing) {
-			ContainerThing th = (ContainerThing) t;
-			temp.addAll(th.getItems());
-			for(Thing tm : temp) {
-				th.removeItem(tm);
+			for(Thing tm : ((ContainerThing) t).getItems().clear()) {
+				temp.add(tm);;
 			}
 		}
 		temp.add(t);
@@ -51,7 +39,7 @@ public class Remover implements ToolThing, SolidThing {
 
 	@Override
 	public Thing duplicate() {
-		return new Remover();
+		return new Remover(dataMap.clone());
 	}
 	
 	@Override
@@ -63,7 +51,7 @@ public class Remover implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

@@ -1,14 +1,31 @@
 package benjaminc.chief_simulator.data;
 
+import java.util.List;
+
 import benjaminc.chief_simulator.things.Thing;
 
 public class Inventory {
 	
 	protected Thing[] inv;
 	
+	/**
+	 * Generates a new inventory with the contents of inv, and a max size the same as inv
+	 * @param inv the List<Thing> to make the inventory from
+	 */
 	public Inventory(Thing[] inv) {
 		this.inv = inv;
 	}
+	/**
+	 * Generates a new inventory with the contents of inv, and a max size the same as inv
+	 * @param inv the List<Thing> to make the inventory from
+	 */
+	public Inventory(List<Thing> inv) {
+		this.inv = (Thing[]) inv.toArray();
+	}
+	/**
+	 * Creates a blank inventory with the max size of maxSize
+	 * @param maxSize the int maximum size of the inventory
+	 */
 	public Inventory(int maxSize) {
 		inv = new Thing[maxSize];
 	}
@@ -58,6 +75,21 @@ public class Inventory {
 		return failed.getAll();
 	}
 	/**
+	 * Gets the item at that location
+	 * @param loc the int location for the item
+	 * @return the Thing there
+	 */
+	public Thing get(int loc) {
+		return inv[loc];
+	}
+	/**
+	 * Gets a snapshot of the contents of the inventory
+	 * @return a snapshot List<Thing> of the inventory
+	 */
+	public Thing[] getAll() {
+		return clone().inv;
+	}
+	/**
 	 * Removes the item from the inventory at the specified location
 	 * @param loc The location of the inventory to remove from
 	 * @return the Thing removed
@@ -68,11 +100,28 @@ public class Inventory {
 		return out;
 	}
 	/**
-	 * Gets a snapshot of the contents of the inventory
-	 * @return a snapshot List<Thing> of the inventory
+	 * Removes the Thing t from the inventory. Removes the first instance of the item
+	 * @param t the thing T to remove
+	 * @return a boolean of if an item was removed
 	 */
-	public Thing[] getAll() {
-		return clone().inv;
+	public boolean remove(Thing t) {
+		for(int i = 0; i < inv.length; i++) {
+			if(inv[i].isSame(t)) {
+				remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Clears the invantory.
+	 */
+	public Thing[] clear() {
+		Thing[] tmp = getAll();
+		for(int i = 0; i < inv.length; i++) {
+			inv[i] = null;
+		}
+		return tmp;
 	}
 	/**
 	 * Returns the max size of the inventory
@@ -80,6 +129,26 @@ public class Inventory {
 	 */
 	public int size() {
 		return inv.length - 1;
+	}
+	/**
+	 * Changes the maximim size of the inventory
+	 * @param max int the new max size
+	 * @return an Inventory with the leftover items if the new size is smaller
+	 */
+	public Inventory setMaxSize(int max) {
+		Thing[] newInv = new Thing[max];
+		Thing[] out = null;
+		if(max < inv.length) {
+			out = new Thing[inv.length - max];
+			for(int i = 0; i < out.length; i++) {
+				out[i] = inv[max+i];
+			}
+		}
+		for(int i = 0; i < Math.min(newInv.length, inv.length); i++) {
+			newInv[i] = inv[i];
+		}
+		inv = newInv;
+		return new Inventory(out);
 	}
 	/**
 	 * Clones the inventory
@@ -91,5 +160,38 @@ public class Inventory {
 			newinv[i] = inv[i];
 		}
 		return new Inventory(newinv);
+	}
+	/**
+	 * Checks if this inventory is identical to another
+	 * @param in the Inventory to check against
+	 * @return a boolean of identiacality
+	 */
+	public boolean equals(Inventory in) {
+		if(inv.length == in.size()) {
+			return false;
+		}
+		for(int i = 0; i < inv.length; i++) {
+			if(!inv[i].equals(in.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
+	 * Checks if this inventory has exactly the same contents, but in different spaces as the other
+	 * @param in the Inventory to check against
+	 * @return a boolean of if they have the same stuff
+	 */
+	public boolean hasSame(Inventory in) {
+		Inventory test = in.clone();
+		if(inv.length == test.size()) {
+			return false;
+		}
+		for(int i = 0; i < inv.length; i++) {
+			if(!test.remove(inv[i])) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

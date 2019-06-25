@@ -1,45 +1,27 @@
 package benjaminc.chief_simulator.things.food;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.data.InvalidDatatypeException;
-import benjaminc.chief_simulator.graphics.food.GraphicalBeef;
+import benjaminc.chief_simulator.data.FoodState;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
+import benjaminc.chief_simulator.data.InvalidDatatypeException;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Beef implements FoodThing, Cookable, Choppable {
+public class Beef extends BasicThing implements FoodThing, Cookable, Choppable {
 
-	protected GraphicalBeef graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Beef() {
-		this(-1, FoodState.RAW);
+		this(null);
 	}
-	public Beef(Map<DataMapKey, DataMapValue> data) {
-		dataMap = data;
-		graphics = new GraphicalBeef(dataMap);
+	public Beef(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Beef.class);
 	}
 	public Beef(int variant, FoodState state) {
-		super();
-		if(variant == -1) {
-			Random r = new Random();
-			variant = r.nextInt(GraphicalBeef.VARIANT_COUNT);
-		}
-		
-		graphics = new GraphicalBeef(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		try {
-			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
-			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
+		super(variant, state, VARIANT_COUNT, Beef.class);
 	}
 	
 	@Override
@@ -50,27 +32,27 @@ public class Beef implements FoodThing, Cookable, Choppable {
 	@Override
 	public Thing getChoppedThing() {
 		try {
-			if(dataMap.get(DataMapKey.FOOD_STATE).getFoodState() == FoodState.RAW) {
-				dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
+			if(dataMap.get(DataMapKey.FOOD_STATE) == FoodState.RAW) {
+				dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
 			}
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
 
 	public void setVariant(int var) {
-		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		try { dataMap.put(DataMapKey.VARIANT, var);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
 	public void setState(FoodState state) {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		try { dataMap.put(DataMapKey.FOOD_STATE, state);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		try { return (int) dataMap.get(DataMapKey.VARIANT);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
 	public FoodState getState() {
-		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		try { return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 	@Override
@@ -89,23 +71,23 @@ public class Beef implements FoodThing, Cookable, Choppable {
 	@Override
 	public Thing getCookedThing() {
 		try {
-			switch(dataMap.get(DataMapKey.FOOD_STATE).getFoodState()) {
+			switch((FoodState) dataMap.get(DataMapKey.FOOD_STATE)) {
 			case CHOPPED: {
-				dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED_COOKED);
+				dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED_COOKED);
 			} break;
 			case CHOPPED_COOKED:
 				break;
 			case COOKED:
 				break;
 			case RAW: {
-				dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.COOKED);
+				dataMap.put(DataMapKey.FOOD_STATE, FoodState.COOKED);
 			} break;
 			}
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

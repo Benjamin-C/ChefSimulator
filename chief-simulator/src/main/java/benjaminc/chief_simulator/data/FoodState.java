@@ -1,4 +1,4 @@
-package benjaminc.chief_simulator.things.food;
+package benjaminc.chief_simulator.data;
 
 public enum FoodState {
 	RAW(0),

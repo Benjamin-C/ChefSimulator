@@ -2,32 +2,22 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.graphics.building.GraphicalStove;
+import benjaminc.chief_simulator.data.DataMap;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.CookwareThing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Stove implements ToolThing, SolidThing {
+public class Stove extends BasicThing implements ToolThing, SolidThing {
 
-	protected GraphicalStove graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Stove() {
-		this(0);
+		this(null);
 	}
-	public Stove(int var) {
-		super();
-		graphics = new GraphicalStove(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+	public Stove(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Stove.class);
 	}
 	
 	@Override
@@ -60,7 +50,7 @@ public class Stove implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

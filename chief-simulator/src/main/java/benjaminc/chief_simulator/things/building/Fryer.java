@@ -2,32 +2,22 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.graphics.building.GraphicalFryer;
+import benjaminc.chief_simulator.data.DataMap;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 
-public class Fryer implements ToolThing, SolidThing {
+public class Fryer extends BasicThing implements ToolThing, SolidThing {
 
-	protected GraphicalFryer graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Fryer() {
-		this(0);
+		this(null);
 	}
-	public Fryer(int var) {
-		super();
-		graphics = new GraphicalFryer(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
+	public Fryer(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Fryer.class);
 	}
 	
 	@Override
@@ -48,7 +38,7 @@ public class Fryer implements ToolThing, SolidThing {
 
 	@Override
 	public Thing duplicate() {
-		return new Fryer();
+		return new Fryer(dataMap.clone());
 	}
 	
 	@Override
@@ -60,7 +50,7 @@ public class Fryer implements ToolThing, SolidThing {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

@@ -1,41 +1,25 @@
 package benjaminc.chief_simulator.things.food;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
-import benjaminc.chief_simulator.data.InvalidDatatypeException;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
+import benjaminc.chief_simulator.data.FoodState;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Apple implements FoodThing, Choppable {
+public class Apple extends BasicThing implements FoodThing, Choppable {
 
-	protected GraphicalApple graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Apple() {
-		this(-1, FoodState.RAW);
+		this(null);
+	}
+	public Apple(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Apple.class);
 	}
 	public Apple(int variant, FoodState state) {
-		if(variant == -1) {
-			Random r = new Random();
-			variant = r.nextInt(GraphicalApple.VARIANT_COUNT);
-		}
-		
-		graphics = new GraphicalApple(dataMap);
-		
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
-		dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
-	}
-	public Apple(Map<DataMapKey, DataMapValue> dataMap) {
-		this.dataMap = dataMap;
-		graphics = new GraphicalApple(dataMap);
+		super(variant, state, VARIANT_COUNT, Apple.class);
 	}
 	
 	@Override
@@ -43,21 +27,21 @@ public class Apple implements FoodThing, Choppable {
 		graphics.draw(g, x, y, w, h);
 	}
 	public Thing getChoppedThing() {
-		dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
+		dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
 		return this;
 	}
 
 	public void setVariant(int var) {
-		dataMap.get(DataMapKey.VARIANT).update(var);
+		dataMap.put(DataMapKey.VARIANT, var);
 	}
 	public void setState(FoodState state) {
-		dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		dataMap.put(DataMapKey.FOOD_STATE, state);
 	}
 	public int getVariant() {
-		return dataMap.get(DataMapKey.VARIANT).getInt();
+		return (int) dataMap.get(DataMapKey.VARIANT);
 	}
 	public FoodState getState() {
-		return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
 	}
 	
 	@Override
@@ -74,7 +58,7 @@ public class Apple implements FoodThing, Choppable {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

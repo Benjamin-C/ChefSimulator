@@ -1,5 +1,5 @@
 package benjaminc.chief_simulator.graphics;
 
-public interface DirectionalGraphicalThing extends GraphicalThing{
+public interface DirectionalGraphicalThing {
 
 }

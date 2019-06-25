@@ -1,14 +1,15 @@
 package benjaminc.chief_simulator.data;
 
 import benjaminc.chief_simulator.control.Direction;
-import benjaminc.chief_simulator.things.food.FoodState;
+import benjaminc.chief_simulator.things.Thing;
 
 public enum DataMapKey {
 LAST_MOVE_FRAME("Last_Move_Frame", Double.class),
 VARIANT("Variant", Integer.class),
+VARIANT_COUNT("Variant_Count", Integer.class),
 FOOD_STATE("Food_State", FoodState.class),
 DIRECTION("Direction", Direction.class),
-MAKES("Makes", Object.class),
+MAKES("Makes", Thing.class),
 INVENTORY("Item", Inventory.class);
 	
 	String key;

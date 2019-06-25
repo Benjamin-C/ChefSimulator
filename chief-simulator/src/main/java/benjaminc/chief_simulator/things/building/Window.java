@@ -2,35 +2,28 @@ package benjaminc.chief_simulator.things.building;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import benjaminc.chief_simulator.Objective;
-import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.graphics.Room;
-import benjaminc.chief_simulator.graphics.building.GraphicalWindow;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.SolidThing;
 import benjaminc.chief_simulator.things.types.ToolThing;
 import benjaminc.util.Util;
 
-public class Window implements ToolThing, Thing, SolidThing{
+public class Window extends BasicThing implements ToolThing, Thing, SolidThing{
 	
-	protected GraphicalWindow graphics;
 	protected Room room;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Window(Room r) {
-		this(r, 0);
+		this(r, null);
 	}
-	public Window(Room r, int var) {
+	public Window(Room r, DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Window.class);
 		room = r;
-		graphics = new GraphicalWindow(dataMap);
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(var));
 	}
-
+	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
@@ -70,7 +63,7 @@ public class Window implements ToolThing, Thing, SolidThing{
 		return li;
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

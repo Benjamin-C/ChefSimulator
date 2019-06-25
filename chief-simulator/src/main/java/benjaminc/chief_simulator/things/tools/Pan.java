@@ -7,43 +7,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.FoodState;
+import benjaminc.chief_simulator.graphics.GraphicalLoader;
 import benjaminc.chief_simulator.graphics.tools.GraphicalPan;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 import benjaminc.chief_simulator.things.types.Cookable;
 import benjaminc.chief_simulator.things.types.CookwareThing;
 
-public class Pan implements CookwareThing, ContainerThing{
+public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	protected GraphicalPan graphics;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Pan() {
-		this(-1);
+		this(null);
 	}
-	public Pan(Thing item) {
-		this(-1, item);
-	}
-	public Pan(int variant) {
-		this(variant, null);
-	}
-	public Pan(Map<DataMapKey, DataMapValue> data) {
-		super();
-		dataMap = data;
-		graphics = new GraphicalPan(dataMap);
+	public Pan(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Pan.class);
+		graphics = GraphicalLoader.load(this.getClass().getSimpleName(), this.dataMap);
 	}
 	public Pan(int variant, Thing item) {
-		super();
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		if(variant == -1) {
-			Random r = new Random();
-			variant = r.nextInt(GraphicalPan.VARIANT_COUNT);
-		}
-		dataMap.put(DataMapKey.ITEM, new DataMapValue(item));
-		dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
-		graphics = new GraphicalPan(dataMap);
+		super(variant, FoodState.RAW, VARIANT_COUNT, Pan.class);
+		
 	}
 	
 	@Override

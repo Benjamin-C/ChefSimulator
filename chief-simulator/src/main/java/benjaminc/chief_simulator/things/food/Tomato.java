@@ -1,40 +1,28 @@
 package benjaminc.chief_simulator.things.food;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.FoodState;
 import benjaminc.chief_simulator.data.InvalidDatatypeException;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
-import benjaminc.chief_simulator.graphics.food.GraphicalTomato;
+import benjaminc.chief_simulator.graphics.GraphicalLoader;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Tomato implements FoodThing, Choppable{
+public class Tomato extends BasicThing implements FoodThing, Choppable{
 
-	protected GraphicalTomato graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Tomato() {
-		this(-1, FoodState.RAW);
+		this(null);
+	}
+	public Tomato(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Tomato.class);
+		graphics = GraphicalLoader.load(this.getClass().getSimpleName(), this.dataMap);
 	}
 	public Tomato(int variant, FoodState state) {
-		super();
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		if(variant == -1) {
-			Random r = new Random();
-			variant = r.nextInt(GraphicalTomato.VARIANT_COUNT);
-		}
-
-		graphics = new GraphicalTomato(dataMap);
-	}
-	public Tomato(Map<DataMapKey, DataMapValue> dataMap) {
-		this.dataMap = dataMap;
-		graphics = new GraphicalTomato(dataMap);
+		super(variant, state, VARIANT_COUNT, Tomato.class);
 	}
 	
 	@Override
@@ -44,7 +32,7 @@ public class Tomato implements FoodThing, Choppable{
 
 	@Override
 	public Thing getChoppedThing() {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
+		try { dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
@@ -63,23 +51,23 @@ public class Tomato implements FoodThing, Choppable{
 		}
 	}
 	public void setVariant(int var) {
-		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		try { dataMap.put(DataMapKey.VARIANT, var);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
 	public void setState(FoodState state) {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		try { dataMap.put(DataMapKey.FOOD_STATE, state);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		try { return (int) dataMap.get(DataMapKey.VARIANT);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
 	public FoodState getState() {
-		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		try { return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }

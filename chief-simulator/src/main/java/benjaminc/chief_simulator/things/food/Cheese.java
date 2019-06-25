@@ -1,50 +1,26 @@
 package benjaminc.chief_simulator.things.food;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.FoodState;
 import benjaminc.chief_simulator.data.InvalidDatatypeException;
-import benjaminc.chief_simulator.graphics.food.GraphicalApple;
-import benjaminc.chief_simulator.graphics.food.GraphicalCheese;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.Choppable;
 import benjaminc.chief_simulator.things.types.FoodThing;
 
-public class Cheese implements FoodThing, Choppable {
+public class Cheese extends BasicThing implements FoodThing, Choppable {
 
-	protected GraphicalCheese graphics;
-	protected Map<DataMapKey, DataMapValue> dataMap;
-	
+	protected final static int VARIANT_COUNT = 1;
 	public Cheese() {
-		this(-1, FoodState.RAW);
+		this(null);
+	}
+	public Cheese(DataMap dataMap) {
+		super(dataMap, VARIANT_COUNT, Cheese.class);
 	}
 	public Cheese(int variant, FoodState state) {
-		super();
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		if(variant == -1) {
-			Random r = new Random();
-			variant = r.nextInt(GraphicalCheese.VARIANT_COUNT);
-		}
-
-		graphics = new GraphicalCheese(dataMap);
-	
-		dataMap = new HashMap<DataMapKey, DataMapValue>();
-		try {
-			dataMap.put(DataMapKey.VARIANT, new DataMapValue(variant));
-			dataMap.put(DataMapKey.FOOD_STATE, new DataMapValue(state));
-		} catch (InvalidDatatypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("You goofed!");
-		}
-	}
-	public Cheese(Map<DataMapKey, DataMapValue> dataMap) {
-		this.dataMap = dataMap;
-		graphics = new GraphicalCheese(dataMap);
+		super(variant, state, VARIANT_COUNT, Cheese.class);
 	}
 	
 	@Override
@@ -52,25 +28,25 @@ public class Cheese implements FoodThing, Choppable {
 		graphics.draw(g, x, y, w, h);
 	}
 	public Thing getChoppedThing() {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(FoodState.CHOPPED);
+		try { dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;
 	}
 
 	public void setVariant(int var) {
-		try { dataMap.get(DataMapKey.VARIANT).update(var);
+		try { dataMap.put(DataMapKey.VARIANT, var);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 	}
 	public void setState(FoodState state) {
-		try { dataMap.get(DataMapKey.FOOD_STATE).update(state);
+		try { dataMap.put(DataMapKey.FOOD_STATE, state);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
 	}
 	public int getVariant() {
-		try { return dataMap.get(DataMapKey.VARIANT).getInt();
+		try { return (int) dataMap.get(DataMapKey.VARIANT);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
 	public FoodState getState() {
-		try { return dataMap.get(DataMapKey.FOOD_STATE).getFoodState();
+		try { return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
 	@Override
@@ -87,7 +63,7 @@ public class Cheese implements FoodThing, Choppable {
 		}
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 }
