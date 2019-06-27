@@ -21,7 +21,10 @@ public class Inventory {
 	 * @param inv the List<Thing> to make the inventory from
 	 */
 	public Inventory(List<Thing> inv) {
-		this.inv = (Thing[]) inv.toArray();
+		this.inv = new Thing[inv.size()];
+		for(int i = 0; i < this.inv.length; i++) {
+			this.inv[i] = inv.get(i);
+		}
 	}
 	/**
 	 * Creates a blank inventory with the max size of maxSize
@@ -107,6 +110,15 @@ public class Inventory {
 		List<Thing> out = new ArrayList<Thing>();
 		for(Thing t : inv) {
 			out.add(t);
+		}
+		return out;
+	}
+	public List<Thing> getThingsAsList() {
+		List<Thing> out = new ArrayList<Thing>();
+		for(Thing t : inv) {
+			if(t != null) {
+				out.add(t);
+			}
 		}
 		return out;
 	}

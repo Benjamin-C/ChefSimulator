@@ -9,12 +9,13 @@ import benjaminc.chief_simulator.things.types.AttachedThing;
 
 public class Floor extends BasicThing implements AttachedThing {
 
-	protected final static int VARIANT_COUNT = 1;
+	protected final static int VARIANT_COUNT = (int) System.currentTimeMillis();
 	public Floor() {
 		this(null);
 	}
 	public Floor(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Floor.class);
+		System.out.println(VARIANT_COUNT + " " + graphics);
 	}
 
 	@Override

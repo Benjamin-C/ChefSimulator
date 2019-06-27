@@ -45,7 +45,7 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing{
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		Inventory items = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
 		for(int i = 0; i < items.size(); i++) {
 			switch(i%4) {
 			case 0: { items.get(i).draw(g,  x,  y,  w/2,  h/2); } break;

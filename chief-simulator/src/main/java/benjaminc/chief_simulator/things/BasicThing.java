@@ -17,26 +17,28 @@ public class BasicThing {
 	
 	public BasicThing(DataMap dataMap, Class<?> subclass) {
 		this.subclass = subclass;
-		if(dataMap == null) {
-			dataMap = new DataMap();
-		}
-		if(!dataMap.containsKey(DataMapKey.VARIANT_COUNT)) {
-			dataMap.put(DataMapKey.VARIANT_COUNT, 1);
-		}
-		if(!dataMap.containsKey(DataMapKey.VARIANT)) {
-			Random r = new Random();
-			dataMap.put(DataMapKey.VARIANT_COUNT, r.nextInt((int) dataMap.get(DataMapKey.VARIANT_COUNT)));
-		}
-		if(!dataMap.containsKey(DataMapKey.DIRECTION)) {
-			dataMap.put(DataMapKey.DIRECTION, Direction.UP);
-		}
 		this.dataMap = dataMap;
+		if(this.dataMap == null) {
+			this.dataMap = new DataMap();
+		}
+		if(!this.dataMap.containsKey(DataMapKey.VARIANT_COUNT)) {
+			this.dataMap.put(DataMapKey.VARIANT_COUNT, 1);
+		}
+		if(!this.dataMap.containsKey(DataMapKey.VARIANT)) {
+			Random r = new Random();
+			this.dataMap.put(DataMapKey.VARIANT_COUNT, r.nextInt((int) this.dataMap.get(DataMapKey.VARIANT_COUNT)));
+		}
+		if(!this.dataMap.containsKey(DataMapKey.DIRECTION)) {
+			this.dataMap.put(DataMapKey.DIRECTION, Direction.UP);
+		}
+		
 		
 		graphics = GraphicalLoader.load(this.subclass.getSimpleName(), this.dataMap);
 	}
 	public BasicThing(DataMap dataMap, int variantCount, Class<?> subclass) {
 		this(dataMap, subclass);
 		this.dataMap.put(DataMapKey.VARIANT_COUNT, variantCount);
+		System.out.println("Making graphics for " + subclass.getSimpleName() + " #" + this.dataMap.get(DataMapKey.VARIANT_COUNT) + " and it is " + graphics);
 	}
 	public BasicThing(int variant, FoodState state, int variantCount, Class<?> subclass) {
 		this(null, variantCount, subclass);

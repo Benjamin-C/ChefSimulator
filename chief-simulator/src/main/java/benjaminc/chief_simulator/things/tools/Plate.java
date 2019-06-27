@@ -37,8 +37,10 @@ public class Plate extends BasicThing implements ContainerThing{
 		super(variant, FoodState.RAW, VARIANT_COUNT, Plate.class);
 		Inventory myinv = new Inventory(MAX_INV_SIZE);
 		myinv.add(t);
-		for(Thing th : items) {
-			myinv.add(th);
+		if(items != null) {
+			for(Thing th : items) {
+				myinv.add(th);
+			}
 		}
 		dataMap.put(DataMapKey.INVENTORY, myinv);
 	}
@@ -49,7 +51,7 @@ public class Plate extends BasicThing implements ContainerThing{
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
-		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getAllAsList();
+		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
 		switch(items.size()) {
 		case 1: {
 			items.get(0).draw(g,  x+(w/4),  y+(h/4),  w/2,  h/2);

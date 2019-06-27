@@ -21,7 +21,7 @@ public class DataMap {
 		return dataMap.containsKey(test);
 	}
 	public void put(DataMapKey key, Object value) {
-		if(key.getType() == value.getClass()) {
+		if(checkForType(value, key.getType())) {
 			dataMap.put(key, value);
 		} else {
 			throw new InvalidDatatypeException("DataMapValue must be of type " + key.getType() + ", not " + value.getClass().getSimpleName());
@@ -48,4 +48,8 @@ public class DataMap {
 		}
 		return true;
 	}
+	private boolean checkForType(Object candidate, Class<?> type){
+	    return type.isInstance(candidate);
+	}
+
 }
