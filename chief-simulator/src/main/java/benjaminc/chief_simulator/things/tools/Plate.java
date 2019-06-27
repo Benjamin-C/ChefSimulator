@@ -6,20 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import benjaminc.chief_simulator.data.DataMapArray;
+import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
-import benjaminc.chief_simulator.data.DataMapValue;
+import benjaminc.chief_simulator.data.FoodState;
+import benjaminc.chief_simulator.data.Inventory;
 import benjaminc.chief_simulator.graphics.food.GraphicalBun;
 import benjaminc.chief_simulator.graphics.tools.GraphicalPlate;
+import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
 
-public class Plate implements ContainerThing{
+public class Plate extends BasicThing implements ContainerThing{
 
-	protected GraphicalPlate graphics;
-	protected Map<DataMapKey, Object> dataMap;
-
+	private static final int VARIANT_COUNT = 1;
+	private static final int MAX_INV_SIZE = 64;
 	public Plate() {
 		this(-1, null, null);
 	}
@@ -39,31 +39,22 @@ public class Plate implements ContainerThing{
 		this(variant, items, null);
 	}
 	private Plate(int variant, List<Thing> items, Thing t) {
-		super();
-		dataMap = new HashMap<DataMapKey, Object>();
-		if(variant == -1) {
-			Random r = new Random();
-			dataMap.put(DataMapKey.VARIANT, r.nextInt(GraphicalBun.VARIANT_COUNT));
+		super(variant, FoodState.RAW, VARIANT_COUNT, Plate.class);
+		Inventory myinv = new Inventory(MAX_INV_SIZE);
+		myinv.add(t);
+		for(Thing th : items) {
+			myinv.add(th);
 		}
-		dataMap.put(DataMapKey.ITEM, new DataMapValue(new DataMapArray(items)));
-		if(items == null) {
-			dataMap.put(DataMapKey.ITEM, new ArrayList<Thing>());
-			if(t != null) {
-				List<Thing> bob = (List<Thing>) (dataMap.get(DataMapKey.ITEM));
-				bob.add(t);
-				dataMap.put(DataMapKey.ITEM, bob);
-			}
-		}
-		graphics = new GraphicalPlate(dataMap);
+		dataMap.put(DataMapKey.INVENTORY, myinv);
 	}
-	public Plate(Map<DataMapKey, DataMapValue> data) {
-		dataMap = data;
-		graphics = new GraphicalPlate(dataMap);
+	public Plate(DataMap data) {
+		super(data, Plate.class);
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
+		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getAllAsList();
 		switch(items.size()) {
 		case 1: {
 			items.get(0).draw(g,  x+(w/4),  y+(h/4),  w/2,  h/2);
@@ -96,7 +87,8 @@ public class Plate implements ContainerThing{
 			addItem(t);
 		} else {
 			List<Thing> out = new ArrayList<Thing>();
-			if(items.size() > 0) {
+			Inventory i = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+			if(i.itemCount() > 0) {
 				out.add(items.remove(items.size() - 1));
 			}
 			return out;
@@ -107,31 +99,23 @@ public class Plate implements ContainerThing{
 	@Override
 	public void addItem(Thing t) {
 		if(t != null) {
-			items.add(t);
+			dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).add(t));
 		}
 	}
 
 	@Override
 	public void removeItem(Thing t) {
-		items.remove(t);
+		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).remove(t));;
 	}
 
 	@Override
-	public List<Thing> getItems() {
-		List<Thing> temp = new ArrayList<Thing>();
-		for(int i = 0; i < items.size(); i++) {
-			temp.add(items.get(i).duplicate());
-		}
-		return temp;
+	public Inventory getItems() {
+		return (Inventory) dataMap.get(DataMapKey.INVENTORY);
 	}
 	
 	@Override
 	public Thing duplicate() {
-		List<Thing> temp = new ArrayList<Thing>();
-		for(int i = 0; i < items.size(); i++) {
-			temp.add(items.get(i).duplicate());
-		}
-		return new Plate(variant, temp);
+		return new Plate(dataMap.clone());
 	}
 
 	@Override
@@ -139,8 +123,8 @@ public class Plate implements ContainerThing{
 		if(t != null) {
 			if(t.getClass() == this.getClass()) {
 				if(t instanceof Plate) {
-					List<Thing> theirItems = ((Plate) t).getItems();
-					List<Thing> ourItems = getItems();
+					List<Thing> theirItems = ((Plate) t).getItems().getAllAsList();
+					List<Thing> ourItems = getItems().getAllAsList();
 					if(theirItems.size() == ourItems.size()) {
 						for(Thing oth : ourItems) {
 							for(Thing tth : theirItems) {
@@ -160,20 +144,14 @@ public class Plate implements ContainerThing{
 		return false;
 	}
 	
-	public void setVariant(int var) {
-		variant = var;
-	}
-	public int getVariant() {
-		return variant;
-	}
 	@Override
-	public Map<DataMapKey, Object> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 	@Override
-	public List<Thing> giveAllItems() {
-		List<Thing> out = items;
-		items = null;
+	public Inventory giveAllItems() {
+		Inventory out = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clear());
 		return out;
 	}
 }

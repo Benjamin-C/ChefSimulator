@@ -2,16 +2,11 @@ package benjaminc.chief_simulator.things.tools;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
 import benjaminc.chief_simulator.data.FoodState;
-import benjaminc.chief_simulator.graphics.GraphicalLoader;
-import benjaminc.chief_simulator.graphics.tools.GraphicalPan;
+import benjaminc.chief_simulator.data.Inventory;
 import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;
@@ -21,28 +16,38 @@ import benjaminc.chief_simulator.things.types.CookwareThing;
 public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 
 	protected final static int VARIANT_COUNT = 1;
+	protected final static int MAX_INV_SIZE = 1;
 	public Pan() {
 		this(null);
 	}
 	public Pan(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Pan.class);
-		graphics = GraphicalLoader.load(this.getClass().getSimpleName(), this.dataMap);
+		finalPrep();
 	}
 	public Pan(int variant, Thing item) {
 		super(variant, FoodState.RAW, VARIANT_COUNT, Pan.class);
-		
+		dataMap.put(DataMapKey.INVENTORY, new Inventory(item));
+		finalPrep();
+	}
+	private void finalPrep() {
+		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
+			dataMap.put(DataMapKey.INVENTORY, new Inventory(1));
+		}
 	}
 	
 	@Override
 	public List<Thing> useTool(Thing t) {
 		checkItemKey();
 		List<Thing> out = new ArrayList<Thing>();
-		Thing thing = dataMap.get(DataMapKey.ITEM).getThing();
-		if(thing == null) {
-			dataMap.get(DataMapKey.ITEM).update(t);
+		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
+			dataMap.put(DataMapKey.INVENTORY, new Inventory(1));
+		}
+		Inventory i = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+		if(i.isEmpty()) {
+			dataMap.put(DataMapKey.INVENTORY, i.put(t, 0));
 		} else {
-			out.add(thing);
-			dataMap.get(DataMapKey.ITEM).update(null);
+			out.add(i.get(0));
+			dataMap.put(DataMapKey.INVENTORY, i.remove(0));
 		}
 		return out;
 	}
@@ -50,8 +55,9 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 	@Override
 	public Thing getCookedThing() {
 		checkItemKey();
-		if(dataMap.get(DataMapKey.ITEM).getThing() instanceof Cookable) {
-			dataMap.get(DataMapKey.ITEM).update(((Cookable) dataMap.get(DataMapKey.ITEM).getThing()).getCookedThing());
+		Thing thing = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0);
+		if(thing instanceof Cookable) {
+			dataMap.put(DataMapKey.INVENTORY, ((Cookable) thing).getCookedThing());
 		}
 		return this;
 	}
@@ -59,31 +65,28 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 	@Override
 	public void addItem(Thing t) {
 		checkItemKey();
-		dataMap.get(DataMapKey.ITEM).update(t);
+		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(t, 0));
 	}
 
 	@Override
 	public void removeItem(Thing t) {
 		checkItemKey();
-		if(t.isSame(dataMap.get(DataMapKey.ITEM).getThing())) {
-			dataMap.get(DataMapKey.ITEM).update(null);
-		}
+		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).remove(t));
 	}
 
 	@Override
-	public List<Thing> getItems() {
+	public Inventory getItems() {
 		checkItemKey();
-		List<Thing> out = new ArrayList<Thing>();
-		out.add(dataMap.get(DataMapKey.ITEM).getThing());
-		return out;
+		return (Inventory) dataMap.get(DataMapKey.INVENTORY);
 	}
 	
 	@Override
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		checkItemKey();
 		graphics.draw(g, x, y, w, h);
-		if(dataMap.get(DataMapKey.ITEM).getThing() != null) {
-			dataMap.get(DataMapKey.ITEM).getThing().draw(g, x+(w/4), y+(h/4), w/2, h/2);
+		Thing t = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0);
+		if(t != null) {
+			t.draw(g, x+(w/4), y+(h/4), w/2, h/2);
 		}
 	}
 	
@@ -96,7 +99,7 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 		checkItemKey();
 		if(t != null) {
 			if(t instanceof Pan) {
-				if(((Pan) t).getItems().get(0).isSame(dataMap.get(DataMapKey.ITEM).getThing())) {
+				if(((Pan) t).getItems().get(0).isSame(((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0))) {
 					return true;
 				}
 			}
@@ -104,20 +107,19 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 		return false;
 	}
 	@Override
-	public Map<DataMapKey, DataMapValue> getDataMap() {
+	public DataMap getDataMap() {
 		return dataMap;
 	}
 	@Override
-	public List<Thing> giveAllItems() {
+	public Inventory giveAllItems() {
 		checkItemKey();
-		List<Thing> out = new ArrayList<Thing>();
-		out.add(dataMap.get(DataMapKey.ITEM).getThing());
-		dataMap.get(DataMapKey.ITEM).update(null);
+		Inventory out = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+		((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(null, 0);
 		return out;
 	}
 	private void checkItemKey() {
-		if(!dataMap.containsKey(DataMapKey.ITEM)) {
-			dataMap.put(DataMapKey.ITEM, new DataMapValue(Thing.class));
+		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
+			dataMap.put(DataMapKey.INVENTORY, new Inventory(MAX_INV_SIZE));
 		}
 	}
 }

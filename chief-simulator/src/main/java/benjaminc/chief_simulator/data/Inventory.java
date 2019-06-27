@@ -1,5 +1,6 @@
 package benjaminc.chief_simulator.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chief_simulator.things.Thing;
@@ -29,7 +30,10 @@ public class Inventory {
 	public Inventory(int maxSize) {
 		inv = new Thing[maxSize];
 	}
-	
+	public Inventory(Thing t) {
+		inv = new Thing[1];
+		inv[0] = t;
+	}
 	/**
 	 * Adds the item to the first available spot in the inventory
 	 * @param t the Thing to add
@@ -57,7 +61,7 @@ public class Inventory {
 			return true;
 		}
 		return false;
-	}
+	} // TODO add itmecount
 	/**
 	 * Adds an the contents of another inventory to this one
 	 * @param add the Inventory to add;
@@ -75,6 +79,16 @@ public class Inventory {
 		return failed.getAll();
 	}
 	/**
+	 * Forcefully puts t in loc. Overrides and returns whatever was there
+	 * @param t
+	 * @param loc
+	 */
+	public Thing put(Thing t, int loc) {
+		Thing old = inv[loc];
+		inv[loc] = t;
+		return old;
+	}
+	/**
 	 * Gets the item at that location
 	 * @param loc the int location for the item
 	 * @return the Thing there
@@ -88,6 +102,13 @@ public class Inventory {
 	 */
 	public Thing[] getAll() {
 		return clone().inv;
+	}
+	public List<Thing> getAllAsList() {
+		List<Thing> out = new ArrayList<Thing>();
+		for(Thing t : inv) {
+			out.add(t);
+		}
+		return out;
 	}
 	/**
 	 * Removes the item from the inventory at the specified location
@@ -129,6 +150,18 @@ public class Inventory {
 	 */
 	public int size() {
 		return inv.length - 1;
+	}
+	/**
+	 * Tests if the inventory is empty
+	 * @return a boolean of if the inventory is empty
+	 */
+	public boolean isEmpty() {
+		for(Thing t : inv) {
+			if(t != null) {
+				return false;
+			}
+		}
+		return true;
 	}
 	/**
 	 * Changes the maximim size of the inventory

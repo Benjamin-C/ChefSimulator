@@ -17,7 +17,7 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing{
 	protected final static int VARIANT_COUNT = 1;
 	protected final static int MAX_INV_SIZE = 64;
 	public Bun() {
-		this(null);
+		this((DataMap) null);
 	}
 	public Bun(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Bun.class);
@@ -30,6 +30,11 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing{
 	public Bun(int variant, FoodState state, List<Thing> items) {
 		this(variant, state);
 		dataMap.put(DataMapKey.INVENTORY, new Inventory(items));
+		finalPrep();
+	}
+	public Bun(List<Thing> toppings) {
+		this((DataMap) null);
+		dataMap.put(DataMapKey.INVENTORY, new Inventory(toppings));
 		finalPrep();
 	}
 	private void finalPrep() {

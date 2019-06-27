@@ -26,10 +26,14 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 	
 	protected final static int VARIANT_COUNT = 1;
 	public Belt() {
-		this(null);
+		this((DataMap) null);
 	}
 	public Belt(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Belt.class);
+	}
+	public Belt(Direction d) {
+		this((DataMap) null);
+		dataMap.put(DataMapKey.DIRECTION, d);
 	}
 
 	@Override
