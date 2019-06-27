@@ -87,9 +87,17 @@ public class Plate extends BasicThing implements ContainerThing{
 			addItem(t);
 		} else {
 			List<Thing> out = new ArrayList<Thing>();
-			Inventory i = (Inventory) dataMap.get(DataMapKey.INVENTORY);
-			if(i.itemCount() > 0) {
-				out.add(items.remove(items.size() - 1));
+			Inventory in = (Inventory) dataMap.get(DataMapKey.INVENTORY);
+			if(in.thingCount() > 0) {
+				Thing th = null;
+				for(int i = in.size() - 1; i >= 0; i--) {
+					th = in.get(i);
+					if(th != null) {
+						out.add(in.remove(i));
+						break;
+					}
+				}
+				
 			}
 			return out;
 		}
@@ -99,13 +107,13 @@ public class Plate extends BasicThing implements ContainerThing{
 	@Override
 	public void addItem(Thing t) {
 		if(t != null) {
-			dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).add(t));
+			((Inventory) dataMap.get(DataMapKey.INVENTORY)).add(t);
 		}
 	}
 
 	@Override
 	public void removeItem(Thing t) {
-		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).remove(t));;
+		((Inventory) dataMap.get(DataMapKey.INVENTORY)).remove(t);
 	}
 
 	@Override
@@ -150,8 +158,8 @@ public class Plate extends BasicThing implements ContainerThing{
 	}
 	@Override
 	public Inventory giveAllItems() {
-		Inventory out = (Inventory) dataMap.get(DataMapKey.INVENTORY);
-		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clear());
+		Inventory out = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
+		((Inventory) dataMap.get(DataMapKey.INVENTORY)).clear();
 		return out;
 	}
 }

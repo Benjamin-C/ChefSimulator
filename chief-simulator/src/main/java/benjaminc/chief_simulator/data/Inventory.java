@@ -152,16 +152,24 @@ public class Inventory {
 		return inv.length - 1;
 	}
 	/**
-	 * Tests if the inventory is empty
+	 * Counts the number of non-null Things in the Inventory
+	 * @return an int of the number of Things in the Inventory
+	 */
+	public int thingCount() {
+		int count = 0;
+		for(Thing t : inv) {
+			if(t != null) {
+				count++;
+			}
+		}
+		return count;
+	}
+	/**
+	 * Tests if the inventory is empty. Returns true if thingCount() == 0
 	 * @return a boolean of if the inventory is empty
 	 */
 	public boolean isEmpty() {
-		for(Thing t : inv) {
-			if(t != null) {
-				return false;
-			}
-		}
-		return true;
+		return thingCount() == 0;
 	}
 	/**
 	 * Changes the maximim size of the inventory

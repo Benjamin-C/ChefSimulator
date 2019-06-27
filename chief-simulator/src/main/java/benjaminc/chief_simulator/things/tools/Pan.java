@@ -44,10 +44,10 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 		}
 		Inventory i = (Inventory) dataMap.get(DataMapKey.INVENTORY);
 		if(i.isEmpty()) {
-			dataMap.put(DataMapKey.INVENTORY, i.put(t, 0));
+			i.put(t, 0);
 		} else {
 			out.add(i.get(0));
-			dataMap.put(DataMapKey.INVENTORY, i.remove(0));
+			i.remove(0);
 		}
 		return out;
 	}
@@ -57,7 +57,7 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 		checkItemKey();
 		Thing thing = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0);
 		if(thing instanceof Cookable) {
-			dataMap.put(DataMapKey.INVENTORY, ((Cookable) thing).getCookedThing());
+			((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(((Cookable) thing).getCookedThing(), 0);
 		}
 		return this;
 	}
@@ -65,13 +65,13 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 	@Override
 	public void addItem(Thing t) {
 		checkItemKey();
-		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(t, 0));
+		((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(t, 0);
 	}
 
 	@Override
 	public void removeItem(Thing t) {
 		checkItemKey();
-		dataMap.put(DataMapKey.INVENTORY, ((Inventory) dataMap.get(DataMapKey.INVENTORY)).remove(t));
+		((Inventory) dataMap.get(DataMapKey.INVENTORY)).remove(t);
 	}
 
 	@Override
