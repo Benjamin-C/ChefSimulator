@@ -2,16 +2,11 @@ package benjaminc.chief_simulator.things.tools;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import benjaminc.chief_simulator.data.DataMap;
 import benjaminc.chief_simulator.data.DataMapKey;
 import benjaminc.chief_simulator.data.FoodState;
 import benjaminc.chief_simulator.data.Inventory;
-import benjaminc.chief_simulator.graphics.food.GraphicalBun;
-import benjaminc.chief_simulator.graphics.tools.GraphicalPlate;
 import benjaminc.chief_simulator.things.BasicThing;
 import benjaminc.chief_simulator.things.Thing;
 import benjaminc.chief_simulator.things.types.ContainerThing;

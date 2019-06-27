@@ -40,7 +40,7 @@ public class Cook implements Tickable {
 		keys = k;
 		keyActions = new HashMap<ActionType, Action>();
 		for(Map.Entry<ActionType, Integer> e : keys.entrySet()) {
-			keyActions.put(e.getKey(), new Action(e.getKey(), e.getValue(), 0L, false, false, false));
+			keyActions.put(e.getKey(), new Action(e.getKey(), e.getValue(), 0d, false, false, false));
 		}
 		movesDel = Math.round((1000d) / movesPerSecond);
 		System.out.println(movesDel);
@@ -72,7 +72,7 @@ public class Cook implements Tickable {
 		});
 	}
 	
-	private boolean tryTick(Action a, long now, long del) {
+	private boolean tryTick(Action a, double now, long del) {
 		if(a.getLastUse() <= (now - del) || a.isDoOnce()) {
 			a.setLastUse(now);
 			if(a.isDoOnce()) {
