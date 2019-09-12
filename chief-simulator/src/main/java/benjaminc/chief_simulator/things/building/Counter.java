@@ -23,11 +23,6 @@ public class Counter extends BasicThing implements SolidThing {
 	}
 
 	@Override
-	public Thing duplicate() {
-		return new Counter(dataMap.clone());
-	}
-
-	@Override
 	public boolean isSame(Thing t) {
 		if(t.getClass() == this.getClass()) {
 			return true;

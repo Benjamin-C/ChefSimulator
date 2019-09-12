@@ -42,11 +42,6 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 	}
 
 	@Override
-	public Thing duplicate() {
-		return new Belt(dataMap.clone());
-	}
-
-	@Override
 	public boolean isSame(Thing t) {
 		if(t.getClass() == this.getClass()) {
 			return true;

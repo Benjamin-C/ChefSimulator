@@ -117,11 +117,6 @@ public class Plate extends BasicThing implements ContainerThing{
 	public Inventory getItems() {
 		return (Inventory) dataMap.get(DataMapKey.INVENTORY);
 	}
-	
-	@Override
-	public Thing duplicate() {
-		return new Plate(dataMap.clone());
-	}
 
 	@Override
 	public boolean isSame(Thing t) {

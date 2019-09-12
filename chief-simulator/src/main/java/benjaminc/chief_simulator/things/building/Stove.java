@@ -35,11 +35,6 @@ public class Stove extends BasicThing implements ToolThing, SolidThing {
 		}
 		return temp;
 	}
-
-	@Override
-	public Thing duplicate() {
-		return new Stove();
-	}
 	
 	@Override
 	public boolean isSame(Thing t) {

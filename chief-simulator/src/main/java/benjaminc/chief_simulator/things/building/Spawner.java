@@ -33,15 +33,10 @@ public class Spawner extends BasicThing implements ToolThing, SolidThing {
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
 		if(t == null) {
-			temp.add(((Thing) dataMap.get(DataMapKey.MAKES)).duplicate());
+			temp.add(((Thing) dataMap.get(DataMapKey.MAKES)).clone());
 		}
 		temp.add(t);
 		return temp;
-	}
-
-	@Override
-	public Thing duplicate() {
-		return new Spawner(dataMap);
 	}
 
 	@Override

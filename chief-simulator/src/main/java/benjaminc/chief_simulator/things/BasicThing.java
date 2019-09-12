@@ -1,5 +1,6 @@
 package benjaminc.chief_simulator.things;
 
+import java.awt.Graphics;
 import java.util.Random;
 
 import benjaminc.chief_simulator.control.Direction;
@@ -9,7 +10,7 @@ import benjaminc.chief_simulator.data.FoodState;
 import benjaminc.chief_simulator.graphics.GraphicalLoader;
 import benjaminc.chief_simulator.graphics.GraphicalThing;
 
-public class BasicThing {
+public class BasicThing implements Thing {
 
 	protected GraphicalThing graphics;
 	protected DataMap dataMap;
@@ -46,11 +47,46 @@ public class BasicThing {
 		dataMap.put(DataMapKey.FOOD_STATE, state);
 	}
 	
+	@Override
 	public boolean equals(Thing t) {
-		if(dataMap.equals(t.getDataMap())) {
-			return true;
-		} else {
-			return false;
+		if(t instanceof BasicThing) {
+			BasicThing bt = (BasicThing) t;
+			if(bt.getSubclass().equals(subclass)) {
+				if(dataMap.equals(t.getDataMap())) {
+					return true;
+				}
+			}
 		}
+		return false;
+	}
+	
+	@Override
+	public Thing clone() {
+		return new BasicThing(dataMap.clone(), subclass);
+		
+	}
+	@Override
+	public void draw(Graphics g, int x, int y, int w, int h) {
+		graphics.draw(g, x, y, w, h);
+	}
+	@Override
+	public boolean isSame(Thing t) {
+		if(!t.getClass().equals(getClass())) {
+			return false;
+		} else {
+			if(! t.getDataMap().equals(dataMap)) {
+				return false;
+			}
+		}
+		return false;
+	}
+	@Override
+	public DataMap getDataMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private Class<?> getSubclass() {
+		return subclass;
 	}
 }

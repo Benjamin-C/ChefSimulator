@@ -22,11 +22,6 @@ public class Floor extends BasicThing implements AttachedThing {
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		graphics.draw(g, x, y, w, h);
 	}
-
-	@Override
-	public Thing duplicate() {
-		return new Floor(dataMap.clone());
-	}
 	
 	@Override
 	public boolean isSame(Thing t) {

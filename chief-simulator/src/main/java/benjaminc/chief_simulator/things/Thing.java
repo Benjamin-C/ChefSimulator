@@ -6,7 +6,8 @@ import benjaminc.chief_simulator.data.DataMap;
 public interface Thing {
 
 	public abstract void draw(Graphics g, int x, int y, int w, int h);
-	public abstract Thing duplicate();
 	public abstract boolean isSame(Thing t);
 	public abstract DataMap getDataMap();
+	public abstract Thing clone();
+	public abstract boolean equals(Thing t);
 }

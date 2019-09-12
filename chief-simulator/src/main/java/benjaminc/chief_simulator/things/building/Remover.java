@@ -36,11 +36,6 @@ public class Remover extends BasicThing implements ToolThing, SolidThing {
 		temp.add(t);
 		return temp;
 	}
-
-	@Override
-	public Thing duplicate() {
-		return new Remover(dataMap.clone());
-	}
 	
 	@Override
 	public boolean isSame(Thing t) {

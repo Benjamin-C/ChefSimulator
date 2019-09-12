@@ -36,11 +36,6 @@ public class CuttingBoard extends BasicThing implements ToolThing, SolidThing {
 		}
 		return temp;
 	}
-
-	@Override
-	public Thing duplicate() {
-		return new CuttingBoard(dataMap.clone());
-	}
 	
 	@Override
 	public boolean isSame(Thing t) {

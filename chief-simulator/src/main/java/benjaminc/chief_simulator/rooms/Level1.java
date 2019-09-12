@@ -126,8 +126,8 @@ public class Level1 extends Room {
 		addObjectives(new Objective(new Plate(new Bun(toppings2)), 10));
 		Bun bun1 = new Bun(toppings);
 		Bun bun2 = new Bun(toppings2);
-		addObjectives(new Objective(new Plate(bun1.duplicate()), 10));
-		addObjectives(new Objective(new Plate(bun2.duplicate()), 10));
+		addObjectives(new Objective(new Plate(bun1.clone()), 10));
+		addObjectives(new Objective(new Plate(bun2.clone()), 10));
 		addObjectives(new Objective(new Plate(new Beef(-1, FoodState.COOKED)), 5));
 		addThing(new Spawner(bun1), new Location(10, 0));
 		addThing(new Spawner(bun2), new Location(11, 0));

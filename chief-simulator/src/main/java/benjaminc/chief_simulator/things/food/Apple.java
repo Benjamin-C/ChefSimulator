@@ -45,11 +45,6 @@ public class Apple extends BasicThing implements FoodThing, Choppable {
 	}
 	
 	@Override
-	public Thing duplicate() {
-		return new Apple(dataMap);
-	}
-	
-	@Override
 	public boolean isSame(Thing t) {
 		if(t.getClass() == this.getClass()) {
 			return true;

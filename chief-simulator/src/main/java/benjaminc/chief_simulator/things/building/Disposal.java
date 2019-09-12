@@ -32,11 +32,6 @@ public class Disposal extends BasicThing implements SolidThing, ToolThing, Ticka
 	}
 
 	@Override
-	public Thing duplicate() {
-		return new Disposal(dataMap.clone());
-	}
-
-	@Override
 	public List<Thing> useTool(Thing t) {
 		return null;
 	}

@@ -56,8 +56,12 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 	public Thing getCookedThing() {
 		checkItemKey();
 		Thing thing = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0);
+		System.out.println("Thing is " + thing);
 		if(thing instanceof Cookable) {
 			((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(((Cookable) thing).getCookedThing(), 0);
+			System.out.println("Trying to cook " + thing + " into " + ((Cookable) thing).getCookedThing());
+		} else {
+			System.out.println("Thing " + thing + " is not cookable");
 		}
 		return this;
 	}
@@ -90,10 +94,6 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 		}
 	}
 	
-	@Override
-	public Thing duplicate() {
-		return new Pan(dataMap);
-	}
 	@Override
 	public boolean isSame(Thing t) {
 		checkItemKey();

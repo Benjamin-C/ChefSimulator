@@ -30,11 +30,6 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing{
 	}
 
 	@Override
-	public Thing duplicate() {
-		return new Window(room);
-	}
-
-	@Override
 	public boolean isSame(Thing t) {
 		if(t.getClass() == this.getClass()) {
 			return true;

@@ -35,11 +35,6 @@ public class Fryer extends BasicThing implements ToolThing, SolidThing {
 		}
 		return temp;
 	}
-
-	@Override
-	public Thing duplicate() {
-		return new Fryer(dataMap.clone());
-	}
 	
 	@Override
 	public boolean isSame(Thing t) {

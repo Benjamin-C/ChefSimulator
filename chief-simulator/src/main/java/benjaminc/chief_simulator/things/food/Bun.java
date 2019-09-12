@@ -85,11 +85,6 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing{
 	public Inventory getItems() {
 		return ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
 	}
-	
-	@Override
-	public Thing duplicate() {
-		return new Bun(dataMap.clone());
-	}
 
 	@Override
 	public boolean isSame(Thing t) {

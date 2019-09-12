@@ -3,6 +3,9 @@ package benjaminc.chief_simulator.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import benjaminc.chief_simulator.things.BasicThing;
+import benjaminc.chief_simulator.things.Thing;
+
 public class DataMap {
 	
 	protected Map<DataMapKey, Object> dataMap;
@@ -27,10 +30,19 @@ public class DataMap {
 			throw new InvalidDatatypeException("DataMapValue must be of type " + key.getType() + ", not " + value.getClass().getSimpleName());
 		}
 	}
+	@Override
 	public DataMap clone() {
 		DataMap newdm = new DataMap();
 		for(DataMapKey k : dataMap.keySet()) {
-			newdm.put(k, dataMap.get(k));
+			switch(k) {
+			case INVENTORY: newdm.put(k, ((Inventory) dataMap.get(k)).clone());
+				break;
+			case MAKES: newdm.put(k, ((BasicThing) dataMap.get(k)).clone());
+				break;
+			case FOOD_STATE: newdm.put(k, ((FoodState) dataMap.get(k)).clone((FoodState) dataMap.get(k)));
+			default: newdm.put(k, dataMap.get(k)); break;
+			
+			}
 		}
 		return newdm;
 	}

@@ -49,10 +49,6 @@ public class Cheese extends BasicThing implements FoodThing, Choppable {
 		try { return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); return null; }
 	}
-	@Override
-	public Thing duplicate() {
-		return new Cheese(dataMap);
-	}
 	
 	@Override
 	public boolean isSame(Thing t) {

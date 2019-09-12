@@ -35,11 +35,6 @@ public class Lettuce extends BasicThing implements FoodThing, Choppable {
 	}
 	
 	@Override
-	public Thing duplicate() {
-		return new Lettuce(dataMap);
-	}
-	
-	@Override
 	public boolean isSame(Thing t) {
 		if(t.getClass() == this.getClass()) {
 			return true;
