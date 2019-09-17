@@ -1,0 +1,24 @@
+package benjaminc.chef_simulator.graphics.food;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.graphics.GraphicalThing;
+
+public class GraphicalBun extends GraphicalThing {
+
+	public GraphicalBun(DataMap data) {
+		super(data);
+	}
+
+	@Override
+	public void draw(Graphics g, int x, int y, int w, int h) {
+		prep();
+		
+		g.setColor(new Color(210, 180, 140));
+		g.fillOval(x+(int)(w*0.05),  y+(int)(h*0.05), (int)(w*0.9),  (int)(h*0.9));
+		g.setColor(new Color(200, 170, 130));
+		g.fillOval(x+(int)(w*0.15),  y+(int)(h*0.15), (int)(w*0.7),  (int)(h*0.7));
+	}
+}
