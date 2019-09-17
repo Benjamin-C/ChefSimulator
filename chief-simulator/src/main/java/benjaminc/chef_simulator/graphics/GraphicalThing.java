@@ -57,8 +57,8 @@ public class GraphicalThing {
 	
 	public void draw(Graphics g, int x, int y, int w, int h) {
 		if(shapeList != null && shapeList.size() > 0) {
-			for(Shape s : shapeList) {
-				s.draw(x, y, w, h, g);
+			for(int i = shapeList.size() - 1; i >= 0; i--) {
+				shapeList.get(i).draw(x, y, w, h, g);
 			}
 		} else {
 			g.setColor(Color.MAGENTA);
