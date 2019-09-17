@@ -15,7 +15,6 @@ public class Floor extends BasicThing implements AttachedThing {
 	}
 	public Floor(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Floor.class);
-		System.out.println(VARIANT_COUNT + " " + graphics);
 	}
 
 	@Override

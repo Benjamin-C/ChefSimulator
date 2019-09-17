@@ -39,7 +39,6 @@ public class BasicThing implements Thing {
 	public BasicThing(DataMap dataMap, int variantCount, Class<?> subclass) {
 		this(dataMap, subclass);
 		this.dataMap.put(DataMapKey.VARIANT_COUNT, variantCount);
-		System.out.println("Making graphics for " + subclass.getSimpleName() + " #" + this.dataMap.get(DataMapKey.VARIANT_COUNT) + " and it is " + graphics);
 	}
 	public BasicThing(int variant, FoodState state, int variantCount, Class<?> subclass) {
 		this(null, variantCount, subclass);
