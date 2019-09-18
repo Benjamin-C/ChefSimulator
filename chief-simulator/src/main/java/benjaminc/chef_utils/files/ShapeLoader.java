@@ -2,12 +2,11 @@ package benjaminc.chef_utils.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import benjaminc.chef_simulator.graphics.Texture;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.ShapeType;
 
@@ -26,9 +25,9 @@ public class ShapeLoader {
 	 * @return the Shape the JSON represents
 	 */
 	
-	public List<Shape> loadShapeListFromFile(File file) {
-		List<Shape> list = new ArrayList<Shape>();
-		System.out.print("Opening: " + file.getName() + " ... ");
+	public Texture loadShapeListFromFile(File file) {
+		Texture list = new Texture();
+		System.out.println("Loading: " + file.getName() + " ... ");
     	try {
 			Scanner s = new Scanner(file);
 			ShapeLoader sload = new ShapeLoader();
@@ -36,9 +35,9 @@ public class ShapeLoader {
 				list.add(sload.getShapeFromJSON(s.nextLine()));
 			}
 			s.close();
-			System.out.println("Done");
+			System.out.println("Done loading " + file.getName());
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found.");
+			System.out.println("File " + file.getName() + " not found.");
 		}
 		return list;
 	}

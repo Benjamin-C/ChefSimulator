@@ -2,13 +2,11 @@ package benjaminc.chef_simulator.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_utils.graphics.Shape;
 
 public class GraphicalThing {
 
@@ -17,14 +15,14 @@ public class GraphicalThing {
 	protected Direction dir;
 	protected FoodState state;
 	
-	protected List<Shape> shapeList;
+	protected Texture shapeList;
 	
 	protected DataMap dataMap;
 	
 	public GraphicalThing(DataMap data) {
 		this(data, null);
 	}
-	public GraphicalThing(DataMap data, List<Shape> shape) {
+	public GraphicalThing(DataMap data, Texture shape) {
 		this.shapeList = shape;
 		dataMap = data;
 		if(dataMap == null) {
@@ -37,10 +35,10 @@ public class GraphicalThing {
 		prep();
 	}
 	
-	public void setShapeList(List<Shape> shape) {
+	public void setShapeList(Texture shape) {
 		this.shapeList = shape;
 	}
-	public List<Shape> getShapeList() {
+	public Texture getShapeList() {
 		return shapeList;
 	}
 	private void makeSureHas(DataMapKey k, Object v) {
