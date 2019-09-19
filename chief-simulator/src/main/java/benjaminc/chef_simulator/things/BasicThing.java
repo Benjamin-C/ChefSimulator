@@ -33,8 +33,9 @@ public class BasicThing implements Thing {
 			this.dataMap.put(DataMapKey.DIRECTION, Direction.UP);
 		}
 		
-		
-		graphics = GraphicalLoader.load(this.subclass.getSimpleName(), this.dataMap);
+		String pkg = this.subclass.getPackage().getName();
+		pkg = pkg.substring(pkg.lastIndexOf(".")+1);
+		graphics = GraphicalLoader.load(pkg + "/" + this.subclass.getSimpleName(), this.dataMap);
 	}
 	public BasicThing(DataMap dataMap, int variantCount, Class<?> subclass) {
 		this(dataMap, subclass);
