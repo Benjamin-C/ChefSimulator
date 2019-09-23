@@ -1,10 +1,11 @@
 package benjaminc.chef_simulator.data;
 
 public enum FoodState {
-	RAW(0),
-	COOKED(1),
-	CHOPPED(2),
-	CHOPPED_COOKED(3);
+	NULL(0),
+	RAW(1),
+	COOKED(2),
+	CHOPPED(3),
+	CHOPPED_COOKED(4);
 	
 	protected int val;
 	
@@ -20,6 +21,7 @@ public enum FoodState {
 		case CHOPPED_COOKED: return FoodState.CHOPPED_COOKED;
 		case COOKED: return FoodState.COOKED;
 		case RAW: return FoodState.RAW;
+		case NULL: return FoodState.NULL;
 		default: return null;
 		}
 	}

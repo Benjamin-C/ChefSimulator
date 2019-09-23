@@ -32,6 +32,9 @@ public class BasicThing implements Thing {
 		if(!this.dataMap.containsKey(DataMapKey.DIRECTION)) {
 			this.dataMap.put(DataMapKey.DIRECTION, Direction.UP);
 		}
+		if(!this.dataMap.containsKey(DataMapKey.FOOD_STATE)) {
+			this.dataMap.put(DataMapKey.FOOD_STATE, FoodState.NULL);
+		}
 		
 		String pkg = this.subclass.getPackage().getName();
 		pkg = pkg.substring(pkg.lastIndexOf(".")+1);

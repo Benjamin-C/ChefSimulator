@@ -2,10 +2,13 @@ package benjaminc.chef_utils.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.graphics.Texture;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.ShapeType;
@@ -25,15 +28,35 @@ public class ShapeLoader {
 	 * @return the Shape the JSON represents
 	 */
 	
+	public Texture loadShapeList(File file) {
+		if(file.isFile()) {
+			return loadShapeListFromFile(file);
+		} else if(file.isDirectory()) {
+			Texture list = new Texture();
+			File[] listOfFiles = file.listFiles();
+			for (File f : listOfFiles) {
+				if (f.isFile()) {
+					FoodState key = FoodState.valueOf(f.getName().substring(0, f.getName().lastIndexOf(".")));
+					list.put(key, loadShapeList(f).get(FoodState.NULL));
+				} else if (f.isDirectory()) {
+					System.out.println("Directory " + f.getName());
+				}
+			}
+		}
+		return null;
+	}
+	
 	public Texture loadShapeListFromFile(File file) {
 		Texture list = new Texture();
 		System.out.println("Loading: " + file.getName() + " ... ");
     	try {
 			Scanner s = new Scanner(file);
 			ShapeLoader sload = new ShapeLoader();
+			List<Shape> txtr = new ArrayList<Shape>();
 			while(s.hasNextLine()) {
-				list.add(sload.getShapeFromJSON(s.nextLine()));
+				txtr.add(sload.getShapeFromJSON(s.nextLine()));
 			}
+			list.put(FoodState.NULL, txtr);
 			s.close();
 			System.out.println("Done loading " + file.getName());
 		} catch (FileNotFoundException e) {

@@ -1,31 +1,36 @@
 package benjaminc.chef_simulator.graphics;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 
 public class Texture {
 	
-	private List<Shape> txtr;
+	private Map<FoodState, List<Shape>> txtr;
 	
 	public Texture() {
-		txtr = new ArrayList<Shape>();
+		txtr = new HashMap<FoodState, List<Shape>>();
 	}
 	
-	public void add(Shape s) {
-		txtr.add(s);
+	public void put(FoodState state, List<Shape> s) {
+		txtr.put(state, s);
 	}
 	
-	public Shape get(int n) {
-		return txtr.get(n);
+	public List<Shape> get(FoodState state) {
+		if(txtr.containsKey(state)) {
+			return txtr.get(state);
+		}
+		return null;
 	}
 	
 	public int size() {
 		return txtr.size();
 	}
 	
-	public List<Shape> getList() {
+	public Map<FoodState, List<Shape>> getList() {
 		return txtr;
 	}
 }

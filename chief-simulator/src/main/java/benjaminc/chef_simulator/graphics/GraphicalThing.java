@@ -2,11 +2,14 @@ package benjaminc.chef_simulator.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.FoodState;
+import benjaminc.chef_utils.graphics.Shape;
 
 public class GraphicalThing {
 
@@ -54,9 +57,15 @@ public class GraphicalThing {
 	}
 	
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		if(shapeList != null && shapeList.size() > 0) {
-			for(int i = shapeList.size() - 1; i >= 0; i--) {
-				shapeList.get(i).draw(x, y, w, h, g);
+		List<Shape> s = new ArrayList<Shape>();
+		if(dataMap.containsKey(DataMapKey.FOOD_STATE)) {
+			s = shapeList.get((FoodState) dataMap.get(DataMapKey.FOOD_STATE));
+		} else {
+			s = shapeList.get(FoodState.NULL);
+		}
+		if(s != null && s.size() > 0) {
+			for(int i = s.size() - 1; i >= 0; i--) {
+				s.get(i).draw(x, y, w, h, g);
 			}
 		} else {
 			g.setColor(Color.MAGENTA);
