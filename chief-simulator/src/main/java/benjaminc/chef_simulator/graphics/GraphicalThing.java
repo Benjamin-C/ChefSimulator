@@ -65,7 +65,7 @@ public class GraphicalThing {
 		}
 		if(s != null && s.size() > 0) {
 			for(int i = s.size() - 1; i >= 0; i--) {
-				s.get(i).draw(x, y, w, h, g);
+				s.get(i).draw(w, h, x, y, g);
 			}
 		} else {
 			g.setColor(Color.MAGENTA);
