@@ -21,8 +21,11 @@ public class GraphicalLoader {
 			return new GraphicalThing(data, cache.get(fullname));
 		} else {
 			ShapeLoader sl = new ShapeLoader();
-			Texture tx = sl.loadShapeListFromFile(new File(fullname));
+			Texture tx = sl.loadShapeList(new File(fullname));
 			cache.put(fullname, tx);
+			if(tx == null) {
+				System.out.println("The_Texture_Was_Null_GL");
+			}
 			return new GraphicalThing(data, tx);
 		}
 	}

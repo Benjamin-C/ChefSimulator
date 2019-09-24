@@ -29,21 +29,33 @@ public class ShapeLoader {
 	 */
 	
 	public Texture loadShapeList(File file) {
-		if(file.isFile()) {
-			return loadShapeListFromFile(file);
-		} else if(file.isDirectory()) {
-			Texture list = new Texture();
-			File[] listOfFiles = file.listFiles();
-			for (File f : listOfFiles) {
-				if (f.isFile()) {
-					FoodState key = FoodState.valueOf(f.getName().substring(0, f.getName().lastIndexOf(".")));
-					list.put(key, loadShapeList(f).get(FoodState.NULL));
-				} else if (f.isDirectory()) {
-					System.out.println("Directory " + f.getName());
+		Texture list = new Texture();
+/*>*/	System.out.println("Trying " + file.getName());
+		if(file.exists()) {
+/*>*/		System.out.println("It exists");
+			list = loadShapeListFromFile(file);
+		} else {
+/*>*/		System.out.println("Trying as directory");
+			File dir = new File(file.getPath().substring(0, file.getPath().lastIndexOf(".")));
+			System.out.println("Test path = " + dir.getPath());
+			if(dir.isDirectory()) {
+				System.out.println("Loading directory: " + dir.getName() + " ...");
+				
+				File[] listOfFiles = dir.listFiles();
+/*>*/			System.out.println("Trying files in directory");
+				for (File f : listOfFiles) {
+					if (f.isFile()) {
+						FoodState key = FoodState.valueOf(f.getName().substring(0, f.getName().lastIndexOf(".")));
+						list.put(key, loadShapeList(f).get(FoodState.NULL));
+					} else if (f.isDirectory()) {
+						System.out.println("Directory " + f.getName());
+					}
 				}
+			} else {
+				System.out.println("Not directory :(");
 			}
 		}
-		return null;
+		return list;
 	}
 	
 	public Texture loadShapeListFromFile(File file) {
@@ -60,7 +72,7 @@ public class ShapeLoader {
 			s.close();
 			System.out.println("Done loading " + file.getName());
 		} catch (FileNotFoundException e) {
-			System.out.println("File " + file.getName() + " not found.");
+			System.out.println("File " + file.getPath() + " not found.");
 		}
 		return list;
 	}
