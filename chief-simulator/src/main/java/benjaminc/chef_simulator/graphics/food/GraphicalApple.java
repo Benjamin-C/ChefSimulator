@@ -57,6 +57,7 @@ public class GraphicalApple extends GraphicalThing {
 			} break;
 			}
 		} break; // End raw case
+		default: break;
 		}
 	}
 }

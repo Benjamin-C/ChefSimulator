@@ -34,6 +34,7 @@ public class GraphicalTomato extends GraphicalThing {
 			g.setColor(new Color(255, 0, 0));
 			g.fillOval(x+(int)(w*.05), y+(int)(h*.12), (int)(w*.9), (int)(h*.76));
 		} break;
+		default: break;
 		}
 	}
 }

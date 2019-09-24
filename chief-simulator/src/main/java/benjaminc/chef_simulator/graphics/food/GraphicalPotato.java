@@ -63,6 +63,7 @@ public class GraphicalPotato extends GraphicalThing {
 			} break;
 			}
 		} break; // End raw case
+		default: break;
 		}
 	}
 }

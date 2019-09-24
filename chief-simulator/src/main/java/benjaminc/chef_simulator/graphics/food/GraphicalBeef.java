@@ -60,6 +60,7 @@ public class GraphicalBeef extends GraphicalThing {
 			g.drawLine(x+(int)(w*0.65), y+(int)(h*0.775), x+(int)(w*0.275), y+(int)(h*0.425));
 			g.setStroke(new BasicStroke(1));
 		} break;
+		default: break;
 		}
 	}
 }

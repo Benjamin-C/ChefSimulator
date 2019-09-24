@@ -79,6 +79,7 @@ public class Beef extends BasicThing implements FoodThing, Cookable, Choppable {
 			case RAW: {
 				dataMap.put(DataMapKey.FOOD_STATE, FoodState.COOKED);
 			} break;
+			default: break;
 			}
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
 		return this;

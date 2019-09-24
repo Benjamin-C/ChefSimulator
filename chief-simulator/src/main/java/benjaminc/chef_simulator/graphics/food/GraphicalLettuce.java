@@ -31,6 +31,7 @@ public class GraphicalLettuce extends GraphicalThing {
 			g.setColor(new Color(0, 255, 0));
 			g.fillOval(x+(w/20),  y+(h/20),  w-(w/10),  h-(h/10));
 		} break;
+		default: break;
 		}
 	}
 }

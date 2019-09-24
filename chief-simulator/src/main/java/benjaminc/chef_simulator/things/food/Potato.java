@@ -77,6 +77,7 @@ public class Potato extends BasicThing implements FoodThing, Cookable, Choppable
 			case RAW: 
 				dataMap.put(DataMapKey.FOOD_STATE, FoodState.COOKED);
 				break;
+			default: break;
 			}
 		} catch (InvalidDatatypeException e) {
 			// TODO Auto-generated catch block
@@ -96,6 +97,7 @@ public class Potato extends BasicThing implements FoodThing, Cookable, Choppable
 				break;
 			case RAW:
 				break;
+			default: break;
 			}
 		} catch (InvalidDatatypeException e) {
 			// TODO Auto-generated catch block
