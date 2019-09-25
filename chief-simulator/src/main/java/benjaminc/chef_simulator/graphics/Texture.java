@@ -33,4 +33,10 @@ public class Texture {
 	public Map<FoodState, List<Shape>> getList() {
 		return txtr;
 	}
+	
+	public void printAll() {
+		for(FoodState f : FoodState.values()) {
+			System.out.println(f + " " + get(f));
+		}
+	}
 }

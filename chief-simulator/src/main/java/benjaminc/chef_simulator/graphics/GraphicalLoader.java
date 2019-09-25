@@ -18,6 +18,7 @@ public class GraphicalLoader {
 		String fullname = "assets/textures/" + filename.toLowerCase() + ".cst";
 		if(cache.containsKey(fullname)) {
 			System.out.println("Loading " + fullname.substring((fullname.lastIndexOf("/"))+1) + " from cache");
+//			cache.get(fullname).printAll();
 			return new GraphicalThing(data, cache.get(fullname));
 		} else {
 			ShapeLoader sl = new ShapeLoader();

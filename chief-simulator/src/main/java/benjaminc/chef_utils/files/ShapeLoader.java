@@ -45,8 +45,8 @@ public class ShapeLoader {
 /*>*/			System.out.println("Trying files in directory");
 				for (File f : listOfFiles) {
 					if (f.isFile()) {
-						FoodState key = FoodState.valueOf(f.getName().substring(0, f.getName().lastIndexOf(".")));
-						list.put(key, loadShapeList(f).get(FoodState.NULL));
+						FoodState key = FoodState.valueOf(f.getName().substring(0, f.getName().lastIndexOf(".")).toUpperCase());
+						list.put(key, loadShapeList(f).get(FoodState.RAW));
 					} else if (f.isDirectory()) {
 						System.out.println("Directory " + f.getName());
 					}
@@ -68,7 +68,7 @@ public class ShapeLoader {
 			while(s.hasNextLine()) {
 				txtr.add(sload.getShapeFromJSON(s.nextLine()));
 			}
-			list.put(FoodState.NULL, txtr);
+			list.put(FoodState.RAW, txtr);
 			s.close();
 			System.out.println("Done loading " + file.getName());
 		} catch (FileNotFoundException e) {

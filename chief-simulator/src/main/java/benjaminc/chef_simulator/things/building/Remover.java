@@ -35,6 +35,7 @@ public class Remover extends BasicThing implements ToolThing, SolidThing {
 			}
 		}
 		temp.add(t);
+		System.out.println(t);
 		return temp;
 	}
 	

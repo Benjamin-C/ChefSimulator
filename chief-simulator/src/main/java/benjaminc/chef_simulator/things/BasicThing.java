@@ -33,7 +33,7 @@ public class BasicThing implements Thing {
 			this.dataMap.put(DataMapKey.DIRECTION, Direction.UP);
 		}
 		if(!this.dataMap.containsKey(DataMapKey.FOOD_STATE)) {
-			this.dataMap.put(DataMapKey.FOOD_STATE, FoodState.NULL);
+			this.dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
 		}
 		
 		String pkg = this.subclass.getPackage().getName();
@@ -47,7 +47,11 @@ public class BasicThing implements Thing {
 	public BasicThing(int variant, FoodState state, int variantCount, Class<?> subclass) {
 		this(null, variantCount, subclass);
 		dataMap.put(DataMapKey.VARIANT, variant);
-		dataMap.put(DataMapKey.FOOD_STATE, state);
+		if(state != null) {
+			dataMap.put(DataMapKey.FOOD_STATE, state);
+		} else {
+			dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
+		}
 	}
 	
 	@Override
