@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -60,6 +61,8 @@ public class GamePanel extends JPanel {
 		jf.setResizable(false);
 		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setIconImage(new ImageIcon("assets/textures/icon/icon.png").getImage());
+		
 		System.out.println("I make picture now");
 		drawRoom(xloc, yloc, 0);
         keyListen = new KeyListen(game, this);

@@ -3,6 +3,7 @@ package benjaminc.chef_simulator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ public class Starter {
 	public Starter() {
 		JFrame jf = new JFrame("Chef Simulator Launcher");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setIconImage(new ImageIcon("assets/textures/icon/launcher-icon.png").getImage());
 		JPanel jp = new JPanel();
 		
 		JLabel jl = new JLabel("Resolution");
