@@ -1,11 +1,10 @@
-package benjaminc.chef_simulator.graphics;
+package benjaminc.chef_utils.graphics;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_utils.graphics.Shape;
+import benjaminc.chef_utils.data.FoodState;
 
 public class Texture {
 	

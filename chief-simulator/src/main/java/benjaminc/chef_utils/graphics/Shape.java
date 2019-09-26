@@ -1,8 +1,11 @@
 package benjaminc.chef_utils.graphics;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Stroke;
 import java.util.UUID;
 
 public class Shape {
@@ -12,6 +15,7 @@ public class Shape {
 	protected float y = 5;
 	protected float w = 10;
 	protected float h = 10;
+	protected float c = 0;
 	protected int r = 255;
 	protected int g = 0;
 	protected int b = 0;
@@ -20,6 +24,7 @@ public class Shape {
 	protected int ys = 0;
 	protected int ws = 0;
 	protected int hs = 0;
+	protected int ss = 1;
 	protected Polygon triangle;
 	
 	protected int owi = 0;
@@ -34,11 +39,11 @@ public class Shape {
 	
 	protected UUID id;
 	
-	public Shape(ShapeType shp, float x, float y, float w, float h, int r, int g, int b) {
+	public Shape(ShapeType shp, float x, float y, float w, float h, float c, int r, int g, int b) {
 		super();
 		this.shp = shp;
 		triangle = new Polygon();
-		setSize(x, y, w, h);
+		setSize(x, y, w, h, c);
 		setColor(r, g, b);
 		id = UUID.randomUUID();
 		
@@ -56,13 +61,18 @@ public class Shape {
 			ws = (int) (w*wi);
 			hs = (int) (h*he);
 			
+			ss = (int) (wi*c);
+			if(ss < 1) {
+				ss = 1;
+			}
+			
 			switch(shp) {
 			case EMPTY_TRIANGLE_H: // or next line
 			case SOLID_TRIANGLE_H: {
 				triangle.reset();
 				triangle.addPoint(xs, ys);
 				triangle.addPoint(xs, ys + hs);
-				triangle.addPoint(xs + ws, ys + (hs/2));
+				triangle.addPoint(xs + ws, ys + (int) (hs*c));
 			} break;
 
 			case EMPTY_TRIANGLE_V: // or next line
@@ -82,7 +92,7 @@ public class Shape {
 		switch(shp) {
 		case EMPTY_ECLIPSE: gr.drawOval(xs, ys, ws, hs); break;
 		case EMPTY_RECTANGLE:gr.drawRect(xs, ys, ws, hs);  break;
-		case LINE: gr.drawLine(xs, ys, xs+ws, ys+hs); break;
+		case LINE: Graphics2D g2 = (Graphics2D) gr; Stroke d = g2.getStroke(); g2.setStroke(new BasicStroke(ss)); gr.drawLine(xs, ys, xs+ws, ys+hs); g2.setStroke(d); break;
 		case SOLID_ELIPSE: gr.fillOval(xs, ys, ws, hs);  break;
 		case SOLID_RECTANTLE: gr.fillRect(xs, ys, ws, hs); break;
 		case SOLID_TRIANGLE_V: gr.fillPolygon(triangle); break;
@@ -92,11 +102,12 @@ public class Shape {
 		}
 	}
 	
-	public void setSize(float x, float y, float w, float h) {
+	public void setSize(float x, float y, float w, float h, float c) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		this.c = c;
 		recalc = true;
 	}
 	public void setColor(int r, int g, int b) {
@@ -130,6 +141,12 @@ public class Shape {
 	public void setH(float h) {
 		this.h = h;
 	}
+	public float getC() {
+		return c;
+	}
+	public void setC(float c) {
+		this.c = c;
+	}
 	public int getR() {
 		return r;
 	}
@@ -159,11 +176,11 @@ public class Shape {
 	}
 	
 	public Shape clone() {
-		return new Shape(shp, x, y, w, h, r, g, b);
+		return new Shape(shp, x, y, w, h, c, r, g, b);
 	}
 	
 	public String toString() {
-		return "Shape[shp=" + shp + ",x=" + x + ",y=" + y + ",w=" + w + ",h=" + h + ",r=" + r + ",g=" + g + ",b=" + b + "]";
+		return "Shape[shp=" + shp + ",x=" + x + ",y=" + y + ",w=" + w + ",h=" + h + ",c=" + c + ",r=" + r + ",g=" + g + ",b=" + b + "]";
 	}
 	
 }

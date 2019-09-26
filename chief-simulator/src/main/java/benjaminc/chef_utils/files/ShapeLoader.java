@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_simulator.graphics.Texture;
+import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.ShapeType;
+import benjaminc.chef_utils.graphics.Texture;
 
 public class ShapeLoader {
 	
@@ -100,6 +100,7 @@ public class ShapeLoader {
 			float ny = getFloatValue(ShapeDataKey.Y_KEY, bits);
 			float nw = getFloatValue(ShapeDataKey.W_KEY, bits);
 			float nh = getFloatValue(ShapeDataKey.H_KEY, bits);
+			float nc = getFloatValue(ShapeDataKey.C_KEY, bits);
 			int nr = getColorValue(ShapeDataKey.R_KEY, bits);
 			int ng = getColorValue(ShapeDataKey.G_KEY, bits);
 			int nb = getColorValue(ShapeDataKey.B_KEY, bits);
@@ -108,7 +109,7 @@ public class ShapeLoader {
 				nt = ShapeType.getShapeTypeFromString(bits.get(ShapeDataKey.SHPAETYPE_KEY));
 				if(nt == null) { nt = ShapeType.SOLID_RECTANTLE; System.out.println("Could not load " + ShapeDataKey.SHPAETYPE_KEY + " (ShapeType " + bits.get(ShapeDataKey.SHPAETYPE_KEY) + " is not valid). Returning default value SOLID_RECTANGLE"); }
 			} else { System.out.println("Could not load " + ShapeDataKey.SHPAETYPE_KEY + " (Key not found). Returning default value SOLID_RECTANGLE"); }
-			Shape back = new Shape(nt, nx, ny, nw, nh, nr, ng, nb);
+			Shape back = new Shape(nt, nx, ny, nw, nh, nc, nr, ng, nb);
 			return back;
 		} else {
 			System.out.println("Error loading JSON.\nIt may be missing curley brackets\nor data. Skipping. Error JSON:\n" + json);

@@ -9,7 +9,6 @@ import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.building.Belt;
@@ -30,6 +29,7 @@ import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_simulator.things.food.Tomato;
 import benjaminc.chef_simulator.things.tools.Pan;
 import benjaminc.chef_simulator.things.tools.Plate;
+import benjaminc.chef_utils.data.FoodState;
 
 public class Level1 extends Room {
 	

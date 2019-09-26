@@ -6,6 +6,7 @@ import java.util.Map;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_utils.files.ShapeLoader;
+import benjaminc.chef_utils.graphics.Texture;
 
 public class GraphicalLoader {
 

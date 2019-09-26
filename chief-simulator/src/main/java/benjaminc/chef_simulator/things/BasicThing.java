@@ -6,9 +6,9 @@ import java.util.Random;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
-import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.graphics.GraphicalThing;
+import benjaminc.chef_utils.data.FoodState;
 
 public class BasicThing implements Thing {
 

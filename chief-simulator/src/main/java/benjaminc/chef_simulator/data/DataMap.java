@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import benjaminc.chef_simulator.things.BasicThing;
+import benjaminc.chef_utils.data.FoodState;
 
 public class DataMap {
 	

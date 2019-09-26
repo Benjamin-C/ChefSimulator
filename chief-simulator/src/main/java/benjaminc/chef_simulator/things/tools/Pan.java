@@ -6,13 +6,13 @@ import java.util.List;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
-import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.Inventory;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_simulator.things.types.Cookable;
 import benjaminc.chef_simulator.things.types.CookwareThing;
+import benjaminc.chef_utils.data.FoodState;
 
 public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 

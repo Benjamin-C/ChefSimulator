@@ -4,12 +4,12 @@ import java.awt.Graphics;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
-import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.InvalidDatatypeException;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.Choppable;
 import benjaminc.chef_simulator.things.types.FoodThing;
+import benjaminc.chef_utils.data.FoodState;
 
 public class Cheese extends BasicThing implements FoodThing, Choppable {
 

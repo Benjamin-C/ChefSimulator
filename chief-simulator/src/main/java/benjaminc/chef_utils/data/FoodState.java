@@ -1,4 +1,4 @@
-package benjaminc.chef_simulator.data;
+package benjaminc.chef_utils.data;
 
 public enum FoodState {
 	RAW(1),

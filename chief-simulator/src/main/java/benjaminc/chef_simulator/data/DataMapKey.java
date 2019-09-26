@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.data;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_utils.data.FoodState;
 
 public enum DataMapKey {
 LAST_MOVE_FRAME("Last_Move_Frame", Double.class),
