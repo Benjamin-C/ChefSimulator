@@ -90,17 +90,35 @@ public class Shape {
 		}
 		
 		switch(shp) {
-		case EMPTY_ECLIPSE: gr.drawOval(xs, ys, ws, hs); break;
-		case EMPTY_RECTANGLE:gr.drawRect(xs, ys, ws, hs);  break;
-		case LINE: Graphics2D g2 = (Graphics2D) gr; Stroke d = g2.getStroke(); g2.setStroke(new BasicStroke(ss)); gr.drawLine(xs, ys, xs+ws, ys+hs); g2.setStroke(d); break;
-		case SOLID_ELIPSE: gr.fillOval(xs, ys, ws, hs);  break;
+		case EMPTY_ECLIPSE: prepSize(gr, ss); gr.drawOval(xs, ys, ws, hs); resetSize(gr); break;
+		case SOLID_ELIPSE: gr.fillOval(xs, ys, ws, hs); break;
+		
+		case EMPTY_RECTANGLE: prepSize(gr, ss); gr.drawRect(xs, ys, ws, hs); resetSize(gr);  break;
 		case SOLID_RECTANTLE: gr.fillRect(xs, ys, ws, hs); break;
+		
+		case EMPTY_TRIANGLE_V: prepSize(gr, ss); gr.drawPolygon(triangle); resetSize(gr); break;
 		case SOLID_TRIANGLE_V: gr.fillPolygon(triangle); break;
-		case EMPTY_TRIANGLE_V: gr.drawPolygon(triangle); break;
+		
+		case EMPTY_TRIANGLE_H: prepSize(gr, ss); gr.drawPolygon(triangle); resetSize(gr); break;
 		case SOLID_TRIANGLE_H: gr.fillPolygon(triangle); break;
-		case EMPTY_TRIANGLE_H: gr.drawPolygon(triangle); break;
+		
+		case LINE: prepSize(gr, ss); gr.drawLine(xs, ys, xs+ws, ys+hs); resetSize(gr); break;
 		}
 	}
+	
+	private Graphics2D g2;
+	private Stroke sd;
+	private void prepSize(Graphics gr, float ss) {
+		g2 = (Graphics2D) gr;
+		sd = g2.getStroke();
+		g2.setStroke(new BasicStroke(ss));
+	}
+	private void resetSize(Graphics gr) {
+		if(g2 != null) {
+			g2.setStroke(sd);
+		}
+	}
+	
 	
 	public void setSize(float x, float y, float w, float h, float c) {
 		this.x = x;

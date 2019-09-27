@@ -46,6 +46,7 @@ public class GraphicalPotato extends GraphicalThing {
 			g.fillRect(x+pos3, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
 			g.fillRect(x+pos2, y+(int)(h*0.2), (int)(w*0.1), (int)(h*0.6));
 			
+			// java.awt.Color[r=132,g=118,b=16]
 			g.setColor(new Color(189, 170, 23).darker());
 			g.drawRect(x+pos1, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
 			g.drawRect(x+pos3, y+(int)(h*0.3), (int)(w*0.1), (int)(h*0.6));
