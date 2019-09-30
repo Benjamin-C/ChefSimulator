@@ -17,10 +17,10 @@ public class Counter extends BasicThing implements SolidThing {
 		super(dataMap, VARIANT_COUNT, Counter.class);
 	}
 
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 
 	@Override
 	public boolean isSame(Thing t) {

@@ -25,10 +25,10 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing{
 		room = r;
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 
 	@Override
 	public boolean isSame(Thing t) {

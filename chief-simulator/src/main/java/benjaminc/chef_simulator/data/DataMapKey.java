@@ -3,6 +3,7 @@ package benjaminc.chef_simulator.data;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_utils.graphics.Texture;
 
 public enum DataMapKey {
 LAST_MOVE_FRAME("Last_Move_Frame", Double.class),
@@ -11,7 +12,8 @@ VARIANT_COUNT("Variant_Count", Integer.class),
 FOOD_STATE("Food_State", FoodState.class),
 DIRECTION("Direction", Direction.class),
 MAKES("Makes", Thing.class),
-INVENTORY("Item", Inventory.class);
+INVENTORY("Item", Inventory.class),
+GRAPHICS("Graphics", Texture.class);
 	
 	String key;
 	Class<?> type;

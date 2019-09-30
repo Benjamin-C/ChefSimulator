@@ -23,10 +23,10 @@ public class Apple extends BasicThing implements FoodThing, Choppable {
 		super(variant, state, VARIANT_COUNT, Apple.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 	public Thing getChoppedThing() {
 		dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);
 		return this;

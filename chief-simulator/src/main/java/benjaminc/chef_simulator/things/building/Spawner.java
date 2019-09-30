@@ -6,12 +6,14 @@ import java.util.List;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.SolidThing;
+import benjaminc.chef_simulator.things.types.SubdrawingThing;
 import benjaminc.chef_simulator.things.types.ToolThing;
 
-public class Spawner extends BasicThing implements ToolThing, SolidThing {
+public class Spawner extends BasicThing implements ToolThing, SolidThing, SubdrawingThing{
 
 	protected final static int VARIANT_COUNT = 1;
 	public Spawner(DataMap dataMap) {
@@ -22,8 +24,16 @@ public class Spawner extends BasicThing implements ToolThing, SolidThing {
 		dataMap.put(DataMapKey.MAKES, t);
 	}
 	
+	
 	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
+	public void drawBefore(GraphicalDrawer g, int x, int y, int w, int h) {
+		int indmkw = w / 4;
+		int indmkh = h / 4;
+		graphics.draw(g, x, y, w, h);
+		((Thing) dataMap.get(DataMapKey.MAKES)).draw(g, x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
+	}
+	@Override
+	public void drawAfter(GraphicalDrawer g, int x, int y, int w, int h) {
 		int indmkw = w / 4;
 		int indmkh = h / 4;
 		graphics.draw(g, x, y, w, h);

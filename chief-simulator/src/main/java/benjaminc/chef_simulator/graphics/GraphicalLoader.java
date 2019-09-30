@@ -12,7 +12,7 @@ public class GraphicalLoader {
 
 	private static Map<String, Texture> cache;
 	
-	public static GraphicalThing load(String filename, DataMap data) {
+	public static Texture load(String filename) {
 		if(cache == null) {
 			cache = new HashMap<String, Texture>();
 		}
@@ -20,7 +20,7 @@ public class GraphicalLoader {
 		if(cache.containsKey(fullname)) {
 			System.out.println("Loading " + fullname.substring((fullname.lastIndexOf("/"))+1) + " from cache");
 //			cache.get(fullname).printAll();
-			return new GraphicalThing(data, cache.get(fullname));
+			return cache.get(fullname);
 		} else {
 			ShapeLoader sl = new ShapeLoader();
 			Texture tx = sl.loadShapeList(new File(fullname));
@@ -28,7 +28,7 @@ public class GraphicalLoader {
 			if(tx == null) {
 				System.out.println("The_Texture_Was_Null_GL");
 			}
-			return new GraphicalThing(data, tx);
+			return tx;
 		}
 	}
 }

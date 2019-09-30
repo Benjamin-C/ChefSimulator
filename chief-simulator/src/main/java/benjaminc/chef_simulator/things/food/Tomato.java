@@ -20,16 +20,16 @@ public class Tomato extends BasicThing implements FoodThing, Choppable{
 	}
 	public Tomato(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Tomato.class);
-		graphics = GraphicalLoader.load(this.getClass().getSimpleName(), this.dataMap);
+		//graphics = GraphicalLoader.load(this.getClass().getSimpleName(), this.dataMap);
 	}
 	public Tomato(int variant, FoodState state) {
 		super(variant, state, VARIANT_COUNT, Tomato.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 
 	@Override
 	public Thing getChoppedThing() {

@@ -12,7 +12,7 @@ import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.Texture;
 
-public class GraphicalThing {
+public class GraphicalThingOLD {
 
 	protected int variant;
 	protected int variantCount;
@@ -23,10 +23,10 @@ public class GraphicalThing {
 	
 	protected DataMap dataMap;
 	
-	public GraphicalThing(DataMap data) {
+	public GraphicalThingOLD(DataMap data) {
 		this(data, null);
 	}
-	public GraphicalThing(DataMap data, Texture shape) {
+	public GraphicalThingOLD(DataMap data, Texture shape) {
 		this.shapeList = shape;
 		dataMap = data;
 		if(dataMap == null) {
@@ -75,6 +75,10 @@ public class GraphicalThing {
 			g.setColor(Color.BLACK);
 			g.fillRect(x, y + h/2, w/2, h/2);
 			g.fillRect(x + w/2, y, w/2, h/2);
+			g.setColor(Color.WHITE);
+			g.setFont(g.getFont().deriveFont(w/2f));
+			String st = "s " + (w/32f);
+			g.drawString(st, x, y);
 		}
 	}
 }

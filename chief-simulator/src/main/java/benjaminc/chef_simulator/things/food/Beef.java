@@ -25,10 +25,10 @@ public class Beef extends BasicThing implements FoodThing, Cookable, Choppable {
 		super(variant, state, VARIANT_COUNT, Beef.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 	
 	@Override
 	public Thing getChoppedThing() {

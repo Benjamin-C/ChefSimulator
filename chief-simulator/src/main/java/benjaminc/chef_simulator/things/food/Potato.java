@@ -26,10 +26,10 @@ public class Potato extends BasicThing implements FoodThing, Cookable, Choppable
 		super(variant, state, VARIANT_COUNT, Potato.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 	
 	@Override
 	public Thing getChoppedThing() {

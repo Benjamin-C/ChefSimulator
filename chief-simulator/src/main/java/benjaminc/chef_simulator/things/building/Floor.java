@@ -17,10 +17,10 @@ public class Floor extends BasicThing implements AttachedThing {
 		super(dataMap, VARIANT_COUNT, Floor.class);
 	}
 
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 	
 	@Override
 	public boolean isSame(Thing t) {

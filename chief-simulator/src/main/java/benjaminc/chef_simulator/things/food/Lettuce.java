@@ -24,10 +24,10 @@ public class Lettuce extends BasicThing implements FoodThing, Choppable {
 		super(variant, state, VARIANT_COUNT, Lettuce.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 	
 	public Thing getChoppedThing() {
 		try { dataMap.put(DataMapKey.FOOD_STATE, FoodState.CHOPPED);

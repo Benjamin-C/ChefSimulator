@@ -26,10 +26,10 @@ public class Disposal extends BasicThing implements SolidThing, ToolThing, Ticka
 		super(dataMap, VARIANT_COUNT, Disposal.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 
 	@Override
 	public List<Thing> useTool(Thing t) {

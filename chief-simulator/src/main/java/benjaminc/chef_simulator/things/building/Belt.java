@@ -36,10 +36,10 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 		dataMap.put(DataMapKey.DIRECTION, d);
 	}
 
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 
 	@Override
 	public boolean isSame(Thing t) {

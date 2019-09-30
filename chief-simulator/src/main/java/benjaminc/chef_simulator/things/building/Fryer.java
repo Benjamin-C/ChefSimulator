@@ -21,10 +21,10 @@ public class Fryer extends BasicThing implements ToolThing, SolidThing {
 		super(dataMap, VARIANT_COUNT, Fryer.class);
 	}
 	
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		graphics.draw(g, x, y, w, h);
+//	}
 	
 	@Override
 	public List<Thing> useTool(Thing t) {

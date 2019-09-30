@@ -7,12 +7,12 @@ import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
-import benjaminc.chef_simulator.graphics.GraphicalThing;
+//import benjaminc.chef_simulator.graphics.GraphicalThing;
 import benjaminc.chef_utils.data.FoodState;
 
 public class BasicThing implements Thing {
 
-	protected GraphicalThing graphics;
+	//protected GraphicalThing graphics;
 	protected DataMap dataMap;
 	protected Class<?> subclass;
 	
@@ -35,10 +35,12 @@ public class BasicThing implements Thing {
 		if(!this.dataMap.containsKey(DataMapKey.FOOD_STATE)) {
 			this.dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
 		}
+		if(subclass != null) {
+			String pkg = this.subclass.getPackage().getName();
+			pkg = pkg.substring(pkg.lastIndexOf(".")+1);
+			this.dataMap.put(DataMapKey.GRAPHICS, GraphicalLoader.load(pkg + "/" + this.subclass.getSimpleName()));
+		}
 		
-		String pkg = this.subclass.getPackage().getName();
-		pkg = pkg.substring(pkg.lastIndexOf(".")+1);
-		graphics = GraphicalLoader.load(pkg + "/" + this.subclass.getSimpleName(), this.dataMap);
 	}
 	public BasicThing(DataMap dataMap, int variantCount, Class<?> subclass) {
 		this(dataMap, subclass);
@@ -72,10 +74,10 @@ public class BasicThing implements Thing {
 		return new BasicThing(dataMap.clone(), subclass);
 		
 	}
-	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
-		graphics.draw(g, x, y, w, h);
-	}
+//	@Override
+//	public void draw(Graphics g, int x, int y, int w, int h) {
+//		//graphics.draw(g, x, y, w, h);
+//	}
 	@Override
 	public boolean isSame(Thing t) {
 		if(!t.getClass().equals(getClass())) {
