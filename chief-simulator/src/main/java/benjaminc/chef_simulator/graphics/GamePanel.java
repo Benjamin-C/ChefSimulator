@@ -102,6 +102,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void drawRoom(int x, int y, double fps) {
+		System.out.println("Drawing Room");
 		panel = new JPanel() {
 
 			// IDK why Eclipse needs this, but it complains when I don't give it

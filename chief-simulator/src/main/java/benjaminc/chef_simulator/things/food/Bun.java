@@ -7,13 +7,16 @@ import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.InvalidDatatypeException;
 import benjaminc.chef_simulator.data.Inventory;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
+import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_simulator.things.types.FoodThing;
 import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_utils.graphics.Texture;
 
-public class Bun extends BasicThing implements FoodThing, ContainerThing{
+public class Bun extends BasicThing implements FoodThing, ContainerThing, CustomDrawingThing {
 
 	protected final static int VARIANT_COUNT = 1;
 	protected final static int MAX_INV_SIZE = 64;
@@ -45,17 +48,17 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing{
 	}
 	
 	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
+	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
 		for(int i = 0; i < items.size(); i++) {
 			switch(i%4) {
-			case 0: { items.get(i).draw(g,  x,  y,  w/2,  h/2); } break;
-			case 1: { items.get(i).draw(g,  x+(w/2),  y,  w/2,  h/2); } break;
-			case 2: { items.get(i).draw(g,  x,  y+(h/2),  w/2,  h/2); } break;
-			case 3: { items.get(i).draw(g,  x+(w/2),  y+(h/2),  w/2,  h/2); } break;
+			case 0: { g.draw(items.get(i), x,  y,  w/2,  h/2); } break;
+			case 1: { g.draw(items.get(i), x+(w/2),  y,  w/2,  h/2); } break;
+			case 2: { g.draw(items.get(i), x,  y+(h/2),  w/2,  h/2); } break;
+			case 3: { g.draw(items.get(i), x+(w/2),  y+(h/2),  w/2,  h/2); } break;
 			}
 		}
-		graphics.draw(g, x, y, w, h);
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.GRAPHICS)).getList().get(FoodState.RAW), x, y, w, h);
 	}
 
 	@Override

@@ -24,6 +24,7 @@ public class TickTimer extends Thread {
 	
 	public TickTimer(int fps, Room r) {
 		super("TickTimer");
+		System.out.println("New Tick Timer");
 		this.fps = fps;
 		del = 1000 / this.fps;
 		room = r;

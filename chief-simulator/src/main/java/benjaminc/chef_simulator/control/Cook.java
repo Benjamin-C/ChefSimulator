@@ -10,6 +10,7 @@ import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.graphics.ActionType;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.AttachedThing;
@@ -17,6 +18,7 @@ import benjaminc.chef_simulator.things.types.Tickable;
 import benjaminc.chef_simulator.things.types.ToolThing;
 
 public class Cook implements Tickable {
+	
 	protected Location loc;
 	protected Game game;
 	protected Thing hand;
@@ -195,6 +197,7 @@ public class Cook implements Tickable {
 		return loc;
 	}
 	public void draw(Graphics g, int xos, int yos, int w, int h) {
+		GraphicalDrawer gd = new GraphicalDrawer(g);
 		int x = loc.getX();
 		int y = loc.getY();
 		int drawX = (w * x) + xos;
@@ -211,7 +214,7 @@ public class Cook implements Tickable {
 			handX = (handX * w) + xos;
 			handY = (handY * h) + yos;
 			if(hand != null) {
-				hand.draw(g, handX + w / 4, handY + w / 4, w / 2, h / 2);
+				gd.draw(hand, handX + w / 4, handY + w / 4, w / 2, h / 2);
 			} else {
 				g.setColor(color);
 				for(int i = 0; i < Math.max(w/16, 1); i++) {

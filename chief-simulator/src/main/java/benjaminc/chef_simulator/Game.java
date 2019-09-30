@@ -80,6 +80,7 @@ public class Game {
 		tickTimer.start();
 		System.out.println("Started");
 		Util.showThreads();
+		System.out.println("UDG start");
 		updateGraphics();
 		Util.pause(lvl.getSyncObj());
 		System.out.println("Done");
@@ -97,6 +98,7 @@ public class Game {
 		return map;
 	}
 	public void updateGraphics() {
+		System.out.println("UDG");
 		gamePanel.update(observedFps);
 	}
 	

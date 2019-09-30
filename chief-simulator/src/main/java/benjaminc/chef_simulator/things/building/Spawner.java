@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.things.building;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +9,12 @@ import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.SolidThing;
-import benjaminc.chef_simulator.things.types.SubdrawingThing;
+import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_simulator.things.types.ToolThing;
+import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_utils.graphics.Texture;
 
-public class Spawner extends BasicThing implements ToolThing, SolidThing, SubdrawingThing{
+public class Spawner extends BasicThing implements ToolThing, SolidThing, CustomDrawingThing{
 
 	protected final static int VARIANT_COUNT = 1;
 	public Spawner(DataMap dataMap) {
@@ -26,18 +27,11 @@ public class Spawner extends BasicThing implements ToolThing, SolidThing, Subdra
 	
 	
 	@Override
-	public void drawBefore(GraphicalDrawer g, int x, int y, int w, int h) {
+	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		int indmkw = w / 4;
 		int indmkh = h / 4;
-		graphics.draw(g, x, y, w, h);
-		((Thing) dataMap.get(DataMapKey.MAKES)).draw(g, x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
-	}
-	@Override
-	public void drawAfter(GraphicalDrawer g, int x, int y, int w, int h) {
-		int indmkw = w / 4;
-		int indmkh = h / 4;
-		graphics.draw(g, x, y, w, h);
-		((Thing) dataMap.get(DataMapKey.MAKES)).draw(g, x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.GRAPHICS)).getList().get(FoodState.RAW), x, y, w, h);
+		g.draw(((Thing) dataMap.get(DataMapKey.MAKES)), x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
 	}
 
 	@Override

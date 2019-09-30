@@ -64,10 +64,9 @@ public class GameSpace {
 		return things;
 	}
 	
-	public void draw(Graphics g, int x, int y, int w, int h) {
+	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		for(int i = 0; i < things.size(); i++) {
-			things.get(i).
-			things.get(i).draw(g, x, y, w, h);
+			g.draw(things.get(i), x, y, w, h);
 			
 //			Bun
 //			@Override

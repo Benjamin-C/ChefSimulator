@@ -2,6 +2,7 @@ package benjaminc.chef_simulator;
 
 import java.awt.Graphics;
 
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 
 public class Objective {
@@ -26,6 +27,7 @@ public class Objective {
 		return points;
 	}
 	public void draw(Graphics g, int x, int y, int w, int h) {
-		target.draw(g, x, y, w, h);
+		GraphicalDrawer gd = new GraphicalDrawer(g);
+		gd.draw(target, x, y, w, h);
 	}
 }

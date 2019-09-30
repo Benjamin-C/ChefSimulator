@@ -7,14 +7,17 @@ import java.util.List;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.Inventory;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_simulator.things.types.Cookable;
 import benjaminc.chef_simulator.things.types.CookwareThing;
+import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_utils.graphics.Texture;
 
-public class Pan extends BasicThing implements CookwareThing, ContainerThing{
+public class Pan extends BasicThing implements CookwareThing, ContainerThing, CustomDrawingThing {
 
 	protected final static int VARIANT_COUNT = 1;
 	protected final static int MAX_INV_SIZE = 1;
@@ -86,12 +89,12 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing{
 	}
 	
 	@Override
-	public void draw(Graphics g, int x, int y, int w, int h) {
+	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		checkItemKey();
-		graphics.draw(g, x, y, w, h);
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.GRAPHICS)).getList().get(FoodState.RAW), x, y, w, h);
 		Thing t = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0);
 		if(t != null) {
-			t.draw(g, x+(w/4), y+(h/4), w/2, h/2);
+			g.draw(t, x+(w/4), y+(h/4), w/2, h/2);
 		}
 	}
 	

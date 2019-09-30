@@ -18,6 +18,11 @@ public class Texture {
 		txtr.put(state, s);
 	}
 	
+	/**
+	 * Gets the List<Shape> representation of this state of the texture
+	 * @param state the FoodState to get
+	 * @return the List<Shape> of that food state
+	 */
 	public List<Shape> get(FoodState state) {
 		if(txtr.containsKey(state)) {
 			return txtr.get(state);

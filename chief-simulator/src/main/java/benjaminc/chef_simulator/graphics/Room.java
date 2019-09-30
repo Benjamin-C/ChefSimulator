@@ -95,9 +95,10 @@ public class Room {
 		cooks.add(c);
 	}
 	public void draw(Graphics g, int x, int y, int w, int h) {
+		GraphicalDrawer gd = new GraphicalDrawer(g);
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
-				room[i][j].draw(g, (i * w) + x,  (j * h) + y,  w,  h);
+				room[i][j].draw(gd, (i * w) + x,  (j * h) + y,  w,  h);
 			}
 		}
 		if(cooks != null) {
