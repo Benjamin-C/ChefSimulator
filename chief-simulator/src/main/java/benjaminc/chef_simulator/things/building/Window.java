@@ -40,10 +40,11 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing{
 
 	@Override
 	public List<Thing> useTool(Thing t) {
+		System.out.println("Is objective complete?");
 		for(int i = 0; i < room.getObjectives().size(); i++) {
 			Objective o = room.getObjectives().get(i);
 			if(o.isMet(t)) {
-				//System.out.println("isMet");
+				System.out.println("isMet");
 				room.getScore().addScore(o.getScore());
 				room.getObjectives().remove(i);
 				if(room.getObjectives().size() == 0) {

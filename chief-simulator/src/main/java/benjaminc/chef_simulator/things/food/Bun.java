@@ -91,14 +91,17 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 
 	@Override
 	public boolean isSame(Thing t) {
+		System.out.println("BunSame?");
 		if(t != null) {
 			if(t.getClass() == this.getClass()) {
 				if(t instanceof Bun) {
+					System.out.println("Checking items");
 					return getItems().hasSame(((Bun) t).getItems());
-				}
-			}
-		}
-		return false;
+				} else { System.out.println("Type match fail"); }
+			} else { System.out.println("Class match fail"); }
+		} else { System.out.println("t is null fail"); }
+		System.out.println("Bun returns true");
+		return true;
 	}
 	
 	public void setVariant(int var) {

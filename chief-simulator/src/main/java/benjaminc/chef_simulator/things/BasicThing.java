@@ -87,14 +87,18 @@ public class BasicThing implements Thing, Cloneable {
 //	}
 	@Override
 	public boolean isSame(Thing t) {
+		System.out.println("BasicThingSame?");
 		if(!t.getClass().equals(getClass())) {
+			System.out.println("Class does not match");
 			return false;
 		} else {
 			if(! t.getDataMap().equals(dataMap)) {
+				System.out.println("Data map does not match");
 				return false;
 			}
 		}
-		return false;
+		System.out.println("BasicThing is same");
+		return true;
 	}
 	@Override
 	public DataMap getDataMap() {

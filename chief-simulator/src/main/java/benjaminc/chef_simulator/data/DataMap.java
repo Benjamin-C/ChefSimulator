@@ -58,7 +58,7 @@ public class DataMap {
 			if(!dm.containsKey(k)) {
 				return false;
 			}
-			if(!dataMap.get(k).equals(dm.get(k))) {
+			if(k == DataMapKey.UUID || !dataMap.get(k).equals(dm.get(k))) {
 				return false;
 			}
 		}

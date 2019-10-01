@@ -49,6 +49,7 @@ public class Inventory {
 				inv[i] = t;
 				return true;
 			}
+			i++;
 		}
 		return false;
 	}
@@ -139,7 +140,7 @@ public class Inventory {
 	 */
 	public boolean remove(Thing t) {
 		for(int i = 0; i < inv.length; i++) {
-			if(inv[i].isSame(t)) {
+			if(inv[i] != null && inv[i].isSame(t)) {
 				remove(i);
 				return true;
 			}
@@ -237,14 +238,15 @@ public class Inventory {
 	 */
 	public boolean hasSame(Inventory in) {
 		Inventory test = in.clone();
-		if(inv.length == test.size()) {
-			return false;
-		}
+		System.out.println("me " + getAll());
+		System.out.println("in " + in.getAll());
 		for(int i = 0; i < inv.length; i++) {
-			if(!test.remove(inv[i])) {
+			if(inv[i] != null && !test.remove(inv[i])) {
+				System.out.println("Cant't remove item fail");
 				return false;
 			}
 		}
+		System.out.println("Inv returns true");
 		return true;
 	}
 }
