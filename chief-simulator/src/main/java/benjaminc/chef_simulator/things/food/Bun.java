@@ -23,8 +23,8 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 	public Bun() {
 		this((DataMap) null);
 	}
-	public Bun(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Bun.class);
+	public Bun(DataMap idataMap) {
+		super(idataMap, VARIANT_COUNT, Bun.class);
 		finalPrep();
 	}
 	public Bun(int variant, FoodState state) {

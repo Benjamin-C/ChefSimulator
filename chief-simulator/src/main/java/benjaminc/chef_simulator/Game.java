@@ -98,7 +98,6 @@ public class Game {
 		return map;
 	}
 	public void updateGraphics() {
-		System.out.println("UDG");
 		gamePanel.update(observedFps);
 	}
 	

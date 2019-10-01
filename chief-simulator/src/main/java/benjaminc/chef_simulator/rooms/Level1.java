@@ -53,7 +53,7 @@ public class Level1 extends Room {
 		
 		getSpace(new Location(4, 0)).removeAll(new Counter());
 		addThing(new Remover(), new Location(15, 8));
-		addThing(new Beef(), new Location(1, 2));
+		addThing(new Beef(0, FoodState.COOKED), new Location(1, 2));
 		addThing(new Beef(), new Location(0, 0));
 		addThing(new CuttingBoard(), new Location(4, 0));
 		addThing(new Counter(), new Location(4, 4));
@@ -120,12 +120,18 @@ public class Level1 extends Room {
 		toppings.add(new Beef(-1, FoodState.CHOPPED_COOKED));
 		toppings.add(new Tomato(-1, FoodState.CHOPPED));
 		addObjectives(new Objective(new Plate(new Bun(toppings)), 10));
+		
 		List<Thing> toppings2 = new ArrayList<Thing>();
 		toppings2.add(new Beef(-1, FoodState.CHOPPED_COOKED));
 		toppings2.add(new Cheese());
-		addObjectives(new Objective(new Plate(new Bun(toppings2)), 10));
+		Bun bun = new Bun(toppings2);
+		System.out.println("ObjectiveObject " + bun);
+		addObjectives(new Objective(new Plate(bun), 10));
+		
 		Bun bun1 = new Bun(toppings);
 		Bun bun2 = new Bun(toppings2);
+		System.out.println("Bun1 " + bun1);
+		System.out.println("Bun1.clone " + bun1.clone());
 		addObjectives(new Objective(new Plate(bun1.clone()), 10));
 		addObjectives(new Objective(new Plate(bun2.clone()), 10));
 		addObjectives(new Objective(new Plate(new Beef(-1, FoodState.COOKED)), 5));

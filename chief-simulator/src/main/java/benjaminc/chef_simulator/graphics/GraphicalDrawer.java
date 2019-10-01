@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chef_simulator.data.DataMapKey;
+import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_utils.data.FoodState;
@@ -25,6 +26,9 @@ public class GraphicalDrawer {
 				((CustomDrawingThing) t).draw(this, x, y, w, h);
 			} else {
 				List<Shape> s = new ArrayList<Shape>();
+				if(t.getDataMap() == null) {
+					System.out.println("A " + t + " has no data map");
+				}
 				if(t.getDataMap().containsKey(DataMapKey.FOOD_STATE)) {
 					s = ((Texture) t.getDataMap().get(DataMapKey.GRAPHICS)).get((FoodState) t.getDataMap().get(DataMapKey.FOOD_STATE));
 				} else {

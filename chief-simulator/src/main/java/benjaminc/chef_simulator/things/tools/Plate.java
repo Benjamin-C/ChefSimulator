@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.things.tools;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,9 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	private Plate(int variant, List<Thing> items, Thing t) {
 		super(variant, FoodState.RAW, VARIANT_COUNT, Plate.class);
 		Inventory myinv = new Inventory(MAX_INV_SIZE);
-		myinv.add(t);
+		if(t != null) {
+			myinv.add(t);
+		}
 		if(items != null) {
 			for(Thing th : items) {
 				myinv.add(th);

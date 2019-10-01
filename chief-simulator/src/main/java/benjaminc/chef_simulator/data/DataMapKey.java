@@ -5,7 +5,10 @@ import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
+import java.util.UUID;
+
 public enum DataMapKey {
+UUID("UUID", UUID.class),
 LAST_MOVE_FRAME("Last_Move_Frame", Double.class),
 VARIANT("Variant", Integer.class),
 VARIANT_COUNT("Variant_Count", Integer.class),

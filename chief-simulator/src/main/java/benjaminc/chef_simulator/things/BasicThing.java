@@ -10,7 +10,7 @@ import benjaminc.chef_simulator.graphics.GraphicalLoader;
 //import benjaminc.chef_simulator.graphics.GraphicalThing;
 import benjaminc.chef_utils.data.FoodState;
 
-public class BasicThing implements Thing {
+public class BasicThing implements Thing, Cloneable {
 
 	//protected GraphicalThing graphics;
 	protected DataMap dataMap;
@@ -71,8 +71,16 @@ public class BasicThing implements Thing {
 	
 	@Override
 	public Thing clone() {
-		return new BasicThing(dataMap.clone(), subclass);
-		
+		try {
+			Thing t = (Thing) super.clone();
+			t.setDataMap(dataMap.clone());
+			return t;
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		//return new BasicThing(dataMap.clone(), subclass);
 	}
 //	@Override
 //	public void draw(Graphics g, int x, int y, int w, int h) {
@@ -94,7 +102,14 @@ public class BasicThing implements Thing {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	@Override
+	public void setDataMap(DataMap m) {
+		this.dataMap = m;
+	}
+	@Override
+	public String getName() {
+		return subclass.getSimpleName();
+	}
 	private Class<?> getSubclass() {
 		return subclass;
 	}
