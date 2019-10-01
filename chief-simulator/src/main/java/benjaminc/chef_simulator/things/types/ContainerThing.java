@@ -1,7 +1,5 @@
 package benjaminc.chef_simulator.things.types;
 
-import java.awt.Graphics;
-
 import benjaminc.chef_simulator.data.Inventory;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;

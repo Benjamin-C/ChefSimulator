@@ -1,13 +1,10 @@
 package benjaminc.chef_simulator.graphics;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.data.DataMapKey;
-import benjaminc.chef_simulator.data.Inventory;
 import benjaminc.chef_simulator.things.*;
 import benjaminc.chef_simulator.things.building.Floor;
 import benjaminc.chef_simulator.things.types.SolidThing;

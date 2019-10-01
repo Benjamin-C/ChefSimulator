@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.things;
 
-import java.awt.Graphics;
 import java.util.Random;
 
 import benjaminc.chef_simulator.control.Direction;

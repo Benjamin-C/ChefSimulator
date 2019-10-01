@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.things.food;
 
-import java.awt.Graphics;
 import java.util.List;
 
 import benjaminc.chef_simulator.data.DataMap;

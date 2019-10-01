@@ -1,7 +1,5 @@
 package benjaminc.chef_simulator.things;
 
-import java.awt.Graphics;
-
 import benjaminc.chef_simulator.data.DataMap;
 
 public interface Thing {

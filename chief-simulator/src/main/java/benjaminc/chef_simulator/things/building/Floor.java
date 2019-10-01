@@ -1,7 +1,5 @@
 package benjaminc.chef_simulator.things.building;
 
-import java.awt.Graphics;
-
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;

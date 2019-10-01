@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chef_simulator.data.DataMapKey;
-import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_utils.data.FoodState;

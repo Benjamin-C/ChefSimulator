@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.things.building;
 
-import java.awt.Graphics;
 import java.util.List;
 import java.util.ArrayList;
 
