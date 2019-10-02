@@ -29,16 +29,13 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 	}
 	public Belt(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Belt.class);
+		System.out.println(this.dataMap);
+		this.dataMap.put(DataMapKey.LAST_MOVE_FRAME, 0d);
 	}
 	public Belt(Direction d) {
 		this((DataMap) null);
 		dataMap.put(DataMapKey.DIRECTION, d);
 	}
-
-//	@Override
-//	public void draw(Graphics g, int x, int y, int w, int h) {
-//		graphics.draw(g, x, y, w, h);
-//	}
 
 	@Override
 	public boolean isSame(Thing t) {
@@ -58,31 +55,33 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 	}
 	@Override
 	public void tick(Room r, Location l, double frame, Game g) {
-		if(dataMap.containsKey(DataMapKey.LAST_MOVE_FRAME) &&
-				(Double) dataMap.get(DataMapKey.LAST_MOVE_FRAME) != frame) {
-			dataMap.put(DataMapKey.LAST_MOVE_FRAME, frame);;
-			GameSpace gs = r.getSpace(l);
-			GameSpace ngs = r.getSpace(l.add((Direction) dataMap.get(DataMapKey.DIRECTION)));
-			toMove = new ArrayList<Thing>();
-			for(Thing t : gs.getThings()) {
-				if(!(t instanceof AttachedThing)) {
-					if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
-						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0d);
-						System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
+		if(dataMap.containsKey(DataMapKey.LAST_MOVE_FRAME)) {
+			if ((Double) dataMap.get(DataMapKey.LAST_MOVE_FRAME) != frame) {
+				dataMap.put(DataMapKey.LAST_MOVE_FRAME, frame);
+				GameSpace gs = r.getSpace(l);
+				GameSpace ngs = r.getSpace(l.add((Direction) dataMap.get(DataMapKey.DIRECTION)));
+				toMove = new ArrayList<Thing>();
+				for(Thing t : gs.getThings()) {
+					if(t != null) {
+						if(!(t instanceof AttachedThing)) {
+							if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
+								t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0d);
+								System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
+							}
+							if((Double) t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME) + movedel < System.currentTimeMillis()) {
+								toMove.add(t);
+								t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, (double) System.currentTimeMillis());
+							}
+						}
 					}
-					if((Double) t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME) + movedel < System.currentTimeMillis()) {
-						toMove.add(t);
-						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, (double) System.currentTimeMillis());
-					}
-				} else {
-					String oldtype = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME).getClass().toString();
-					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0d);
-					System.err.println("LAST_MOVE_FRAME on " + t + " was the wrong type (" + oldtype + "), so I changed it");
+				}
+				for(Thing t : toMove) {
+					ngs.addThing(gs.removeThing(t));
 				}
 			}
-			for(Thing t : toMove) {
-				ngs.addThing(gs.removeThing(t));
-			}
+		} else {
+			System.out.println("No LastMoveFrame, making it for " + dataMap);
+			dataMap.put(DataMapKey.LAST_MOVE_FRAME, frame);
 		}
 	}
 	@Override

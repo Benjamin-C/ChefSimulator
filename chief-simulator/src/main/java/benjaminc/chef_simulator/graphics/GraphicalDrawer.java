@@ -5,9 +5,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
+import benjaminc.chef_simulator.things.types.DirectionalThing;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.Texture;
@@ -33,17 +35,33 @@ public class GraphicalDrawer {
 				} else {
 					s = ((Texture) t.getDataMap().get(DataMapKey.TEXTURE)).get(FoodState.RAW);
 				}
-				drawTexture(s, x, y, w, h);
+				Direction d = null;
+				if(t instanceof DirectionalThing) {
+					d = (Direction) t.getDataMap().get(DataMapKey.DIRECTION);
+				}
+				drawTexture(s, x, y, w, h, d);
 			}
 		} else {
 			drawTexture(null, x, y, w, h);
 		}
 	}
 	
-	public void drawTexture(List<Shape> s, int x, int y, int w, int h) {
+	public void drawTexture(List<Shape> s, int x, int y, int w, int h, Direction d) {
 		if(s != null && s.size() > 0) {
 			for(int i = s.size() - 1; i >= 0; i--) {
 				s.get(i).draw(w, h, x, y, g);
+			}
+			if(d != null) {
+				int b = w/16;
+				int c = (w/2)-(b/2);
+				g.setColor(Color.RED);
+				switch(d) {
+				case DOWN: g.fillRect(x, y+h-b, w, b); g.fillRect(x+c, y+h/2, b, h/2); break;
+				case LEFT: g.fillRect(x, y, b, h); g.fillRect(x, y+c, w/2, b); break;
+				case RIGHT: g.fillRect(x+w-b, y, b, h); g.fillRect(x+w/2, y+c, w/2, b); break;
+				case UP: g.fillRect(x, y, w, b); g.fillRect(x+c, y, b, h/2); break;
+				default: break;
+				}
 			}
 		} else {
 			g.setColor(Color.MAGENTA);
@@ -57,5 +75,8 @@ public class GraphicalDrawer {
 			String st = "s " + (w/32f);
 			g.drawString(st, x, y);
 		}
+	}
+	public void drawTexture(List<Shape> s, int x, int y, int w, int h) {
+		drawTexture(s, x, y, w, h, null);
 	}
 }
