@@ -30,6 +30,7 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	public Plate(List<Thing> items) {
 		this(-1, items, null);
 	}
+	
 	public Plate(int variant) {
 		this(variant, null, null);
 	}
@@ -55,7 +56,7 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
-		g.drawTexture(((Texture) dataMap.get(DataMapKey.GRAPHICS)).getList().get(FoodState.RAW), x, y, w, h);
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h);
 		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
 		switch(items.size()) {
 		case 1: {

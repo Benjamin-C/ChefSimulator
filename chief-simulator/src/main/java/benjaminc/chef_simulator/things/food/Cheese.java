@@ -32,17 +32,9 @@ public class Cheese extends BasicThing implements FoodThing, Choppable {
 		return this;
 	}
 
-	public void setVariant(int var) {
-		try { dataMap.put(DataMapKey.VARIANT, var);
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); }
-	}
 	public void setState(FoodState state) {
 		try { dataMap.put(DataMapKey.FOOD_STATE, state);
 		} catch (InvalidDatatypeException e) { e.printStackTrace(); };
-	}
-	public int getVariant() {
-		try { return (int) dataMap.get(DataMapKey.VARIANT);
-		} catch (InvalidDatatypeException e) { e.printStackTrace(); return -1; }
 	}
 	public FoodState getState() {
 		try { return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);

@@ -58,7 +58,7 @@ public class Disposal extends BasicThing implements SolidThing, ToolThing, Ticka
 					System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
 				}
 				Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
-				if(((Long) data).longValue() != frame) {
+				if(((Double) data).longValue() != frame) {
 					toRemove.add(t);
 					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
 				}

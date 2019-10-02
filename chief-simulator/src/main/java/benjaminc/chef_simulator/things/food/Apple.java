@@ -30,14 +30,8 @@ public class Apple extends BasicThing implements FoodThing, Choppable {
 		return this;
 	}
 
-	public void setVariant(int var) {
-		dataMap.put(DataMapKey.VARIANT, var);
-	}
 	public void setState(FoodState state) {
 		dataMap.put(DataMapKey.FOOD_STATE, state);
-	}
-	public int getVariant() {
-		return (int) dataMap.get(DataMapKey.VARIANT);
 	}
 	public FoodState getState() {
 		return (FoodState) dataMap.get(DataMapKey.FOOD_STATE);

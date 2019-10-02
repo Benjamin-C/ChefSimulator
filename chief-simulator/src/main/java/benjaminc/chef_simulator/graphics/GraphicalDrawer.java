@@ -29,9 +29,9 @@ public class GraphicalDrawer {
 					System.out.println("A " + t + " has no data map");
 				}
 				if(t.getDataMap().containsKey(DataMapKey.FOOD_STATE)) {
-					s = ((Texture) t.getDataMap().get(DataMapKey.GRAPHICS)).get((FoodState) t.getDataMap().get(DataMapKey.FOOD_STATE));
+					s = ((Texture) t.getDataMap().get(DataMapKey.TEXTURE)).get((FoodState) t.getDataMap().get(DataMapKey.FOOD_STATE));
 				} else {
-					s = ((Texture) t.getDataMap().get(DataMapKey.GRAPHICS)).get(FoodState.RAW);
+					s = ((Texture) t.getDataMap().get(DataMapKey.TEXTURE)).get(FoodState.RAW);
 				}
 				drawTexture(s, x, y, w, h);
 			}

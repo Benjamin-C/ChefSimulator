@@ -20,6 +20,7 @@ public class BasicThing implements Thing, Cloneable {
 	protected DataMap dataMap;
 	protected Class<?> subclass;
 	
+	@SuppressWarnings("deprecation")
 	public BasicThing(DataMap dataMap, Class<?> subclass) {
 		this.subclass = subclass;
 		this.dataMap = dataMap;
@@ -42,14 +43,16 @@ public class BasicThing implements Thing, Cloneable {
 		if(subclass != null) {
 			String pkg = this.subclass.getPackage().getName();
 			pkg = pkg.substring(pkg.lastIndexOf(".")+1);
-			this.dataMap.put(DataMapKey.GRAPHICS, GraphicalLoader.load(pkg + "/" + this.subclass.getSimpleName()));
+			this.dataMap.put(DataMapKey.TEXTURE, GraphicalLoader.load(pkg + "/" + this.subclass.getSimpleName()));
 		}
 		
 	}
+	@SuppressWarnings("deprecation")
 	public BasicThing(DataMap dataMap, int variantCount, Class<?> subclass) {
 		this(dataMap, subclass);
 		this.dataMap.put(DataMapKey.VARIANT_COUNT, variantCount);
 	}
+	@SuppressWarnings("deprecation")
 	public BasicThing(int variant, FoodState state, int variantCount, Class<?> subclass) {
 		this(null, variantCount, subclass);
 		dataMap.put(DataMapKey.VARIANT, variant);
