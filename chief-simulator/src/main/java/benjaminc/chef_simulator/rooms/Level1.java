@@ -75,9 +75,7 @@ public class Level1 extends Room {
 		addThing(new CuttingBoard(), new Location(6, 12));
 		addThing(new Fryer(), new Location(7, 11));
 		addThing(new Stove(), new Location(8, 11));
-		addThing(new Spawner(new Plate()), new Location(7, 12));
-		addThing(new Spawner(new Plate()), new Location(8, 12));
-		addThing(new Spawner(new Plate()), new Location(8, 8));
+		
 		addThing(new CuttingBoard(), new Location(9, 12));
 		addThing(new CuttingBoard(), new Location(10, 12));
 		addThing(new Counter(), new Location(11, 12));
@@ -135,8 +133,15 @@ public class Level1 extends Room {
 		addObjectives(new Objective(new Plate(bun1.clone()), 10));
 		addObjectives(new Objective(new Plate(bun2.clone()), 10));
 		addObjectives(new Objective(new Plate(new Beef(-1, FoodState.COOKED)), 5));
+		
 		addThing(new Spawner(bun1), new Location(10, 0));
 		addThing(new Spawner(bun2), new Location(11, 0));
+		
+		Plate pl = new Plate(bun1.clone());
+		addThing(new Spawner(pl), new Location(7, 8));
+		addThing(new Spawner(new Plate()), new Location(7, 12));
+		addThing(new Spawner(new Plate()), new Location(8, 12));
+		addThing(new Spawner(new Plate()), new Location(8, 8));
 		
 		
 	}

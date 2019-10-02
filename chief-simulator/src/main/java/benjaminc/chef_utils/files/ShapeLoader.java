@@ -40,7 +40,6 @@ public class ShapeLoader {
 			System.out.println("Test path = " + dir.getPath());
 			if(dir.isDirectory()) {
 				System.out.println("Loading directory: " + dir.getName() + " ...");
-				
 				File[] listOfFiles = dir.listFiles();
 /*>*/			System.out.println("Trying files in directory");
 				for (File f : listOfFiles) {

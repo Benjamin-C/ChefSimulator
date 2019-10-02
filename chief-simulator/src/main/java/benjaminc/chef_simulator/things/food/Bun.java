@@ -15,6 +15,12 @@ import benjaminc.chef_simulator.things.types.FoodThing;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
+/**
+ * A Bun to hold food on to serve
+ * extends BasicThing implements FoodThing, ContainerThing, CustomDrawingThing
+ * @author Benjamin-C
+ *
+ */
 public class Bun extends BasicThing implements FoodThing, ContainerThing, CustomDrawingThing {
 
 	protected final static int VARIANT_COUNT = 1;
@@ -86,7 +92,7 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 
 	@Override
 	public Inventory getItems() {
-		return ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
+		return ((Inventory) dataMap.get(DataMapKey.INVENTORY));
 	}
 
 	@Override
@@ -126,6 +132,8 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 	}
 	
 	public Inventory giveAllItems() {
-		return ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
+		Inventory out = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
+		((Inventory) dataMap.get(DataMapKey.INVENTORY)).clear();
+		return out;
 	}
 }

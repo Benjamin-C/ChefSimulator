@@ -30,7 +30,7 @@ public class Remover extends BasicThing implements ToolThing, SolidThing {
 		List<Thing> temp = new ArrayList<Thing>();
 		if(t instanceof ContainerThing) {
 			for(Thing tm : ((ContainerThing) t).getItems().clear()) {
-				temp.add(tm);;
+				temp.add(tm);
 			}
 		}
 		temp.add(t);

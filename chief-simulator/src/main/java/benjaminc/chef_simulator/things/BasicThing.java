@@ -9,6 +9,11 @@ import benjaminc.chef_simulator.graphics.GraphicalLoader;
 //import benjaminc.chef_simulator.graphics.GraphicalThing;
 import benjaminc.chef_utils.data.FoodState;
 
+/**
+ * the class to hold all Things for easier usage
+ * @author Benjamin-C
+ *
+ */
 public class BasicThing implements Thing, Cloneable {
 
 	//protected GraphicalThing graphics;
@@ -81,10 +86,7 @@ public class BasicThing implements Thing, Cloneable {
 		}
 		//return new BasicThing(dataMap.clone(), subclass);
 	}
-//	@Override
-//	public void draw(Graphics g, int x, int y, int w, int h) {
-//		//graphics.draw(g, x, y, w, h);
-//	}
+
 	@Override
 	public boolean isSame(Thing t) {
 		System.out.println("BasicThingSame?");
