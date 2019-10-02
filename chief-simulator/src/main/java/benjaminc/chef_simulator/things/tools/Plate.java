@@ -130,12 +130,13 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 			if(t.getClass() == this.getClass()) {
 				if(t instanceof Plate) {
 					if(getItems().hasSame(((Plate) t).getItems())) {
+						return true;
 					} else { System.out.println("Inv match fail"); }
 				} else { System.out.println("Type match fail"); }
 			} else { System.out.println("Class match fail"); }
 		} else { return false; }
-		System.out.println("Plate returns true");
-		return true;
+		System.out.println("Plate returns false");
+		return false;
 	}
 	
 	@Override
