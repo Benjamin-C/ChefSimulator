@@ -20,6 +20,11 @@ public class BasicThing implements Thing, Cloneable {
 	protected DataMap dataMap;
 	protected Class<?> subclass;
 	
+	/**
+	 * Creates a new {@link BasicThing}
+	 * @param dataMap the {@link DataMap} information for the Thing
+	 * @param subclass the {@link Class} of the {@link Thing} this represents
+	 */
 	@SuppressWarnings("deprecation")
 	public BasicThing(DataMap dataMap, Class<?> subclass) {
 		this.subclass = subclass;
@@ -47,11 +52,24 @@ public class BasicThing implements Thing, Cloneable {
 		}
 		
 	}
+	/**
+	 * Creates a new {@link BasicThing}
+	 * @param dataMap the {@link DataMap} information for the Thing
+	 * @param variantCount the int of total possible variants. Currently does nothing
+	 * @param subclass the {@link Class} of the {@link Thing} this represents
+	 */
 	@SuppressWarnings("deprecation")
 	public BasicThing(DataMap dataMap, int variantCount, Class<?> subclass) {
 		this(dataMap, subclass);
 		this.dataMap.put(DataMapKey.VARIANT_COUNT, variantCount);
 	}
+	/**
+	 * Creates a new {@link BasicThing}
+	 * @param variant the int variant of the thing. Currently does nothing
+	 * @param state the {@link FoodState} of the thing
+	 * @param variantCount the int of total possible variants. Currently does nothing
+	 * @param subclass the {@link Class} of the {@link Thing} this represents
+	 */
 	@SuppressWarnings("deprecation")
 	public BasicThing(int variant, FoodState state, int variantCount, Class<?> subclass) {
 		this(null, variantCount, subclass);
