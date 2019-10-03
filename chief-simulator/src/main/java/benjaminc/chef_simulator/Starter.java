@@ -2,7 +2,14 @@ package benjaminc.chef_simulator;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -10,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 public class Starter {
 
@@ -28,6 +36,16 @@ public class Starter {
 		JCheckBox jcb = new JCheckBox("Lag-O-Meter");
 		jcb.setSelected(true);
 		JButton jb = new JButton("go");
+		jtf.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "check");
+		jtf.getActionMap().put("check", new AbstractAction() {
+			private static final long serialVersionUID = 6672135527803981557L; // Keep Eclipse happy
+			@Override public void actionPerformed(ActionEvent arg0) { System.out.println("Do da ting");jb.doClick(); }
+		});
+		jt.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "check");
+		jt.getActionMap().put("check", new AbstractAction() {
+			private static final long serialVersionUID = 6672135527803981557L; // Keep Eclipse happy
+			@Override public void actionPerformed(ActionEvent arg0) { System.out.println("Do da ting");jb.doClick(); }
+		});
 		jb.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
 				try {

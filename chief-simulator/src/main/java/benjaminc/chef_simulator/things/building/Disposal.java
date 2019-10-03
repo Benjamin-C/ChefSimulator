@@ -11,11 +11,17 @@ import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.AttachedThing;
+import benjaminc.chef_simulator.things.types.PersistentThing;
 import benjaminc.chef_simulator.things.types.SolidThing;
 import benjaminc.chef_simulator.things.types.Tickable;
-import benjaminc.chef_simulator.things.types.ToolThing;
 
-public class Disposal extends BasicThing implements SolidThing, ToolThing, Tickable {
+/**
+ * A disposal to remove Things
+ * extends BasicThing implements SolidThing, Tickable
+ * @author Benjamin-C
+ *
+ */
+public class Disposal extends BasicThing implements SolidThing, Tickable {
 
 	protected final static int VARIANT_COUNT = 1;
 	public Disposal() {
@@ -23,16 +29,6 @@ public class Disposal extends BasicThing implements SolidThing, ToolThing, Ticka
 	}
 	public Disposal(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Disposal.class);
-	}
-	
-//	@Override
-//	public void draw(Graphics g, int x, int y, int w, int h) {
-//		graphics.draw(g, x, y, w, h);
-//	}
-
-	@Override
-	public List<Thing> useTool(Thing t) {
-		return null;
 	}
 
 	@Override
@@ -52,7 +48,7 @@ public class Disposal extends BasicThing implements SolidThing, ToolThing, Ticka
 		List<Thing> stuff = r.getThings(l);
 		List<Thing> toRemove = new ArrayList<Thing>();
 		for(Thing t : stuff) {
-				if(!(t instanceof AttachedThing)) {
+				if(!(t instanceof AttachedThing) && !(t instanceof PersistentThing)) {
 				if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
 					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0d);
 					System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");

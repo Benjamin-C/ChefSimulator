@@ -6,6 +6,7 @@ import java.util.List;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.Inventory;
+import benjaminc.chef_simulator.events.OnDisposeEvent;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -13,10 +14,11 @@ import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_simulator.things.types.Cookable;
 import benjaminc.chef_simulator.things.types.CookwareThing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
+import benjaminc.chef_simulator.things.types.PersistentThing;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
-public class Pan extends BasicThing implements CookwareThing, ContainerThing, CustomDrawingThing {
+public class Pan extends BasicThing implements CookwareThing, ContainerThing, CustomDrawingThing, PersistentThing {
 
 	protected final static int VARIANT_COUNT = 1;
 	protected final static int MAX_INV_SIZE = 1;
@@ -119,6 +121,11 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 		Inventory out = (Inventory) dataMap.get(DataMapKey.INVENTORY);
 		((Inventory) dataMap.get(DataMapKey.INVENTORY)).put(null, 0);
 		return out;
+	}
+	
+	@Override
+	public void onDispose(OnDisposeEvent e) {
+		// Do nothing
 	}
 	private void checkItemKey() {
 		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
