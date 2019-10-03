@@ -7,6 +7,7 @@ import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
+import benjaminc.chef_simulator.events.OnDisposeEvent;
 import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -48,15 +49,20 @@ public class Disposal extends BasicThing implements SolidThing, Tickable {
 		List<Thing> stuff = r.getThings(l);
 		List<Thing> toRemove = new ArrayList<Thing>();
 		for(Thing t : stuff) {
-				if(!(t instanceof AttachedThing) && !(t instanceof PersistentThing)) {
+			if(!(t instanceof AttachedThing)) {
 				if(!t.getDataMap().containsKey(DataMapKey.LAST_MOVE_FRAME)) {
 					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, 0d);
 					System.err.println("LAST_MOVE_FRAME on " + t + " did not exist, so I created it");
 				}
 				Object data = t.getDataMap().get(DataMapKey.LAST_MOVE_FRAME);
 				if(((Double) data).longValue() != frame) {
-					toRemove.add(t);
-					t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
+					if(!(t instanceof PersistentThing)) {
+						toRemove.add(t);
+						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
+					} else {
+						t.getDataMap().put(DataMapKey.LAST_MOVE_FRAME, frame);
+						((PersistentThing) t).onDispose(new OnDisposeEvent() { @Override public void setCanceled(boolean cancel) { } });
+					}
 				}
 			}
 		}

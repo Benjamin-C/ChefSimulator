@@ -127,6 +127,10 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 	public void onDispose(OnDisposeEvent e) {
 		// Do nothing
 	}
+	
+	/**
+	 * Add an inventory if it does not already exist
+	 */
 	private void checkItemKey() {
 		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
 			dataMap.put(DataMapKey.INVENTORY, new Inventory(MAX_INV_SIZE));
