@@ -13,7 +13,13 @@ public class Texture {
 	public Texture() {
 		txtr = new HashMap<FoodState, List<Shape>>();
 	}
+	public Texture(Map<FoodState, List<Shape>> txtr) {
+		this.txtr = txtr;
+	}
 	
+	public void put(FoodState state, Shape s) {
+		
+	}
 	public void put(FoodState state, List<Shape> s) {
 		txtr.put(state, s);
 	}

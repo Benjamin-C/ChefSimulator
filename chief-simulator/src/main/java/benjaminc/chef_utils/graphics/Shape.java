@@ -8,7 +8,7 @@ import java.awt.Polygon;
 import java.awt.Stroke;
 import java.util.UUID;
 
-public class Shape {
+public class Shape implements Cloneable {
 
 	// Instance Methods
 	protected float x = 5;
@@ -53,13 +53,38 @@ public class Shape {
 		draw(wi, he, 0, 0, gr);
 	}
 	public void draw(int wi, int he, int ox, int oy, Graphics gr) {
+		draw(wi, he, ox, oy, gr, false);
+	}
+	public void draw(int wi, int he, int ox, int oy, Graphics gr, int dir) {
 		gr.setColor(new Color(r, g, b));
 		
 		if(!(wi == owi && he == ohe && ox == oox && oy == ooy && gr == ogr) || recalc) {
-			xs = (int) (x*wi) + ox;
-			ys = (int) (y*he) + oy;
-			ws = (int) (w*wi);
-			hs = (int) (h*he);
+			switch(dir) {
+			case 0: {
+				xs = (int) (x*wi) + ox;
+				ys = (int) (y*he) + oy;
+				ws = (int) (w*wi);
+				hs = (int) (h*he);
+			} break;
+			case 1: {
+				xs = (int) (y*wi) + ox;
+				ys = (int) (x*he) + oy;
+				ws = (int) (h*wi);
+				hs = (int) (w*he);
+			} break;
+			case 2: {
+				xs = (int) (x*wi) + ox;
+				ys = (int) (y*he) + oy;
+				ws = (int) (w*wi);
+				hs = (int) (h*he);
+			} break;
+			case 3: {
+				xs = (int) (x*wi) + ox;
+				ys = (int) (y*he) + oy;
+				ws = (int) (w*wi);
+				hs = (int) (h*he);
+			} break;
+			}
 			
 			ss = (int) (wi*c);
 			if(ss < 1) {
@@ -193,6 +218,7 @@ public class Shape {
 		return test.getID() == id;
 	}
 	
+	@Override
 	public Shape clone() {
 		return new Shape(shp, x, y, w, h, c, r, g, b);
 	}
@@ -200,5 +226,4 @@ public class Shape {
 	public String toString() {
 		return "Shape[shp=" + shp + ",x=" + x + ",y=" + y + ",w=" + w + ",h=" + h + ",c=" + c + ",r=" + r + ",g=" + g + ",b=" + b + "]";
 	}
-	
 }

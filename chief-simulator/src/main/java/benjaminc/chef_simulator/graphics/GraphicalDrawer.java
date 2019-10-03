@@ -48,15 +48,19 @@ public class GraphicalDrawer {
 	
 	public void drawTexture(List<Shape> s, int x, int y, int w, int h, Direction d) {
 		if(s != null && s.size() > 0) {
-			for(int i = s.size() - 1; i >= 0; i--) {
-				s.get(i).draw(w, h, x, y, g);
+			for(int i = s.size() - 1; i >= 0; i--) { // Running through list backwards
+				int rotate = false;
+				if(d == Direction.DOWN) {
+					rotate = 1;
+				}
+				s.get(i).draw(w, h, x, y, g, 1);
 			}
 			if(d != null) {
 				int b = w/16;
 				int c = (w/2)-(b/2);
 				g.setColor(Color.RED);
 				switch(d) {
-				case DOWN: g.fillRect(x, y+h-b, w, b); g.fillRect(x+c, y+h/2, b, h/2); break;
+				case DOWN: g.setColor(Color.RED); g.fillRect(x, y+h-b, w, b); g.fillRect(x+c, y+h/2, b, h/2); break;
 				case LEFT: g.fillRect(x, y, b, h); g.fillRect(x, y+c, w/2, b); break;
 				case RIGHT: g.fillRect(x+w-b, y, b, h); g.fillRect(x+w/2, y+c, w/2, b); break;
 				case UP: g.fillRect(x, y, w, b); g.fillRect(x+c, y, b, h/2); break;
