@@ -53,7 +53,7 @@ public class Shape implements Cloneable {
 		draw(wi, he, 0, 0, gr);
 	}
 	public void draw(int wi, int he, int ox, int oy, Graphics gr) {
-		draw(wi, he, ox, oy, gr, false);
+		draw(wi, he, ox, oy, gr, 0);
 	}
 	public void draw(int wi, int he, int ox, int oy, Graphics gr, int dir) {
 		gr.setColor(new Color(r, g, b));
@@ -67,22 +67,22 @@ public class Shape implements Cloneable {
 				hs = (int) (h*he);
 			} break;
 			case 1: {
-				xs = (int) (y*wi) + ox;
-				ys = (int) (x*he) + oy;
+				xs = (int) ((1-y-h)*wi) + ox;
+				ys = (int) ((1-x-w)*he) + oy;
 				ws = (int) (h*wi);
 				hs = (int) (w*he);
 			} break;
 			case 2: {
-				xs = (int) (x*wi) + ox;
-				ys = (int) (y*he) + oy;
+				xs = (int) ((1-x-w)*wi) + ox;
+				ys = (int) ((1-y-h)*he) + oy;
 				ws = (int) (w*wi);
 				hs = (int) (h*he);
 			} break;
 			case 3: {
-				xs = (int) (x*wi) + ox;
-				ys = (int) (y*he) + oy;
-				ws = (int) (w*wi);
-				hs = (int) (h*he);
+				xs = (int) (y*wi) + ox;
+				ys = (int) (x*he) + oy;
+				ws = (int) (h*wi);
+				hs = (int) (w*he);
 			} break;
 			}
 			

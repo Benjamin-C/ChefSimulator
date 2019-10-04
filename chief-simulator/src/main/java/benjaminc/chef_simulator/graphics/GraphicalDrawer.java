@@ -49,13 +49,13 @@ public class GraphicalDrawer {
 	public void drawTexture(List<Shape> s, int x, int y, int w, int h, Direction d) {
 		if(s != null && s.size() > 0) {
 			for(int i = s.size() - 1; i >= 0; i--) { // Running through list backwards
-				int rotate = false;
-				if(d == Direction.DOWN) {
-					rotate = 1;
+				int dir = 0;
+				if(d != null) {
+					dir = d.getId();
 				}
-				s.get(i).draw(w, h, x, y, g, 1);
+				s.get(i).draw(w, h, x, y, g, dir);
 			}
-			if(d != null) {
+			if(d != null && false) {
 				int b = w/16;
 				int c = (w/2)-(b/2);
 				g.setColor(Color.RED);
