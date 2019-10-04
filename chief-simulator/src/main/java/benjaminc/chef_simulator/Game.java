@@ -54,6 +54,7 @@ public class Game {
 			@Override
 			public void run() {
 				playMap(new Level1(cooks, score, thisGame));
+				playMap(new Level1(cooks, score, thisGame));
 			}
 		};
 		control.start();
@@ -83,6 +84,7 @@ public class Game {
 		System.out.println("UDG start");
 		updateGraphics();
 		Util.pause(lvl.getSyncObj());
+		tickTimer.end();
 		System.out.println("Done");
 	}
 	

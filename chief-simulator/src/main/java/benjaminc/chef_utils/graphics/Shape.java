@@ -59,31 +59,11 @@ public class Shape implements Cloneable {
 		gr.setColor(new Color(r, g, b));
 		
 		if(!(wi == owi && he == ohe && ox == oox && oy == ooy && gr == ogr) || recalc) {
-			switch(dir) {
-			case 0: {
-				xs = (int) (x*wi) + ox;
-				ys = (int) (y*he) + oy;
-				ws = (int) (w*wi);
-				hs = (int) (h*he);
-			} break;
-			case 1: {
-				xs = (int) ((1-y-h)*wi) + ox;
-				ys = (int) ((1-x-w)*he) + oy;
-				ws = (int) (h*wi);
-				hs = (int) (w*he);
-			} break;
-			case 2: {
-				xs = (int) ((1-x-w)*wi) + ox;
-				ys = (int) ((1-y-h)*he) + oy;
-				ws = (int) (w*wi);
-				hs = (int) (h*he);
-			} break;
-			case 3: {
-				xs = (int) (y*wi) + ox;
-				ys = (int) (x*he) + oy;
-				ws = (int) (h*wi);
-				hs = (int) (w*he);
-			} break;
+			switch(dir) { // 0=u, 1=r, 2=d, 3=l
+			case 0: { xs = (int) (x*wi) + ox; ys = (int) (y*he) + oy; ws = (int) (w*wi); hs = (int) (h*he); } break;
+			case 1: { xs = (int) ((1-y-h)*wi) + ox; ys = (int) ((1-x-w)*he) + oy; ws = (int) (h*wi); hs = (int) (w*he); } break;
+			case 2: { xs = (int) ((1-x-w)*wi) + ox; ys = (int) ((1-y-h)*he) + oy; ws = (int) (w*wi); hs = (int) (h*he); } break;
+			case 3: { xs = (int) (y*wi) + ox; ys = (int) (x*he) + oy; ws = (int) (h*wi); hs = (int) (w*he); } break;
 			}
 			
 			ss = (int) (wi*c);
