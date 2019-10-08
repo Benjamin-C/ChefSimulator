@@ -16,24 +16,50 @@ public class GraphicalLoader {
 
 	private static Map<String, Texture> cache;
 	
+	public static void loadCache(String root) {
+		if(cache == null) {
+			cache = new HashMap<String, Texture>();
+		}
+		
+		System.out.println("Loading cache");
+		System.out.println(root);
+		
+		ShapeLoader sl = new ShapeLoader();
+		
+		cacheFile(new File(root), sl);
+		
+		System.out.println("Start cache dump:");
+		for(String s : cache.keySet()) {
+			System.out.println(s);
+		}
+		System.out.println("End cache dump");
+	}
+	private static void cacheFile(File f, ShapeLoader sl) {
+		System.out.println(f.getName());
+		if(f.isDirectory()) {
+			File[] listOfFiles = f.listFiles();
+			for(File fi : listOfFiles) {
+				cacheFile(fi, sl);
+			}
+		} else {
+			Texture tx = sl.loadShapeList(f);
+			System.out.println(f.getName());
+			cache.put(f.getName(), tx);
+		}
+	}
+	
 	public static Texture load(String filename) {
-		Texture t = new Texture();
-		List<Shape> l = new ArrayList<Shape>();
-		l.add(new Shape(ShapeType.SOLID_RECTANTLE, 0, 0, 1, 1, 0, 0, 0, 0));
-		t.put(FoodState.RAW, l);
-
 		if(cache == null) {
 			cache = new HashMap<String, Texture>();
 		}
 		String fullname = "assets/textures/" + filename.toLowerCase() + ".cst";
-		if(cache.containsKey(fullname)) {
-			System.out.println("Loading " + fullname.substring((fullname.lastIndexOf("/"))+1) + " from cache");
-//			cache.get(fullname).printAll();
-			return cache.get(fullname);
+		if(cache.containsKey(filename)) {
+			//System.out.println("Loading " + filename/*.substring((fullname.lastIndexOf("/"))+1)*/ + " from cache");
+			return cache.get(filename);
 		} else {
 			ShapeLoader sl = new ShapeLoader();
 			Texture tx = sl.loadShapeList(new File(fullname));
-			cache.put(fullname, tx);
+			cache.put(filename, tx);
 			if(tx == null) {
 				System.out.println("The_Texture_Was_Null_GL");
 			}

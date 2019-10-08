@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import benjaminc.chef_utils.graphics.Texture;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.ShapeType;
-import benjaminc.chef_utils.graphics.Texture;
 
 public class ShapeLoader {
 	
@@ -39,7 +39,9 @@ public class ShapeLoader {
 			File dir = new File(file.getPath().substring(0, file.getPath().lastIndexOf(".")));
 			System.out.println("Test path = " + dir.getPath());
 			if(dir.isDirectory()) {
+				System.out.println("WARNING: Loading direcotyr is depricated. Please update to single texture files");
 				System.out.println("Loading directory: " + dir.getName() + " ...");
+				
 				File[] listOfFiles = dir.listFiles();
 /*>*/			System.out.println("Trying files in directory");
 				for (File f : listOfFiles) {
@@ -64,10 +66,32 @@ public class ShapeLoader {
 			Scanner s = new Scanner(file);
 			ShapeLoader sload = new ShapeLoader();
 			List<Shape> txtr = new ArrayList<Shape>();
+			FoodState state = FoodState.RAW;
+			int count = 0;
 			while(s.hasNextLine()) {
-				txtr.add(sload.getShapeFromJSON(s.nextLine()));
+				String line = s.nextLine();
+				count++;
+				if(line.length() == 0) {
+					// Line is empty, should ignore it
+				} else if(line.charAt(line.length()-1) == ':') {
+					// Line is a FoodState
+					List<Shape> tmpshplst = new ArrayList<Shape>();
+					for(Shape tmpss : txtr) {
+						tmpshplst.add(tmpss.clone());
+					}
+					list.put(state, tmpshplst);
+					txtr.clear();
+					state = FoodState.valueOf(line.substring(0, line.lastIndexOf(":")));
+				} else if(line.charAt(0) == '{') {
+					// Probibly json?
+					txtr.add(sload.getShapeFromJSON(line));
+				} else {
+					// Line is jibberish
+					System.out.println("Could not read line #" + count + ": " + line);
+				}
+				
 			}
-			list.put(FoodState.RAW, txtr);
+			list.put(state, txtr);
 			s.close();
 			System.out.println("Done loading " + file.getName());
 		} catch (FileNotFoundException e) {
@@ -105,7 +129,7 @@ public class ShapeLoader {
 			int nb = getColorValue(ShapeDataKey.B_KEY, bits);
 			ShapeType nt = ShapeType.SOLID_RECTANTLE;
 			if(bits.containsKey(ShapeDataKey.SHPAETYPE_KEY)) {
-				nt = ShapeType.getShapeTypeFromString(bits.get(ShapeDataKey.SHPAETYPE_KEY));
+				nt = ShapeType.valueOf(bits.get(ShapeDataKey.SHPAETYPE_KEY).toUpperCase());
 				if(nt == null) { nt = ShapeType.SOLID_RECTANTLE; System.out.println("Could not load " + ShapeDataKey.SHPAETYPE_KEY + " (ShapeType " + bits.get(ShapeDataKey.SHPAETYPE_KEY) + " is not valid). Returning default value SOLID_RECTANGLE"); }
 			} else { System.out.println("Could not load " + ShapeDataKey.SHPAETYPE_KEY + " (Key not found). Returning default value SOLID_RECTANGLE"); }
 			Shape back = new Shape(nt, nx, ny, nw, nh, nc, nr, ng, nb);

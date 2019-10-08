@@ -13,6 +13,7 @@ import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.TickTimer;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
+import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.rooms.Level1;
 import benjaminc.util.Util;
@@ -39,8 +40,9 @@ public class Game {
 		final Game thisGame = this;
 		cooks = new ArrayList<Cook>();
 		score = new Score();
+		GraphicalLoader.loadCache("assets/textures/");
 		map = new Room(1, 1, this, new Object(), score, cooks);
-		gamePanel = new GamePanel(thisGame, map, scale, lago, fps);
+		gamePanel = new GamePanel(thisGame, map, scale, map.getWidth()*scale, map.getHeight()*scale, lago, fps);
 		
 		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location(14, 1),
 				KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
