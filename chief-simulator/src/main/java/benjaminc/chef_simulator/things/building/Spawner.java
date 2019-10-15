@@ -30,7 +30,7 @@ public class Spawner extends BasicThing implements ToolThing, SolidThing, Custom
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		int indmkw = w / 4;
 		int indmkh = h / 4;
-		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h);
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h, getName());
 		g.draw(((Thing) dataMap.get(DataMapKey.MAKES)), x+indmkw,  y+indmkh,  w-(2*indmkw),  h-(2*indmkh));
 	}
 

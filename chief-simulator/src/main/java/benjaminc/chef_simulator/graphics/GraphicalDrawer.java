@@ -39,14 +39,14 @@ public class GraphicalDrawer {
 				if(t instanceof DirectionalThing) {
 					d = (Direction) t.getDataMap().get(DataMapKey.DIRECTION);
 				}
-				drawTexture(s, x, y, w, h, d);
+				drawTexture(s, x, y, w, h, d, t.getName());
 			}
 		} else {
-			drawTexture(null, x, y, w, h);
+			drawTexture(null, x, y, w, h, "null");
 		}
 	}
 	
-	public void drawTexture(List<Shape> s, int x, int y, int w, int h, Direction d) {
+	public void drawTexture(List<Shape> s, int x, int y, int w, int h, Direction d, String name) {
 		if(s != null && s.size() > 0) {
 			for(int i = s.size() - 1; i >= 0; i--) { // Running through list backwards
 				int dir = 0;
@@ -54,18 +54,6 @@ public class GraphicalDrawer {
 					dir = d.getId();
 				}
 				s.get(i).draw(w, h, x, y, g, dir);
-			}
-			if(d != null && false) {
-				int b = w/16;
-				int c = (w/2)-(b/2);
-				g.setColor(Color.RED);
-				switch(d) {
-				case DOWN: g.setColor(Color.RED); g.fillRect(x, y+h-b, w, b); g.fillRect(x+c, y+h/2, b, h/2); break;
-				case LEFT: g.fillRect(x, y, b, h); g.fillRect(x, y+c, w/2, b); break;
-				case RIGHT: g.fillRect(x+w-b, y, b, h); g.fillRect(x+w/2, y+c, w/2, b); break;
-				case UP: g.fillRect(x, y, w, b); g.fillRect(x+c, y, b, h/2); break;
-				default: break;
-				}
 			}
 		} else {
 			g.setColor(Color.MAGENTA);
@@ -75,12 +63,11 @@ public class GraphicalDrawer {
 			g.fillRect(x, y + h/2, w/2, h/2);
 			g.fillRect(x + w/2, y, w/2, h/2);
 			g.setColor(Color.WHITE);
-			g.setFont(g.getFont().deriveFont(w/2f));
-			String st = "s " + (w/32f);
-			g.drawString(st, x, y);
+			g.setFont(g.getFont().deriveFont(w/4f));
+			g.drawString(name, x, y+(h/2));
 		}
 	}
-	public void drawTexture(List<Shape> s, int x, int y, int w, int h) {
-		drawTexture(s, x, y, w, h, null);
+	public void drawTexture(List<Shape> s, int x, int y, int w, int h, String name) {
+		drawTexture(s, x, y, w, h, null, name);
 	}
 }

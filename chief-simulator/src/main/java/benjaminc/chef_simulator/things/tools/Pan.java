@@ -92,7 +92,7 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		checkItemKey();
-		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h);
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h, getName());
 		Thing t = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).get(0);
 		if(t != null) {
 			g.draw(t, x+(w/4), y+(h/4), w/2, h/2);

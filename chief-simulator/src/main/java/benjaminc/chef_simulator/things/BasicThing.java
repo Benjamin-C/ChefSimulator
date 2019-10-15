@@ -136,7 +136,8 @@ public class BasicThing implements Thing, Cloneable {
 	public String getName() {
 		return subclass.getSimpleName();
 	}
-	private Class<?> getSubclass() {
+	@Override
+	public Class<?> getSubclass() {
 		return subclass;
 	}
 }

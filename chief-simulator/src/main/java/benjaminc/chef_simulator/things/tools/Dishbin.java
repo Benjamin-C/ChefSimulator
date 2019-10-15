@@ -6,60 +6,39 @@ import java.util.List;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.Inventory;
-import benjaminc.chef_simulator.events.OnDisposeEvent;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
-import benjaminc.chef_simulator.things.types.PersistentThing;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
-public class Plate extends BasicThing implements ContainerThing, CustomDrawingThing, PersistentThing {
+public class Dishbin extends BasicThing implements ContainerThing, CustomDrawingThing {
 
-	/*
-	 * Plate uses FoodState.COOKED to represent a dirty plate
-	 */
-	
 	private static final int VARIANT_COUNT = 1;
 	private static final int MAX_INV_SIZE = 64;
-	public Plate() {
+	public Dishbin() {
 		this(-1, null, null);
 	}
-	public Plate(Thing item) {
+	public Dishbin(Thing item) {
 		this(-1, null, item);
 	}
-	public Plate(int variant, Thing item) {
+	public Dishbin(int variant, Thing item) {
 		this(variant, null, item);
 	}
-	public Plate(List<Thing> items) {
+	public Dishbin(List<Thing> items) {
 		this(-1, items, null);
-		
 	}
-	public Plate(FoodState state) {
-		this();
-		System.out.println("Setting plate state to " + state);
-		dataMap.put(DataMapKey.FOOD_STATE, state);
-	}
-	public Plate(int variant) {
+	
+	public Dishbin(int variant) {
 		this(variant, null, null);
 	}
-	public Plate(int variant, List<Thing> items) {
+	public Dishbin(int variant, List<Thing> items) {
 		this(variant, items, null);
 	}
-	private Plate(int variant, List<Thing> items, Thing t) {
-		super(variant, FoodState.RAW, VARIANT_COUNT, Plate.class);
-		if(t != null) {
-			dataMap.put(DataMapKey.USED, true);
-		} else if(items != null && items.size() > 0) {
-			for(Thing item : items) {
-				if(item != null) {
-					dataMap.put(DataMapKey.USED, true);
-					break;
-				}
-			}
-		}
+	private Dishbin(int variant, List<Thing> items, Thing t) {
+		super(variant, FoodState.RAW, VARIANT_COUNT, Dishbin.class);
 		Inventory myinv = new Inventory(MAX_INV_SIZE);
 		if(t != null) {
 			myinv.add(t);
@@ -71,13 +50,13 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 		}
 		dataMap.put(DataMapKey.INVENTORY, myinv);
 	}
-	public Plate(DataMap data) {
-		super(data, Plate.class);
+	public Dishbin(DataMap data) {
+		super(data, Dishbin.class);
 	}
 	
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
-		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(dataMap.get(DataMapKey.FOOD_STATE)), x, y, w, h, getName());
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h, getName());
 		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
 		switch(items.size()) {
 		case 1: {
@@ -109,7 +88,6 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	public List<Thing> useTool(Thing t) {
 		if(t != null) {
 			addItem(t);
-			dataMap.put(DataMapKey.USED, true);
 		} else {
 			List<Thing> out = new ArrayList<Thing>();
 			Inventory in = (Inventory) dataMap.get(DataMapKey.INVENTORY);
@@ -119,7 +97,6 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 					th = in.get(i);
 					if(th != null) {
 						out.add(in.remove(i));
-						dataMap.put(DataMapKey.FOOD_STATE, FoodState.COOKED);
 						break;
 					}
 				}
@@ -131,15 +108,9 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	}
 
 	@Override
-	public void onDispose(OnDisposeEvent e) {
-		// Do nothing
-	}
-	
-	@Override
 	public void addItem(Thing t) {
 		if(t != null) {
 			((Inventory) dataMap.get(DataMapKey.INVENTORY)).add(t);
-			dataMap.put(DataMapKey.USED, true);
 		}
 	}
 
@@ -158,8 +129,8 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 		System.out.println("PlateIsSame? " + t);
 		if(t != null) {
 			if(t.getClass() == this.getClass()) {
-				if(t instanceof Plate) {
-					if(getItems().hasSame(((Plate) t).getItems())) {
+				if(t instanceof Dishbin) {
+					if(getItems().hasSame(((Dishbin) t).getItems())) {
 						return true;
 					} else { System.out.println("Inv match fail"); }
 				} else { System.out.println("Type match fail"); }

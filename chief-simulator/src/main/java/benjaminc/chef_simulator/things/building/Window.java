@@ -2,17 +2,28 @@ package benjaminc.chef_simulator.things.building;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
+import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.data.DataMapKey;
+import benjaminc.chef_simulator.events.OnDisposeEvent;
+import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_simulator.things.tools.Plate;
+import benjaminc.chef_simulator.things.types.AttachedThing;
+import benjaminc.chef_simulator.things.types.PersistentThing;
 import benjaminc.chef_simulator.things.types.SolidThing;
+import benjaminc.chef_simulator.things.types.Tickable;
 import benjaminc.chef_simulator.things.types.ToolThing;
+import benjaminc.chef_utils.data.FoodState;
 import benjaminc.util.Util;
 
-public class Window extends BasicThing implements ToolThing, Thing, SolidThing{
+public class Window extends BasicThing implements ToolThing, Thing, SolidThing {
 	
 	protected Room room;
 	protected final static int VARIANT_COUNT = 1;
@@ -50,6 +61,16 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing{
 				if(room.getObjectives().size() == 0) {
 					Util.resume(room.getSyncObj());
 				}
+				List<GameSpace> returnlist = new ArrayList<GameSpace>();
+				for(int x = 0; x < room.getWidth(); x++) {
+					for(int y = 0; y < room.getHeight(); y++) {
+						Location here = new Location(x, y);
+						if(room.getSpace(here).contains(DishReturn.class)) {
+						 returnlist.add(room.getSpace(here));
+						}
+					}
+				}
+				returnlist.get(new Random().nextInt(returnlist.size())).addThing(new Plate(FoodState.COOKED));
 				//System.out.println(game.getObjectives().size());
 				return null;
 			}

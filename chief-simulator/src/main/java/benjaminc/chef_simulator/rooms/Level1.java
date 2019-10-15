@@ -17,6 +17,7 @@ import benjaminc.chef_simulator.things.building.CuttingBoard;
 import benjaminc.chef_simulator.things.building.Disposal;
 import benjaminc.chef_simulator.things.building.Fryer;
 import benjaminc.chef_simulator.things.building.Remover;
+import benjaminc.chef_simulator.things.building.DishReturn;
 import benjaminc.chef_simulator.things.building.Spawner;
 import benjaminc.chef_simulator.things.building.Stove;
 import benjaminc.chef_simulator.things.building.Window;
@@ -27,6 +28,7 @@ import benjaminc.chef_simulator.things.food.Cheese;
 import benjaminc.chef_simulator.things.food.Lettuce;
 import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_simulator.things.food.Tomato;
+import benjaminc.chef_simulator.things.tools.Dishbin;
 import benjaminc.chef_simulator.things.tools.Pan;
 import benjaminc.chef_simulator.things.tools.Plate;
 import benjaminc.chef_utils.data.FoodState;
@@ -112,6 +114,9 @@ public class Level1 extends Room {
 		addThing(new Belt(Direction.LEFT), new Location(5, 2));
 		addThing(new Belt(Direction.LEFT), new Location(6, 2));
 		addThing(new Belt(Direction.LEFT), new Location(7, 2));
+		
+		addThing(new DishReturn(), new Location(0, 8));
+		addThing(new Dishbin(), new Location(0, 9));
 		
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce(-1, FoodState.CHOPPED));

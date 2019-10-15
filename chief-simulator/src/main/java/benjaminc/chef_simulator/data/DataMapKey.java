@@ -52,7 +52,12 @@ INVENTORY("Item", Inventory.class),
 /**
  * the {@link Texture} of the thing
  */
-TEXTURE("Graphics", Texture.class);
+TEXTURE("Graphics", Texture.class),
+/**
+ * the {@link Boolean} of if the item has been used.
+ * May not be accurate
+ */
+USED("Used", Boolean.class);
 	
 	String key;
 	Class<?> type;

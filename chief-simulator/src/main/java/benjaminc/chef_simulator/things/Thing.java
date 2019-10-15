@@ -11,4 +11,5 @@ public interface Thing {
 	public abstract Thing clone();
 	public abstract boolean equals(Thing t);
 	public abstract String getName();
+	public abstract Class<?> getSubclass();
 }

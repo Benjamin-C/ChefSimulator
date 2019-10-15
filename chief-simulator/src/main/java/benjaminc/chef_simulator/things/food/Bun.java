@@ -63,7 +63,7 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 			case 3: { g.draw(items.get(i), x+(w/2),  y+(h/2),  w/2,  h/2); } break;
 			}
 		}
-		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h);
+		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h, getName());
 	}
 
 	@Override

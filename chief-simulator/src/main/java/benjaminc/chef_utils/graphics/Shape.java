@@ -8,7 +8,7 @@ import java.awt.Polygon;
 import java.awt.Stroke;
 import java.util.UUID;
 
-public class Shape implements Cloneable {
+public class Shape {
 
 	// Instance Methods
 	protected float x = 5;
@@ -20,11 +20,17 @@ public class Shape implements Cloneable {
 	protected int g = 0;
 	protected int b = 0;
 	
+	/** X loc */
 	protected int xs = 0;
+	/** Y loc */
 	protected int ys = 0;
+	/** X pos */
 	protected int ws = 0;
+	/** Y pos */
 	protected int hs = 0;
+	/** shape size */
 	protected int ss = 1;
+	/** X loc */
 	protected Polygon triangle;
 	
 	protected int owi = 0;
@@ -72,7 +78,10 @@ public class Shape implements Cloneable {
 			}
 			
 			switch(shp) {
-			case EMPTY_TRIANGLE_H: // or next line
+			case SOLID_RECTANTLE: {
+				ss = (int) (c * Math.min(ws, hs));
+			} break;
+			case EMPTY_TRIANGLE_H: // or next case
 			case SOLID_TRIANGLE_H: {
 				triangle.reset();
 				triangle.addPoint(xs, ys);
@@ -80,7 +89,7 @@ public class Shape implements Cloneable {
 				triangle.addPoint(xs + ws, ys + (int) (hs*c));
 			} break;
 
-			case EMPTY_TRIANGLE_V: // or next line
+			case EMPTY_TRIANGLE_V: // or next case
 			case SOLID_TRIANGLE_V: {
 				triangle.reset();
 				triangle.addPoint(xs, ys);
@@ -99,7 +108,7 @@ public class Shape implements Cloneable {
 		case SOLID_ELIPSE: gr.fillOval(xs, ys, ws, hs); break;
 		
 		case EMPTY_RECTANGLE: prepSize(gr, ss); gr.drawRect(xs, ys, ws, hs); resetSize(gr);  break;
-		case SOLID_RECTANTLE: gr.fillRect(xs, ys, ws, hs); break;
+		case SOLID_RECTANTLE: gr.fillRoundRect(xs, ys, ws, hs, ss, ss); break;
 		
 		case EMPTY_TRIANGLE_V: prepSize(gr, ss); gr.drawPolygon(triangle); resetSize(gr); break;
 		case SOLID_TRIANGLE_V: gr.fillPolygon(triangle); break;

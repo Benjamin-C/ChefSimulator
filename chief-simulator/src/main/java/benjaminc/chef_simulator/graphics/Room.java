@@ -60,7 +60,7 @@ public class Room implements Drawable {
 		room = new GameSpace[width][height];
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
-				room[i][j] = new GameSpace();
+				room[i][j] = new GameSpace(new Location(i, j));
 			}
 		}
 		this.cooks = cooks;
@@ -111,8 +111,7 @@ public class Room implements Drawable {
 	public void addObjectives(Objective o) {
 		objective.add(o);
 	}
-	
-	
+
 	@Override
 	public int getWidth() {
 		return width;
