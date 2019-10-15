@@ -1,0 +1,13 @@
+
+RAW:
+{"shapetype":"SOLID_RECTANTLE","x":"0.1","y":"0.0","w":"0.8","h":"1.0","c":"0.0","r":"200","g":"200","b":"200"}
+
+COOKED:
+{"shapetype":"SOLID_RECTANTLE","x":"0.1","y":"0.0","w":"0.8","h":"0.9","c":"0.0","r":"200","g":"200","b":"200"}
+{"shapetype":"SOLID_RECTANTLE","x":"0.9","y":"0.1","w":"0.1","h":"0.8","c":"0.0","r":"200","g":"200","b":"200"}
+
+CHOPPED:
+{"shapetype":"SOLID_RECTANTLE","x":"0.1","y":"0.0","w":"0.8","h":"0.9","c":"0.0","r":"200","g":"200","b":"200"}
+
+CHOPPED_COOKED:
+

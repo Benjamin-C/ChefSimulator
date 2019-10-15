@@ -14,10 +14,12 @@ import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.building.Belt;
 import benjaminc.chef_simulator.things.building.Counter;
 import benjaminc.chef_simulator.things.building.CuttingBoard;
+import benjaminc.chef_simulator.things.building.DishCounter;
 import benjaminc.chef_simulator.things.building.Disposal;
 import benjaminc.chef_simulator.things.building.Fryer;
 import benjaminc.chef_simulator.things.building.Remover;
 import benjaminc.chef_simulator.things.building.DishReturn;
+import benjaminc.chef_simulator.things.building.Dishwasher;
 import benjaminc.chef_simulator.things.building.Spawner;
 import benjaminc.chef_simulator.things.building.Stove;
 import benjaminc.chef_simulator.things.building.Window;
@@ -115,6 +117,11 @@ public class Level1 extends Room {
 		addThing(new Belt(Direction.LEFT), new Location(6, 2));
 		addThing(new Belt(Direction.LEFT), new Location(7, 2));
 		
+		addThing(new DishCounter(Direction.DOWN, FoodState.CHOPPED), new Location(0, 4));
+		addThing(new DishCounter(), new Location(0, 5));
+		addThing(new Dishwasher(Direction.DOWN), new Location(0, 5));
+		addThing(new DishCounter(), new Location(0, 6));
+		addThing(new DishCounter(), new Location(0, 7));
 		addThing(new DishReturn(), new Location(0, 8));
 		addThing(new Dishbin(), new Location(0, 9));
 		
