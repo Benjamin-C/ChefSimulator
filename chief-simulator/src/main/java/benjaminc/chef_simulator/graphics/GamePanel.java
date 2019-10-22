@@ -110,8 +110,8 @@ public class GamePanel extends JPanel {
 		int xos = jf.getInsets().left + jf.getInsets().right + 1;
 		int yos = jf.getInsets().top + jf.getInsets().bottom + 1;
 		jf.setSize((width * boxWidth) + xloc + xos, (height * boxHeight) + yloc + yos);
-		lagometer.setWidth(jf.getWidth()); 
-		fpsometer.setWidth(jf.getWidth());
+		lagometer.setWidth(jf.getWidth()/2); 
+		fpsometer.setWidth(jf.getWidth()/2);
 		heapometer.setWidth(jf.getWidth());
 		System.out.println("I make picture now");
 		update(0);
@@ -144,9 +144,9 @@ public class GamePanel extends JPanel {
 					
 					double mfps = 1/((double) ttime/1000000000);
 					
-					lagometer.draw(g, ((height + 1) * boxHeight), mtps);
-					fpsometer.draw(g, ((height + 1) * boxHeight)-meterheight, mfps);
-					heapometer.draw(g, ((height + 1) * boxHeight)-(2*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+					lagometer.draw(g, 0, ((height + 1) * boxHeight), mtps);
+					fpsometer.draw(g, (int) ((double) lagometer.getWidth()), ((height + 1) * boxHeight), mfps);
+					heapometer.draw(g, 0, ((height + 1) * boxHeight)-(1*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
 				}
 			};
 			jf.add(panel);

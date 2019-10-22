@@ -31,6 +31,7 @@ public class DataOMeter {
 	private boolean lockMax = false;
 	/** the {@link String} title */
 	private String title;
+	
 	/**
 	 * Makes a {@link DataOMeter}
 	 * @param enabled the {@link Boolean} of enabled
@@ -46,7 +47,6 @@ public class DataOMeter {
 		this.height = height;
 		this.width = width;
 		this.title = title;
-		
 		data = new ArrayList<DataOBar>();
 	}
 	
@@ -82,6 +82,13 @@ public class DataOMeter {
 		this.width = width;
 	}
 	/**
+	 * Gets the current width
+	 * @return the int width
+	 */
+	public int getWidth() { 
+		return width;
+	}
+	/**
 	 * Sets if the datameter is enabled
 	 * @param enabled the boolean if enabled
 	 */
@@ -102,7 +109,7 @@ public class DataOMeter {
 	 * @param g the Graphics object to draw in
 	 * @param fps how many fps to add to the list
 	 */
-	public void draw(Graphics g, int bottom, double fps) {
+	public void draw(Graphics g, int left, int bottom, double fps) {
 		int av = 255-64;
 		
 		int side = width;
@@ -120,8 +127,6 @@ public class DataOMeter {
 		if(nextlinems < System.currentTimeMillis()) {
 			data.add(new DataOBar(fps, true).update(maxValue, height, av));
 			nextlinems = System.currentTimeMillis() + linedel;
-//			Util.showThreads();
-//			Util.showHeapStats(true);
 		} else {
 			data.add(new DataOBar(fps, false).update(maxValue, height, av));
 		}
@@ -132,9 +137,6 @@ public class DataOMeter {
 		
 		if(enabled) {
 			boolean recalc = maxValue != lastMax;
-//			if(recalc) {
-//				System.out.println("Recalcing " + maxValue + " " + lastMax);
-//			}
 			
 			for(int i = 0; i < data.size(); i++) {
 				DataOBar l = data.get(i);
@@ -142,7 +144,7 @@ public class DataOMeter {
 					l.update(maxValue, height, av);
 				}
 				g.setColor(l.getColor());
-				g.drawLine(i, bottom, i, (int) (bottom - l.getHeight()));
+				g.drawLine(left+i, bottom, left+i, (int) (bottom - l.getHeight()));
 			}
 			g.setColor(new Color(255, 0, 0, 255));
 			double locs[] = {.5d, .75d, 1d};
@@ -150,17 +152,23 @@ public class DataOMeter {
 			g.setFont(g.getFont().deriveFont(12f));
 			for(int i = 0; i < locs.length; i++) {
 				int l = bottom - (int) (locs[i] * height);
-				g.drawLine(0, l, side, l);
+				g.drawLine(left, l, left+side, l);
 				String txt = Integer.toString((int) (maxValue * locs[i]));
 				int height = g.getFontMetrics().getHeight();
-				g.drawString(txt, 0, l + (int) (height*.9));
+				g.drawString(txt, left, l + (int) (height*.9));
 			}
+			g.drawLine(left, bottom, left, bottom-height);
+			g.setColor(Color.WHITE);
 			g.setFont(g.getFont().deriveFont(16f));
-			String fpss = Double.toString(fps);
-			g.drawString(fpss.substring(0, Math.min(fpss.length(), 4)) + " " + title, 0, bottom);
+			String fpss = Double.toString(round(fps, 1));
+			g.drawString(fpss.substring(0, Math.min(fpss.length(), 16)) + " " + title, left, bottom);
 		}
 	}
 	
+	private Double round(Double num, int places) {
+		double mlt = Math.pow(10, places);
+		return Math.round(num*mlt)/mlt;
+	}
 	public int getMeterSize() {
 		return data.size();
 	}

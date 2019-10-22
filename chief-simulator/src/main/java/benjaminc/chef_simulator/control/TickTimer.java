@@ -10,7 +10,7 @@ import benjaminc.chef_simulator.graphics.Room;
 
 public class TickTimer extends Thread {
 
-	int del;
+	long del;
 	long next;
 	Room room;
 	boolean running;
@@ -22,16 +22,16 @@ public class TickTimer extends Thread {
 	
 	private Map<UUID, TickEvent> todo;
 	
-	public TickTimer(int fps, Room r) {
+	public TickTimer(int tps, Room r) {
 		super("TickTimer");
 		System.out.println("New Tick Timer");
-		this.fps = fps;
-		del = 1000 / this.fps;
+		this.fps = tps;
+		del = 1000000000 / this.fps;
 		room = r;
 		frame = -1;
-		next = System.currentTimeMillis() + del;
+		next = System.nanoTime() + del;
 		running = true;
-		System.out.println("Ticking");
+		System.out.println("Asked to start ticking tps=" + tps + ". Ticking will begin in a moment");
 		vals = new ArrayList<Long>();
 		todo = new HashMap<UUID, TickEvent>();
 		//super.start();
@@ -50,15 +50,24 @@ public class TickTimer extends Thread {
 	
 	public void end() {
 		running = false;
+		System.out.println("Stopping ticker");
 	}
+	
+	private long startTick = 0;
 	
 	@Override
 	public void run() {
+		System.out.println("Starting ticker");
 		while(running) {
-			if(next <= System.currentTimeMillis()) {
-				long dif = System.currentTimeMillis() - (next - del);
+			if(System.nanoTime() - next >= 0) {
+//				long dif = System.currentTimeMillis() - (next - del);
 				//vals.add(dif);
-				room.setTps(1000d / (double) dif);
+				
+				long laststart = startTick;
+				startTick = System.nanoTime();
+				long ttime = startTick - laststart;
+				
+				room.setTps(1/((double) ttime/1000000000));
 //				if(vals.size() == fps/10) {
 //					long tot = 0;
 //					for(Long l : vals) {
@@ -74,14 +83,18 @@ public class TickTimer extends Thread {
 					t.tick(frame);
 				}
 			} else {
-				long del = next - System.currentTimeMillis();
+				long del = next - System.nanoTime();
 				//del = Long.MAX_VALUE;
 				if(del > 1) {
 					try {
-						Thread.sleep(del);
+						long ms = del / 1000000;
+						int ns = (int) (del % 1000000);
+						Thread.sleep(ms, ns);
+//						Thread.sleep(del);
 					} catch (InterruptedException e) { }
 				}
 			}
 		} // End loop
+		System.out.println("Timer has stopped");
 	}
 }
