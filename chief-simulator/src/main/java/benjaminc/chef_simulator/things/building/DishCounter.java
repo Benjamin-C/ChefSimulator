@@ -3,11 +3,11 @@ package benjaminc.chef_simulator.things.building;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.DirectionalThing;
 import benjaminc.chef_simulator.things.types.SolidThing;
-import benjaminc.chef_utils.data.FoodState;
 
 public class DishCounter extends BasicThing implements SolidThing, DirectionalThing {
 	

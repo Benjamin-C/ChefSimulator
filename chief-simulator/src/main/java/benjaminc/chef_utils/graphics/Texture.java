@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_simulator.data.FoodState;
 
 public class Texture {
 	

@@ -5,13 +5,13 @@ import java.util.List;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.SolidThing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_simulator.things.types.ToolThing;
-import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
 public class Spawner extends BasicThing implements ToolThing, SolidThing, CustomDrawingThing{

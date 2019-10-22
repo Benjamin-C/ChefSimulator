@@ -3,7 +3,6 @@ package benjaminc.chef_simulator.data;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
-import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
 import java.util.UUID;

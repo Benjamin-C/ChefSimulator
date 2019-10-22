@@ -7,6 +7,7 @@ import java.util.Random;
 import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.BasicThing;
@@ -14,7 +15,6 @@ import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.tools.Plate;
 import benjaminc.chef_simulator.things.types.SolidThing;
 import benjaminc.chef_simulator.things.types.ToolThing;
-import benjaminc.chef_utils.data.FoodState;
 import benjaminc.util.Util;
 
 public class Window extends BasicThing implements ToolThing, Thing, SolidThing {

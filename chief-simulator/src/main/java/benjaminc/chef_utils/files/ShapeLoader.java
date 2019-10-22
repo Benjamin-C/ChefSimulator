@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import benjaminc.chef_utils.graphics.Texture;
-import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.ShapeType;
 

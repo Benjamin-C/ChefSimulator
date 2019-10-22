@@ -1,6 +1,6 @@
 package benjaminc.chef_utils.files;
 
-import benjaminc.chef_utils.data.FoodState;
+import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_utils.graphics.Texture;
 
