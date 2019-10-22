@@ -165,8 +165,8 @@ public class Room implements Drawable {
 	 * Sets the observed fps of the room
 	 * @param fps the double fps
 	 */
-	public void setFps(double fps) {
-		game.setObservedFps(fps);
+	public void setTps(double tps) {
+		game.setObservedTps(tps);
 	}
 	/**
 	 * Gets the score from the room

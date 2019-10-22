@@ -8,7 +8,6 @@ import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
-import benjaminc.chef_simulator.things.types.Choppable;
 import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_simulator.things.types.DirectionalThing;
 import benjaminc.chef_simulator.things.types.SolidThing;
@@ -36,11 +35,6 @@ public class Dishwasher extends BasicThing implements ToolThing, SolidThing, Dir
 		}
 	}
 	
-//	@Override
-//	public void draw(Graphics g, int x, int y, int w, int h) {
-//		graphics.draw(g, x, y, w, h);
-//	}
-	
 	@Override
 	public List<Thing> useTool(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
@@ -50,14 +44,20 @@ public class Dishwasher extends BasicThing implements ToolThing, SolidThing, Dir
 		
 		for(Thing th : temp) {
 			if(th instanceof WashableThing) {
-				
+				((WashableThing) th).wash();
 			}
 		}
+		
 		List<Thing> out = new ArrayList<Thing>();
+		out.add(t);
 		
-		
-		return temp;
+		return out;
 	}
+	/**
+	 * Gets all things from a container thing
+	 * @param t
+	 * @return
+	 */
 	private List<Thing> extractThings(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
 		if(t instanceof ContainerThing) {
@@ -68,6 +68,7 @@ public class Dishwasher extends BasicThing implements ToolThing, SolidThing, Dir
 				temp.add(th);
 			}
 		}
+		temp.add(t);
 		return temp;
 	}
 	

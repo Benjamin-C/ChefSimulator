@@ -24,7 +24,7 @@ public class Game {
 	private Room map;
 	private Score score;
 	
-	private double observedFps;
+	private double observedTps;
 	
 	private int tps = 6;
 	
@@ -73,8 +73,8 @@ public class Game {
 		return new Cook(this, name, color, keys, location);
 	}
 
-	public void setObservedFps(double fps) {
-		observedFps = fps;
+	public void setObservedTps(double tps) {
+		observedTps = tps;
 	}
 	private void playMap(Room lvl) {
 		map = lvl;
@@ -102,7 +102,7 @@ public class Game {
 		return map;
 	}
 	public void updateGraphics() {
-		gamePanel.update(observedFps);
+		gamePanel.update(observedTps);
 	}
 	
 	public void registerKeylistener(KeyListenAction a) {

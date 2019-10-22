@@ -1,15 +1,10 @@
 package benjaminc.chef_simulator.graphics;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.files.ShapeLoader;
-import benjaminc.chef_utils.graphics.Shape;
-import benjaminc.chef_utils.graphics.ShapeType;
 import benjaminc.chef_utils.graphics.Texture;
 
 public class GraphicalLoader {

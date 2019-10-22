@@ -41,6 +41,7 @@ public class TickTimer extends Thread {
 	}
 	
 	public void addToDo(TickEvent task, UUID taskUUID) {
+		System.out.println("Adding Tick ToDo");
 		todo.put(taskUUID, task);
 	}
 	public void removeToDo(UUID taskUUID) {
@@ -57,7 +58,7 @@ public class TickTimer extends Thread {
 			if(next <= System.currentTimeMillis()) {
 				long dif = System.currentTimeMillis() - (next - del);
 				//vals.add(dif);
-				room.setFps(1000 / dif);
+				room.setTps(1000d / (double) dif);
 //				if(vals.size() == fps/10) {
 //					long tot = 0;
 //					for(Long l : vals) {

@@ -3,8 +3,6 @@ package benjaminc.chef_simulator.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.AncestorEvent;
-
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.things.*;

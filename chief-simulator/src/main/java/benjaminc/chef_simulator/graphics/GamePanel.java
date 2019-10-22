@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.graphics;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
@@ -9,8 +8,6 @@ import javax.swing.JPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.KeyListen;
@@ -48,19 +45,13 @@ public class GamePanel extends JPanel {
 	/** the {@link KeyListen} to send keystorkes to */
 	private KeyListen keyListen;
 	
-	/** the boolean to show lagometer */
-	private boolean lagometer;
-	/** the {@link Double} max fps to display */
-	private double maxFPS;
-	/** the {@link List} of {@link LagOBar} to store the lagometer data in */
-	private List<LagOBar> lagometerdata;
-	/** the long ms for the next line to be drawn at */
-	private long nextlinems;
-	/** The delay between lines */
-	private int linedel = 1000;
-	/** the height of the lagometer */
-	private int lagoheight = 100;
+	/** The {@link DataOMeter} lagometer */
+	private DataOMeter lagometer;
+	private DataOMeter heapometer;
+	private DataOMeter fpsometer;
 	
+	private int meterheight = 100;
+
 	/**
 	 * 
 	 * @param g the {@link Game} object this uses
@@ -80,6 +71,11 @@ public class GamePanel extends JPanel {
 		yloc = boxHeight;
 		width = (int) toDraw.getWidth();
 		height = (int) toDraw.getHeight();
+		
+		lagometer = new DataOMeter(lago, 1000, width * boxWidth, meterheight, "tps");
+		fpsometer = new DataOMeter(lago, 1000, width * boxWidth, meterheight, "fps");
+		heapometer = new DataOMeter(lago, 1000, width * boxWidth, meterheight, (int) (Runtime.getRuntime().maxMemory() / Math.pow(2,  20)), "MiB heap");
+		
 		jf = new JFrame("I am bob");
 		jf.setResizable(false);
 		//jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
@@ -97,8 +93,6 @@ public class GamePanel extends JPanel {
 			public void keyReleased(KeyEvent e) {keyListen.keyReleased(e);}
 			public void keyPressed(KeyEvent e) {keyListen.keyPressed(e);}
 		});
-        lagometer = lago;
-        this.maxFPS = maxFPS;
         
         jf.validate();
         jf.setVisible(true); 
@@ -109,31 +103,55 @@ public class GamePanel extends JPanel {
 	 * @param lvl the Drawable to show
 	 */
 	public void setLevel(Drawable lvl) {
+		System.out.println("Set level");
 		toDraw = lvl;
 		width = (int) toDraw.getWidth();
 		height = (int) toDraw.getHeight();
-		jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
+		int xos = jf.getInsets().left + jf.getInsets().right + 1;
+		int yos = jf.getInsets().top + jf.getInsets().bottom + 1;
+		jf.setSize((width * boxWidth) + xloc + xos, (height * boxHeight) + yloc + yos);
+		lagometer.setWidth(jf.getWidth()); 
+		fpsometer.setWidth(jf.getWidth());
+		heapometer.setWidth(jf.getWidth());
 		System.out.println("I make picture now");
 		update(0);
 	}
+	Double mtps;
 	/**
 	 * Draw the game panel to the JFamen
 	 * @param fps how many FPS to show
 	 */
-	public void update(double fps) {
-		panel = new JPanel() {
-
-			// IDK why Eclipse needs this, but it complains when I don't give it
-			private static final long serialVersionUID = -6353780231591627020L;
-
-			@Override
-            public void paintComponent(Graphics g) {
-				toDraw.draw(g, xloc, yloc, boxWidth, boxHeight, fps);
-				drawLago(g, fps);
-			}
-		};
-		jf.add(panel);
-		jf.validate();
+	public void update(double tps) {
+		mtps = tps;
+		if(panel != null) {
+			panel.repaint();
+		} else {
+			panel = new JPanel() {
+	
+				// IDK why Eclipse needs this, but it complains when I don't give it
+				private static final long serialVersionUID = -6353780231591627020L;
+	
+				private long start = 0;
+				
+				@Override
+	            public void paintComponent(Graphics g) {
+					
+					long laststart = start;
+					start = System.nanoTime();
+					long ttime = start - laststart;
+					
+					toDraw.draw(g, xloc, yloc, boxWidth, boxHeight, mtps);
+					
+					double mfps = 1/((double) ttime/1000000000);
+					
+					lagometer.draw(g, ((height + 1) * boxHeight), mtps);
+					fpsometer.draw(g, ((height + 1) * boxHeight)-meterheight, mfps);
+					heapometer.draw(g, ((height + 1) * boxHeight)-(2*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+				}
+			};
+			jf.add(panel);
+			jf.revalidate();
+		}
 	}
 	
 	/**
@@ -149,7 +167,9 @@ public class GamePanel extends JPanel {
 	 * @param enabled the Boolean to enable
 	 */
 	public void enableLagometer(boolean enabled) {
-		lagometer = enabled;
+		lagometer.setEnabled(enabled);
+		fpsometer.setEnabled(enabled);
+		heapometer.setEnabled(enabled);
 	}
 	
 	/**
@@ -157,58 +177,7 @@ public class GamePanel extends JPanel {
 	 * @return a boolean of the lagometer state
 	 */
 	public boolean getLagometerEnabled() {
-		return lagometer;
+		return lagometer.isEnabled();
 	}
-	
-	/**
-	 * Draws the lagometer
-	 * @param g the Graphics object to draw in
-	 * @param fps how many fps to add to the list
-	 */
-	private void drawLago(Graphics g, double fps) {
-		if(lagometerdata == null) {
-			lagometerdata = new ArrayList<LagOBar>();
-		}
-		int rv = 128;
-		int gv = 128;
-		int bv = 128;
-		int av = 256-64;
-		
-		double value = fps / maxFPS;
-		rv = rv + (int) (rv * (1 - value));
-		gv = gv + (int) (gv * value);
-		
-		Color c = Color.BLACK;
-		if(nextlinems < System.currentTimeMillis() && value > .9d) {
-			c = new Color(128, 128, 128, av);
-			nextlinems = System.currentTimeMillis() + linedel;
-		} else {
-			c = new Color(Math.min(rv, 255), Math.min(gv, 255), Math.min(bv, 255), Math.min(av, 255));
-		}
-		lagometerdata.add(new LagOBar(value, (int) (value * lagoheight), c));
-		while(lagometerdata.size() > (width * boxWidth)) {
-			lagometerdata.remove(0);
-		}
-		int bottom = (height + 1) * boxHeight;
-		int side = width * boxWidth;
-		if(lagometer) {
-			for(int i = 0; i < lagometerdata.size(); i++) {
-				g.setColor(lagometerdata.get(i).getColor());
-				g.drawLine(i, bottom, i, bottom - lagometerdata.get(i).getHeight());
-			}
-			g.setColor(new Color(255, 0, 0, 255));
-			double locs[] = {.5d, .75d, 1d};
-			g.setColor(new Color(255, 0, 0, 255));
-			g.setFont(g.getFont().deriveFont(12f));
-			for(int i = 0; i < locs.length; i++) {
-				int l = bottom - (int) (locs[i] * lagoheight);
-				g.drawLine(0, l, side, l);
-				String txt = Integer.toString((int) (maxFPS * locs[i]));
-				g.drawString(txt, 0, l + 2);
-			}
-			g.setFont(g.getFont().deriveFont(16f));
-			String fpss = Double.toString(fps);
-			g.drawString(fpss.substring(0, Math.min(fpss.length(), 4)), 0, bottom);
-		}
-	}
+
 }

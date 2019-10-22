@@ -13,10 +13,11 @@ import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_simulator.things.types.PersistentThing;
+import benjaminc.chef_simulator.things.types.WashableThing;
 import benjaminc.chef_utils.data.FoodState;
 import benjaminc.chef_utils.graphics.Texture;
 
-public class Plate extends BasicThing implements ContainerThing, CustomDrawingThing, PersistentThing {
+public class Plate extends BasicThing implements ContainerThing, CustomDrawingThing, PersistentThing, WashableThing {
 
 	/*
 	 * Plate uses FoodState.COOKED to represent a dirty plate
@@ -178,5 +179,9 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 		Inventory out = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).clone();
 		((Inventory) dataMap.get(DataMapKey.INVENTORY)).clear();
 		return out;
+	}
+	@Override
+	public void wash() {
+		dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
 	}
 }
