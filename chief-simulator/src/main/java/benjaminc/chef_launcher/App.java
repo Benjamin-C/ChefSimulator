@@ -1,4 +1,4 @@
-package benjaminc.chef_simulator;
+package benjaminc.chef_launcher;
 
 import benjaminc.util.Logger;
 import net.java.games.input.Component;
