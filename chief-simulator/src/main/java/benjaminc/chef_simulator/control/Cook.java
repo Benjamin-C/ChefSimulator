@@ -11,7 +11,7 @@ import java.util.Map;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
-import benjaminc.chef_simulator.graphics.Room;
+import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.AttachedThing;
 import benjaminc.chef_simulator.things.types.Tickable;

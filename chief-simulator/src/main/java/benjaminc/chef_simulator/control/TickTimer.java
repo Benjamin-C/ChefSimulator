@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import benjaminc.chef_simulator.graphics.Room;
+import benjaminc.chef_simulator.rooms.Room;
 
 public class TickTimer extends Thread {
 

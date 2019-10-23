@@ -1,4 +1,4 @@
-package benjaminc.chef_textures.graphicdesigner;
+package benjaminc.chef_textures;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;

@@ -44,7 +44,7 @@ public class Starter {
 		gamestartjb.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
 				try {
-					int sc = Integer.parseInt(gamestartjt.getText());int fs = Integer.parseInt(gamestartjtf.getText()); new Game(sc, fs, gamestartjcb.isSelected()); jf.dispose();
+					int sc = Integer.parseInt(gamestartjt.getText());int fs = Integer.parseInt(gamestartjtf.getText()); benjaminc.chef_simulator.ChefSimulatorMain.run(sc, fs, gamestartjcb.isSelected()); jf.dispose();
 				} catch (NumberFormatException e) { System.out.println("Size must be number"); }
 		} });
 		gamestartjp.add(gamestartjlf); gamestartjp.add(gamestartjtf); gamestartjp.add(gamestartjcb); gamestartjp.add(gamestartjb);
@@ -58,11 +58,22 @@ public class Starter {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				benjaminc.chef_textures.graphicdesigner.TextureMain.run();
+				benjaminc.chef_textures.TextureMain.run();
 				jf.dispose();
 			}
 		});
 		others.add(texturestartjb);
+		
+		JButton leveldesignstartjb = new JButton("Level Designer");
+		leveldesignstartjb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				benjaminc.chef_leveldesigner.LevelDesignerMain.run();
+				jf.dispose();
+			}
+		});
+		others.add(leveldesignstartjb);
 		
 		window.add(others);
 		

@@ -4,7 +4,6 @@ import java.util.List;
 
 import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
-import benjaminc.chef_simulator.graphics.Room;
 
 public interface RoomMap {
 

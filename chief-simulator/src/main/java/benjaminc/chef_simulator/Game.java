@@ -14,8 +14,8 @@ import benjaminc.chef_simulator.control.TickTimer;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
-import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.rooms.Level1;
+import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.util.Util;
 
 public class Game {

@@ -10,7 +10,6 @@ import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_simulator.graphics.Room;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.building.Belt;
 import benjaminc.chef_simulator.things.building.Counter;

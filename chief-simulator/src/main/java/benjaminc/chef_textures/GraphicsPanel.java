@@ -1,4 +1,4 @@
-package benjaminc.chef_textures.graphicdesigner;
+package benjaminc.chef_textures;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,4 +1,4 @@
-package benjaminc.chef_simulator.graphics;
+package benjaminc.chef_simulator.rooms;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +12,9 @@ import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.graphics.Drawable;
+import benjaminc.chef_simulator.graphics.GameSpace;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 
 public class Room implements Drawable {
