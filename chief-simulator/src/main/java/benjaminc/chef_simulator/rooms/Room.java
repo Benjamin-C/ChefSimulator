@@ -195,21 +195,24 @@ public class Room implements Drawable {
 		game.updateGraphics();
 	}
 	
-	@Override
-    public void draw(Graphics g, int x, int y, int boxWidth, int boxHeight, double fps) {
+	public void drawRoom(Graphics g, int x, int y, int boxWidth, int boxHeight) {
 		GraphicalDrawer gd = new GraphicalDrawer(g);
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
 				room[i][j].draw(gd, (i * boxWidth) + x,  (j * boxHeight) + y,  boxWidth,  boxHeight);
 			}
 		}
+	}
+	public void drawCooks(Graphics g, int x, int y, int boxWidth, int boxHeight) {
 		if(cooks != null) {
 			for(Cook c : cooks) {
 				c.draw(g, x, y, boxWidth,  boxHeight);
 			}
 		} else {
-			System.err.println("[ERROR] Cooks = NULL!");
+			System.err.println("WARNING No cooks to draw.");
 		}
+	}
+	public void drawObjectives(Graphics g, int x, int y, int boxWidth, int boxHeight) {
 		for(int i = 0; i < getWidth(); i++) {
 			g.setColor(new Color(16, 64, 16));
 			g.fillRect(x+(i*boxWidth), 0, boxWidth, boxHeight);
@@ -224,5 +227,12 @@ public class Room implements Drawable {
 				g.drawString(score + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
 			}
 		}
+	}
+	
+	@Override
+    public void draw(Graphics g, int x, int y, int boxWidth, int boxHeight, double fps) {
+		drawRoom(g, x, y, boxWidth, boxHeight);
+		drawCooks(g, x, y, boxWidth, boxHeight);
+		drawObjectives(g, x, y, boxWidth, boxHeight);
 	}
 }

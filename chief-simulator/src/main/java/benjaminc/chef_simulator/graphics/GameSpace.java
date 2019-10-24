@@ -89,6 +89,13 @@ public class GameSpace {
 		return temp;
 	}
 	/**
+	 * Removes the top {@link Thing} from a room
+	 * @return
+	 */
+	public Thing removeTopThing() {
+		return removeThing(things.size()-1);
+	}
+	/**
 	 * Get the {@link Thing} at the elevation
 	 * @param elev the int elevation of the thing to get
 	 * @return

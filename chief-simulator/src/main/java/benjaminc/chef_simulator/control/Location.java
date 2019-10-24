@@ -45,4 +45,8 @@ public class Location {
 	public Location clone() {
 		return new Location(x, y);
 	}
+
+	public boolean equals(Location l) {
+		return l.x == x && l.y == y;
+	}
 }

@@ -1,23 +1,28 @@
 package benjaminc.chef_leveldesigner;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
+import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_simulator.graphics.GraphicalDrawer;
+import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.rooms.Room;
+import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.ThingType;
-import benjaminc.chef_simulator.things.food.Beef;
 
 /**
  * @author Benjamin-C
@@ -27,45 +32,98 @@ public class LevelDesignerMain {
 	
 	protected static int boxSize = 40;
 	
+	protected static JComboBox<FoodState> foodstateCB;
+	protected static JComboBox<ThingType> thingTypeCB;
+	protected static JComboBox<Direction> directionCB;
+	protected static Room r;
+	
+	protected static JPanel roomjp;
+	
+	protected static Location lastDragLoc;
+	protected static int mouseButton[] = {0, 0};
+	
 	public static void run() {
 		JFrame jf = new JFrame("Chef Simulator Level Designer");
 		jf.setSize(new Dimension(128, 128));
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setResizable(false);
 		
-		Room r = new Room(16, 16, null, null, null);
-		
 		JPanel jp = new JPanel();
-		jp.setLayout(new GridLayout(r.getWidth(), r.getHeight()));
-		for(int x = 0; x < r.getWidth(); x++) {
-			final int mx = x;
-			for(int y = 0; y < r.getHeight(); y++) {
-				final int my = y;
-				JButton b = new JButton() {
-					@Override
-					public void paint(Graphics g) {
-						super.paint(g);
-						r.getSpace(new Location(mx, my)).draw(new GraphicalDrawer(g), 0, 0, boxSize, boxSize);
-					}
-				};
-				b.setPreferredSize(new Dimension(boxSize, boxSize));
-				b.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						Location here = new Location(mx, my);
-						if(r.getSpace(here).contains(Beef.class)) {
-							r.getSpace(here).removeAll(new Beef(0, FoodState.COOKED));
-						} else {
-							r.addThing(new Beef(0, FoodState.COOKED), new Location(mx, my));
-						}
-						System.out.println("(" + mx + "," + my + ")");
-					}
-				});
-				jp.add(b);
-			}
-		}
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
 		
+		r = new Room(16, 16, null, null, null);
+		
+		JPanel controljp = new JPanel();
+		controljp.setBackground(new Color(16, 16, 16));
+		thingTypeCB = new JComboBox<ThingType>(ThingType.values());
+		thingTypeCB.setSelectedItem(ThingType.BEEF);
+		controljp.add(thingTypeCB);
+		
+		foodstateCB = new JComboBox<FoodState>(FoodState.values());
+		foodstateCB.setSelectedItem(FoodState.COOKED);
+		controljp.add(foodstateCB);
+		
+		directionCB = new JComboBox<Direction>(Direction.values());
+		directionCB.setSelectedItem(Direction.UP);
+		controljp.add(directionCB);
+		
+		jp.add(controljp);
+		
+		roomjp = new JPanel() {
+			/** */ private static final long serialVersionUID = -2039036730443292291L;
+
+			@Override
+			public void paint(Graphics g) {
+				r.drawRoom(g, 0, 0, boxSize, boxSize);
+			}
+		};
+		roomjp.setPreferredSize(new Dimension(r.getWidth() * boxSize, r.getHeight() * boxSize));
+		
+		roomjp.addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				Location loc = new Location(e.getX()/boxSize, e.getY()/boxSize);
+				if(lastDragLoc == null || !loc.equals(lastDragLoc)) {
+					doMouseThing(e);
+				}
+			}
+		});
+		roomjp.addMouseListener(new MouseListener() {
+			
+			@Override public void mousePressed(MouseEvent e) {
+				if(mouseButton[0] != 0) {
+					mouseButton[1] = mouseButton[0];
+					lastDragLoc = null;
+				}
+				mouseButton[0] = e.getButton();
+				printMouseList();
+				doMouseThing(e);
+			}
+			@Override public void mouseReleased(MouseEvent e) {
+				if(mouseButton[1] != 0) {
+					mouseButton[0] = mouseButton[1];
+					mouseButton[1] = 0;
+					doMouseThing(e);
+				} else {
+					mouseButton[0] = 0;
+				}
+				lastDragLoc = null;
+				printMouseList();
+				
+			}
+			@Override public void mouseClicked(MouseEvent e) { }
+			@Override public void mouseExited(MouseEvent e) { }
+			@Override public void mouseEntered(MouseEvent e) { }
+		});
+		
+		jp.add(roomjp);
 		jf.add(jp);
 		
 		jf.pack();
@@ -73,4 +131,39 @@ public class LevelDesignerMain {
 		jf.setVisible(true);
 	}
 
+	protected static void printMouseList() {
+		System.out.println("[" + mouseButton[0] + "," + mouseButton[1] + "]" + lastDragLoc);
+	}
+	
+	protected static void doMouseThing(MouseEvent e) {
+		Location loc = new Location(e.getX()/boxSize, e.getY()/boxSize);
+		
+		if(loc.getX() >= 0 && loc.getX() < r.getWidth() && loc.getY() >= 0 && loc.getY() < r.getHeight()) {
+			switch(mouseButton[0]) { // 1=left 2=middle 3=right
+			case 1: {
+				Object newobj = null;
+				DataMap dataMap = new DataMap();
+				dataMap.put(DataMapKey.FOOD_STATE, foodstateCB.getSelectedItem());
+				dataMap.put(DataMapKey.DIRECTION, directionCB.getSelectedItem());
+				try {
+					//Class.forName( ClassNotFoundException | 
+					
+					Class<?> clazz = ((ThingType) thingTypeCB.getSelectedItem()).getMyClass();//.getName());
+					Constructor<?> ctor = clazz.getConstructor(DataMap.class);
+					newobj = ctor.newInstance(dataMap);
+				} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException err) {
+					err.printStackTrace();
+				}
+				
+				if(newobj != null && newobj instanceof Thing) {
+					r.addThing((Thing) newobj, loc);
+				}
+			} break;
+			case 3: {
+				r.getSpace(loc).removeTopThing();
+			} break;
+			}
+			roomjp.repaint();
+		}
+	}
 }
