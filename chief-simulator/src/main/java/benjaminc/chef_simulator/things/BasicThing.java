@@ -87,8 +87,16 @@ public class BasicThing implements Thing, Cloneable {
 			if(bt.getSubclass().equals(subclass)) {
 				if(dataMap.equals(t.getDataMap())) {
 					return true;
+				} else {
+					System.out.println("DataMap does not match");
+					System.out.println("Me   " + dataMap.toString());
+					System.out.println("They " + t.getDataMap().toString());
 				}
+			} else {
+				System.out.println("t subclass (" + bt.getSubclass() + ")does not match " + subclass);
 			}
+		} else {
+			System.out.println("t is not a BasicThing");
 		}
 		return false;
 	}

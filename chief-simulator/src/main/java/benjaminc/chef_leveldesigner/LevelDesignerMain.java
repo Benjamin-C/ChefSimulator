@@ -91,7 +91,7 @@ public class LevelDesignerMain {
 			public void mouseDragged(MouseEvent e) {
 				Location loc = new Location(e.getX()/boxSize, e.getY()/boxSize);
 				if(lastDragLoc == null || !loc.equals(lastDragLoc)) {
-					doMouseThing(e);
+					doMouseThing(loc);
 				}
 			}
 		});
@@ -134,10 +134,11 @@ public class LevelDesignerMain {
 	protected static void printMouseList() {
 		System.out.println("[" + mouseButton[0] + "," + mouseButton[1] + "]" + lastDragLoc);
 	}
-	
 	protected static void doMouseThing(MouseEvent e) {
-		Location loc = new Location(e.getX()/boxSize, e.getY()/boxSize);
-		
+		doMouseThing(new Location(e.getX()/boxSize, e.getY()/boxSize));
+	}
+	protected static void doMouseThing(Location loc) {
+		lastDragLoc = loc;
 		if(loc.getX() >= 0 && loc.getX() < r.getWidth() && loc.getY() >= 0 && loc.getY() < r.getHeight()) {
 			switch(mouseButton[0]) { // 1=left 2=middle 3=right
 			case 1: {
@@ -158,6 +159,11 @@ public class LevelDesignerMain {
 				if(newobj != null && newobj instanceof Thing) {
 					r.addThing((Thing) newobj, loc);
 				}
+			} break;
+			case 2: {
+				new SpaceEditDialog(r.getSpace(loc), null, new Runnable() {
+					@Override public void run() { roomjp.repaint(); System.out.println("Update");}
+				});
 			} break;
 			case 3: {
 				r.getSpace(loc).removeTopThing();

@@ -106,8 +106,8 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 				} else { System.out.println("Type match fail"); }
 			} else { System.out.println("Class match fail"); }
 		} else { System.out.println("t is null fail"); }
-		System.out.println("Bun returns true");
-		return true;
+		System.out.println("Bun returns false");
+		return false;
 	}
 	
 	public void setState(FoodState state) {

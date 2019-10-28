@@ -11,12 +11,20 @@ import benjaminc.chef_simulator.things.building.Floor;
 import benjaminc.chef_simulator.things.types.SolidThing;
 import benjaminc.chef_simulator.things.types.Tickable;
 
+/**
+ * the spaces of the {@link Room}
+ * @author Benjamin-C
+ *
+ */
 public class GameSpace {
 
 	protected List<Thing> things;
 	protected Location loc;
 	
-	
+	/**
+	 * Make a new GameSpace
+	 * @param l the {@link Location} the space exists at
+	 */
 	public GameSpace(Location l) {
 		things = new ArrayList<Thing>();
 		things.add(new Floor());
@@ -101,7 +109,11 @@ public class GameSpace {
 	 * @return
 	 */
 	public Thing getThing(int elev) {
-		return things.get(elev);
+		if(elev < things.size() && elev >= 0) {
+			return things.get(elev);
+		} else {
+			return null;
+		}
 	}
 	/**
 	 * Gets the top {@link Thing} in the space
@@ -170,5 +182,24 @@ public class GameSpace {
 				((Tickable) t).tick(r, l, frame, g);
 			}
 		}
+	}
+	/**
+	 * Gets the size of the {@link GameSpace}
+	 * @return
+	 */
+	public int size() {
+		return things.size();
+	}
+	@Override
+	public String toString() {
+		String str = "GameSpace(" + loc.getX() + "," + loc.getY() + ")[";
+		for(int i = 0; i < things.size(); i++) {
+			if(i != 0) {
+				str = str + ",";
+			}
+			str = str + things.get(i).getName();
+		}
+		str = str + "]";
+		return str;
 	}
 }
