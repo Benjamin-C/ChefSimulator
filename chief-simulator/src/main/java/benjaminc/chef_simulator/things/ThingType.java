@@ -1,5 +1,9 @@
 package benjaminc.chef_simulator.things;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.building.Belt;
 import benjaminc.chef_simulator.things.building.Counter;
 import benjaminc.chef_simulator.things.building.CuttingBoard;
@@ -91,5 +95,43 @@ public enum ThingType {
 	 */
 	public Class<?> getMyClass() {
 		return myclass;
+	}
+	
+	/**
+	 * Gets a {@link Thing} from a {@link ThingType}
+	 * @param t the {@link ThingType} to make
+	 * @param d the {@link DataMap} pass to the {@link Thing} constructor
+	 * @return the new {@link Thing}. Null if something bad happened
+	 */
+	public static Thing getThingOfType(ThingType t, DataMap d) {
+		Object newobj = null;
+
+		try {
+			Class<?> clazz = t.getMyClass();
+			Constructor<?> ctor = clazz.getConstructor(DataMap.class);
+			newobj = ctor.newInstance(d);
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException err) {
+			err.printStackTrace();
+		}
+		
+		if(newobj != null && newobj instanceof Thing) {
+			return (Thing) newobj;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Gets the {@link ThingType} of a {@link Thing}
+	 * @param t the {@link Thing} to look at
+	 * @return the {@link ThingType}
+	 */
+	public static ThingType getTypeOfThing(Thing t) {
+		for(ThingType tt : ThingType.values()) {
+			if(t.getSubclass().equals(tt.getMyClass())) {
+				return tt;
+			}
+		}
+		return null;
 	}
 }

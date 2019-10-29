@@ -34,6 +34,9 @@ public class BasicThing implements Thing, Cloneable {
 		if(!this.dataMap.containsKey(DataMapKey.VARIANT_COUNT)) {
 			this.dataMap.put(DataMapKey.VARIANT_COUNT, 1);
 		}
+		if((int) this.dataMap.get(DataMapKey.VARIANT_COUNT) < 1) {
+			this.dataMap.put(DataMapKey.VARIANT_COUNT, 1);
+		}
 		if(!this.dataMap.containsKey(DataMapKey.VARIANT)) {
 			Random r = new Random();
 			this.dataMap.put(DataMapKey.VARIANT_COUNT, r.nextInt((int) this.dataMap.get(DataMapKey.VARIANT_COUNT)));

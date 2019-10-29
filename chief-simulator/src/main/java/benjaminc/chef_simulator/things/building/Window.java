@@ -24,6 +24,10 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing {
 	public Window(Room r) {
 		this(r, null);
 	}
+	public Window(DataMap dataMap) {
+		super(dataMap, Window.class);
+		System.out.println("DANGER window will not work correctly without the room it is supposed to live in. You MUST fix this before trying to use this in a game");
+	}
 	public Window(Room r, DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Window.class);
 		room = r;

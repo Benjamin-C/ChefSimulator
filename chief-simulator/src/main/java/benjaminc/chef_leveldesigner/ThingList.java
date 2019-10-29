@@ -2,25 +2,18 @@ package benjaminc.chef_leveldesigner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.things.Thing;
-import benjaminc.chef_textures.shapes.GraphicalShape;
-import benjaminc.chef_utils.graphics.Shape;
-import benjaminc.chef_utils.graphics.ShapeType;
-import benjaminc.chef_utils.graphics.Texture;
+import benjaminc.chef_simulator.things.food.Potato;
 
-public class SpaceList extends JPanel {
+public class ThingList extends JPanel {
 	
 	/**  */ private static final long serialVersionUID = -242513008438104799L;
 	
@@ -32,17 +25,19 @@ public class SpaceList extends JPanel {
 	
 	private JButton add;
 	
-	private GameSpace space;
+	private List<Thing> things;
 	
-	public SpaceList(GameSpace s, Runnable onUpdate) {
-		space = s;
+	private ThingListElementEditEvent onEdit;
+	
+	public ThingList(List<Thing> t, ThingListElementEditEvent onEditEvent, Runnable onUpdate) {
+		System.out.println("Where is this?");
+		things = t;
 		
 		this.onUpdate = onUpdate;
+		onEdit = onEditEvent;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setAlignmentX(TOP_ALIGNMENT);
-		
-//		elems = new ArrayList<SpaceListElement>();
 
 		JPanel stateboxpanel = new JPanel();
 
@@ -53,16 +48,7 @@ public class SpaceList extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				GraphicalShape ns = new GraphicalShape(ShapeType.SOLID_RECTANTLE, 0, 0, 0, 0, 0, 0, 0, 0);
-//				ns.createEditDialog(true, new Runnable() {
-//					
-//					@Override
-//					public void run() {
-//						addShape(ns);
-//						update();
-//						//me.getParent().get
-//					}
-//				});
+				addThing(new Potato());
 			}
 		});
 		add(add);
@@ -82,20 +68,25 @@ public class SpaceList extends JPanel {
 	public void addThing(Thing t) {
 		System.out.println("Adding Thing " + t);
 		if(t != null) {
-			space.addThing(t);
+			things.add(t);
 			update();
 		} else {
 			System.out.println("Thing was null. Skipping");
 		}
 	}
 	
-	public GameSpace getSpace() {
-		return space;
+	public List<Thing> getThings() {
+		return things;
 	}
+	
+	public void replace(Thing oldThing, Thing newThing) {
+		int loc = find(oldThing);
+		things.set(loc, newThing);
+	}
+	
 	public void swap(Thing t, int dir) {
 		int begin = 0;
-		int end = space.size();
-		List<Thing> elems = space.getThings();
+		int end = things.size();
 		if(dir > 0) {
 			end = end - dir;
 		} else if(dir < 0) {
@@ -107,9 +98,9 @@ public class SpaceList extends JPanel {
 		if(i >= 0) {
 			System.out.println("Moving " + i + " to " + (i + dir));
 			printelems();
-			Thing se = elems.get(i);
-			elems.set(i, elems.get(i+dir));
-			elems.set(i+dir, se);
+			Thing se = things.get(i);
+			things.set(i, things.get(i+dir));
+			things.set(i+dir, se);
 			printelems();
 			//Collections.swap(elems, i, i+dir);
 			if(onUpdate != null) {
@@ -121,19 +112,19 @@ public class SpaceList extends JPanel {
 	public void remove(Thing t) {
 		int n = find(t);
 		if(n >= 0) {
-			space.removeThing(n);
+			things.remove(n);
 		}
 		update();
 	}
 	public int find(Thing t) {
-		return find(t, 0, space.size());
+		return find(t, 0, things.size());
 	}
 	public int find(Thing t, int begin, int end) {
 		System.out.println("Finding " + t + " between " + begin + " and " + end);
 		for(int i = begin; i < end; i++) {
 			System.out.println("Searching element " + i);
-			System.out.println("Chekcing if " + t + " equals " + space.getThing(i));
-			if(space.getThing(i).equals(t)) {
+			System.out.println("Chekcing if " + t + " equals " + things.get(i));
+			if(things.get(i).equals(t)) {
 				return i;
 			}
 		}
@@ -141,22 +132,21 @@ public class SpaceList extends JPanel {
 	}
 	public void printelems() {
 		String print = "ShapeLiseElement[";
-		for(int i = 0; i < space.size(); i++) {
+		for(int i = 0; i < things.size(); i++) {
 			if(i != 0) {
 				print = print + ",";
 			}
-			print = print + space.getThing(i).toString();
+			print = print + things.get(i).toString();
 		}
 		System.out.println(print);
 	}
 	public int shapeCount() {
-		return space.size();
+		return things.size();
 	}
 	public void update() {
-//		SpaceListElement se = ;
 		controls.removeAll();
-		for(int i = space.size() - 1; i >= 0; i--) {
-			controls.add(new SpaceListElement(space.getThing(i), onUpdate, this));
+		for(int i = things.size() - 1; i >= 0; i--) {
+			controls.add(new ThingListElement(things.get(i), onUpdate, this, onEdit));
 		}
 		try {
 			SwingUtilities.getWindowAncestor(this).pack();
@@ -167,17 +157,9 @@ public class SpaceList extends JPanel {
 			onUpdate.run();
 		}
 	}
-	public void redrawShape() {
+	public void redrawThing() {
 		if(onUpdate != null) {
 			onUpdate.run();
 		}
-	}
-	
-	public List<Thing> getThings() {
-		List<Thing> out = new ArrayList<Thing>();
-		for(int i = 0; i < space.size(); i++) {
-			out.add(space.getThing(i));
-		}
-		return out;
 	}
 }

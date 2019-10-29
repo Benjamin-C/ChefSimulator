@@ -4,25 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_textures.dialog.AreYouSureDialog;
 import benjaminc.chef_textures.dialog.AreYouSureDialogRunnable;
-import benjaminc.chef_textures.dialog.CreationDialog;
-import benjaminc.chef_textures.dialog.CreationDialogDoneRunnable;
-import benjaminc.chef_textures.shapes.GraphicalShape;
-import benjaminc.chef_utils.graphics.Shape;
-import benjaminc.chef_utils.graphics.ShapeType;
-import benjaminc.chef_utils.graphics.Texture;
 
-public class SpaceListElement extends JPanel {
+public class ThingListElement extends JPanel {
 	
 	/**  */ private static final long serialVersionUID = 6750985189976938626L;
 
@@ -35,10 +27,15 @@ public class SpaceListElement extends JPanel {
 	
 	private Runnable onUpdate;
 	
+	protected ThingList list;
+	protected ThingListElementEditEvent onEdit;
+	
 	@SuppressWarnings("serial")
-	public SpaceListElement(Thing th, Runnable onUpdate, SpaceList list) {
+	public ThingListElement(Thing th, Runnable onUpdate, ThingList spacelist, ThingListElementEditEvent onEditEvent) {
 		me = th;
-		this.onUpdate = onUpdate;
+		list = spacelist;
+		onEdit = onEditEvent;
+		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		editbutton = new JButton(" ") {
@@ -71,8 +68,6 @@ public class SpaceListElement extends JPanel {
 				GraphicalDrawer gd = new GraphicalDrawer(g);
 				gd.draw(me, osx, osy, size, size);
 		}};
-		editbutton.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent arg0) { openEditDialog(false, "Title", null);} });
 		upbutton = new JButton(" ") {
 			@Override public void paint(Graphics g) {
 				super.paint(g);
@@ -89,8 +84,6 @@ public class SpaceListElement extends JPanel {
 				int triy[] = {h/2, sw, h/2};
 				g.fillPolygon(trix, triy, 3);
 		}};
-		upbutton.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent arg0) { list.swap(me, 1); System.out.println("up swap done"); } });
 		downbutton = new JButton(" ") {
 			@Override public void paint(Graphics g) {
 				super.paint(g);
@@ -109,8 +102,6 @@ public class SpaceListElement extends JPanel {
 				g.setColor(Color.white);
 				g.drawRect(0, 0, w, h);
 		}};
-		downbutton.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent arg0) { list.swap(me, -1); System.out.println("down swap done"); } });
 		deletebutton = new JButton(" ") {
 			@Override public void paint(Graphics g) {
 				super.paint(g);
@@ -129,6 +120,16 @@ public class SpaceListElement extends JPanel {
 				g.setColor(Color.white);
 				g.drawRect(0, 0, w, h);
 		}};
+		
+		this.onUpdate = new Runnable() {
+			@Override public void run() { editbutton.repaint(); onUpdate.run(); } };
+		
+		editbutton.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) { if(onEdit != null) { onEdit.edit(me, ThingListElement.this, list, ThingListElement.this.onUpdate); } } });
+		upbutton.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) { list.swap(me, 1); System.out.println("up swap done"); } });
+		downbutton.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) { list.swap(me, -1); System.out.println("down swap done"); } });
 		deletebutton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
 				new AreYouSureDialog("Delete", "Do you really want to delete the shape?", new AreYouSureDialogRunnable() {
@@ -136,6 +137,7 @@ public class SpaceListElement extends JPanel {
 					@Override public void no() { } });
 			}
 		});
+		
 		add(editbutton);
 		add(upbutton);
 		add(downbutton);
@@ -145,16 +147,18 @@ public class SpaceListElement extends JPanel {
 	public void setOnUpdate(Runnable onUpdate) {
 		this.onUpdate = onUpdate;
 	}
+	
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		super.paint(g);
 	}
-	public void openEditDialog(boolean isNew, String title, Runnable onDone) {
-		new ThingEditDialog(me.getDataMap());
-	}
+	
 	public Thing getThing() {
 		return me;
+	}
+	public void setThing(Thing t) {
+		me = t;
 	}
 }

@@ -57,30 +57,32 @@ public class Dishbin extends BasicThing implements ContainerThing, CustomDrawing
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h, getName());
-		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
-		switch(items.size()) {
-		case 1: {
-			g.draw(items.get(0), x+(w/4),  y+(h/4),  w/2,  h/2);
-		} break;
-		case 2: {
-			g.draw(items.get(0), x,  y+(h/4),  w/2,  h/2);
-			g.draw(items.get(1), x+(w/2),  y+(h/4),  w/2,  h/2);
-		} break;
-		case 3: {
-			g.draw(items.get(0), x,  y,  w/2,  h/2);
-			g.draw(items.get(1), x+(w/2),  y,  w/2,  h/2);
-			g.draw(items.get(2), x+(w/4),  y+(h/2),  w/2,  h/2);
-		} break;
-		default: {
-			for(int i = 0; i < items.size(); i++) {
-				switch(i%4) {
-				case 0: { g.draw(items.get(i), x,  y,  w/2,  h/2); } break;
-				case 1: { g.draw(items.get(i), x+(w/2),  y,  w/2,  h/2); } break;
-				case 2: { g.draw(items.get(i), x,  y+(h/2),  w/2,  h/2); } break;
-				case 3: { g.draw(items.get(i), x+(w/2),  y+(h/2),  w/2,  h/2); } break;
+		if(dataMap.containsKey(DataMapKey.INVENTORY) && dataMap.get(DataMapKey.INVENTORY) != null) {
+			List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
+			switch(items.size()) {
+			case 1: {
+				g.draw(items.get(0), x+(w/4),  y+(h/4),  w/2,  h/2);
+			} break;
+			case 2: {
+				g.draw(items.get(0), x,  y+(h/4),  w/2,  h/2);
+				g.draw(items.get(1), x+(w/2),  y+(h/4),  w/2,  h/2);
+			} break;
+			case 3: {
+				g.draw(items.get(0), x,  y,  w/2,  h/2);
+				g.draw(items.get(1), x+(w/2),  y,  w/2,  h/2);
+				g.draw(items.get(2), x+(w/4),  y+(h/2),  w/2,  h/2);
+			} break;
+			default: {
+				for(int i = 0; i < items.size(); i++) {
+					switch(i%4) {
+					case 0: { g.draw(items.get(i), x,  y,  w/2,  h/2); } break;
+					case 1: { g.draw(items.get(i), x+(w/2),  y,  w/2,  h/2); } break;
+					case 2: { g.draw(items.get(i), x,  y+(h/2),  w/2,  h/2); } break;
+					case 3: { g.draw(items.get(i), x+(w/2),  y+(h/2),  w/2,  h/2); } break;
+					}
 				}
+			} break;
 			}
-		} break;
 		}
 	}
 

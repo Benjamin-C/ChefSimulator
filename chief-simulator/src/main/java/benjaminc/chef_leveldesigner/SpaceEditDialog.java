@@ -1,13 +1,10 @@
 package benjaminc.chef_leveldesigner;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.graphics.GameSpace;
+import benjaminc.chef_simulator.things.Thing;
 
 /**
  * @author Benjamin-C
@@ -16,34 +13,24 @@ import benjaminc.chef_simulator.graphics.GameSpace;
 public class SpaceEditDialog {
 	
 	protected GameSpace space;
-	protected Runnable onDone;
 	
-	public SpaceEditDialog(GameSpace space, Runnable onDone, Runnable onUpdate) {
+	public SpaceEditDialog(GameSpace space, Runnable onUpdate) {
 		this.space = space;
-		this.onDone = onDone;
 		
 		JDialog jdl = new JDialog();
-		jdl.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		jdl.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		jdl.setTitle("Edit " + space.getLoc().getX() + "," + space.getLoc().getY());
 		
 		JPanel panel = new JPanel();
 		
-		JButton exit = new JButton("Exit");
-		exit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(onDone != null) {
-					onDone.run();
-				}
-				jdl.dispose();
-			}
-		});
-		
-		SpaceList sl = new SpaceList(space, onUpdate);
+		;		
+					
+		ThingList sl = new ThingList(space.getThings(), new ThingListElementEditEvent() {
+			@Override public void edit(Thing t, ThingListElement e, ThingList list, Runnable onUpdate) {
+				new ThingEditDialog(t, "", new ThingTypeChangeEvent() {
+					@Override public void onChange(Thing newThing) { list.replace(t, newThing); e.setThing(newThing); } }, onUpdate); } }, onUpdate);
 		
 		panel.add(sl);
-		panel.add(exit);
 		
 		jdl.add(panel);
 		jdl.pack();

@@ -18,7 +18,7 @@ public class Potato extends BasicThing implements FoodThing, Cookable, Choppable
 		this(null);
 	}
 	public Potato(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Potato.class);
+		super(dataMap, Potato.class);
 	}
 	public Potato(int variant, FoodState state) {
 		super(variant, state, VARIANT_COUNT, Potato.class);
