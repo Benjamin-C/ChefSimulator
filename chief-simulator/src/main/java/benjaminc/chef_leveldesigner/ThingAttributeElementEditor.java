@@ -67,12 +67,17 @@ public class ThingAttributeElementEditor extends JPanel {
 		case INVENTORY: {
 			JButton mejb = new JButton("Edit Inv");
 			mejb.addActionListener(new ActionListener() {
-				@SuppressWarnings("unchecked") @Override public void actionPerformed(ActionEvent arg0) {
+				@Override public void actionPerformed(ActionEvent arg0) {
+					System.out.println("Edit Inv button pressed");
 					List<Thing> inv = new ArrayList<Thing>();
 					if(d.containsKey(DataMapKey.INVENTORY) && d.get(DataMapKey.INVENTORY) != null) {
-						inv = ((Inventory) d.get(DataMapKey.INVENTORY)).getAllAsList();
+						inv = ((Inventory) d.get(DataMapKey.INVENTORY)).getAll();
+						System.out.println("Found inv " + inv.size());
+					} else {
+						d.put(DataMapKey.INVENTORY, new Inventory(inv));
+						System.out.println("Didn't find inv, so I set it");
 					}
-					ThingList editlist = new ThingList(inv, onEditEvent, onUpdate);
+					new ThingListEditDialog(inv, onUpdate);
 				}
 			});
 			me = mejb;

@@ -1,6 +1,7 @@
 package benjaminc.chef_leveldesigner;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -8,18 +9,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.data.DataMap;
-import benjaminc.chef_simulator.data.DataMapKey;
-import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.Thing;
-import benjaminc.chef_simulator.things.ThingType;
+import benjaminc.chef_simulator.things.food.Potato;
 
 /**
  * @author Benjamin-C
@@ -29,9 +25,8 @@ public class LevelDesignerMain {
 	
 	protected static int boxSize = 40;
 	
-	protected static JComboBox<FoodState> foodstateCB;
-	protected static JComboBox<ThingType> thingTypeCB;
-	protected static JComboBox<Direction> directionCB;
+	protected static Thing toAdd;
+	
 	protected static Room r;
 	
 	protected static JPanel roomjp;
@@ -50,19 +45,18 @@ public class LevelDesignerMain {
 		
 		r = new Room(16, 16, null, null, null);
 		
-		JPanel controljp = new JPanel();
+		toAdd = new Potato();
+		
+		ThingEditDialog controlediter = new ThingEditDialog(toAdd, "Title?", new ThingTypeChangeEvent() {
+			@Override public void onChange(Thing newThing) { toAdd = newThing; }
+		}, new Runnable() { public void run() { } }, false);
+		JPanel controljp = controlediter.getPanel();
 		controljp.setBackground(new Color(16, 16, 16));
-		thingTypeCB = new JComboBox<ThingType>(ThingType.values());
-		thingTypeCB.setSelectedItem(ThingType.BEEF);
-		controljp.add(thingTypeCB);
-		
-		foodstateCB = new JComboBox<FoodState>(FoodState.values());
-		foodstateCB.setSelectedItem(FoodState.COOKED);
-		controljp.add(foodstateCB);
-		
-		directionCB = new JComboBox<Direction>(Direction.values());
-		directionCB.setSelectedItem(Direction.UP);
-		controljp.add(directionCB);
+		for(Component c : controljp.getComponents()) {
+			if(c instanceof JPanel) {
+				c.setBackground(new Color(16, 16, 16));
+			}
+		}
 		
 		jp.add(controljp);
 		
@@ -139,16 +133,7 @@ public class LevelDesignerMain {
 		if(loc.getX() >= 0 && loc.getX() < r.getWidth() && loc.getY() >= 0 && loc.getY() < r.getHeight()) {
 			switch(mouseButton[0]) { // 1=left 2=middle 3=right
 			case 1: {
-				Thing newobj = null;
-				DataMap dataMap = new DataMap();
-				dataMap.put(DataMapKey.FOOD_STATE, foodstateCB.getSelectedItem());
-				dataMap.put(DataMapKey.DIRECTION, directionCB.getSelectedItem());
-				
-				newobj = ThingType.getThingOfType((ThingType) thingTypeCB.getSelectedItem(), dataMap);
-				
-				if(newobj != null) {
-					r.addThing(newobj, loc);
-				}
+				r.addThing(toAdd.clone(), loc);
 			} break;
 			case 2: {
 				new SpaceEditDialog(r.getSpace(loc), new Runnable() {

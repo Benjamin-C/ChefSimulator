@@ -22,13 +22,29 @@ public class ThingEditDialog {
 	protected Thing t;
 	protected ThingTypeChangeEvent onThingTypeChange;
 	
+	protected JDialog jdl;
+	
+	protected JPanel jp;
+	
 	/**
-	 * Makes a new {@link ThingEditDialog}
+	 * Makes a new {@link ThingEditDialog} in a popup
 	 * @param th the {@link Thing} to edit
+	 * @param extra the {@link String} to add to the title
 	 * @param onThingTypeChange the {@link Runnable} to run when the ThingType changes
 	 * @param onUpdate the {@link Runnable} to run when anything changes. Runs after others
 	 */
 	public ThingEditDialog(Thing th, String extra, ThingTypeChangeEvent onThingTypeChange, Runnable onUpdateRunnable) {
+		this(th, extra, onThingTypeChange, onUpdateRunnable, true);
+	}
+	/**
+	 * Makes a new {@link ThingEditDialog}
+	 * @param th the {@link Thing} to edit
+	 * @param extra the {@link String} to add to the title
+	 * @param onThingTypeChange the {@link Runnable} to run when the ThingType changes
+	 * @param onUpdate the {@link Runnable} to run when anything changes. Runs after others
+	 * @param seperate a {@link Boolean} to select if the dialog should create a popup to exist in
+	 */
+	public ThingEditDialog(Thing th, String extra, ThingTypeChangeEvent onThingTypeChange, Runnable onUpdateRunnable, boolean seperate) {
 		if(th == null) {
 			t = new Potato();
 			onThingTypeChange.onChange(t);
@@ -40,20 +56,18 @@ public class ThingEditDialog {
 		this.onThingTypeChange = onThingTypeChange;
 		
 		System.out.println("This is a ThingEditDialog");
-		JDialog jdl = new JDialog();
-		setTitle(jdl, t, extra);
 		
 		Runnable onUpdate = new Runnable() {
 			@Override
 			public void run() {
 				onUpdateRunnable.run();
-				setTitle(jdl, t, extra);
+				setTitle(t, extra);
 			}
 		};
 		
 		DataMap d = t.getDataMap();
 		
-		JPanel jp = new JPanel();
+		jp  = new JPanel();
 		
 		JComboBox<ThingType>typecombobox = new JComboBox<ThingType>(ThingType.values());
 		typecombobox.setSelectedItem(ThingType.getTypeOfThing(t));
@@ -76,12 +90,24 @@ public class ThingEditDialog {
 		jp.add(taei);
 		jp.add(taem);
 		
-		jdl.add(jp);
-		jdl.pack();
-		jdl.validate();
-		jdl.setVisible(true);
+		if(seperate) {
+			jdl = new JDialog();
+			setTitle(t, extra);
+			
+			jdl.add(jp);
+			jdl.pack();
+			jdl.validate();
+			jdl.setVisible(true);
+		}
 	}
 	
+	/**
+	 * Gets the {@link JPanel} editor
+	 * @return the {@link JPanel}
+	 */
+	public JPanel getPanel() {
+		return jp;
+	}
 	/**
 	 * Sets the {@link Runnable} to run when the ThingType changes
 	 * @param onThingTypeChange the {@link Runnable} to run
@@ -98,7 +124,15 @@ public class ThingEditDialog {
 		return t;
 	}
 
-	private void setTitle(JDialog me, Thing t, String extra) {
-		me.setTitle("Edit " + t.getName() + " " + extra);
+	/**
+	 * Sets the window title
+	 * @param me the {@link JDialog} to edit
+	 * @param t the {@link Thing} we are editing
+	 * @param extra the {@link String} extra text to add
+	 */
+	private void setTitle(Thing t, String extra) {
+		if(jdl != null) {
+			jdl.setTitle("Edit " + t.getName() + " " + extra);
+		}
 	}
 }

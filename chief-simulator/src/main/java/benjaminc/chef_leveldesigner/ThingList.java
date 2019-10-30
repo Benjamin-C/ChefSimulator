@@ -82,6 +82,7 @@ public class ThingList extends JPanel {
 	public void replace(Thing oldThing, Thing newThing) {
 		int loc = find(oldThing);
 		things.set(loc, newThing);
+		System.out.println(things);
 	}
 	
 	public void swap(Thing t, int dir) {
