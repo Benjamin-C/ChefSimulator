@@ -8,22 +8,43 @@ import benjaminc.chef_simulator.things.BasicThing;
 
 public class DataMap {
 	
+	/** the {@link Map} of {@link DataMapKey} to {@link Object} to store data */
 	protected Map<DataMapKey, Object> dataMap;
 	
+	/**
+	 * Creates a new {@link DataMap}
+	 */
 	public DataMap() {
 		dataMap = new HashMap<DataMapKey, Object>();
 		put(DataMapKey.UUID, UUID.randomUUID());
 	}
-	
+	/**
+	 * Gets the {@link Object} stored at the {@link DataMapKey}.
+	 * Its type will always match that specified by {@link DataMapKey#type} or null
+	 * @param key the {@link DataMapKey} to get
+	 * @return the {@link Object} there
+	 */
 	public Object get(DataMapKey key) {
-		return dataMap.get(key);
+		Object o = dataMap.get(key);
+		if (checkForType(o, key.getType())) {
+			return o;
+		} else {
+			return null;
+		}
 	}
-	public void update() {
-		
-	}
+	/**
+	 * Checks if the {@link DataMap} has the specified {@link DataMapKey}
+	 * @param test the {@link DataMapKey} to check
+	 * @return the boolean if it exits
+	 */
 	public boolean containsKey(DataMapKey test) {
 		return dataMap.containsKey(test);
 	}
+	/**
+	 * Puts an {@link Object} into the {@link DataMap} at the {@link DataMapKey}
+	 * @param key the {@link DataMapKey} location
+	 * @param value the {@link Object} to store
+	 */
 	public void put(DataMapKey key, Object value) {
 		if(checkForType(value, key.getType())) {
 			dataMap.put(key, value);
@@ -82,8 +103,22 @@ public class DataMap {
 		}
 		return true;
 	}
+	/**
+	 * Checks of an object is of the correct type
+	 * @param candidate the {@link Object} to test
+	 * @param type the {@link Class} to test
+	 * @return a boolean if they are work
+	 */
 	private boolean checkForType(Object candidate, Class<?> type){
 	    return type.isInstance(candidate);
+	}
+	
+	/**
+	 * Saves the {@link DataMap} to a {@link String}
+	 * @return the {@link String} representation of the {@link DataMap}
+	 */
+	public String save() {
+		return "DataMap#save is unfinished, and does not work";
 	}
 	
 	@Override
