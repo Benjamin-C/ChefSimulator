@@ -61,7 +61,7 @@ public class Dishwasher extends BasicThing implements ToolThing, SolidThing, Dir
 	private List<Thing> extractThings(Thing t) {
 		List<Thing> temp = new ArrayList<Thing>();
 		if(t instanceof ContainerThing) {
-			for(Thing th : ((ContainerThing) t).getItems().getThingsAsList()) {
+			for(Thing th : ((ContainerThing) t).getItems().getAll()) {
 				if(th instanceof ContainerThing) {
 					temp.addAll(extractThings(th));
 				}

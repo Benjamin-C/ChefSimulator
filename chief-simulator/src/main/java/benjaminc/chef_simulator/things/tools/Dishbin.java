@@ -17,7 +17,7 @@ import benjaminc.chef_utils.graphics.Texture;
 public class Dishbin extends BasicThing implements ContainerThing, CustomDrawingThing {
 
 	private static final int VARIANT_COUNT = 1;
-	private static final int MAX_INV_SIZE = 64;
+
 	public Dishbin() {
 		this(-1, null, null);
 	}
@@ -39,7 +39,7 @@ public class Dishbin extends BasicThing implements ContainerThing, CustomDrawing
 	}
 	private Dishbin(int variant, List<Thing> items, Thing t) {
 		super(variant, FoodState.RAW, VARIANT_COUNT, Dishbin.class);
-		Inventory myinv = new Inventory(MAX_INV_SIZE);
+		Inventory myinv = new Inventory();
 		if(t != null) {
 			myinv.add(t);
 		}
@@ -58,7 +58,7 @@ public class Dishbin extends BasicThing implements ContainerThing, CustomDrawing
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(FoodState.RAW), x, y, w, h, getName());
 		if(dataMap.containsKey(DataMapKey.INVENTORY) && dataMap.get(DataMapKey.INVENTORY) != null) {
-			List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
+			List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getAll();
 			switch(items.size()) {
 			case 1: {
 				g.draw(items.get(0), x+(w/4),  y+(h/4),  w/2,  h/2);
@@ -93,7 +93,7 @@ public class Dishbin extends BasicThing implements ContainerThing, CustomDrawing
 		} else {
 			List<Thing> out = new ArrayList<Thing>();
 			Inventory in = (Inventory) dataMap.get(DataMapKey.INVENTORY);
-			if(in.thingCount() > 0) {
+			if(in.size() > 0) {
 				Thing th = null;
 				for(int i = in.size() - 1; i >= 0; i--) {
 					th = in.get(i);

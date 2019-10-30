@@ -48,13 +48,13 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 	}
 	private void finalPrep() {
 		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
-			dataMap.put(DataMapKey.INVENTORY, new Inventory(MAX_INV_SIZE));
+			dataMap.put(DataMapKey.INVENTORY, new Inventory());
 		}
 	}
 	
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
-		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
+		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getAll();
 		for(int i = 0; i < items.size(); i++) {
 			switch(i%4) {
 			case 0: { g.draw(items.get(i), x,  y,  w/2,  h/2); } break;

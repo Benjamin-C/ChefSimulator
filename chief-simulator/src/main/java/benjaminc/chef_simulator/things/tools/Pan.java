@@ -36,7 +36,7 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 	}
 	private void finalPrep() {
 		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
-			dataMap.put(DataMapKey.INVENTORY, new Inventory(1));
+			dataMap.put(DataMapKey.INVENTORY, new Inventory());
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 		checkItemKey();
 		List<Thing> out = new ArrayList<Thing>();
 		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
-			dataMap.put(DataMapKey.INVENTORY, new Inventory(1));
+			dataMap.put(DataMapKey.INVENTORY, new Inventory());
 		}
 		Inventory i = (Inventory) dataMap.get(DataMapKey.INVENTORY);
 		if(i.isEmpty()) {
@@ -133,7 +133,7 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 	 */
 	private void checkItemKey() {
 		if(!dataMap.containsKey(DataMapKey.INVENTORY) || dataMap.get(DataMapKey.INVENTORY) == null) {
-			dataMap.put(DataMapKey.INVENTORY, new Inventory(MAX_INV_SIZE));
+			dataMap.put(DataMapKey.INVENTORY, new Inventory());
 		}
 	}
 }

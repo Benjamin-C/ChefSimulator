@@ -24,7 +24,7 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	 */
 	
 	private static final int VARIANT_COUNT = 1;
-	private static final int MAX_INV_SIZE = 64;
+
 	public Plate() {
 		this(-1, null, null);
 	}
@@ -61,7 +61,7 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 				}
 			}
 		}
-		Inventory myinv = new Inventory(MAX_INV_SIZE);
+		Inventory myinv = new Inventory();
 		if(t != null) {
 			myinv.add(t);
 		}
@@ -79,7 +79,7 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(dataMap.get(DataMapKey.FOOD_STATE)), x, y, w, h, getName());
-		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getThingsAsList();
+		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getAll();
 		switch(items.size()) {
 		case 1: {
 			g.draw(items.get(0), x+(w/4),  y+(h/4),  w/2,  h/2);
@@ -114,7 +114,7 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 		} else {
 			List<Thing> out = new ArrayList<Thing>();
 			Inventory in = (Inventory) dataMap.get(DataMapKey.INVENTORY);
-			if(in.thingCount() > 0) {
+			if(in.size() > 0) {
 				Thing th = null;
 				for(int i = in.size() - 1; i >= 0; i--) {
 					th = in.get(i);

@@ -7,241 +7,163 @@ import benjaminc.chef_simulator.things.Thing;
 
 public class Inventory {
 	
-	protected Thing[] inv;
+	protected List<Thing> inv;
 	
 	/**
-	 * Generates a new inventory with the contents of inv, and a max size the same as inv
-	 * @param inv the List<Thing> to make the inventory from
+	 * Generates a new {@link Inventory} with the contents of inv
+	 * @param inv the {@link List} of {@link Thing} to make the inventory from
 	 */
-	public Inventory(Thing[] inv) {
+	public Inventory(List<Thing> inv) {
 		this.inv = inv;
 	}
 	/**
-	 * Generates a new inventory with the contents of inv, and a max size the same as inv
-	 * @param inv the List<Thing> to make the inventory from
+	 * Creates a blank {@link Inventory}
 	 */
-	public Inventory(List<Thing> inv) {
-		this.inv = new Thing[inv.size()];
-		for(int i = 0; i < this.inv.length; i++) {
-			this.inv[i] = inv.get(i);
-		}
+	public Inventory() {
+		inv = new ArrayList<Thing>();
 	}
 	/**
-	 * Creates a blank inventory with the max size of maxSize
-	 * @param maxSize the int maximum size of the inventory
+	 * Creates an {@link Inventory} and add a {@link Thing}
+	 * @param t the {@link Thing} to add
 	 */
-	public Inventory(int maxSize) {
-		inv = new Thing[maxSize];
-	}
 	public Inventory(Thing t) {
-		inv = new Thing[1];
-		inv[0] = t;
+		this();
+		add(t);
 	}
 	/**
-	 * Adds the item to the first available spot in the inventory
-	 * @param t the Thing to add
-	 * @return success
+	 * Adds the {@link Thing} to the {@link Inventory}
+	 * @param t the {@link Thing} to add
 	 */
-	public boolean add(Thing t) {
-		int i = 0;
-		while(i < inv.length) {
-			if(inv[i] == null) {
-				inv[i] = t;
-				return true;
-			}
-			i++;
-		}
-		return false;
+	public void add(Thing t) {
+		inv.add(t);
 	}
 	/**
-	 * Add an item at a location, failing if the spot is already occupied
-	 * @param loc The int location to put the item
-	 * @param t the Thing item to put
-	 * @return success, false if spot already occupied.
+	 * Add an {@link Thing} at a location
+	 * @param loc The int location to put the {@link Thing}
+	 * @param t the {@link Thing} item to put
 	 */
-	public boolean add(int loc, Thing t) {
-		if(inv[loc] == null) {
-			inv[loc] = t;
-			return true;
+	public void add(int loc, Thing t) {
+		if(loc < inv.size() && loc >= 0) {
+			inv.add(loc, t);
 		}
-		return false;
-	} // TODO add itmecount
-	/**
-	 * Adds an the contents of another inventory to this one
-	 * @param add the Inventory to add;
-	 * @return a Thing[] of all items that did not fit in this one
-	 */
-	public Thing[] add(Inventory add) {
-		Inventory failed = new Inventory(add.size());
-		for(Thing t : add.getAll()) {
-			if(t != null) {
-				if(!add(t)) {
-					failed.add(t);
-				}
-			}
-		}
-		return failed.getAll();
 	}
 	/**
-	 * Forcefully puts t in loc. Overrides and returns whatever was there
-	 * @param t
-	 * @param loc
+	 * Adds an the contents of another {@link Inventory} to this one
+	 * @param add the {@link Inventory} to add;
+	 */
+	public void add(Inventory add) {
+		inv.addAll(add.getAll());
+	}
+	/**
+	 * Forcefully puts a {@link Thing} at a location. Overrides and returns whatever was there
+	 * Adds the item to the end if the location was out of bounds
+	 * @param t the {@link Thing} to place
+	 * @param loc the int location to put it
+	 * @return the {@link Thing} that was there, null if the range was out of bounds
 	 */
 	public Thing put(Thing t, int loc) {
-		Thing old = inv[loc];
-		inv[loc] = t;
-		return old;
+		if(loc < inv.size() && loc >= 0) {
+			return inv.set(loc, t);
+		} else {
+			add(t);
+			return null;
+		}
 	}
 	/**
-	 * Gets the item at that location
+	 * Gets the {@link Thing} at that location
 	 * @param loc the int location for the item
-	 * @return the Thing there
+	 * @return the {@link Thing} there
 	 */
 	public Thing get(int loc) {
-		return inv[loc];
+		return inv.get(loc);
 	}
 	/**
-	 * Gets a snapshot of the contents of the inventory
-	 * @return a snapshot List<Thing> of the inventory
+	 * Gets the {@link List} of {@link Thing} of the {@link Inventory}
+	 * @return the {@link List} of {@link Thing}
 	 */
-	public Thing[] getAll() {
-		return clone().inv;
-	}
-	public List<Thing> getAllAsList() {
-		List<Thing> out = new ArrayList<Thing>();
-		for(Thing t : inv) {
-			out.add(t);
-		}
-		return out;
-	}
-	public List<Thing> getThingsAsList() {
-		List<Thing> out = new ArrayList<Thing>();
-		for(Thing t : inv) {
-			if(t != null) {
-				out.add(t);
-			}
-		}
-		return out;
+	public List<Thing> getAll() {
+		return inv;
 	}
 	/**
-	 * Removes the item from the inventory at the specified location
-	 * @param loc The location of the inventory to remove from
-	 * @return the Thing removed
+	 * Removes a {@link Thing} from the {@link Inventory} at the specified location
+	 * @param loc The int location to remove from
+	 * @return the {@link Thing} removed
 	 */
 	public Thing remove(int loc) {
-		Thing out = inv[loc];
-		inv[loc] = null;
-		return out;
+		return inv.remove(loc);
 	}
 	/**
-	 * Removes the Thing t from the inventory. Removes the first instance of the item
-	 * @param t the thing T to remove
+	 * Removes a {@link Thing} from the {@link Inventory}. Uses {@link List#remove(Object)}
+	 * @param t the {@link Thing} to remove
 	 * @return a boolean of if an item was removed
 	 */
 	public boolean remove(Thing t) {
-		for(int i = 0; i < inv.length; i++) {
-			if(inv[i] != null && inv[i].isSame(t)) {
-				remove(i);
-				return true;
-			}
-		}
-		return false;
+		return inv.remove(t);
 	}
 	/**
-	 * Clears the invantory.
+	 * Clears the {@link Inventory}.
+	 * @return a copy of the {@link Inventory} before it was cleared
 	 */
-	public Thing[] clear() {
-		Thing[] tmp = getAll();
-		for(int i = 0; i < inv.length; i++) {
-			inv[i] = null;
+	public List<Thing> clear() {
+		List<Thing> tmp = new ArrayList<Thing>();
+		for(int i = 0; i < size(); i++) {
+			tmp.add(inv.get(i));
 		}
+		inv.clear();
 		return tmp;
 	}
 	/**
-	 * Returns the max size of the inventory
-	 * @return the int max size
+	 * Returns the size of the {@link Inventory}
+	 * @return the int size
 	 */
 	public int size() {
-		return inv.length - 1;
+		return inv.size();
 	}
 	/**
-	 * Counts the number of non-null Things in the Inventory
-	 * @return an int of the number of Things in the Inventory
-	 */
-	public int thingCount() {
-		int count = 0;
-		for(Thing t : inv) {
-			if(t != null) {
-				count++;
-			}
-		}
-		return count;
-	}
-	/**
-	 * Tests if the inventory is empty. Returns true if thingCount() == 0
-	 * @return a boolean of if the inventory is empty
+	 * Tests if the {@link Inventory} is empty.
+	 * @return a boolean of if the {@link Inventory} is empty
 	 */
 	public boolean isEmpty() {
-		return thingCount() == 0;
+		return inv.isEmpty();
 	}
 	/**
-	 * Changes the maximim size of the inventory
-	 * @param max int the new max size
-	 * @return an Inventory with the leftover items if the new size is smaller
-	 */
-	public Inventory setMaxSize(int max) {
-		Thing[] newInv = new Thing[max];
-		Thing[] out = null;
-		if(max < inv.length) {
-			out = new Thing[inv.length - max];
-			for(int i = 0; i < out.length; i++) {
-				out[i] = inv[max+i];
-			}
-		}
-		for(int i = 0; i < Math.min(newInv.length, inv.length); i++) {
-			newInv[i] = inv[i];
-		}
-		inv = newInv;
-		return new Inventory(out);
-	}
-	/**
-	 * Clones the inventory
-	 * @return the Inventory clone
+	 * Clones the {@link Inventory}
+	 * @return the cloned {@link Inventory}
 	 */
 	public Inventory clone() {
-		Thing[] newinv = new Thing[inv.length];
-		for(int i = 0; i < newinv.length; i++) {
-			newinv[i] = inv[i];
+		List<Thing> newinv = new ArrayList<Thing>();
+		for(int i = 0; i < size(); i++) {
+			newinv.add(inv.get(i).clone());
 		}
 		return new Inventory(newinv);
 	}
 	/**
-	 * Checks if this inventory is identical to another
-	 * @param in the Inventory to check against
-	 * @return a boolean of identiacality
+	 * Checks if this {@link Inventory} is identical to another
+	 * @param in the {@link Inventory} to check against
+	 * @return a boolean of identicality
 	 */
 	public boolean equals(Inventory in) {
-		if(inv.length == in.size()) {
+		if(inv.size() == in.size()) {
 			return false;
 		}
-		for(int i = 0; i < inv.length; i++) {
-			if(!inv[i].equals(in.get(i))) {
+		for(int i = 0; i < size(); i++) {
+			if(!inv.get(i).equals(in.get(i))) {
 				return false;
 			}
 		}
 		return true;
 	}
 	/**
-	 * Checks if this inventory has exactly the same contents, but in different spaces as the other
-	 * @param in the Inventory to check against
+	 * Checks if this {@link Inventory} has exactly the same contents, but in different spaces as the other
+	 * @param in the {@link Inventory} to check against
 	 * @return a boolean of if they have the same stuff
 	 */
 	public boolean hasSame(Inventory in) {
 		Inventory test = in.clone();
 		System.out.println("me " + getAll());
 		System.out.println("in " + in.getAll());
-		for(int i = 0; i < inv.length; i++) {
-			if(inv[i] != null && !test.remove(inv[i])) {
+		for(int i = 0; i < size(); i++) {
+			if(inv.get(i) != null && !test.remove(inv.get(i))) {
 				System.out.println("Cant't remove item fail");
 				return false;
 			}
