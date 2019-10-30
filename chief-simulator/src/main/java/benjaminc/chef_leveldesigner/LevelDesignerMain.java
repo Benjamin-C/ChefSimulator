@@ -47,6 +47,8 @@ public class LevelDesignerMain {
 		
 		toAdd = new Potato();
 		
+		jf.setJMenuBar(new LevelDesignerMenuBar());
+		
 		ThingEditDialog controlediter = new ThingEditDialog(toAdd, "Title?", new ThingTypeChangeEvent() {
 			@Override public void onChange(Thing newThing) { toAdd = newThing; }
 		}, new Runnable() { public void run() { } }, false);
