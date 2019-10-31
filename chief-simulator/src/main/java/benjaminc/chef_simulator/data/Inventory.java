@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.util.JSONTools;
 
-public class Inventory {
+public class Inventory implements Savable {
 	
 	protected List<Thing> inv;
 	
@@ -30,6 +31,32 @@ public class Inventory {
 		this();
 		add(t);
 	}
+	/**
+	 * Creates an {@link Inventory} from JSON
+	 * @param JSON the JSON {@link String}
+	 */
+	public Inventory(String json) {
+		json = JSONTools.peelChar(json, '[');
+		
+	}
+	
+	@Override
+	public String asJSON() {
+		String s = "[";
+		boolean fencepost = false;
+		for(Thing t : inv) {
+			if(fencepost) {
+				s = s + ", ";
+			} else {
+				fencepost = true;
+			}
+			s = s + t.asJSON();
+		}
+		s = s + "]";
+		return s;
+	}
+	
+	
 	/**
 	 * Adds the {@link Thing} to the {@link Inventory}
 	 * @param t the {@link Thing} to add

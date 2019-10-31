@@ -1,8 +1,9 @@
 package benjaminc.chef_simulator.things;
 
 import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.data.Savable;
 
-public interface Thing {
+public interface Thing extends Savable {
 
 	//public abstract void draw(Graphics g, int x, int y, int w, int h);
 	public abstract boolean isSame(Thing t);

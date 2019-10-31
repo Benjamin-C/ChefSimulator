@@ -1,12 +1,16 @@
 package benjaminc.chef_simulator.things;
 
+import java.util.Map;
 import java.util.Random;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMapKey;
 import benjaminc.chef_simulator.data.FoodState;
+import benjaminc.chef_simulator.data.Savable;
+import benjaminc.chef_simulator.data.ThingDataKey;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
+import benjaminc.util.JSONTools;
 
 /**
  * the class to hold all Things for easier usage
@@ -82,6 +86,42 @@ public class BasicThing implements Thing, Cloneable {
 			dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
 		}
 	}
+	
+	/**
+	 * Creates a new {@link BasicThing} from a JSON {@link String}
+	 * @param JSON the JSON {@link String};
+	 */
+	public static Thing makeThingFromJSON(String json) {
+		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
+			DataMap newDm = null;
+			Class<?> newClass = null;
+			json = json.substring(1, json.length() - 1);
+			Map<String, String> js = JSONTools.splitJSON(json);
+			for(String s : js.keySet()) {
+				ThingDataKey tdk = ThingDataKey.valueOf(s);
+				switch(tdk) {
+				case DATAMAP:
+					newDm = new DataMap(js.get(s));
+					break;
+				case TYPE:
+					newClass = ThingType.valueOf(js.get(s)).myclass; 
+					break;
+				default:
+					break;
+				
+				}
+			}
+			
+			return new BasicThing(newDm, newClass);
+		}
+		return null;
+	}
+	
+	@Override
+	public String asJSON() {
+		return "{\"" + ThingDataKey.TYPE + "\":\"" + ThingType.getTypeOfThing(this) + "\", \"" + ThingDataKey.DATAMAP + "\":" + dataMap.asJSON() + "}";
+	}
+	
 	
 	@Override
 	public boolean equals(Thing t) {

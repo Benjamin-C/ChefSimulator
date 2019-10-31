@@ -125,7 +125,7 @@ public class ThingListElement extends JPanel {
 			@Override public void run() { editbutton.repaint(); onUpdate.run(); } };
 		
 		editbutton.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent arg0) { if(onEdit != null) { onEdit.edit(me, ThingListElement.this, list, ThingListElement.this.onUpdate); } } });
+			@Override public void actionPerformed(ActionEvent arg0) { if(onEdit != null) { onEdit.edit(me, ThingListElement.this, list, ThingListElement.this.onUpdate); System.out.println(me.getDataMap().asJSON());} } });
 		upbutton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) { list.swap(me, 1); System.out.println("up swap done"); } });
 		downbutton.addActionListener(new ActionListener() {

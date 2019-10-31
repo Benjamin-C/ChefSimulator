@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.things.BasicThing;
+import benjaminc.chef_simulator.things.ThingType;
+import benjaminc.util.JSONTools;
 
-public class DataMap {
+public class DataMap implements Savable {
 	
 	/** the {@link Map} of {@link DataMapKey} to {@link Object} to store data */
 	protected Map<DataMapKey, Object> dataMap;
@@ -18,6 +21,25 @@ public class DataMap {
 		dataMap = new HashMap<DataMapKey, Object>();
 		put(DataMapKey.UUID, UUID.randomUUID());
 	}
+	
+	public DataMap(String json) {
+		dataMap = new HashMap<DataMapKey, Object>();
+		json = JSONTools.peelChar(json, '{');
+		Map<String, String> js = JSONTools.splitJSON(json);
+		
+		for(String s : js.keySet()) {
+			DataMapKey dmk = DataMapKey.valueOf(s);
+			switch(dmk) {
+			case DIRECTION: dataMap.put(dmk, Direction.valueOf(js.get(s))); break;
+			case FOOD_STATE: dataMap.put(dmk, FoodState.valueOf(js.get(s))); break;
+			case INVENTORY: break;
+			case MAKES: dataMap.put(dmk, BasicThing.makeThingFromJSON(js.get(s))); break;
+			case UUID: dataMap.put(dmk, UUID.fromString(js.get(s))); break;
+			default: break;
+			}
+		}
+	}
+	
 	/**
 	 * Gets the {@link Object} stored at the {@link DataMapKey}.
 	 * Its type will always match that specified by {@link DataMapKey#type} or null
@@ -113,12 +135,28 @@ public class DataMap {
 	    return type.isInstance(candidate);
 	}
 	
-	/**
-	 * Saves the {@link DataMap} to a {@link String}
-	 * @return the {@link String} representation of the {@link DataMap}
-	 */
-	public String save() {
-		return "DataMap#save is unfinished, and does not work";
+	@Override
+	public String asJSON() {
+		String s = "{";
+		boolean fencepost = false;
+		for(DataMapKey k : dataMap.keySet()) {
+			if(k.toSave) {
+				if(fencepost) {
+					s = s + ", ";
+				} else {
+					fencepost = true;
+				}
+				s = s + "\"" + k + "\":";
+				Object d = dataMap.get(k);
+				if(d instanceof Savable) {
+					s = s + ((Savable) d).asJSON();
+				} else {
+					s = s + "\"" + dataMap.get(k) + "\"";
+				}
+			}
+		}
+		s = s + "}";
+		return s;
 	}
 	
 	@Override

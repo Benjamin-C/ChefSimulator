@@ -1,5 +1,11 @@
 package benjaminc.chef_launcher;
 
+import benjaminc.chef_simulator.things.BasicThing;
+import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_simulator.things.building.Spawner;
+import benjaminc.chef_simulator.things.food.Potato;
+import benjaminc.chef_simulator.things.food.Tomato;
+import benjaminc.chef_simulator.things.tools.Dishbin;
 import benjaminc.util.Logger;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
@@ -12,7 +18,17 @@ public class App {
 	static Logger logger;
 	
 	public static void main( String[] args ) {
-    	doit();
+		System.out.println( "Hello World!" );
+    	logger = new Logger();
+ 		logger.start();
+ 		System.out.println("I am logging now");
+ 		
+//    	doit();
+		Dishbin p = new Dishbin(new Potato());
+		p.addItem(new Tomato());
+		String dta = p.asJSON();
+		Thing q = BasicThing.makeThingFromJSON(dta);
+		System.out.println(dta);
     }
     public void controllerTest(String agrs[]) {
     	while (true) {
@@ -85,10 +101,6 @@ public class App {
     	
     }
     public static void doit() {
-    	System.out.println( "Hello World!" );
-    	logger = new Logger();
- 		logger.start();
- 		System.out.println("I am logging now");
  		new Starter();
     }
 }

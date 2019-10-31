@@ -11,69 +11,61 @@ public enum DataMapKey {
 /**
  * a {@link UUID} unique to this DataMap
  */
-UUID("UUID", UUID.class, false),
+UUID(UUID.class, false, true),
 /**
  * a {@link Double} of the last frame that the Object was moved
  */
-LAST_MOVE_FRAME("Last_Move_Frame", Double.class, false),
+LAST_MOVE_FRAME(Double.class, false, false),
 /**
  * @deprecated
  * an {@link Integer} of the graphical variant of the object.
  * Not currently supported, unsure on future support.
  * Not to be used for any purpose beyond graphical differences
  */
-VARIANT("Variant", Integer.class, true),
+VARIANT(Integer.class, true, true),
 /**
  * @deprecated
  * an {@link Integer} of the total possible graphical variants of the object.
  * Not currently supported, unsure on future support.
  * Not to be used for any purpose beyond graphical differences
  */
-VARIANT_COUNT("Variant_Count", Integer.class, false),
+VARIANT_COUNT(Integer.class, false, false),
 /**
  * the {@link FoodState} that the food is currently in
  */
-FOOD_STATE("Food_State", FoodState.class, true),
+FOOD_STATE(FoodState.class, true, true),
 /**
  * the {@link Direction} the thing is facing
  */
-DIRECTION("Direction", Direction.class, true),
+DIRECTION(Direction.class, true, true),
 /**
  * the {@link Thing} that this thing makes
  * Intended for spawners
  */
-MAKES("Makes", Thing.class, true),
+MAKES(Thing.class, true, true),
 /**
  * the {@link Inventory} of the thing
  * Used with {@link ContainerThing}
  */
-INVENTORY("Item", Inventory.class, true),
+INVENTORY(Inventory.class, true, true),
 /**
  * the {@link Texture} of the thing
  */
-TEXTURE("Graphics", Texture.class, true),
+TEXTURE(Texture.class, true, false),
 /**
  * the {@link Boolean} of if the item has been used.
  * May not be accurate
  */
-USED("Used", Boolean.class, true);
+USED(Boolean.class, true, false);
 	
-	String key;
 	Class<?> type;
 	boolean useredit;
+	boolean toSave;
 
-	DataMapKey(String key, Class<?> type, Boolean useredit) {
-		this.key = key;
+	DataMapKey(Class<?> type, boolean useredit, boolean toSave) {
 		this.type = type;
 		this.useredit = useredit;
-	}
-	
-	/**
-	 * Gets the human readable name of the key
-	 * @return the {@link String} name
-	 */
-	public String getKey() {
-		return key;
+		this.toSave = toSave;
 	}
 	
 	/**
@@ -89,5 +81,13 @@ USED("Used", Boolean.class, true);
 	 */
 	public boolean mayUserEdit() {
 		return useredit;
+	}
+	
+	/**
+	 * Gets wether or not to save the value
+	 * @return the boolean of toSave
+	 */
+	public boolean toSave() {
+		return toSave;
 	}
 }

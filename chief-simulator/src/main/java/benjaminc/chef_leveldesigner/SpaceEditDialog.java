@@ -22,8 +22,6 @@ public class SpaceEditDialog {
 		jdl.setTitle("Edit " + space.getLoc().getX() + "," + space.getLoc().getY());
 		
 		JPanel panel = new JPanel();
-		
-		;		
 					
 		ThingList sl = new ThingList(space.getThings(), new ThingListElementEditEvent() {
 			@Override public void edit(Thing t, ThingListElement e, ThingList list, Runnable onUpdate) {
