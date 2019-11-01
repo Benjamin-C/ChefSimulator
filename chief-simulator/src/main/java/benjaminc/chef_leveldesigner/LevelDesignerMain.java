@@ -4,16 +4,20 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.rooms.Room;
+import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.food.Potato;
 
@@ -47,13 +51,19 @@ public class LevelDesignerMain {
 		
 		toAdd = new Potato();
 		
-		jf.setJMenuBar(new LevelDesignerMenuBar());
+		String json = "{\"TYPE\":\"DISHBIN\", \"DATAMAP\":{\"VARIANT\":\"-1\", \"DIRECTION\":\"UP\", \"UUID\":\"63492fd5-3e93-4a7a-9a1d-43c8fc968286\", \"INVENTORY\":[{\"TYPE\":\"POTATO\", \"DATAMAP\":{\"DIRECTION\":\"UP\", \"UUID\":\"2a86b4d8-f303-4968-9a52-0eb544eadc51\", \"FOOD_STATE\":\"RAW\"}}, {\"TYPE\":\"TOMATO\", \"DATAMAP\":{\"DIRECTION\":\"UP\", \"UUID\":\"f18f579b-7a65-4df5-863d-cca07b696f2e\", \"FOOD_STATE\":\"RAW\"}}], \"FOOD_STATE\":\"RAW\"}}";
+		Thing toAdd2 = BasicThing.makeThingFromJSON(json);
+		System.out.println(toAdd2.asJSON());
+		r.addThing(toAdd2, new Location(2, 2));
+		
+		jf.setJMenuBar(new LevelDesignerMenuBar(r));
 		
 		ThingEditDialog controlediter = new ThingEditDialog(toAdd, "Title?", new ThingTypeChangeEvent() {
 			@Override public void onChange(Thing newThing) { toAdd = newThing; }
 		}, new Runnable() { public void run() { } }, false);
 		JPanel controljp = controlediter.getPanel();
 		controljp.setBackground(new Color(16, 16, 16));
+		
 		for(Component c : controljp.getComponents()) {
 			if(c instanceof JPanel) {
 				c.setBackground(new Color(16, 16, 16));

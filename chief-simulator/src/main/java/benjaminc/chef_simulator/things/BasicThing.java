@@ -94,7 +94,7 @@ public class BasicThing implements Thing, Cloneable {
 	public static Thing makeThingFromJSON(String json) {
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			DataMap newDm = null;
-			Class<?> newClass = null;
+			ThingType newTT = null;
 			json = json.substring(1, json.length() - 1);
 			Map<String, String> js = JSONTools.splitJSON(json);
 			for(String s : js.keySet()) {
@@ -104,15 +104,14 @@ public class BasicThing implements Thing, Cloneable {
 					newDm = new DataMap(js.get(s));
 					break;
 				case TYPE:
-					newClass = ThingType.valueOf(js.get(s)).myclass; 
+					newTT = ThingType.valueOf(js.get(s)); 
 					break;
 				default:
 					break;
-				
 				}
 			}
 			
-			return new BasicThing(newDm, newClass);
+			return ThingType.getThingOfType(newTT, newDm);
 		}
 		return null;
 	}
@@ -175,8 +174,7 @@ public class BasicThing implements Thing, Cloneable {
 	}
 	@Override
 	public DataMap getDataMap() {
-		// TODO Auto-generated method stub
-		return null;
+		return dataMap;
 	}
 	@Override
 	public void setDataMap(DataMap m) {

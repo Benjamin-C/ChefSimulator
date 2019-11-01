@@ -28,7 +28,9 @@ public class GraphicalDrawer {
 			} else {
 				List<Shape> s = new ArrayList<Shape>();
 				if(t.getDataMap() == null) {
-					System.out.println("A " + t + " has no data map");
+					String adr = t.toString();
+					adr = adr.substring(adr.indexOf("@")+1);
+					System.out.println("A " + t.getName() + "@" + adr + " has no data map");
 				}
 				if(t.getDataMap().containsKey(DataMapKey.FOOD_STATE)) {
 					s = ((Texture) t.getDataMap().get(DataMapKey.TEXTURE)).get((FoodState) t.getDataMap().get(DataMapKey.FOOD_STATE));

@@ -2,7 +2,6 @@ package benjaminc.chef_launcher;
 
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
-import benjaminc.chef_simulator.things.building.Spawner;
 import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_simulator.things.food.Tomato;
 import benjaminc.chef_simulator.things.tools.Dishbin;
@@ -17,19 +16,32 @@ public class App {
 	
 	static Logger logger;
 	
+	/**
+	 * The main method for the program
+	 * @param args the array of {@link String} so that Java can find the main method
+	 */
 	public static void main( String[] args ) {
 		System.out.println( "Hello World!" );
     	logger = new Logger();
  		logger.start();
  		System.out.println("I am logging now");
  		
-//    	doit();
+ 		boolean mode = true;
+ 		if(mode) {
+ 			doit();
+ 		} else {
+ 			doThat();
+ 		}
+	}
+	
+	public static void doThat() {
 		Dishbin p = new Dishbin(new Potato());
 		p.addItem(new Tomato());
 		String dta = p.asJSON();
 		Thing q = BasicThing.makeThingFromJSON(dta);
 		System.out.println(dta);
     }
+	
     public void controllerTest(String agrs[]) {
     	while (true) {
 			/* Get the available controllers */

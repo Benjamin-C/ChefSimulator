@@ -2,10 +2,12 @@ package benjaminc.chef_simulator;
 
 import java.awt.Graphics;
 
+import benjaminc.chef_simulator.data.ObjectiveDataKey;
+import benjaminc.chef_simulator.data.Savable;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 
-public class Objective {
+public class Objective implements Savable {
 
 	protected Thing target;
 	protected int points;
@@ -13,6 +15,11 @@ public class Objective {
 	public Objective(Thing tgt, int pts) {
 		target = tgt;
 		points = pts;
+	}
+	
+	@Override
+	public String asJSON() {
+		return "{\"" + ObjectiveDataKey.TARGET + "\":" + target.asJSON() + ", \"" + ObjectiveDataKey.POINTS + "\":\"" + points + "\"}";
 	}
 	
 	/**

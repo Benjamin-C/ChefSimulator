@@ -2,7 +2,9 @@ package benjaminc.chef_simulator.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
@@ -36,8 +38,15 @@ public class Inventory implements Savable {
 	 * @param JSON the JSON {@link String}
 	 */
 	public Inventory(String json) {
-		json = JSONTools.peelChar(json, '[');
+		inv = new ArrayList<Thing>();
 		
+		List<String> jm = JSONTools.splitJSONArray(json);
+
+		for(String s : jm) {
+			inv.add(BasicThing.makeThingFromJSON(s));
+		}
+		System.out.println(jm);
+		System.out.println(json);
 	}
 	
 	@Override

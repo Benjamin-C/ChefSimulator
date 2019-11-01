@@ -132,7 +132,7 @@ public class ThingListElement extends JPanel {
 			@Override public void actionPerformed(ActionEvent arg0) { list.swap(me, -1); System.out.println("down swap done"); } });
 		deletebutton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
-				new AreYouSureDialog("Delete", "Do you really want to delete the shape?", new AreYouSureDialogRunnable() {
+				new AreYouSureDialog("Delete", "Do you really want to delete this Thing?", new AreYouSureDialogRunnable() {
 					@Override public void yes() { list.remove(me); System.out.println("Remove done"); }
 					@Override public void no() { } });
 			}

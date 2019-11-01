@@ -12,12 +12,13 @@ import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.Savable;
 import benjaminc.chef_simulator.graphics.Drawable;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 
-public class Room implements Drawable {
+public class Room implements Drawable, Savable {
 	
 	/** the {@link GameSpace} 2d array of the room */
 	protected GameSpace[][] room;
@@ -77,6 +78,48 @@ public class Room implements Drawable {
 		} else {
 			this.score = score;
 		}
+	}
+	
+	@Override
+	public String asJSON() {
+		String s = "[\n" + tabs(1);
+		for(int y = 0; y < height; y++) {
+			if(y != 0) {
+				s = s + ", ";
+			}
+			s = s + "[";
+			for(int x = 0; x < width; x++) {
+				if(x != 0) {
+					s = s + ", ";
+				}
+				s = s + "\n" + tabs(2);
+				GameSpace g = room[x][y];
+				if(g.size() > 1) {
+					s = s + "[";
+					for(int e = 0; e < g.size(); e++) {
+						if(e != 0) {
+							s = s + ",";
+						}
+						s = s + "\n" + tabs(3) +g.getThing(e).asJSON();
+					}
+					s = s + "\n" + tabs(2) + "]";
+				}
+				else {
+					s = s + g.getThing().asJSON();
+				}
+			}
+			s = s + "\n" + tabs(1) + "]";
+		}
+		s = s + "\n]";
+		return s;
+	}
+	
+	private String tabs(int num) {
+		String s = "";
+		for(int i = 0; i < num; i++) {
+			s = s + "\t";
+		}
+		return s;
 	}
 	/**
 	 * Gets the sync {@link Object}

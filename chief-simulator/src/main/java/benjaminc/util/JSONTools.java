@@ -1,6 +1,8 @@
 package benjaminc.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,9 +12,50 @@ import java.util.Map;
 public class JSONTools {
 	
 	/**
+	 * Removes formatting from json {@link String}
+	 * @param formattedJSON the formatted JSON {@link String}
+	 * @return the {@link String} of unformatted JSON
+	 */
+	public static String unformatJSON(String formattedJSON) {
+		return formattedJSON.replace(" ","").replace("\t","").replace("\n","");
+	}
+	
+	/**
+	 * Splits a JSON array into its parts
+	 * @param json the JSON array {@link String}
+	 * @return the {@link List} of {@link String} of parts
+	 */
+	public static List<String> splitJSONArray(String json) {
+		List<String> s = new ArrayList<String>();
+		
+		json = peelChar(unformatJSON(json), "[");
+		
+		int curl = 0;
+		int squ = 0;
+		int startdata = 0;
+		for(int i = 0; i < json.length(); i++) {
+			switch(json.charAt(i)) {
+			case '{': { curl++; } break;
+			case '}': { curl--; } break;
+			case '[': { squ++; } break;
+			case ']': { squ--; } break;
+			case ',': { 
+				if(curl==0 && squ==0) {
+					s.add(json.substring(startdata, i));
+					startdata = i + 1;
+				}
+			}
+			}
+		}
+		
+		s.add(json.substring(startdata, json.length()));
+		
+		return s;
+	}
+	/**
 	 * Splits JSON into its root key:value pairs
-	 * @param json
-	 * @return
+	 * @param json the JSON {@link String} to split
+	 * @return the {@link Map} of {@link String} to {@link String} representation
 	 */
 	public static Map<String, String> splitJSON(String json) {
 		Map<String, String> s = new HashMap<String, String>();

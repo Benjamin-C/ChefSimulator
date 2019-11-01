@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_textures.dialog.AreYouSureDialog;
 import benjaminc.chef_textures.dialog.AreYouSureDialogRunnable;
 import benjaminc.chef_textures.dialog.MessageDialog;
@@ -25,8 +26,13 @@ public class LevelDesignerMenuBar extends JMenuBar {
 
 	/** */ private static final long serialVersionUID = 7732631958665016458L;
 	
-	public LevelDesignerMenuBar() {
+	public Room room;
+	
+	public LevelDesignerMenuBar(Room r) {
 		super();
+		
+		room = r;
+		
 		JFileChooser fc = new JFileChooser();
 		
 		JMenu fileMenu = new JMenu("File"); fileMenu.setMnemonic('f'); this.add(fileMenu);
@@ -43,6 +49,7 @@ public class LevelDesignerMenuBar extends JMenuBar {
 				        if (returnVal == JFileChooser.APPROVE_OPTION) {
 				        	@SuppressWarnings("unused")
 							File file = fc.getSelectedFile();
+				        	System.out.println("Sorry, I do not know how to read files yet");
 				        	// TODO load file
 				        } else {
 				        	System.out.println("Open command cancelled by user.");
@@ -65,7 +72,8 @@ public class LevelDesignerMenuBar extends JMenuBar {
 		            try {
 		            	PrintWriter pr = new PrintWriter(file);
 		            	// TODO save file to String
-		            	pr.println(/*FILE STRING GOES HERE*/);
+		            	
+		            	pr.println(room.asJSON());
 						pr.flush();
 						pr.close();
 						System.out.println("Done");

@@ -32,7 +32,7 @@ public class DataMap implements Savable {
 			switch(dmk) {
 			case DIRECTION: dataMap.put(dmk, Direction.valueOf(js.get(s))); break;
 			case FOOD_STATE: dataMap.put(dmk, FoodState.valueOf(js.get(s))); break;
-			case INVENTORY: break;
+			case INVENTORY: dataMap.put(dmk, new Inventory(js.get(s))); break;
 			case MAKES: dataMap.put(dmk, BasicThing.makeThingFromJSON(js.get(s))); break;
 			case UUID: dataMap.put(dmk, UUID.fromString(js.get(s))); break;
 			default: break;
@@ -88,8 +88,6 @@ public class DataMap implements Savable {
 			
 			}
 		}
-		System.out.println("Cloned data map " + this + " to " + newdm);
-		
 		return newdm;
 	}
 	
