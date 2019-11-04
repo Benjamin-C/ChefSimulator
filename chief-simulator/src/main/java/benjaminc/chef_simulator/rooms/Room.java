@@ -13,6 +13,7 @@ import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.Savable;
+import benjaminc.chef_simulator.data.keys.RoomDataKey;
 import benjaminc.chef_simulator.graphics.Drawable;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
@@ -82,35 +83,53 @@ public class Room implements Drawable, Savable {
 	
 	@Override
 	public String asJSON() {
-		String s = "[\n" + tabs(1);
+		int tabs = 1;
+		String s = "{\n" + tabs(tabs);
+		
+		// Objectives
+		s = s + RoomDataKey.OBJECTIVES + ":[\n" + tabs(tabs++);
+		for(int i = 0; i < objective.size(); i++) {
+			if(i != 0) {
+				s = s + ",\n" + tabs(tabs);
+			}
+			s = s + objective.get(i).asJSON();
+		}
+		tabs--;
+		s = s + "\n" + tabs(tabs)  + "]";
+		
+		// Room
+		s = s + "\n" + tabs(tabs) + RoomDataKey.ROOM + ":[\n" + tabs(++tabs);
 		for(int y = 0; y < height; y++) {
 			if(y != 0) {
 				s = s + ", ";
 			}
 			s = s + "[";
+			tabs++;
 			for(int x = 0; x < width; x++) {
 				if(x != 0) {
 					s = s + ", ";
 				}
-				s = s + "\n" + tabs(2);
+				s = s + "\n" + tabs(tabs);
 				GameSpace g = room[x][y];
 				if(g.size() > 1) {
 					s = s + "[";
+					tabs++;
 					for(int e = 0; e < g.size(); e++) {
 						if(e != 0) {
 							s = s + ",";
 						}
-						s = s + "\n" + tabs(3) +g.getThing(e).asJSON();
+						s = s + "\n" + tabs(tabs) +g.getThing(e).asJSON();
 					}
-					s = s + "\n" + tabs(2) + "]";
-				}
-				else {
+					s = s + "\n" + tabs(--tabs) + "]";
+				} else {
 					s = s + g.getThing().asJSON();
 				}
 			}
-			s = s + "\n" + tabs(1) + "]";
+			s = s + "\n" + tabs(--tabs) + "]";
 		}
-		s = s + "\n]";
+		s = s + "\n" + tabs(--tabs) + "]";
+		
+		s = s + "\n}";
 		return s;
 	}
 	

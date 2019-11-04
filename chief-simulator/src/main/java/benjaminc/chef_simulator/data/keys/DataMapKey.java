@@ -1,6 +1,8 @@
-package benjaminc.chef_simulator.data;
+package benjaminc.chef_simulator.data.keys;
 
 import benjaminc.chef_simulator.control.Direction;
+import benjaminc.chef_simulator.data.FoodState;
+import benjaminc.chef_simulator.data.Inventory;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
 import benjaminc.chef_utils.graphics.Texture;

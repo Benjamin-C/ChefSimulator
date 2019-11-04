@@ -2,7 +2,6 @@ package benjaminc.chef_simulator.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -45,8 +44,6 @@ public class Inventory implements Savable {
 		for(String s : jm) {
 			inv.add(BasicThing.makeThingFromJSON(s));
 		}
-		System.out.println(jm);
-		System.out.println(json);
 	}
 	
 	@Override

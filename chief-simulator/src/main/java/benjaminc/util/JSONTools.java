@@ -60,7 +60,7 @@ public class JSONTools {
 	public static Map<String, String> splitJSON(String json) {
 		Map<String, String> s = new HashMap<String, String>();
 		
-		json = json.replace(" ", "");
+		json = unformatJSON(json);
 		
 		int curl = 0;
 		int squ = 0;

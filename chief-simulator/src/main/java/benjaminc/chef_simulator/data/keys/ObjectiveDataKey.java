@@ -1,4 +1,4 @@
-package benjaminc.chef_simulator.data;
+package benjaminc.chef_simulator.data.keys;
 
 import benjaminc.chef_simulator.things.Thing;
 

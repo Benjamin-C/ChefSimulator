@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Direction;
+import benjaminc.chef_simulator.data.keys.DataMapKey;
 import benjaminc.chef_simulator.things.BasicThing;
-import benjaminc.chef_simulator.things.ThingType;
 import benjaminc.util.JSONTools;
 
 public class DataMap implements Savable {
@@ -138,7 +138,7 @@ public class DataMap implements Savable {
 		String s = "{";
 		boolean fencepost = false;
 		for(DataMapKey k : dataMap.keySet()) {
-			if(k.toSave) {
+			if(k.toSave()) {
 				if(fencepost) {
 					s = s + ", ";
 				} else {
