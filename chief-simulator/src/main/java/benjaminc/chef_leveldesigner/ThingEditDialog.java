@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.data.DataMap;
-import benjaminc.chef_simulator.data.keys.DataMapKey;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.ThingType;
 import benjaminc.chef_simulator.things.food.Potato;

@@ -7,7 +7,7 @@ import java.util.List;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.FoodState;
-import benjaminc.chef_simulator.data.keys.DataMapKey;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.CustomDrawingThing;
 import benjaminc.chef_simulator.things.types.DirectionalThing;

@@ -6,7 +6,7 @@ import java.util.List;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
-import benjaminc.chef_simulator.data.keys.DataMapKey;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.events.OnDisposeEvent;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;

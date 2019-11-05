@@ -13,4 +13,15 @@ public interface Thing extends Savable {
 	public abstract boolean equals(Thing t);
 	public abstract String getName();
 	public abstract Class<?> getSubclass();
+	
+	/**
+	 * @author Benjamin-C
+	 *
+	 */
+	public enum ThingDataKey {
+	/** the {@link ThingType} of the {@link Thing} */
+	TYPE,
+	/** the {@link DataMap} of the {@link Thing} */
+	DATAMAP;
+	}
 }

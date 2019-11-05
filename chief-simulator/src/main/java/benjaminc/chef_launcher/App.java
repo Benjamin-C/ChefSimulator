@@ -15,6 +15,7 @@ import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
 
+@SuppressWarnings("unused")
 public class App {
 	
 	static Logger logger;

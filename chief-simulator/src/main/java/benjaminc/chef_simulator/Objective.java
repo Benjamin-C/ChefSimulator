@@ -4,14 +4,13 @@ import java.awt.Graphics;
 import java.util.Map;
 
 import benjaminc.chef_simulator.data.Savable;
-import benjaminc.chef_simulator.data.keys.ObjectiveDataKey;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
 public class Objective implements Savable {
-
+	
 	/** the {@link Thing} to be made */
 	protected Thing target;
 	/** the int score */
@@ -78,4 +77,11 @@ public class Objective implements Savable {
 		GraphicalDrawer gd = new GraphicalDrawer(g);
 		gd.draw(target, x, y, w, h);
 	}
+	
+	public enum ObjectiveDataKey {
+		/** the target {@link Thing} for the objective; */
+		TARGET,
+		/** the int score for the objective */
+		POINTS
+		}
 }

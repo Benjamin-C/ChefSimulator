@@ -14,7 +14,6 @@ import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.Savable;
-import benjaminc.chef_simulator.data.keys.RoomDataKey;
 import benjaminc.chef_simulator.graphics.Drawable;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
@@ -86,8 +85,6 @@ public class Room implements Drawable, Savable, Cloneable {
 		initForGame(game, whenDone, score, cooks);
 		
 		changeLayout(json);
-		
-		//TODO load objectives
 	}
 	
 	/**
@@ -128,6 +125,12 @@ public class Room implements Drawable, Savable, Cloneable {
 				}
 				room[x][y] = here;
 			}
+		}
+		
+		List<String> objs = JSONTools.splitJSONArray(j.get(RoomDataKey.OBJECTIVES.toString()));
+		objective = new ArrayList<Objective>();
+		for(int i = 0; i < objs.size(); i++) {
+			objective.add(new Objective(objs.get(i)));
 		}
 	}
 	
@@ -387,5 +390,19 @@ public class Room implements Drawable, Savable, Cloneable {
 		drawRoom(g, x, y, boxWidth, boxHeight);
 		drawCooks(g, x, y, boxWidth, boxHeight);
 		drawObjectives(g, x, y, boxWidth, boxHeight);
+	}
+	
+	/**
+	 * Data keys for saving Rooms to JSON
+	 */
+	public enum RoomDataKey {
+	/** the JSON 2d array of {@link Thing} in the room */
+	ROOM,
+	/** the JSON array of {@link Objective} */
+	OBJECTIVES,
+	/** the int width of the room */
+	WIDTH,
+	/** the int height of the room */
+	HEIGHT;
 	}
 }

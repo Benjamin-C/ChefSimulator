@@ -14,7 +14,7 @@ import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.Inventory;
-import benjaminc.chef_simulator.data.keys.DataMapKey;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
 
 /**
