@@ -23,12 +23,23 @@ public class GameSpace {
 	
 	/**
 	 * Make a new GameSpace
-	 * @param l the {@link Location} the space exists at
+	 * @param loc the {@link Location} the space exists at
 	 */
-	public GameSpace(Location l) {
+	public GameSpace(Location loc) {
+		this(loc, true);
+	}
+	
+	/**
+	 * Make a new GameSpace
+	 * @param loc the {@link Location} the space exists at
+	 * @param floor the boolean to add a floor or not
+	 */
+	public GameSpace(Location loc, boolean floor) {
 		things = new ArrayList<Thing>();
-		things.add(new Floor());
-		loc = l;
+		if(floor) {
+			things.add(new Floor());
+		}
+		this.loc = loc;
 	}
 	
 	/**

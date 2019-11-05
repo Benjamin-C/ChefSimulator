@@ -1,6 +1,10 @@
 package benjaminc.chef_launcher;
 
+import benjaminc.chef_simulator.ChefSimulatorMain;
+import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
+import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_simulator.things.food.Tomato;
 import benjaminc.chef_simulator.things.tools.Dishbin;
@@ -26,12 +30,23 @@ public class App {
  		System.out.println("I am logging now");
  		
  		boolean runGame = true;
+ 		boolean useStarter = true;
  		if(runGame) {
- 			doit();
+ 			doit(useStarter);
  		} else {
  			doThat();
  		}
 	}
+	
+	public static void doit(boolean useStarter) {
+		if(!useStarter) {
+			Room r = new Room(16, 16, null, null, null);
+			r.addThing(new Potato(), new Location(5, 5));
+			new Game(40, 30, false).playJSONMap(r.asJSON());
+		} else {
+ 			new Starter();
+		}
+    }
 	
 	public static void doThat() {
 		
@@ -117,8 +132,5 @@ public class App {
 			}
 		}
     	
-    }
-    public static void doit() {
- 		new Starter();
     }
 }

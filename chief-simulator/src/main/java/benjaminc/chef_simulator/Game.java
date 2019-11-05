@@ -51,17 +51,39 @@ public class Game {
 				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
 		thisGame.updateGraphics();
-		
+	}
+	
+	public void playDefaultGame() {
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
-				playMap(new Level1(cooks, score, thisGame));
-				playMap(new Level1(cooks, score, thisGame));
+				playMap(new Level1(cooks, score, Game.this));
+				playMap(new Level1(cooks, score, Game.this));
 			}
 		};
 		control.start();
 	}
 	
+	public void playGame(Room r) {
+		r.initForGame(this, new Object(), score, cooks);
+		Thread control = new Thread("Control") {
+			@Override
+			public void run() {
+				playMap(r);
+			}
+		};
+		control.start();
+	}
+	public void playJSONMap(String json) {
+		Room lvl = new Room(json, this, new Object(), score, cooks);
+		Thread control = new Thread("Control") {
+			@Override
+			public void run() {
+				playMap(lvl);
+			}
+		};
+		control.start();
+	}
 	public Cook newCook(String name, Color color, Location location, int up, int down, int left, int right, int pickup, int use) {
 		Map<ActionType, Integer> keys = new HashMap<ActionType, Integer>();
 		keys.put(ActionType.MOVE_UP, up);

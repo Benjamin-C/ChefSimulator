@@ -11,6 +11,27 @@ import java.util.Map;
  */
 public class JSONTools {
 	
+	public enum JSONType {
+		ARRAY,
+		OBJECT,
+		ELEMENT,
+		NONE;
+	}
+	
+	/**
+	 * Guesses the {@link JSONType} of a JSON {@link String}
+	 * @param json the JSON {@link String} to guess
+	 * @return the guessed {@link JSONType}
+	 */
+	public static JSONType guessType(String json) {
+		switch(json.charAt(0)) {
+		case '\"': return JSONType.ELEMENT;
+		case '{': return JSONType.OBJECT;
+		case '[': return JSONType.ARRAY;
+		default: return JSONType.ELEMENT;
+		}
+	}
+	
 	/**
 	 * Removes formatting from json {@link String}
 	 * @param formattedJSON the formatted JSON {@link String}
@@ -61,6 +82,7 @@ public class JSONTools {
 		Map<String, String> s = new HashMap<String, String>();
 		
 		json = unformatJSON(json);
+		json = peelChar(json, '{');
 		
 		int curl = 0;
 		int squ = 0;

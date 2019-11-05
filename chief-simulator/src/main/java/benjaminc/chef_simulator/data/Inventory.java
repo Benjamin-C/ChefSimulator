@@ -108,7 +108,11 @@ public class Inventory implements Savable {
 	 * @return the {@link Thing} there
 	 */
 	public Thing get(int loc) {
-		return inv.get(loc);
+		if(loc >= 0 && loc < inv.size()) {
+			return inv.get(loc);
+		} else {
+			return null;
+		}
 	}
 	/**
 	 * Gets the {@link List} of {@link Thing} of the {@link Inventory}

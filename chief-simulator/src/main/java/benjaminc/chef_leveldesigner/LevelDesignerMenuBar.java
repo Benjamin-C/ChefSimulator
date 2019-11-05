@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -13,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_textures.dialog.AreYouSureDialog;
 import benjaminc.chef_textures.dialog.AreYouSureDialogRunnable;
@@ -28,7 +31,7 @@ public class LevelDesignerMenuBar extends JMenuBar {
 	
 	public Room room;
 	
-	public LevelDesignerMenuBar(Room r) {
+	public LevelDesignerMenuBar(Room r, Runnable onLoad) {
 		super();
 		
 		room = r;
@@ -47,10 +50,19 @@ public class LevelDesignerMenuBar extends JMenuBar {
 						int returnVal = fc.showOpenDialog(null);
 
 				        if (returnVal == JFileChooser.APPROVE_OPTION) {
-				        	@SuppressWarnings("unused")
-							File file = fc.getSelectedFile();
-				        	System.out.println("Sorry, I do not know how to read files yet");
-				        	// TODO load file
+				        	File file = fc.getSelectedFile();
+				        	try {
+								Scanner scan = new Scanner(file);
+								String s = "";
+								while(scan.hasNextLine()) {
+									s = s + scan.nextLine();
+								}
+								scan.close();
+								room.changeLayout(s);
+								onLoad.run();
+							} catch (FileNotFoundException e) {
+								System.out.println("There is no file there");
+							}
 				        } else {
 				        	System.out.println("Open command cancelled by user.");
 				        }
@@ -71,7 +83,6 @@ public class LevelDesignerMenuBar extends JMenuBar {
 		            System.out.println("Saving to: " + file.getName() + ".");
 		            try {
 		            	PrintWriter pr = new PrintWriter(file);
-		            	// TODO save file to String
 		            	
 		            	pr.println(room.asJSON());
 						pr.flush();
@@ -85,6 +96,14 @@ public class LevelDesignerMenuBar extends JMenuBar {
 		        	System.out.println("Saving command cancelled by user.");
 		        } }});
 		fileMenu.add(saveMenuItem);
+		
+		JMenuItem playMenuItem = new JMenuItem("Play", KeyEvent.VK_P);
+		playMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		playMenuItem.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) {
+				new Game(40, 30, false).playGame(room.clone());
+			}});
+		fileMenu.add(playMenuItem);
 	}
 
 }

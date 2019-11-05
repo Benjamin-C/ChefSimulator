@@ -12,5 +12,9 @@ public enum RoomDataKey {
 /** the JSON 2d array of {@link Thing} in the room */
 ROOM,
 /** the JSON array of {@link Objective} */
-OBJECTIVES;
+OBJECTIVES,
+/** the int width of the room */
+WIDTH,
+/** the int height of the room */
+HEIGHT;
 }

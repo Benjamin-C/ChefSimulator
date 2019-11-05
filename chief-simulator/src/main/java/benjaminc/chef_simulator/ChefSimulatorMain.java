@@ -13,7 +13,7 @@ public class ChefSimulatorMain {
 	 * @param lm the boolean to show the lagometer by default
 	 */
 	public static void run(int sc, int fs, boolean lm) {
-		new Game(sc, fs, lm);
+		new Game(sc, fs, lm).playDefaultGame();
 	}
 
 }

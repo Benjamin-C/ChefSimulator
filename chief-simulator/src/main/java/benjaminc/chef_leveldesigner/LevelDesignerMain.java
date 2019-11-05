@@ -53,7 +53,7 @@ public class LevelDesignerMain {
 		System.out.println(toAdd2.asJSON());
 		r.addThing(toAdd2, new Location(2, 2));
 		
-		jf.setJMenuBar(new LevelDesignerMenuBar(r));
+		jf.setJMenuBar(new LevelDesignerMenuBar(r, new Runnable() { @Override public void run() { roomjp.repaint(); } }));
 		
 		ThingEditDialog controlediter = new ThingEditDialog(toAdd, "Title?", new ThingTypeChangeEvent() {
 			@Override public void onChange(Thing newThing) { toAdd = newThing; }
@@ -132,7 +132,7 @@ public class LevelDesignerMain {
 	}
 
 	protected static void printMouseList() {
-		System.out.println("[" + mouseButton[0] + "," + mouseButton[1] + "]" + lastDragLoc);
+//		System.out.println("[" + mouseButton[0] + "," + mouseButton[1] + "]" + lastDragLoc);
 	}
 	protected static void doMouseThing(MouseEvent e) {
 		doMouseThing(new Location(e.getX()/boxSize, e.getY()/boxSize));

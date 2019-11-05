@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
@@ -17,9 +18,11 @@ import benjaminc.chef_simulator.data.keys.RoomDataKey;
 import benjaminc.chef_simulator.graphics.Drawable;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
+import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.util.JSONTools;
 
-public class Room implements Drawable, Savable {
+public class Room implements Drawable, Savable, Cloneable {
 	
 	/** the {@link GameSpace} 2d array of the room */
 	protected GameSpace[][] room;
@@ -59,21 +62,89 @@ public class Room implements Drawable, Savable {
 	 * @param cooks the {@link List} of {@link Cook} to put in the room
 	 */
 	public Room(int w, int h, Game game, Object whenDone, Score score, List<Cook> cooks) {
+		initForGame(game, whenDone, score, cooks);
+		
 		width = w;
 		height = h;
-		this.game = game;
 		room = new GameSpace[width][height];
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
 				room[i][j] = new GameSpace(new Location(i, j));
 			}
 		}
+		objective = new ArrayList<Objective>();
+	}
+	
+	/**
+	 * @param json the JSON {@link String} representation of the {@link Room}
+	 * @param game the {@link Game} to work with
+	 * @param whenDone the {@link Object} to run {@link Object}#{@link #notify()} when done
+	 * @param score the {@link Score} for the room to use
+	 * @param cooks the {@link List} of {@link Cook} to put in the room
+	 */
+	public Room(String json, Game game, Object whenDone, Score score, List<Cook> cooks) {
+		initForGame(game, whenDone, score, cooks);
+		
+		changeLayout(json);
+		
+		//TODO load objectives
+	}
+	
+	/**
+	 * Changes the layout of the room to the new JSON
+	 * @param json the JSON {@link String}
+	 */
+	public void changeLayout(String json) {
+		Map<String, String> j = JSONTools.splitJSON(json);
+		
+		System.out.println(JSONTools.unformatJSON(json));
+		System.out.println(j.keySet());
+		List<String> rows = JSONTools.splitJSONArray(j.get(RoomDataKey.ROOM.toString()));
+		
+		try {
+			width = Integer.parseInt(j.get(RoomDataKey.WIDTH.toString()));
+			height = Integer.parseInt(j.get(RoomDataKey.HEIGHT.toString()));
+		} catch (NumberFormatException e) {
+			System.out.println("Room size could not be read. Trying to guess");
+			width = rows.size();
+			height = JSONTools.splitJSONArray(rows.get(0)).size();
+		}
+		room = new GameSpace[width][height];
+		
+		for(int y = 0; y < height; y++) {
+			List<String> row = JSONTools.splitJSONArray(rows.get(y));
+			for(int x = 0; x < width; x++) {
+				GameSpace here = new GameSpace(new Location(x, y), false);
+				String spot = row.get(x);
+				switch(JSONTools.guessType(spot)) {
+				case ARRAY: {
+					List<String> spot_list = JSONTools.splitJSONArray(spot);
+					for(int i = 0; i < spot_list.size(); i++) {
+						here.addThing(BasicThing.makeThingFromJSON(spot_list.get(i)));
+					}
+				} break;
+				case OBJECT: here.addThing(BasicThing.makeThingFromJSON(spot)); break;
+				default: break;
+				}
+				room[x][y] = here;
+			}
+		}
+	}
+	
+	/**
+	 * Basic {@link Room} init
+	 * @param game the {@link Game} to work with
+	 * @param whenDone the {@link Object} to run {@link Object#notify()} when done
+	 * @param score the {@link Score} for the room to use
+	 * @param cooks the {@link List} of {@link Cook} to put in the room
+	 */
+	public void initForGame(Game game, Object whenDone, Score score, List<Cook> cooks) {
+		this.game = game;
 		this.cooks = cooks;
 		whenDoneSync = whenDone;
 		if(whenDoneSync == null) {
 			whenDoneSync = new Object();
 		}
-		objective = new ArrayList<Objective>();
 		if(score == null) {
 			this.score = new Score();
 		} else {
@@ -84,21 +155,14 @@ public class Room implements Drawable, Savable {
 	@Override
 	public String asJSON() {
 		int tabs = 1;
-		String s = "{\n" + tabs(tabs);
+		String s = "{\n";
 		
-		// Objectives
-		s = s + RoomDataKey.OBJECTIVES + ":[\n" + tabs(tabs++);
-		for(int i = 0; i < objective.size(); i++) {
-			if(i != 0) {
-				s = s + ",\n" + tabs(tabs);
-			}
-			s = s + objective.get(i).asJSON();
-		}
-		tabs--;
-		s = s + "\n" + tabs(tabs)  + "]";
+		// Size
+		s = s + tabs(tabs) + "\"" + RoomDataKey.WIDTH + "\":" + width + ",\n";
+		s = s + tabs(tabs) + "\"" + RoomDataKey.HEIGHT + "\":" + height + ",\n";
 		
 		// Room
-		s = s + "\n" + tabs(tabs) + RoomDataKey.ROOM + ":[\n" + tabs(++tabs);
+		s = s + tabs(tabs) + "\"" + RoomDataKey.ROOM + "\":[\n" + tabs(++tabs);
 		for(int y = 0; y < height; y++) {
 			if(y != 0) {
 				s = s + ", ";
@@ -127,10 +191,37 @@ public class Room implements Drawable, Savable {
 			}
 			s = s + "\n" + tabs(--tabs) + "]";
 		}
-		s = s + "\n" + tabs(--tabs) + "]";
+		s = s + "\n" + tabs(--tabs) + "],\n";
 		
+		// Objectives
+		s = s + tabs(tabs) + "\"" + RoomDataKey.OBJECTIVES + "\":[\n" + tabs(tabs++);
+		for(int i = 0; i < objective.size(); i++) {
+			if(i != 0) {
+				s = s + ",\n" + tabs(tabs);
+			}
+			s = s + objective.get(i).asJSON();
+		}
+		tabs--;
+		s = s + "\n" + tabs(tabs)  + "]";
+				
 		s = s + "\n}";
 		return s;
+	}
+	
+	@Override
+	public Room clone() {
+		Room n = new Room(width, height, game, whenDoneSync, score);
+		
+		for(int y = 0; y < height; y++) {
+			for(int x = 0; x < width; x++) {
+				Location here = new Location(x, y);
+				for(int i = 0; i < getSpace(here).size(); i++) {
+					n.getSpace(here).addThing(getSpace(here).getThing(i).clone());
+				}
+			}
+		}
+		// TODO clone objectives
+		return n;
 	}
 	
 	private String tabs(int num) {
@@ -278,7 +369,7 @@ public class Room implements Drawable, Savable {
 		for(int i = 0; i < getWidth(); i++) {
 			g.setColor(new Color(16, 64, 16));
 			g.fillRect(x+(i*boxWidth), 0, boxWidth, boxHeight);
-			if(game.getObjectives().size() > i) {
+			if(game.getObjectives() != null && game.getObjectives().size() > i) {
 				game.getObjectives().get(i).draw(g, (i * boxWidth) + x, 0, boxWidth, boxHeight);
 			}
 			if(i == width - 1) {
