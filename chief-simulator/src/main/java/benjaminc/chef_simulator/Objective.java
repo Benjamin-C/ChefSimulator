@@ -58,13 +58,20 @@ public class Objective implements Savable {
 	}
 	
 	/**
-	 * Gets thhe score of the item
+	 * Gets the score of the item
 	 * @return the int score
 	 */
 	public int getScore() {
 		return points;
 	}
 	
+	/**
+	 * Sets the score of the {@link Objective}
+	 * @param score the int new score
+	 */
+	public void setScore(int score) { 
+		points = score;
+	}
 	/**
 	 * Draws the Objective
 	 * @param g the {@link Graphics} to draw on
@@ -78,6 +85,27 @@ public class Objective implements Savable {
 		gd.draw(target, x, y, w, h);
 	}
 	
+	/**
+	 * Gets the {@link Thing} target of the {@link Objective}
+	 * @return the {@link Thing} target
+	 */
+	public Thing getTarget() {
+		return target;
+	}
+	
+	/**
+	 * Sests the {@link Thing} target for the {@link Objective}
+	 * @param newTarget the {@link Thing} to target
+	 */
+	public void setTarget(Thing newTarget) {
+		target = newTarget;
+	}
+	
+	/**
+	 * Data Keys for storing JSON data about the {@link Objective}
+	 * @author Benjamin-C
+	 *
+	 */
 	public enum ObjectiveDataKey {
 		/** the target {@link Thing} for the objective; */
 		TARGET,

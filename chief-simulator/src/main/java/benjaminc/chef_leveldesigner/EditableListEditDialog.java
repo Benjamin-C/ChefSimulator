@@ -6,15 +6,16 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
 
 /**
  * @author Benjamin-C
  *
  */
-public class ThingListEditDialog {
+public class EditableListEditDialog<T> {
 	
-	/** the {@link List} of {@link Thing} to edit */
-	protected List<Thing> things;
+	/** the {@link T} of {@link Thing} to edit */
+	protected List<T> things;
 	/** the {@link JPanel} where the dialog lives */
 	protected JPanel panel;
 	
@@ -23,8 +24,8 @@ public class ThingListEditDialog {
 	 * @param things the {@link List} of {@link Thing} to edit
 	 * @param onUpdate the {@link Runnable} to run when done
 	 */
-	public ThingListEditDialog(List<Thing> things, Runnable onUpdate) {
-		this(things, onUpdate, true);
+	public EditableListEditDialog(List<T> things, EditableListEvents<T> edits) {
+		this(things, edits, true);
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public class ThingListEditDialog {
 	 * @param onUpdate the {@link Runnable} to run when done
 	 * @param seperate a {@link Boolean} to select if the dialog should create a popup to exist in
 	 */
-	public ThingListEditDialog(List<Thing> things, Runnable onUpdate, boolean seperate) {
+	public EditableListEditDialog(List<T> things, EditableListEvents<T> edits, boolean seperate) {
 		this.things = things;
 		
 		if(seperate) {
@@ -44,12 +45,9 @@ public class ThingListEditDialog {
 					
 		System.out.println(things);
 		
-		ThingList sl = new ThingList(things, new ThingListElementEditEvent() {
-			@Override public void edit(Thing t, ThingListElement e, ThingList list, Runnable onUpdate) {
-				new ThingEditDialog(t, "", new ThingTypeChangeEvent() {
-					@Override public void onChange(Thing newThing) { list.replace(t, newThing); e.setThing(newThing); } }, onUpdate); } }, onUpdate);
+		EditableList<T> s0 = new EditableList<T>(things, edits);
 		
-		panel.add(sl);
+		panel.add(s0);
 		
 		if(seperate) {
 			JDialog jdl = new JDialog();

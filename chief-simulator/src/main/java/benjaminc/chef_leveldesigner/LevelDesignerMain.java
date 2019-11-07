@@ -18,6 +18,8 @@ import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.food.Potato;
 
+import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
+
 /**
  * @author Benjamin-C
  *
@@ -66,6 +68,8 @@ public class LevelDesignerMain {
 				c.setBackground(new Color(16, 16, 16));
 			}
 		}
+		
+		
 		
 		jp.add(controljp);
 		

@@ -19,6 +19,8 @@ import benjaminc.chef_simulator.things.food.Potato;
  */
 public class ThingEditDialog {
 	
+	public interface ThingTypeChangeEvent { public abstract void onChange(Thing newThing); }
+	
 	protected Thing t;
 	protected ThingTypeChangeEvent onThingTypeChange;
 	

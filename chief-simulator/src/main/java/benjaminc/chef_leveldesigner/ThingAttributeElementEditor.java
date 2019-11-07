@@ -16,6 +16,9 @@ import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.Inventory;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_simulator.things.food.Potato;
+import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
+import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
 
 /**
  * @author Benjamin-C
@@ -25,12 +28,20 @@ public class ThingAttributeElementEditor extends JPanel {
 	
 	/** */ private static final long serialVersionUID = -7201188114121767045L;
 
+	/** the {@link DataMapKey} being edited */
 	protected DataMapKey dmk;
 
+	/** the {@link JComponent} this is */
 	protected JComponent me;
 	
+	/** the {@link Runnable} for updates */
 	protected Runnable onUpdate;
 	
+	/**
+	 * Checks if a specific {@link DataMapKey} can make a {@link ThingAttributeElementEditor}
+	 * @param dmk the {@link DataMapKey} to test
+	 * @return boolean if it can make an editor
+	 */
 	public static boolean willMakeEditor(DataMapKey dmk) {
 		switch(dmk) {
 		case DIRECTION:
@@ -44,6 +55,11 @@ public class ThingAttributeElementEditor extends JPanel {
 		}
 	}
 	
+	/**
+	 * @param d the {@link DataMap} to edit
+	 * @param dmk the {@link DataMapKey} to edit in the {@link DataMap}
+	 * @param onUpdateRunnable the {@link Runnable} to run when done
+	 */
 	public ThingAttributeElementEditor(DataMap d, DataMapKey dmk, Runnable onUpdateRunnable) {
 		this.dmk = dmk;
 		
@@ -77,7 +93,15 @@ public class ThingAttributeElementEditor extends JPanel {
 						d.put(DataMapKey.INVENTORY, new Inventory(inv));
 						System.out.println("Didn't find inv, so I set it");
 					}
-					new ThingListEditDialog(inv, onUpdate);
+					new EditableListEditDialog<Thing>(inv, new EditableListEvents<Thing>() {
+						@Override public Thing makeNew() { return new Potato(); }
+						@Override public void edit(Thing t, EditableListElement<Thing> te, EditableList<Thing> tl, EditableListEvents<Thing> onUpdate) {
+							new ThingEditDialog(t, "", new ThingTypeChangeEvent() {
+								@Override public void onChange(Thing newThing) { tl.replace(t, newThing); te.set(newThing); } },
+								new Runnable() { @Override public void run() { onUpdate.onUpdate(); }});
+						}
+						@Override public void onUpdate() { onUpdateRunnable.run(); }
+					});
 				}
 			});
 			me = mejb;
@@ -98,6 +122,5 @@ public class ThingAttributeElementEditor extends JPanel {
 		}
 		
 		add(me);
-		
 	}
 }
