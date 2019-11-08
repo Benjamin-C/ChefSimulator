@@ -2,15 +2,21 @@ package benjaminc.chef_leveldesigner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
 import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.food.Potato;
+import benjaminc.chef_textures.dialog.MessageDialog;
 
 /**
  * @author Benjamin-C
@@ -18,7 +24,13 @@ import benjaminc.chef_simulator.things.food.Potato;
  */
 public class ObjectiveEditDialog {
 	
-	public interface ObjectiveTypeChangeEvent { public abstract void onChange(Objective newObjective); }
+	public interface ObjectiveTypeChangeEvent {
+		/**
+		 * Sets what happens when the {@link Objective} becomes a new {@link Objective};
+		 * @param newObjective the new {@link Objective}
+		 */
+		public abstract void onChange(Objective newObjective);
+	}
 	
 	protected Objective obj;
 	protected ObjectiveTypeChangeEvent onThingTypeChange;
@@ -81,9 +93,21 @@ public class ObjectiveEditDialog {
 		
 		jp.add(thgbtn);
 		
-		JTextArea scoerarea = new JTextArea() {
-			
-		}
+		JTextArea scorearea = new JTextArea(1, 4);
+		scorearea.setText(Integer.toString(obj.getScore()));
+		scorearea.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "check");
+		scorearea.getActionMap().put("check", new AbstractAction() {
+			private static final long serialVersionUID = 6672135527803981557L; // Keep Eclipse happy
+			@Override public void actionPerformed(ActionEvent arg0) {
+				try { obj.setScore(Integer.parseInt(scorearea.getText())); new MessageDialog("Saved", "Saved"); }
+				catch(NumberFormatException e) { new MessageDialog("That is not a number", "Please fix it"); }
+			}
+		});
+		jp.add(scorearea);
+		
+		JLabel instruct = new JLabel("Press ENTER to save");
+		jp.add(instruct);
+
 		if(seperate) {
 			jdl = new JDialog();
 			setTitle(obj, extra);
