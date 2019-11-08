@@ -10,8 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
-import benjaminc.chef_simulator.graphics.GraphicalDrawer;
-import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
 import benjaminc.chef_textures.dialog.AreYouSureDialog;
 import benjaminc.chef_textures.dialog.AreYouSureDialogRunnable;
 
@@ -34,7 +33,7 @@ public class EditableListElement<T> extends JPanel {
 	 * @param spacelist the {@link EditableList} to edit on
 	 * @param onEditEvent the {@link EditableListEvents} to run when stuff happens
 	 */
-	public EditableListElement(T th, EditableList<T> spacelist, EditableListEvents<T> onEditEvent) {
+	public EditableListElement(T th, EditableList<T> spacelist, EditableListEvents<T> onEditEvent, EditableListEditDialogDrawEvent<T> onDraw) {
 		me = th;
 		list = spacelist;
 		onEdit = onEditEvent;
@@ -56,24 +55,23 @@ public class EditableListElement<T> extends JPanel {
 				g.setColor(Color.white);
 				g.drawRect(0, 0, getWidth(), getHeight());
 				
-				if(me instanceof Thing) {
-					int sqsz = size/8;
-					boolean color = true;
-					
-					for(int i = 0; i < size; i = i + sqsz) {
-						for(int j = 0; j < size; j = j + sqsz) {
-							if(color) {
-								g.setColor(new Color(200, 200, 200));
-							} else {
-								g.setColor(new Color(255, 255, 255));
-							}
-							color = !color;
-							g.fillRect(i+osx, j+osy, sqsz, sqsz);
+				int sqsz = size/8;
+				boolean color = true;
+				
+				for(int i = 0; i < size; i = i + sqsz) {
+					for(int j = 0; j < size; j = j + sqsz) {
+						if(color) {
+							g.setColor(new Color(200, 200, 200));
+						} else {
+							g.setColor(new Color(255, 255, 255));
 						}
-						//color = !color;
+						color = !color;
+						g.fillRect(i+osx, j+osy, sqsz, sqsz);
 					}
-					GraphicalDrawer gd = new GraphicalDrawer(g);
-					gd.draw((Thing) me, osx, osy, size, size);
+				}
+
+				if(onDraw != null) {
+					onDraw.draw(g, me, osx, osy, size, size);
 				} else {
 					g.setColor(Color.BLUE);
 					g.fillOval(osx, osy, size, size);

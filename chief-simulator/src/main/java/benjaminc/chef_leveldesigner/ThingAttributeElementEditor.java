@@ -1,6 +1,7 @@
 package benjaminc.chef_leveldesigner;
 
 import java.util.List;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.Inventory;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
+import benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
 import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
 
 /**
@@ -101,6 +104,10 @@ public class ThingAttributeElementEditor extends JPanel {
 								new Runnable() { @Override public void run() { onUpdate.onUpdate(); }});
 						}
 						@Override public void onUpdate() { onUpdateRunnable.run(); }
+					}, new EditableListEditDialogDrawEvent<Thing>() {
+						@Override public void draw(Graphics g, Thing t, int x, int y, int w, int h) {
+							new GraphicalDrawer(g).draw(t, x, y, w, h);
+						}
 					});
 				}
 			});

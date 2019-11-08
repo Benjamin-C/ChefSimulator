@@ -1,11 +1,13 @@
 package benjaminc.chef_leveldesigner;
 
+import java.awt.Graphics;
 import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_utils.graphics.Shape;
 import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
 
 /**
@@ -13,6 +15,15 @@ import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
  *
  */
 public class EditableListEditDialog<T> {
+	
+	public interface EditableListEditDialogDrawEvent<T> {
+		/**
+		 * Selects what to draw for the {@link EditableListEditDialog}
+		 * @param t something to draw
+		 * @return the {@link List} of {@link Shape} to draw
+		 */
+		public abstract void draw(Graphics g, T t, int x, int y, int w, int h);
+	}
 	
 	/** the {@link T} of {@link Thing} to edit */
 	protected List<T> things;
@@ -24,8 +35,8 @@ public class EditableListEditDialog<T> {
 	 * @param things the {@link List} of {@link Thing} to edit
 	 * @param onUpdate the {@link Runnable} to run when done
 	 */
-	public EditableListEditDialog(List<T> things, EditableListEvents<T> edits) {
-		this(things, edits, true);
+	public EditableListEditDialog(List<T> things, EditableListEvents<T> edits, EditableListEditDialogDrawEvent<T> onDraw) {
+		this(things, edits, onDraw, true);
 	}
 	
 	/**
@@ -34,7 +45,7 @@ public class EditableListEditDialog<T> {
 	 * @param onUpdate the {@link Runnable} to run when done
 	 * @param seperate a {@link Boolean} to select if the dialog should create a popup to exist in
 	 */
-	public EditableListEditDialog(List<T> things, EditableListEvents<T> edits, boolean seperate) {
+	public EditableListEditDialog(List<T> things, EditableListEvents<T> edits, EditableListEditDialogDrawEvent<T> onDraw, boolean seperate) {
 		this.things = things;
 		
 		if(seperate) {
@@ -45,7 +56,7 @@ public class EditableListEditDialog<T> {
 					
 		System.out.println(things);
 		
-		EditableList<T> s0 = new EditableList<T>(things, edits);
+		EditableList<T> s0 = new EditableList<T>(things, edits, onDraw);
 		
 		panel.add(s0);
 		

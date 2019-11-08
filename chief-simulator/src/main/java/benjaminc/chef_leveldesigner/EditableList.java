@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
 import benjaminc.chef_simulator.things.Thing;
 
 public class EditableList<T> extends JPanel {
@@ -36,17 +37,19 @@ public class EditableList<T> extends JPanel {
 	private List<T> list;
 	
 	private EditableListEvents<T> onEdit;
+	private EditableListEditDialogDrawEvent<T> onDraw;
 	
 	/**
 	 * Makes a new {@link EditableList} of a type
 	 * @param editlist a {@link List} of type to edit
 	 * @param editableListEvents an {@link EditableListEvents} to control what the list does
 	 */
-	public EditableList(List<T> editlist, EditableListEvents<T> editableListEvents) {
+	public EditableList(List<T> editlist, EditableListEvents<T> editableListEvents, EditableListEditDialogDrawEvent<T> onDraw) {
 		System.out.println("Where is this?");
 		list = editlist;
 		
 		onEdit = editableListEvents;
+		this.onDraw = onDraw;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setAlignmentX(TOP_ALIGNMENT);
@@ -204,7 +207,7 @@ public class EditableList<T> extends JPanel {
 	public void update() {
 		controls.removeAll();
 		for(int i = list.size() - 1; i >= 0; i--) {
-			controls.add(new EditableListElement<T>(list.get(i), this, onEdit));
+			controls.add(new EditableListElement<T>(list.get(i), this, onEdit, onDraw));
 		}
 		try {
 			SwingUtilities.getWindowAncestor(this).pack();

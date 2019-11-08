@@ -1,12 +1,16 @@
 package benjaminc.chef_leveldesigner;
 
+import java.awt.Graphics;
+
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.graphics.GameSpace;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
+import benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
 import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
 
 /**
@@ -49,6 +53,10 @@ public class SpaceEditDialog {
 			}
 
 			@Override public void onUpdate() { System.out.println(onUpdate); onUpdate.run(); }
+		}, new EditableListEditDialogDrawEvent<Thing>() {
+			@Override public void draw(Graphics g, Thing t, int x, int y, int w, int h) {
+				new GraphicalDrawer(g).draw(t, x, y, w, h);
+			}
 		});
 		
 		panel.add(el);

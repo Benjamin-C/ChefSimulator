@@ -4,20 +4,27 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.food.Potato;
-
+import benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
+import benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
+import benjaminc.chef_leveldesigner.ObjectiveEditDialog.ObjectiveTypeChangeEvent;
 import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
 
 /**
@@ -60,15 +67,50 @@ public class LevelDesignerMain {
 		ThingEditDialog controlediter = new ThingEditDialog(toAdd, "Title?", new ThingTypeChangeEvent() {
 			@Override public void onChange(Thing newThing) { toAdd = newThing; }
 		}, new Runnable() { public void run() { } }, false);
-		JPanel controljp = controlediter.getPanel();
+		JPanel controljp = new JPanel();
+		
+		JPanel tng = controlediter.getPanel();
 		controljp.setBackground(new Color(16, 16, 16));
 		
-		for(Component c : controljp.getComponents()) {
+		JButton objctbtn = new JButton("Objectives");
+		objctbtn.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) {
+				new EditableListEditDialog<Objective>(r.getObjectives(),
+					new EditableListEvents<Objective>() {
+						@Override public Objective makeNew() { return new Objective(new Potato(), 5); }
+						@Override public void edit(Objective t, EditableListElement<Objective> te, EditableList<Objective> tl, EditableListEvents<Objective> onUpdate) {
+							new ObjectiveEditDialog(t, "", new ObjectiveTypeChangeEvent() {
+								Objective ob = t;
+								@Override
+								public void onChange(Objective newObjective) {
+									System.out.println(ob + " " + newObjective);
+									System.out.println(tl); tl.replace(ob, newObjective); System.out.println(tl); te.set(newObjective);
+									ob = newObjective;
+								}
+							}, new Runnable() {
+								@Override public void run() { onUpdate.onUpdate(); }
+							});
+						} @Override public void onUpdate() { System.out.println("Update!"); }
+					}, new EditableListEditDialogDrawEvent<Objective>() {
+						@Override public void draw(Graphics g, Objective t, int x, int y, int w, int h) {
+							GraphicalDrawer gd = new GraphicalDrawer(g);
+							gd.draw(t.getTarget(), x, y, w, h);
+						}
+				}, true);
+			}
+		});
+		controljp.add(objctbtn);
+		
+		JPanel thgjp = new JPanel();
+		thgjp.setBackground(new Color(64, 64, 64));
+		for(Component c : tng.getComponents()) {
 			if(c instanceof JPanel) {
-				c.setBackground(new Color(16, 16, 16));
+				thgjp.add(((JPanel) c).getComponent(0));
+			} else {
+				thgjp.add(c);
 			}
 		}
-		
+		controljp.add(thgjp);
 		
 		
 		jp.add(controljp);

@@ -2,18 +2,15 @@ package benjaminc.chef_leveldesigner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
-import benjaminc.chef_simulator.Objective;
-import benjaminc.chef_simulator.things.Thing;
 
 import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
+import benjaminc.chef_simulator.Objective;
+import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_simulator.things.food.Potato;
 
 /**
  * @author Benjamin-C
@@ -21,54 +18,115 @@ import benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
  */
 public class ObjectiveEditDialog {
 	
+	public interface ObjectiveTypeChangeEvent { public abstract void onChange(Objective newObjective); }
+	
 	protected Objective obj;
+	protected ObjectiveTypeChangeEvent onThingTypeChange;
 	
 	protected JDialog jdl;
+	
 	protected JPanel jp;
 	
-	public ObjectiveEditDialog(Objective obj, Runnable onUpdate, boolean seperate) {
-		if(obj == null) {
-			this.obj = new Objective(null, 0);
+	/**
+	 * Makes a new {@link ObjectiveEditDialog} in a popup
+	 * @param th the {@link Thing} to edit
+	 * @param extra the {@link String} to add to the title
+	 * @param onThingTypeChange the {@link Runnable} to run when the ThingType changes
+	 * @param onUpdate the {@link Runnable} to run when anything changes. Runs after others
+	 */
+	public ObjectiveEditDialog(Objective ob, String extra, ObjectiveTypeChangeEvent onThingTypeChange, Runnable onUpdateRunnable) {
+		this(ob, extra, onThingTypeChange, onUpdateRunnable, true);
+	}
+	/**
+	 * Makes a new {@link ObjectiveEditDialog}
+	 * @param th the {@link Thing} to edit
+	 * @param extra the {@link String} to add to the title
+	 * @param onThingTypeChange the {@link ThingTypeChangeEvent} to run when the ThingType changes
+	 * @param onUpdate the {@link Runnable} to run when anything changes. Runs after others
+	 * @param seperate a {@link Boolean} to select if the dialog should create a popup to exist in
+	 */
+	public ObjectiveEditDialog(Objective ob, String extra, ObjectiveTypeChangeEvent onThingTypeChange, Runnable onUpdateRunnable, boolean seperate) {
+		if(ob == null) {
+			obj = new Objective(new Potato(), 5);
+			onThingTypeChange.onChange(obj);
+			onUpdateRunnable.run();
 		} else {
-			this.obj = obj;
+			obj = ob;
 		}
 		
-		System.out.println("This is a ThingEditDialog");
-
-		jp  = new JPanel();
+		this.onThingTypeChange = onThingTypeChange;
 		
-		ThingTypeChangeEvent ttce = new ThingTypeChangeEvent() {
-			@Override public void onChange(Thing newThing) {
-				obj.setTarget(newThing);
-				onUpdate.run();
+		System.out.println("This is a ThingEditDialog");
+		
+		Runnable onUpdate = new Runnable() {
+			@Override
+			public void run() {
+				onUpdateRunnable.run();
+				setTitle(obj, extra);
 			}
 		};
 		
-		JButton thingbutton = new JButton("Edit Thing");
-		thingbutton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new ThingEditDialog(obj.getTarget(), "for objective", ttce, onUpdate);
+		jp  = new JPanel();
+		
+		JButton thgbtn = new JButton("Thing");
+		thgbtn.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) {
+				new ThingEditDialog(obj.getTarget(), "", new ThingTypeChangeEvent() {
+					@Override public void onChange(Thing newThing) { obj.setTarget(newThing); }
+				}, new Runnable() {
+					@Override public void run() { onUpdate.run();}
+				});
 			}
 		});
-		jp.add(thingbutton);
 		
-		JTextArea scoreArea = new JTextArea(1, 4);
-		scoreArea.setText(Integer.toString(obj.getScore()));
-		scoreArea.addFocusListener(new FocusListener() {
-			@Override public void focusLost(FocusEvent arg0) { obj.setScore(Integer.parseInt(scoreArea.getText())); }
-			@Override public void focusGained(FocusEvent arg0) { }
-		});
-		jp.add(scoreArea);
+		jp.add(thgbtn);
 		
+		JTextArea scoerarea = new JTextArea() {
+			
+		}
 		if(seperate) {
 			jdl = new JDialog();
-			jdl.setTitle("Edit Objective");
+			setTitle(obj, extra);
 			
 			jdl.add(jp);
 			jdl.pack();
 			jdl.validate();
 			jdl.setVisible(true);
+		}
+	}
+	
+	/**
+	 * Gets the {@link JPanel} editor
+	 * @return the {@link JPanel}
+	 */
+	public JPanel getPanel() {
+		return jp;
+	}
+	/**
+	 * Sets the {@link Runnable} to run when the ThingType changes
+	 * @param onThingTypeChange the {@link Runnable} to run
+	 */
+	public void setOnThingTypeChange(ObjectiveTypeChangeEvent onThingTypeChange) {
+		this.onThingTypeChange = onThingTypeChange;
+	}
+	
+	/**
+	 * Gets the {@link Thing} this {@link ObjectiveEditDialog} is editing
+	 * @return the {@link Thing}
+	 */
+	public Objective getThing() {
+		return obj;
+	}
+
+	/**
+	 * Sets the window title
+	 * @param me the {@link JDialog} to edit
+	 * @param t the {@link Thing} we are editing
+	 * @param extra the {@link String} extra text to add
+	 */
+	private void setTitle(Objective t, String extra) {
+		if(jdl != null) {
+			jdl.setTitle("Edit Objective " + extra);
 		}
 	}
 }
