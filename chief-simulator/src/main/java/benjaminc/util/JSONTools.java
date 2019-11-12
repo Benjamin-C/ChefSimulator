@@ -47,31 +47,34 @@ public class JSONTools {
 	 * @return the {@link List} of {@link String} of parts
 	 */
 	public static List<String> splitJSONArray(String json) {
-		List<String> s = new ArrayList<String>();
-		
-		json = peelChar(unformatJSON(json), "[");
-		
-		int curl = 0;
-		int squ = 0;
-		int startdata = 0;
-		for(int i = 0; i < json.length(); i++) {
-			switch(json.charAt(i)) {
-			case '{': { curl++; } break;
-			case '}': { curl--; } break;
-			case '[': { squ++; } break;
-			case ']': { squ--; } break;
-			case ',': { 
-				if(curl==0 && squ==0) {
-					s.add(json.substring(startdata, i));
-					startdata = i + 1;
+		if(json != null && json.length() > 0) {
+			List<String> s = new ArrayList<String>();
+			
+			json = peelChar(unformatJSON(json), "[");
+			
+			int curl = 0;
+			int squ = 0;
+			int startdata = 0;
+			for(int i = 0; i < json.length(); i++) {
+				switch(json.charAt(i)) {
+				case '{': { curl++; } break;
+				case '}': { curl--; } break;
+				case '[': { squ++; } break;
+				case ']': { squ--; } break;
+				case ',': { 
+					if(curl==0 && squ==0) {
+						s.add(json.substring(startdata, i));
+						startdata = i + 1;
+					}
+				}
 				}
 			}
-			}
+			
+			s.add(json.substring(startdata, json.length()));
+			
+			return s;
 		}
-		
-		s.add(json.substring(startdata, json.length()));
-		
-		return s;
+		return null;
 	}
 	/**
 	 * Splits JSON into its root key:value pairs
@@ -79,33 +82,36 @@ public class JSONTools {
 	 * @return the {@link Map} of {@link String} to {@link String} representation
 	 */
 	public static Map<String, String> splitJSON(String json) {
-		Map<String, String> s = new HashMap<String, String>();
-		
-		json = unformatJSON(json);
-		json = peelChar(json, '{');
-		
-		int curl = 0;
-		int squ = 0;
-		int startdata = 0;
-		for(int i = 0; i < json.length(); i++) {
-			switch(json.charAt(i)) {
-			case '{': { curl++; } break;
-			case '}': { curl--; } break;
-			case '[': { squ++; } break;
-			case ']': { squ--; } break;
-			case ',': { 
-				if(curl==0 && squ==0) {
-					String p = json.substring(startdata, i);
-					addKVPair(s, p);
-					startdata = i + 1;
+		if(json != null && json.length() > 0) {
+			Map<String, String> s = new HashMap<String, String>();
+			
+			json = unformatJSON(json);
+			json = peelChar(json, '{');
+			
+			int curl = 0;
+			int squ = 0;
+			int startdata = 0;
+			for(int i = 0; i < json.length(); i++) {
+				switch(json.charAt(i)) {
+				case '{': { curl++; } break;
+				case '}': { curl--; } break;
+				case '[': { squ++; } break;
+				case ']': { squ--; } break;
+				case ',': { 
+					if(curl==0 && squ==0) {
+						String p = json.substring(startdata, i);
+						addKVPair(s, p);
+						startdata = i + 1;
+					}
+				}
 				}
 			}
-			}
+			
+			addKVPair(s, json.substring(startdata, json.length()));
+			
+			return s;
 		}
-		
-		addKVPair(s, json.substring(startdata, json.length()));
-		
-		return s;
+		return null;
 	}
 	
 	/**
@@ -116,7 +122,10 @@ public class JSONTools {
 	 * @return the peeled {@link String}
 	 */
 	public static String peelChar(String s, String c) {
-		return peelChar(s, c.charAt(0));
+		if(c != null && c.length() > 0) {
+			return peelChar(s, c.charAt(0));
+		}
+		return s;
 	}
 	
 	/**
@@ -127,19 +136,22 @@ public class JSONTools {
 	 * @return the peeled {@link String}
 	 */
 	public static String peelChar(String s, char c) {
-		char ec = c;
-		
-		switch(c) {
-		case '{': ec = '}'; break;
-		case '[': ec = ']'; break;
-		case '(': ec = ')'; break;
-		case '<': ec = '>'; break;
+		if(s != null && s.length() > 0) {
+			char ec = c;
+			
+			switch(c) {
+			case '{': ec = '}'; break;
+			case '[': ec = ']'; break;
+			case '(': ec = ')'; break;
+			case '<': ec = '>'; break;
+			}
+			if(s.charAt(0) == c && s.charAt(s.length()-1) == ec) {
+				return s.substring(1,s.length()-1);
+			} else {
+				return s;
+			}
 		}
-		if(s.charAt(0) == c && s.charAt(s.length()-1) == ec) {
-			return s.substring(1,s.length()-1);
-		} else {
-			return s;
-		}
+		return "";
 	}
 	
 	private static void addKVPair(Map<String, String> map, String pair) {

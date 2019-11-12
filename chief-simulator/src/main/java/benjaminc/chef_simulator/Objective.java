@@ -31,9 +31,13 @@ public class Objective implements Savable, Cloneable {
 	 *  @param json the JSON {@link String}
 	 */
 	public Objective(String json) {
-		Map<String, String> j = JSONTools.splitJSON(JSONTools.peelChar(json, '{'));
-		target = BasicThing.makeThingFromJSON(j.get(ObjectiveDataKey.TARGET.toString()));
-		points = Integer.parseInt(j.get(ObjectiveDataKey.POINTS.toString()));
+		if(json != null && json.length() > 0) {
+			Map<String, String> j = JSONTools.splitJSON(JSONTools.peelChar(json, '{'));
+			target = BasicThing.makeThingFromJSON(j.get(ObjectiveDataKey.TARGET.toString()));
+			points = Integer.parseInt(j.get(ObjectiveDataKey.POINTS.toString()));
+		} else {
+			System.out.println("ERROR can not make Objective from an empty/null string");
+		}
 	}
 	
 	@Override

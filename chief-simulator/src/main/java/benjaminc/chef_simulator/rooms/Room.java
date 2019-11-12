@@ -130,8 +130,12 @@ public class Room implements Drawable, Savable, Cloneable {
 		
 		List<String> objs = JSONTools.splitJSONArray(j.get(RoomDataKey.OBJECTIVES.toString()));
 		objective = new ArrayList<Objective>();
-		for(int i = 0; i < objs.size(); i++) {
-			objective.add(new Objective(objs.get(i)));
+		if(objs.size() > 0) {
+			for(int i = 0; i < objs.size(); i++) {
+				if(objs.get(i) != null && objs.get(i).length() > 0) {
+					objective.add(new Objective(objs.get(i)));
+				}
+			}
 		}
 		System.out.println("ObjectiveSize = " + objective.size());
 	}
