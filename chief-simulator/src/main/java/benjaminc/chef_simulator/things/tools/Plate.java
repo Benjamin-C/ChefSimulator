@@ -79,6 +79,9 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 	@Override
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		g.drawTexture(((Texture) dataMap.get(DataMapKey.TEXTURE)).getList().get(dataMap.get(DataMapKey.FOOD_STATE)), x, y, w, h, getName());
+		if(!dataMap.containsKey(DataMapKey.INVENTORY)) {
+			dataMap.put(DataMapKey.INVENTORY, new Inventory());
+		}
 		List<Thing> items = ((Inventory) dataMap.get(DataMapKey.INVENTORY)).getAll();
 		switch(items.size()) {
 		case 1: {

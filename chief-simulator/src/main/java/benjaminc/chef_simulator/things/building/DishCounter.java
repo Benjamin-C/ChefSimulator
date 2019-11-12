@@ -23,15 +23,17 @@ public class DishCounter extends BasicThing implements SolidThing, DirectionalTh
 	}
 	public DishCounter(DataMap dm, Direction dir, FoodState fs) {
 		super(dm, VARIANT_COUNT, DishCounter.class);
-		if(dir != null) {
-			dataMap.put(DataMapKey.DIRECTION, dir);
-		} else {
-			dataMap.put(DataMapKey.DIRECTION, Direction.UP);
-		}
-		if(fs != null) {
-			dataMap.put(DataMapKey.FOOD_STATE, fs);
-		} else {
-			dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
+		if(dm == null) {
+			if(dir != null) {
+				dataMap.put(DataMapKey.DIRECTION, dir);
+			} else {
+				dataMap.put(DataMapKey.DIRECTION, Direction.UP);
+			}
+			if(fs != null) {
+				dataMap.put(DataMapKey.FOOD_STATE, fs);
+			} else {
+				dataMap.put(DataMapKey.FOOD_STATE, FoodState.RAW);
+			}
 		}
 	}
 
