@@ -43,7 +43,7 @@ public class App {
 		if(!useStarter) {
 			Room r = new Room(16, 16, null, null, null);
 			r.addThing(new Potato(), new Location(5, 5));
-			new Game(40, 30, false).playJSONMap(r.asJSON());
+			new Game(40, 30, false, true).playJSONMap(r.asJSON());
 		} else {
  			new Starter();
 		}

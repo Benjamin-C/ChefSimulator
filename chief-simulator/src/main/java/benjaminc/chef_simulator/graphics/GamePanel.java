@@ -61,8 +61,9 @@ public class GamePanel extends JPanel {
 	 * @param panelHeight the height of the panel in px
 	 * @param lago a boolean to show the lagometer
 	 * @param maxFPS the {@link Double} max fps for the lagometer
+	 * @param exitOnClose the boolean to exit the program when the window closes
 	 */
-	public GamePanel(Game g, Drawable lvl, int scale, int panelWidth, int panelHeight, boolean lago, double maxFPS) {
+	public GamePanel(Game g, Drawable lvl, int scale, int panelWidth, int panelHeight, boolean lago, double maxFPS, boolean exitOnClose) {
 		game = g;
 		toDraw = lvl;
 		boxWidth = scale;
@@ -80,7 +81,11 @@ public class GamePanel extends JPanel {
 		jf.setResizable(false);
 		//jf.setSize((width * boxWidth) + xloc + 17, (height * boxHeight) + yloc + 40);
 		jf.setSize(panelWidth, panelHeight);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if(exitOnClose) {
+			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		} else {
+			jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
 		jf.setIconImage(new ImageIcon("assets/icon/icon.png").getImage());
 		
 		System.out.println("I make picture now");

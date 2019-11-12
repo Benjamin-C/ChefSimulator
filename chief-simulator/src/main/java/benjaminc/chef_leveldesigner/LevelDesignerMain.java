@@ -75,6 +75,7 @@ public class LevelDesignerMain {
 		JButton objctbtn = new JButton("Objectives");
 		objctbtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
+				r.getObjectives().add(new Objective(new Potato(), 10));
 				new EditableListEditDialog<Objective>(r.getObjectives(),
 					new EditableListEvents<Objective>() {
 						@Override public Objective makeNew() { return new Objective(new Potato(), 5); }
@@ -90,7 +91,7 @@ public class LevelDesignerMain {
 							}, new Runnable() {
 								@Override public void run() { onUpdate.onUpdate(); }
 							});
-						} @Override public void onUpdate() { System.out.println("Update!"); }
+						} @Override public void onUpdate() { System.out.println("Update! " + r.getObjectives()); }
 					}, new EditableListEditDialogDrawEvent<Objective>() {
 						@Override public void draw(Graphics g, Objective t, int x, int y, int w, int h) {
 							GraphicalDrawer gd = new GraphicalDrawer(g);

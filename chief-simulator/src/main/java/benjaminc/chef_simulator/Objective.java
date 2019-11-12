@@ -9,7 +9,7 @@ import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
-public class Objective implements Savable {
+public class Objective implements Savable, Cloneable {
 	
 	/** the {@link Thing} to be made */
 	protected Thing target;
@@ -99,6 +99,11 @@ public class Objective implements Savable {
 	 */
 	public void setTarget(Thing newTarget) {
 		target = newTarget;
+	}
+	
+	@Override
+	public Objective clone() {
+		return new Objective(target.clone(), points);
 	}
 	
 	/**

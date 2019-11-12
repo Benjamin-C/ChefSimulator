@@ -16,6 +16,7 @@ import benjaminc.chef_simulator.graphics.GamePanel;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.rooms.Level1;
 import benjaminc.chef_simulator.rooms.Room;
+import benjaminc.chef_textures.dialog.MessageDialog;
 import benjaminc.util.Util;
 
 public class Game {
@@ -32,9 +33,9 @@ public class Game {
 	List<Cook> cooks;
 	
 	public Game() {
-		this(40, 30, false);
+		this(40, 30, false, true);
 	}
-	public Game(int scale, int fps, boolean lago) {
+	public Game(int scale, int fps, boolean lago, boolean exitOnClose) {
 		tps = fps;
 		
 		final Game thisGame = this;
@@ -42,7 +43,7 @@ public class Game {
 		score = new Score();
 		GraphicalLoader.loadCache("assets/textures/");
 		map = new Room(1, 1, this, new Object(), score, cooks);
-		gamePanel = new GamePanel(thisGame, map, scale, map.getWidth()*scale, map.getHeight()*scale, lago, fps);
+		gamePanel = new GamePanel(thisGame, map, scale, map.getWidth()*scale, map.getHeight()*scale, lago, fps, exitOnClose);
 		
 		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location(14, 1),
 				KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
@@ -65,7 +66,7 @@ public class Game {
 	}
 	
 	public void playGame(Room r) {
-		r.initForGame(this, new Object(), score, cooks);
+		System.out.println(r.getObjectives());
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
@@ -100,6 +101,7 @@ public class Game {
 	}
 	private void playMap(Room lvl) {
 		map = lvl;
+		map.initForGame(this, new Object(), score, cooks);
 		gamePanel.setLevel(lvl);
 		tickTimer = new TickTimer(tps, lvl);
 		tickTimer.start();
@@ -110,6 +112,7 @@ public class Game {
 		Util.pause(lvl.getSyncObj());
 		tickTimer.end();
 		System.out.println("Done");
+		new MessageDialog("Game Over, You Win", "You won the game! Your score was " + score.getScore());
 	}
 	
 	public List<Objective> getObjectives() {

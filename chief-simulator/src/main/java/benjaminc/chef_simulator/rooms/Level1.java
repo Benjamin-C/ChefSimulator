@@ -104,7 +104,7 @@ public class Level1 extends Room {
 		addThing(new Belt(Direction.DOWN), new Location(14, 13));
 		addThing(new Belt(Direction.DOWN), new Location(14, 12));
 		addThing(new Belt(Direction.DOWN), new Location(14, 11));
-		addThing(new Window(this), new Location(14, 0));
+		addThing(new Window(), new Location(14, 0));
 		addThing(new Belt(Direction.RIGHT), new Location(3, 1));
 		addThing(new Belt(Direction.RIGHT), new Location(4, 1));
 		addThing(new Belt(Direction.RIGHT), new Location(5, 1));

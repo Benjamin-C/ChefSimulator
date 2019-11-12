@@ -19,6 +19,7 @@ import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
+import benjaminc.chef_simulator.things.types.NeedsInitThing;
 import benjaminc.util.JSONTools;
 
 public class Room implements Drawable, Savable, Cloneable {
@@ -132,6 +133,7 @@ public class Room implements Drawable, Savable, Cloneable {
 		for(int i = 0; i < objs.size(); i++) {
 			objective.add(new Objective(objs.get(i)));
 		}
+		System.out.println("ObjectiveSize = " + objective.size());
 	}
 	
 	/**
@@ -152,6 +154,17 @@ public class Room implements Drawable, Savable, Cloneable {
 			this.score = new Score();
 		} else {
 			this.score = score;
+		}
+		if(room != null) {
+			for(GameSpace[] ga : room) {
+				for(GameSpace g : ga) {
+					for(Thing t : g.getThings()) {
+						if(t instanceof NeedsInitThing) {
+							((NeedsInitThing) t).init(game);
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -223,7 +236,11 @@ public class Room implements Drawable, Savable, Cloneable {
 				}
 			}
 		}
-		// TODO clone objectives
+		
+		for(int i = 0; i < objective.size(); i++) {
+			n.addObjectives(objective.get(i).clone());
+		}
+		
 		return n;
 	}
 	

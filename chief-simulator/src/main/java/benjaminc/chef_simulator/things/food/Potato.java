@@ -47,11 +47,12 @@ public class Potato extends BasicThing implements FoodThing, Cookable, Choppable
 	
 	@Override
 	public boolean isSame(Thing t) {
-		if(t.getClass() == this.getClass()) {
-			return true;
-		} else {
-			return false;
+		if(t != null) {
+			if(t.getClass() == this.getClass()) {
+				return true;
+			}
 		}
+		return false;
 	}
 	@Override
 	public Thing getCookedThing() {
