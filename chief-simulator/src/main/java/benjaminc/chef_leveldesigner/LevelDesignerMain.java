@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,6 +50,8 @@ public class LevelDesignerMain {
 		jf.setSize(new Dimension(128, 128));
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setResizable(false);
+		
+		jf.setIconImage(new ImageIcon("assets/icon/builder-icon.png").getImage());
 		
 		JPanel jp = new JPanel();
 		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
