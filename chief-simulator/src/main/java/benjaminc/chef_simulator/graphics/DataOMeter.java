@@ -110,6 +110,11 @@ public class DataOMeter {
 	 * @param fps how many fps to add to the list
 	 */
 	public void draw(Graphics g, int left, int bottom, double fps) {
+		if(title.contains("tps")) {
+			if(fps > 100) {
+				System.out.println("Big TPS");
+			}
+		}
 		int av = 255-64;
 		
 		int side = width;

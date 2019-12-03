@@ -29,6 +29,8 @@ public class Game {
 	
 	private int tps = 6;
 	
+	private int droppedFrameCount = 0;
+	
 	private TickTimer tickTimer;
 	List<Cook> cooks;
 	
@@ -108,7 +110,7 @@ public class Game {
 		System.out.println("Started");
 		Util.showThreads();
 		System.out.println("UDG start");
-		updateGraphics();
+//		updateGraphics();
 		Util.pause(lvl.getSyncObj());
 		tickTimer.end();
 		System.out.println("Done");
@@ -126,8 +128,12 @@ public class Game {
 	public Room getRoom() {
 		return map;
 	}
+	public void roomUDG() {
+		gamePanel.update(observedTps, droppedFrameCount);
+	}
 	public void updateGraphics() {
-		gamePanel.update(observedTps);
+		System.out.println("GUDG");
+		gamePanel.update(observedTps, droppedFrameCount);
 	}
 	
 	public void registerKeylistener(KeyListenAction a) {
@@ -151,5 +157,12 @@ public class Game {
 	}
 	public void setTps(int tps) {
 		this.tps = tps;
+	}
+	/**
+	 * @param dropCount 
+	 * 
+	 */
+	public void droppedFrame(int dropCount) {
+		droppedFrameCount += dropCount;
 	}
 }

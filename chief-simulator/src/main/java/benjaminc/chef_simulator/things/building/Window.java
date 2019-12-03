@@ -88,6 +88,7 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing, 
 		li.add(t);
 		return li;
 	}
+	
 	@Override
 	public DataMap getDataMap() {
 		return dataMap;

@@ -1,5 +1,6 @@
 package benjaminc.chef_simulator.graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
@@ -90,7 +91,7 @@ public class GamePanel extends JPanel {
 		
 		System.out.println("I make picture now");
 		
-		update(0);
+		update(0, 0);
 		//drawRoom(xloc, yloc, 0);
         keyListen = new KeyListen(game, this);
         jf.addKeyListener(new KeyListener() {
@@ -119,15 +120,19 @@ public class GamePanel extends JPanel {
 		fpsometer.setWidth(jf.getWidth()/2);
 		heapometer.setWidth(jf.getWidth());
 		System.out.println("I make picture now");
-		update(0);
+		update(0, 0);
 	}
-	Double mtps;
+	
+	private Double mtps;
+	private Double drops;
 	/**
 	 * Draw the game panel to the JFamen
+	 * @param droppedFrameCount 
 	 * @param fps how many FPS to show
 	 */
-	public void update(double tps) {
+	public void update(double tps, int droppedFrameCount) {
 		mtps = tps;
+		drops = (double) droppedFrameCount;
 		if(panel != null) {
 			panel.repaint();
 		} else {
@@ -140,12 +145,14 @@ public class GamePanel extends JPanel {
 				
 				@Override
 	            public void paintComponent(Graphics g) {
-					
 					long laststart = start;
 					start = System.nanoTime();
 					long ttime = start - laststart;
 					
 					toDraw.draw(g, xloc, yloc, boxWidth, boxHeight, mtps);
+					
+					g.setColor(Color.CYAN);
+					g.drawString(Double.toString(drops), 0, 0);
 					
 					double mfps = 1/((double) ttime/1000000000);
 					

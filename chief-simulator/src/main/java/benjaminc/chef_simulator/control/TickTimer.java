@@ -57,7 +57,7 @@ public class TickTimer extends Thread {
 	
 	@Override
 	public void run() {
-		System.out.println("Starting ticker");
+		System.out.println("Starting ticker with period " + del + "ns");
 		while(running) {
 			if(System.nanoTime() - next >= 0) {
 //				long dif = System.currentTimeMillis() - (next - del);
@@ -77,11 +77,31 @@ public class TickTimer extends Thread {
 //					room.setFps(1000 / avg);
 //					vals.clear();
 //				}
-				next = next + del;
-				frame++;
+				
+				long startticks = System.nanoTime();
 				for(TickEvent t : todo.values()) {
 					t.tick(frame);
 				}
+				long tickstime = System.nanoTime() - startticks;
+				
+				next = next + del;
+				frame++;
+				
+				if(tickstime > del) {
+					long behind = next;
+					int dropCount = 0;
+					while(next < System.nanoTime()) {
+						next = next + del;
+						frame++;
+						dropCount++;
+					}
+					
+					if(dropCount > 0) {
+						room.dropedFrame(dropCount);
+						System.out.println("Can't keep up! Running " + (double)((long)(System.nanoTime()-behind)/1000)/1000 + "ms behind. Skipping " + dropCount + " frames");
+					}
+				}
+				
 			} else {
 				long del = next - System.nanoTime();
 				//del = Long.MAX_VALUE;
@@ -91,7 +111,7 @@ public class TickTimer extends Thread {
 						int ns = (int) (del % 1000000);
 						Thread.sleep(ms, ns);
 //						Thread.sleep(del);
-					} catch (InterruptedException e) { }
+					} catch (InterruptedException e) { System.out.println("Tick interrupted"); }
 				}
 			}
 		} // End loop

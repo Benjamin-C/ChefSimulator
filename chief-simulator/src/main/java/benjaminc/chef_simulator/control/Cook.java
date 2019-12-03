@@ -146,7 +146,7 @@ public class Cook implements Tickable {
 						}
 					}
 				}
-			game.updateGraphics();
+//			game.updateGraphics();
 			}
 		}
 	}
@@ -170,12 +170,12 @@ public class Cook implements Tickable {
 				game.getRoom().getSpace(newloc).addThing(hand);
 				hand = null;
 			}
-			game.updateGraphics();
+//			game.updateGraphics();
 		}
 	}
 	public void setLocation(Location l) {
 		loc = l;
-		game.updateGraphics();
+//		game.updateGraphics();
 	}
 	
 	public void move(Direction dir) {
