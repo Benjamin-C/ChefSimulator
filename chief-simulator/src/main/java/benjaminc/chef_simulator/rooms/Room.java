@@ -361,6 +361,7 @@ public class Room implements Drawable, Savable, Cloneable {
 	 * @param frame the long number of the frame in the game
 	 */
 	public void tick(long frame) {
+		
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
 				room[i][j].tick(this, new Location(i, j), frame, game);

@@ -145,6 +145,11 @@ public class GamePanel extends JPanel {
 				
 				@Override
 	            public void paintComponent(Graphics g) {
+//					double heap = Runtime.getRuntime().totalMemory();
+//					double heapchange = Runtime.getRuntime().totalMemory()-heap;
+//					if(Math.abs(heapchange) > 1) {
+//						System.out.println("Heap changed bigly during TickTimer loop! " + heapchange);
+//					}
 					long laststart = start;
 					start = System.nanoTime();
 					long ttime = start - laststart;
@@ -159,6 +164,8 @@ public class GamePanel extends JPanel {
 					lagometer.draw(g, 0, ((height + 1) * boxHeight), mtps);
 					fpsometer.draw(g, (int) ((double) lagometer.getWidth()), ((height + 1) * boxHeight), mfps);
 					heapometer.draw(g, 0, ((height + 1) * boxHeight)-(1*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+				
+					
 				}
 			};
 			jf.add(panel);

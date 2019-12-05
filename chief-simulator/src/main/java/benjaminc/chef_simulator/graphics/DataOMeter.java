@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import benjaminc.util.Util;
 
 /**
  * @author Benjamin-C
@@ -113,6 +116,14 @@ public class DataOMeter {
 		if(title.contains("tps")) {
 			if(fps > 100) {
 				System.out.println("Big TPS");
+			}
+		}
+		if(title.contains("heap")) {
+			if(data != null && data.size() > 0) {
+				if(fps > data.get(Math.max(data.size()-1, 0)).getFPS()+10) {
+					System.out.println("Heap jump");
+					Util.showHeapStats(true);
+				}
 			}
 		}
 		int av = 255-64;

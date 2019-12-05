@@ -79,9 +79,11 @@ public class TickTimer extends Thread {
 //				}
 				
 				long startticks = System.nanoTime();
+				
 				for(TickEvent t : todo.values()) {
 					t.tick(frame);
 				}
+				
 				long tickstime = System.nanoTime() - startticks;
 				
 				next = next + del;
@@ -111,7 +113,7 @@ public class TickTimer extends Thread {
 						int ns = (int) (del % 1000000);
 						Thread.sleep(ms, ns);
 //						Thread.sleep(del);
-					} catch (InterruptedException e) { System.out.println("Tick interrupted"); }
+					} catch (InterruptedException e) { System.out.println("Tick sleep interrupted"); }
 				}
 			}
 		} // End loop
