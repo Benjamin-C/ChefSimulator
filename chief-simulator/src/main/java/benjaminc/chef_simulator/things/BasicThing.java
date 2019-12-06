@@ -170,6 +170,7 @@ public class BasicThing implements Thing, Cloneable {
 		System.out.println("BasicThing is same");
 		return true;
 	}
+	
 	@Override
 	public DataMap getDataMap() {
 		return dataMap;

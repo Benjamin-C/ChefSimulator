@@ -100,7 +100,7 @@ public class TickTimer extends Thread {
 					
 					if(dropCount > 0) {
 						room.dropedFrame(dropCount);
-						System.out.println("Can't keep up! Running " + (double)((long)(System.nanoTime()-behind)/1000)/1000 + "ms behind. Skipping " + dropCount + " frames");
+						System.out.println("Can't keep up! Running " + (double)((long)(System.nanoTime()-behind)/1000)/1000 + "ms behind. Skipping " + dropCount + " ticks");
 					}
 				}
 				

@@ -54,6 +54,12 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing, 
 	public List<Thing> useTool(Thing t) {
 		List<Thing> li = new ArrayList<Thing>();
 		System.out.println("Is objective complete?");
+		System.out.println("Forcing tick skipping by sleeping for 100ms");
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			System.out.println("Darn. Someone woke me up");
+		}
 		for(int i = 0; i < room.getObjectives().size(); i++) {
 			Objective o = room.getObjectives().get(i);
 			if(o.isMet(t)) {

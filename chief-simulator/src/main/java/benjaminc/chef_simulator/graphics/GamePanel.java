@@ -1,6 +1,5 @@
 package benjaminc.chef_simulator.graphics;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
@@ -9,10 +8,14 @@ import javax.swing.JPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.KeyListen;
 import benjaminc.chef_simulator.control.KeyListenAction;
+
+import benjaminc.chef_simulator.graphics.DebugDataZone.DebugDataZoneDataGetter;
 
 public class GamePanel extends JPanel {
 	
@@ -48,11 +51,26 @@ public class GamePanel extends JPanel {
 	
 	/** The {@link DataOMeter} lagometer */
 	private DataOMeter lagometer;
+	/** The {@link DataOMeter} heapometer */
 	private DataOMeter heapometer;
+	/** The {@link DataOMeter} fpsometer */
 	private DataOMeter fpsometer;
 	
+	/** The {@link DebugDataZone} of type long of dropped frames */
+	private DebugDataZone dropzone;
+	
+	/** The {@link List} of {@link DebugDataZone} of type ? to show */
+	private List<DebugDataZone> ddzs;
+	
+	/** The height of the {@link DataOMeter} */
 	private int meterheight = 100;
 
+	/** The number of dropped frames */
+	private Long drops;
+	
+	/** the boolean to enable the Lag-O-Meter */
+	private boolean lagoEnable;
+	
 	/**
 	 * 
 	 * @param g the {@link Game} object this uses
@@ -74,9 +92,18 @@ public class GamePanel extends JPanel {
 		width = (int) toDraw.getWidth();
 		height = (int) toDraw.getHeight();
 		
-		lagometer = new DataOMeter(lago, 1000, width * boxWidth, meterheight, "tps");
-		fpsometer = new DataOMeter(lago, 1000, width * boxWidth, meterheight, "fps");
-		heapometer = new DataOMeter(lago, 1000, width * boxWidth, meterheight, (int) (Runtime.getRuntime().maxMemory() / Math.pow(2,  20)), "MiB heap");
+		lagoEnable = lago;
+		
+		lagometer = new DataOMeter(1000, width * boxWidth, meterheight, "tps");
+		fpsometer = new DataOMeter(1000, width * boxWidth, meterheight, "fps");
+		heapometer = new DataOMeter(1000, width * boxWidth, meterheight, (int) (Runtime.getRuntime().maxMemory() / Math.pow(2,  20)), "MiB heap");
+		
+		ddzs = new ArrayList<DebugDataZone>();
+		
+		drops = (long) 0;
+		dropzone = new DebugDataZone("Dropped ticks", new DebugDataZoneDataGetter() { @Override public String getData() { return Long.toString(drops); } }, "", true);
+		
+		ddzs.add(dropzone);
 		
 		jf = new JFrame("I am bob");
 		jf.setResizable(false);
@@ -124,7 +151,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	private Double mtps;
-	private Double drops;
+	
 	/**
 	 * Draw the game panel to the JFamen
 	 * @param droppedFrameCount 
@@ -132,7 +159,7 @@ public class GamePanel extends JPanel {
 	 */
 	public void update(double tps, int droppedFrameCount) {
 		mtps = tps;
-		drops = (double) droppedFrameCount;
+		drops = (long) droppedFrameCount;
 		if(panel != null) {
 			panel.repaint();
 		} else {
@@ -156,16 +183,22 @@ public class GamePanel extends JPanel {
 					
 					toDraw.draw(g, xloc, yloc, boxWidth, boxHeight, mtps);
 					
-					g.setColor(Color.CYAN);
-					g.drawString(Double.toString(drops), 0, 0);
-					
 					double mfps = 1/((double) ttime/1000000000);
 					
-					lagometer.draw(g, 0, ((height + 1) * boxHeight), mtps);
-					fpsometer.draw(g, (int) ((double) lagometer.getWidth()), ((height + 1) * boxHeight), mfps);
-					heapometer.draw(g, 0, ((height + 1) * boxHeight)-(1*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
-				
-					
+					if(lagoEnable) {
+						lagometer.draw(g, 0, ((height + 1) * boxHeight), mtps);
+						fpsometer.draw(g, (int) ((double) lagometer.getWidth()), ((height + 1) * boxHeight), mfps);
+						heapometer.draw(g, 0, ((height + 1) * boxHeight)-(1*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+						
+						int pos = 0;
+						for(int i = 0; i < ddzs.size(); i++) {
+							pos = pos + ddzs.get(i).draw(g, 0, pos);
+						}
+					} else {
+						lagometer.addData(mtps);
+						lagometer.addData(mfps);
+						lagometer.addData((double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+					}
 				}
 			};
 			jf.add(panel);
@@ -186,9 +219,7 @@ public class GamePanel extends JPanel {
 	 * @param enabled the Boolean to enable
 	 */
 	public void enableLagometer(boolean enabled) {
-		lagometer.setEnabled(enabled);
-		fpsometer.setEnabled(enabled);
-		heapometer.setEnabled(enabled);
+		lagoEnable = enabled;
 	}
 	
 	/**
@@ -196,7 +227,7 @@ public class GamePanel extends JPanel {
 	 * @return a boolean of the lagometer state
 	 */
 	public boolean getLagometerEnabled() {
-		return lagometer.isEnabled();
+		return lagoEnable;
 	}
 
 }
