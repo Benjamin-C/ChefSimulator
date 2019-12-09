@@ -1,6 +1,6 @@
 package benjaminc.chef_launcher;
 
-import benjaminc.chef_simulator.ChefSimulatorMain;
+import benjaminc.chef_simulator.ChefSimulatorControl;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.control.Location;
@@ -41,9 +41,10 @@ public class App {
 	
 	public static void doit(boolean useStarter) {
 		if(!useStarter) {
-			Room r = new Room(16, 16, null, null, null);
+			Room r = new Room(16, 16, null);
 			r.addThing(new Potato(), new Location(5, 5));
-			new Game(40, 30, false, true).playJSONMap(r.asJSON());
+			Game.setupGame(40, 30, false, true);
+			Game.playJSONMap(r.asJSON());
 		} else {
  			new Starter();
 		}

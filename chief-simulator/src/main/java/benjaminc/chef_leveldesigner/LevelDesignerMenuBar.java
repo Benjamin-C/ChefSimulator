@@ -101,7 +101,8 @@ public class LevelDesignerMenuBar extends JMenuBar {
 		playMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		playMenuItem.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
-				new Game(40, 30, false, false).playGame(room.clone());
+				Game.setupGame(40, 30, false, false);
+				Game.playGame(room.clone());
 			}});
 		fileMenu.add(playMenuItem);
 	}

@@ -3,7 +3,6 @@ package benjaminc.chef_simulator.things.building;
 import java.util.List;
 import java.util.ArrayList;
 
-import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
@@ -54,7 +53,7 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 		return (Direction) dataMap.get(DataMapKey.DIRECTION);
 	}
 	@Override
-	public void tick(Room r, Location l, double frame, Game g) {
+	public void tick(Room r, Location l, double frame) {
 		if(dataMap.containsKey(DataMapKey.LAST_MOVE_FRAME)) {
 			if ((Double) dataMap.get(DataMapKey.LAST_MOVE_FRAME) != frame) {
 				dataMap.put(DataMapKey.LAST_MOVE_FRAME, frame);

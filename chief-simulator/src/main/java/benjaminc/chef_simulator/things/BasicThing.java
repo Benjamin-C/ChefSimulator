@@ -187,4 +187,9 @@ public class BasicThing implements Thing, Cloneable {
 	public Class<?> getSubclass() {
 		return subclass;
 	}
+	
+	@Override
+	public String toString() {
+		return subclass.getName() + dataMap.toString();
+	}
 }

@@ -3,7 +3,6 @@ package benjaminc.chef_simulator.things.building;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
@@ -45,7 +44,7 @@ public class Disposal extends BasicThing implements SolidThing, Tickable {
 		return dataMap;
 	}
 	@Override
-	public void tick(Room r, Location l, double frame, Game g) {
+	public void tick(Room r, Location l, double frame) {
 		List<Thing> stuff = r.getThings(l);
 		List<Thing> toRemove = new ArrayList<Thing>();
 		for(Thing t : stuff) {

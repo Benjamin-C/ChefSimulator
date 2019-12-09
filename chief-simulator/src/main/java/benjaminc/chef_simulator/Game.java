@@ -22,16 +22,14 @@ import benjaminc.util.Util;
 
 public class Game {
 
-	private static GamePanel gamePanel;
-	private static Room map;
-	private static Score score;
+	public static GamePanel gamePanel;
+	public static Room room;
+	public static Score score;
+	public static double observedTps;
 	
-	private static double observedTps;
+	public static int droppedFrameCount = 0;
 	
-	private static int tps = 6;
-	
-	private static int droppedFrameCount = 0;
-	
+	private static int setTps = 6;
 	private static TickTimer tickTimer;
 	private static List<Cook> cooks;
 	
@@ -39,17 +37,17 @@ public class Game {
 		setupGame(40, 30, false, true);
 	}
 	public static void setupGame(int scale, int fps, boolean lago, boolean exitOnClose) {
-		tps = fps;
+		setTps = fps;
 		
 		cooks = new ArrayList<Cook>();
 		score = new Score();
 		GraphicalLoader.loadCache("assets/textures/");
-		map = new Room(1, 1, this, new Object(), score, cooks);
-		gamePanel = new GamePanel(thisGame, map, scale, map.getWidth()*scale, map.getHeight()*scale, lago, fps, exitOnClose);
+		room = new Room(1, 1, new Object(), cooks);
+		gamePanel = new GamePanel(room, scale, room.getWidth()*scale, room.getHeight()*scale, lago, fps, exitOnClose);
 		
 		// TODO here is the print router
-		PrintStreamDuplicator psd = new PrintStreamDuplicator(System.out, gamePanel.getChatBox().out);
-		System.setOut(psd);
+//		PrintStreamDuplicator psd = new PrintStreamDuplicator(System.out, gamePanel.getChatBox().out);
+//		System.setOut(psd);
 		
 		System.out.println("New SysOut setd");
 		
@@ -59,30 +57,20 @@ public class Game {
 		cooks.add(newCook("Matt", Color.GREEN, new Location(1, 1),
 				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
-		
-		try {
-			
-			Thread.sleep(500);
-			System.out.println("OutManThingyToFind");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 	
-	public void playDefaultGame() {
+	public static void playDefaultGame() {
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
-				playMap(new Level1(cooks, score, Game.this));
-				playMap(new Level1(cooks, score, Game.this));
+				playMap(new Level1(cooks, score));
+				playMap(new Level1(cooks, score));
 			}
 		};
 		control.start();
 	}
 	
-	public void playGame(Room r) {
+	public static void playGame(Room r) {
 		System.out.println(r.getObjectives());
 		Thread control = new Thread("Control") {
 			@Override
@@ -92,8 +80,8 @@ public class Game {
 		};
 		control.start();
 	}
-	public void playJSONMap(String json) {
-		Room lvl = new Room(json, this, new Object(), score, cooks);
+	public static void playJSONMap(String json) {
+		Room lvl = new Room(json, new Object(), cooks);
 		Thread control = new Thread("Control") {
 			@Override
 			public void run() {
@@ -102,7 +90,7 @@ public class Game {
 		};
 		control.start();
 	}
-	public Cook newCook(String name, Color color, Location location, int up, int down, int left, int right, int pickup, int use) {
+	public static Cook newCook(String name, Color color, Location location, int up, int down, int left, int right, int pickup, int use) {
 		Map<ActionType, Integer> keys = new HashMap<ActionType, Integer>();
 		keys.put(ActionType.MOVE_UP, up);
 		keys.put(ActionType.MOVE_DOWN, down);
@@ -110,17 +98,17 @@ public class Game {
 		keys.put(ActionType.MOVE_RIGHT, right);
 		keys.put(ActionType.PICKUP_ITEM, pickup);
 		keys.put(ActionType.USE_ITEM, use);
-		return new Cook(this, name, color, keys, location);
+		return new Cook(name, color, keys, location);
 	}
 
-	public void setObservedTps(double tps) {
+	public static void setObservedTps(double tps) {
 		observedTps = tps;
 	}
-	private void playMap(Room lvl) {
-		map = lvl;
-		map.initForGame(this, new Object(), score, cooks);
+	private static void playMap(Room lvl) {
+		room = lvl;
+		room.initForGame(new Object(), cooks);
 		gamePanel.setLevel(lvl);
-		tickTimer = new TickTimer(tps, lvl);
+		tickTimer = new TickTimer(setTps, lvl);
 		tickTimer.start();
 		System.out.println("Started");
 		Util.showThreads();
@@ -132,48 +120,19 @@ public class Game {
 		new MessageDialog("Game Over, You Win", "You won the game! Your score was " + score.getScore());
 	}
 	
-	public List<Objective> getObjectives() {
-		return map.getObjectives();
+	public static List<Objective> getObjectives() {
+		return room.getObjectives();
 	}
 
-	public void setObjects(List<Objective> objectives) {
-		map.setObjectives(objectives);
+	public static void setObjects(List<Objective> objectives) {
+		room.setObjectives(objectives);
 	}
 
-	public Room getRoom() {
-		return map;
-	}
-	public void roomUDG(long frame) {
+	public static void roomUDG(long frame) {
 		gamePanel.update(observedTps, droppedFrameCount, frame);
 	}
 	
-	public void registerKeylistener(KeyListenAction a) {
+	public static void registerKeylistener(KeyListenAction a) {
 		gamePanel.addKeyListener(a);
-	}
-	
-	public Score getScore() {
-		return score;
-	}
-
-	public void setScore(Score score) {
-		this.score = score;
-	}
-	
-	public void addScore(int score) {
-		this.score.addScore(score);
-	}
-	
-	public int getTps() {
-		return tps;
-	}
-	public void setTps(int tps) {
-		this.tps = tps;
-	}
-	/**
-	 * @param dropCount 
-	 * 
-	 */
-	public void droppedFrame(int dropCount) {
-		droppedFrameCount += dropCount;
 	}
 }

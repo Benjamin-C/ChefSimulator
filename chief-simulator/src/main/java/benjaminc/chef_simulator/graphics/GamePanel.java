@@ -12,7 +12,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.KeyListen;
 import benjaminc.chef_simulator.control.KeyListenAction;
 
@@ -43,9 +42,6 @@ public class GamePanel extends JPanel {
 	
 	/** the {@link Drawable} to draw */
 	private Drawable toDraw;
-	
-	/** the {@link Game} this is working for  */
-	private Game game;
 	
 	/** the {@link KeyListen} to send keystorkes to */
 	private KeyListen keyListen;
@@ -80,8 +76,6 @@ public class GamePanel extends JPanel {
 	private ChatBox chatBox;
 	
 	/**
-	 * 
-	 * @param g the {@link Game} object this uses
 	 * @param lvl the {@link Drawable} to draw
 	 * @param scale the int scale for each box
 	 * @param panelWidth the width of the panel in px
@@ -90,8 +84,7 @@ public class GamePanel extends JPanel {
 	 * @param maxFPS the {@link Double} max fps for the lagometer
 	 * @param exitOnClose the boolean to exit the program when the window closes
 	 */
-	public GamePanel(Game g, Drawable lvl, int scale, int panelWidth, int panelHeight, boolean lago, double maxFPS, boolean exitOnClose) {
-		game = g;
+	public GamePanel(Drawable lvl, int scale, int panelWidth, int panelHeight, boolean lago, double maxFPS, boolean exitOnClose) {
 		toDraw = lvl;
 		boxWidth = scale;
 		boxHeight = boxWidth;
@@ -138,7 +131,7 @@ public class GamePanel extends JPanel {
 		
 		update(0, 0, 0);
 		//drawRoom(xloc, yloc, 0);
-        keyListen = new KeyListen(game, this);
+        keyListen = new KeyListen();
         jf.addKeyListener(new KeyListener() {
 
 			public void keyTyped(KeyEvent e) {keyListen.keyTyped(e);}

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
-import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.Savable;
@@ -37,32 +36,24 @@ public class Room implements Drawable, Savable, Cloneable {
 	protected Object whenDoneSync;
 	/** the {@link List} of {@link Objective} to complete */
 	protected List<Objective> objective;
-	/** the {@link Score} of the game */
-	protected Score score;
-	/** the {@link Game} this is using */
-	protected Game game;
 	
 	/**
 	 * @param w the int width in cells
 	 * @param h the int height in cells
-	 * @param game the {@link Game} to work with
 	 * @param whenDone the {@link Object} to run {@link Object#notify()} when done
-	 * @param score the {@link Score} for the room to use
 	 */
-	public Room(int w, int h, Game game, Object whenDone, Score score) {
-		this(w, h, game, whenDone, score, new ArrayList<Cook>());
+	public Room(int w, int h, Object whenDone) {
+		this(w, h, whenDone, new ArrayList<Cook>());
 	}
 	
 	/**
 	 * @param w the int width in cells
 	 * @param h the int height in cells
-	 * @param game the {@link Game} to work with
 	 * @param whenDone the {@link Object} to run {@link Object}#{@link #notify()} when done
-	 * @param score the {@link Score} for the room to use
 	 * @param cooks the {@link List} of {@link Cook} to put in the room
 	 */
-	public Room(int w, int h, Game game, Object whenDone, Score score, List<Cook> cooks) {
-		initForGame(game, whenDone, score, cooks);
+	public Room(int w, int h, Object whenDone, List<Cook> cooks) {
+		initForGame(whenDone, cooks);
 		
 		width = w;
 		height = h;
@@ -77,13 +68,11 @@ public class Room implements Drawable, Savable, Cloneable {
 	
 	/**
 	 * @param json the JSON {@link String} representation of the {@link Room}
-	 * @param game the {@link Game} to work with
 	 * @param whenDone the {@link Object} to run {@link Object}#{@link #notify()} when done
-	 * @param score the {@link Score} for the room to use
 	 * @param cooks the {@link List} of {@link Cook} to put in the room
 	 */
-	public Room(String json, Game game, Object whenDone, Score score, List<Cook> cooks) {
-		initForGame(game, whenDone, score, cooks);
+	public Room(String json, Object whenDone, List<Cook> cooks) {
+		initForGame(whenDone, cooks);
 		
 		changeLayout(json);
 	}
@@ -142,29 +131,22 @@ public class Room implements Drawable, Savable, Cloneable {
 	
 	/**
 	 * Basic {@link Room} init
-	 * @param game the {@link Game} to work with
 	 * @param whenDone the {@link Object} to run {@link Object#notify()} when done
 	 * @param score the {@link Score} for the room to use
 	 * @param cooks the {@link List} of {@link Cook} to put in the room
 	 */
-	public void initForGame(Game game, Object whenDone, Score score, List<Cook> cooks) {
-		this.game = game;
+	public void initForGame(Object whenDone, List<Cook> cooks) {
 		this.cooks = cooks;
 		whenDoneSync = whenDone;
 		if(whenDoneSync == null) {
 			whenDoneSync = new Object();
-		}
-		if(score == null) {
-			this.score = new Score();
-		} else {
-			this.score = score;
 		}
 		if(room != null) {
 			for(GameSpace[] ga : room) {
 				for(GameSpace g : ga) {
 					for(Thing t : g.getThings()) {
 						if(t instanceof NeedsInitThing) {
-							((NeedsInitThing) t).init(game);
+							((NeedsInitThing) t).init();
 						}
 					}
 				}
@@ -230,7 +212,7 @@ public class Room implements Drawable, Savable, Cloneable {
 	
 	@Override
 	public Room clone() {
-		Room n = new Room(width, height, game, whenDoneSync, score);
+		Room n = new Room(width, height, whenDoneSync);
 		
 		for(int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++) {
@@ -341,20 +323,6 @@ public class Room implements Drawable, Savable, Cloneable {
 	public void addCook(Cook c) {
 		cooks.add(c);
 	}
-	/**
-	 * Sets the observed fps of the room
-	 * @param fps the double fps
-	 */
-	public void setTps(double tps) {
-		game.setObservedTps(tps);
-	}
-	/**
-	 * Gets the score from the room
-	 * @return the {@link Score} score
-	 */
-	public Score getScore() {
-		return score;
-	}
 	
 	/**
 	 * Tick the room
@@ -364,13 +332,13 @@ public class Room implements Drawable, Savable, Cloneable {
 		
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
-				room[i][j].tick(this, new Location(i, j), frame, game);
+				room[i][j].tick(this, new Location(i, j), frame);
 			}
 		}
 		for(Cook c : cooks) {
-			c.tick(this, c.getLocation(), frame, game);
+			c.tick(this, c.getLocation(), frame);
 		}
-		game.roomUDG(frame);
+		Game.roomUDG(frame);
 	}
 	
 	public void drawRoom(Graphics g, int x, int y, int boxWidth, int boxHeight) {
@@ -394,13 +362,13 @@ public class Room implements Drawable, Savable, Cloneable {
 		for(int i = 0; i < getWidth(); i++) {
 			g.setColor(new Color(16, 64, 16));
 			g.fillRect(x+(i*boxWidth), 0, boxWidth, boxHeight);
-			if(game.getObjectives() != null && game.getObjectives().size() > i) {
-				game.getObjectives().get(i).draw(g, (i * boxWidth) + x, 0, boxWidth, boxHeight);
+			if(Game.getObjectives() != null && Game.getObjectives().size() > i) {
+				Game.getObjectives().get(i).draw(g, (i * boxWidth) + x, 0, boxWidth, boxHeight);
 			}
 			if(i == width - 1) {
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("arial", 0, boxHeight));
-				String score = game.getScore().getScore() + "";
+				String score = Game.score.getScore() + "";
 				int textWidth = g.getFontMetrics().stringWidth(score+ "");
 				g.drawString(score + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
 			}
@@ -426,13 +394,5 @@ public class Room implements Drawable, Savable, Cloneable {
 	WIDTH,
 	/** the int height of the room */
 	HEIGHT;
-	}
-
-	/**
-	 * @param dropCount 
-	 * 
-	 */
-	public void dropedFrame(int dropCount) {
-		game.droppedFrame(dropCount);
 	}
 }

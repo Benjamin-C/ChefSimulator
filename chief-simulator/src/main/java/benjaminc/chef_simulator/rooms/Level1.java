@@ -3,7 +3,6 @@ package benjaminc.chef_simulator.rooms;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.Score;
 import benjaminc.chef_simulator.control.Cook;
@@ -38,8 +37,8 @@ public class Level1 extends Room {
 	
 	private int cookStart[][] = {{1, 1}, {14, 1}};
 	
-	public Level1(List<Cook> cooks, Score score, Game g) {
-		super(16, 16, g, new Object(), score, cooks); // Change these to width and height!
+	public Level1(List<Cook> cooks, Score score) {
+		super(16, 16, new Object(), cooks); // Change these to width and height!
 
 		for(int i = 0; i < cooks.size(); i++) {
 			cooks.get(i).setLocation(new Location(cookStart[i%cookStart.length][0], cookStart[i%cookStart.length][1]));

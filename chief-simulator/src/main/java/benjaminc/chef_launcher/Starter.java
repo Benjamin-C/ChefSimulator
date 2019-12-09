@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
-import benjaminc.chef_simulator.ChefSimulatorMain;
+import benjaminc.chef_simulator.ChefSimulatorControl;
 
 public class Starter {
 
@@ -57,7 +57,7 @@ public class Starter {
 				try {
 					int sc = Integer.parseInt(gamestartjt.getText());
 					int fs = Integer.parseInt(gamestartjtf.getText());
-					ChefSimulatorMain.run(sc, fs, gamestartjcb.isSelected(), gameFile);
+					ChefSimulatorControl.run(sc, fs, gamestartjcb.isSelected(), gameFile);
 					jf.dispose();
 				} catch (NumberFormatException e) { System.out.println("Size must be number"); }
 		} });

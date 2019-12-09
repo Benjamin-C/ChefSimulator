@@ -130,12 +130,18 @@ public class Inventory implements Savable {
 		return inv.remove(loc);
 	}
 	/**
-	 * Removes a {@link Thing} from the {@link Inventory}. Uses {@link List#remove(Object)}
+	 * Removes a {@link Thing} from the {@link Inventory}. Removes an arbitrary item that passes {@link Thing#isSame(Thing)}.
 	 * @param t the {@link Thing} to remove
 	 * @return a boolean of if an item was removed
 	 */
 	public boolean remove(Thing t) {
-		return inv.remove(t);
+		for(Thing th : inv) {
+			if(th.isSame(t)) {
+				return inv.remove(th);
+			}
+		}
+		
+		return false;
 	}
 	/**
 	 * Clears the {@link Inventory}.
@@ -197,8 +203,8 @@ public class Inventory implements Savable {
 	 */
 	public boolean hasSame(Inventory in) {
 		Inventory test = in.clone();
-		System.out.println("me " + getAll());
-		System.out.println("in " + in.getAll());
+		System.out.println("me " + toString());
+		System.out.println("in " + in.toString());
 		for(int i = 0; i < size(); i++) {
 			if(inv.get(i) != null && !test.remove(inv.get(i))) {
 				System.out.println("Cant't remove item fail");
@@ -207,5 +213,21 @@ public class Inventory implements Savable {
 		}
 		System.out.println("Inv returns true");
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		String s = "Inventory[";
+		boolean fencepost = false;
+		for(Thing t : inv) {
+			if(!fencepost) {
+				fencepost = true;
+			} else {
+				s = s + ", ";
+			}
+			s = s + t.toString();
+		}
+		s = s + "]";
+		return s;
 	}
 }

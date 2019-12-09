@@ -8,8 +8,8 @@ import java.util.Scanner;
  * @author Benjamin-C
  *
  */
-public class ChefSimulatorMain {
-	
+public class ChefSimulatorControl {
+
 	/**
 	 * Starts a new Chief Simulator Game
 	 * @param sc the int number of pixels for the width and height of each gamespace
@@ -25,14 +25,14 @@ public class ChefSimulatorMain {
 					s = s + scan.nextLine();
 				}
 				scan.close();
-				new Game(sc, fs, lm, true).playJSONMap(s);
+				Game.setupGame(sc, fs, lm, true);
+				Game.playJSONMap(s);
 			} catch (FileNotFoundException e) {
 				System.out.println("There is no file there or something went bad");
 			}
 		} else {
-			new Game(sc, fs, lm, true).playDefaultGame();
-		}
-		
+			Game.setupGame(sc, fs, lm, true);
+			Game.playDefaultGame();
+		}	
 	}
-
 }

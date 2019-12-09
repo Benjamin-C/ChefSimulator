@@ -56,7 +56,7 @@ public class LevelDesignerMain {
 		JPanel jp = new JPanel();
 		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
 		
-		r = new Room(16, 16, null, null, null);
+		r = new Room(16, 16, null);
 		
 		toAdd = new Potato();
 		

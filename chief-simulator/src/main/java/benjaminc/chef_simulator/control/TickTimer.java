@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.rooms.Room;
 
 public class TickTimer extends Thread {
@@ -67,7 +68,7 @@ public class TickTimer extends Thread {
 				startTick = System.nanoTime();
 				long ttime = startTick - laststart;
 				
-				room.setTps(1/((double) ttime/1000000000));
+				Game.observedTps = (1/((double) ttime/1000000000));
 //				if(vals.size() == fps/10) {
 //					long tot = 0;
 //					for(Long l : vals) {
@@ -99,7 +100,7 @@ public class TickTimer extends Thread {
 					}
 					
 					if(dropCount > 0) {
-						room.dropedFrame(dropCount);
+						Game.droppedFrameCount += dropCount;
 						System.out.println("Can't keep up! Running " + (double)((long)(System.nanoTime()-behind)/1000)/1000 + "ms behind. Skipping " + dropCount + " ticks");
 					}
 				}

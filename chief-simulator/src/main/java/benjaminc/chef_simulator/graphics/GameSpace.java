@@ -3,7 +3,6 @@ package benjaminc.chef_simulator.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.*;
@@ -184,13 +183,12 @@ public class GameSpace {
 	 * @param r the {@link Room} the {@link GameSpace} is in
 	 * @param l the {@link Location} in the room
 	 * @param frame the long frame of the game
-	 * @param g the {@link Game} the room is in
 	 */
-	public void tick(Room r, Location l, long frame, Game g) {
+	public void tick(Room r, Location l, long frame) {
 		for(int i = 0; i < things.size(); i++) {
 			Thing t = things.get(i);
 			if(t instanceof Tickable) {
-				((Tickable) t).tick(r, l, frame, g);
+				((Tickable) t).tick(r, l, frame);
 			}
 		}
 	}
