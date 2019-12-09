@@ -19,7 +19,10 @@ public class ChatBox {
 	protected String osData;
 	protected int textTime;
 	
+	private long lastTick = 0;
+	
 	public PrintStream out;
+	
 	/**
 	 * @param maxElems the int max number of elements
 	 * @param width the int widht in pixels
@@ -66,7 +69,7 @@ public class ChatBox {
 	 * @param time the long time to display the message for in frames
 	 */
 	public void addElement(String msg, int time) {
-		elems.add(new ChatBoxElement(msg, time));
+		elems.add(new ChatBoxElement(msg, lastTick + time));
 	}
 	
 	/**
@@ -84,12 +87,13 @@ public class ChatBox {
 			}
 			if(elems.get(i).getTimeout() < frame) {
 				elems.remove(i);
-				i--;
+				i++;
 			} else {
 				loc -= elems.get(i).draw(g, x, loc, width, textsize, textColor, backgroundColor);
 				i--;
 			}
 		}
+		lastTick = frame;
 	}
 	
 	/**

@@ -108,7 +108,7 @@ public class GamePanel extends JPanel {
 		ddzs.add(dropzone);
 		ddzs.add(framezone);
 		
-		chatBox = new ChatBox(16, (int) (width*4), 14, new Color(64, 64, 64, 192), new Color(255, 255, 255, 192), 60*4);
+		chatBox = new ChatBox(12, (int) (width*4), 14, new Color(64, 64, 64, 192), new Color(255, 255, 255, 192), 60*4);
 		chatBox.addElement("This is a message" + boxWidth + " " + width, 60*4);
 		
 		chatBox.addElement(Long.toString(chatBox.getElems().get(0).getTimeout()), 60*4);

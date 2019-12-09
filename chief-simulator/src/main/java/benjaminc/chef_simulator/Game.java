@@ -46,8 +46,8 @@ public class Game {
 		gamePanel = new GamePanel(room, scale, room.getWidth()*scale, room.getHeight()*scale, lago, fps, exitOnClose);
 		
 		// TODO here is the print router
-//		PrintStreamDuplicator psd = new PrintStreamDuplicator(System.out, gamePanel.getChatBox().out);
-//		System.setOut(psd);
+		PrintStreamDuplicator psd = new PrintStreamDuplicator(System.out, gamePanel.getChatBox().out);
+		System.setOut(psd);
 		
 		System.out.println("New SysOut setd");
 		

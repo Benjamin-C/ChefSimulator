@@ -11,6 +11,7 @@ import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.building.Belt;
+import benjaminc.chef_simulator.things.building.Button;
 import benjaminc.chef_simulator.things.building.Counter;
 import benjaminc.chef_simulator.things.building.CuttingBoard;
 import benjaminc.chef_simulator.things.building.DishCounter;
@@ -122,6 +123,8 @@ public class Level1 extends Room {
 		addThing(new DishCounter(), new Location(0, 7));
 		addThing(new DishReturn(), new Location(0, 8));
 		addThing(new Dishbin(), new Location(0, 9));
+		
+		addThing(new Button(), new Location(15, 5));
 		
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce(-1, FoodState.CHOPPED));
