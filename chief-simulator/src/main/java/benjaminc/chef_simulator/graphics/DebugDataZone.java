@@ -3,8 +3,6 @@ package benjaminc.chef_simulator.graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import benjaminc.chef_simulator.things.Thing;
-
 public class DebugDataZone {
 
 	/** the {@link String} title to show */
@@ -60,11 +58,35 @@ public class DebugDataZone {
 		this.backgroundColor = backgroundColor;
 	}
 
+	/**
+	 * Draws the {@link DebugDataZone}. The data is gotten from {@link DebugDataZoneDataGetter#getData()}.
+	 * @param g the {@link Graphics} to draw on
+	 * @param x the int x location
+	 * @param y the in ty location
+	 * @param datastr the {@link String} data to show
+	 * @return the int height of the meter. Returns -1 if the {@link DebugDataZoneDataGetter} is null.
+	 */
 	public int draw(Graphics g, int x, int y) {
+		if(data!= null) {
+			return draw(g, x, y, data.getData());
+		} else {
+			return -1;
+		}
+	}
+	
+	/**
+	 * Draws the {@link DebugDataZone}
+	 * @param g the {@link Graphics} to draw on
+	 * @param x the int x location
+	 * @param y the in ty location
+	 * @param datastr the {@link String} data to show
+	 * @return the int height of the meter
+	 */
+	public int draw(Graphics g, int x, int y, String datastr) {
 		int height = 0;
 		
 		if(enabled) {
-			String dta = title + ": " + data.getData() + " " + unit;
+			String dta = title + ": " + datastr + " " + unit;
 			
 			g.setFont(g.getFont().deriveFont(size));
 			

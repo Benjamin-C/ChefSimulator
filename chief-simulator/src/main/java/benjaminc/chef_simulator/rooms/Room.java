@@ -370,7 +370,7 @@ public class Room implements Drawable, Savable, Cloneable {
 		for(Cook c : cooks) {
 			c.tick(this, c.getLocation(), frame, game);
 		}
-		game.roomUDG();
+		game.roomUDG(frame);
 	}
 	
 	public void drawRoom(Graphics g, int x, int y, int boxWidth, int boxHeight) {

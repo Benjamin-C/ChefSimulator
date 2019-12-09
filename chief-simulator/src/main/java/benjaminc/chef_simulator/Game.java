@@ -17,35 +17,41 @@ import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.rooms.Level1;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_textures.dialog.MessageDialog;
+import benjaminc.util.PrintStreamDuplicator;
 import benjaminc.util.Util;
 
 public class Game {
 
-	private GamePanel gamePanel;
-	private Room map;
-	private Score score;
+	private static GamePanel gamePanel;
+	private static Room map;
+	private static Score score;
 	
-	private double observedTps;
+	private static double observedTps;
 	
-	private int tps = 6;
+	private static int tps = 6;
 	
-	private int droppedFrameCount = 0;
+	private static int droppedFrameCount = 0;
 	
-	private TickTimer tickTimer;
-	List<Cook> cooks;
+	private static TickTimer tickTimer;
+	private static List<Cook> cooks;
 	
-	public Game() {
-		this(40, 30, false, true);
+	public static void setupGame() {
+		setupGame(40, 30, false, true);
 	}
-	public Game(int scale, int fps, boolean lago, boolean exitOnClose) {
+	public static void setupGame(int scale, int fps, boolean lago, boolean exitOnClose) {
 		tps = fps;
 		
-		final Game thisGame = this;
 		cooks = new ArrayList<Cook>();
 		score = new Score();
 		GraphicalLoader.loadCache("assets/textures/");
 		map = new Room(1, 1, this, new Object(), score, cooks);
 		gamePanel = new GamePanel(thisGame, map, scale, map.getWidth()*scale, map.getHeight()*scale, lago, fps, exitOnClose);
+		
+		// TODO here is the print router
+		PrintStreamDuplicator psd = new PrintStreamDuplicator(System.out, gamePanel.getChatBox().out);
+		System.setOut(psd);
+		
+		System.out.println("New SysOut setd");
 		
 		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location(14, 1),
 				KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
@@ -53,7 +59,16 @@ public class Game {
 		cooks.add(newCook("Matt", Color.GREEN, new Location(1, 1),
 				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
-		thisGame.updateGraphics();
+		
+		try {
+			
+			Thread.sleep(500);
+			System.out.println("OutManThingyToFind");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void playDefaultGame() {
@@ -128,12 +143,8 @@ public class Game {
 	public Room getRoom() {
 		return map;
 	}
-	public void roomUDG() {
-		gamePanel.update(observedTps, droppedFrameCount);
-	}
-	public void updateGraphics() {
-		System.out.println("GUDG");
-		gamePanel.update(observedTps, droppedFrameCount);
+	public void roomUDG(long frame) {
+		gamePanel.update(observedTps, droppedFrameCount, frame);
 	}
 	
 	public void registerKeylistener(KeyListenAction a) {

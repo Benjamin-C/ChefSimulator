@@ -1,5 +1,6 @@
 package benjaminc.chef_simulator.graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
@@ -58,6 +59,8 @@ public class GamePanel extends JPanel {
 	
 	/** The {@link DebugDataZone} of type long of dropped frames */
 	private DebugDataZone dropzone;
+	/** The {@link DebugDataZone} of type long of current frame */
+	private DebugDataZone framezone;
 	
 	/** The {@link List} of {@link DebugDataZone} of type ? to show */
 	private List<DebugDataZone> ddzs;
@@ -67,9 +70,14 @@ public class GamePanel extends JPanel {
 
 	/** The number of dropped frames */
 	private Long drops;
+	/** The long current frame */
+	private Long mframe;
 	
 	/** the boolean to enable the Lag-O-Meter */
 	private boolean lagoEnable;
+	
+	/** the {@link ChatBox} to show */
+	private ChatBox chatBox;
 	
 	/**
 	 * 
@@ -102,8 +110,18 @@ public class GamePanel extends JPanel {
 		
 		drops = (long) 0;
 		dropzone = new DebugDataZone("Dropped ticks", new DebugDataZoneDataGetter() { @Override public String getData() { return Long.toString(drops); } }, "", true);
+		framezone = new DebugDataZone("Current tick", new DebugDataZoneDataGetter() { @Override public String getData() { return Long.toString(mframe); } }, "", true);
 		
 		ddzs.add(dropzone);
+		ddzs.add(framezone);
+		
+		chatBox = new ChatBox(16, (int) (width*4), 14, new Color(64, 64, 64, 192), new Color(255, 255, 255, 192), 60*4);
+		chatBox.addElement("This is a message" + boxWidth + " " + width, 60*4);
+		
+		chatBox.addElement(Long.toString(chatBox.getElems().get(0).getTimeout()), 60*4);
+		
+		chatBox.out.println("This is some text");
+		chatBox.out.println("I want to eat food");
 		
 		jf = new JFrame("I am bob");
 		jf.setResizable(false);
@@ -118,10 +136,11 @@ public class GamePanel extends JPanel {
 		
 		System.out.println("I make picture now");
 		
-		update(0, 0);
+		update(0, 0, 0);
 		//drawRoom(xloc, yloc, 0);
         keyListen = new KeyListen(game, this);
         jf.addKeyListener(new KeyListener() {
+
 			public void keyTyped(KeyEvent e) {keyListen.keyTyped(e);}
 			public void keyReleased(KeyEvent e) {keyListen.keyReleased(e);}
 			public void keyPressed(KeyEvent e) {keyListen.keyPressed(e);}
@@ -146,8 +165,9 @@ public class GamePanel extends JPanel {
 		lagometer.setWidth(jf.getWidth()/2); 
 		fpsometer.setWidth(jf.getWidth()/2);
 		heapometer.setWidth(jf.getWidth());
+		chatBox.setWidth((int) (width*boxWidth*.5));
 		System.out.println("I make picture now");
-		update(0, 0);
+		update(0, 0, 0);
 	}
 	
 	private Double mtps;
@@ -157,9 +177,10 @@ public class GamePanel extends JPanel {
 	 * @param droppedFrameCount 
 	 * @param fps how many FPS to show
 	 */
-	public void update(double tps, int droppedFrameCount) {
+	public void update(double tps, int droppedFrameCount, long frame) {
 		mtps = tps;
 		drops = (long) droppedFrameCount;
+		mframe = frame;
 		if(panel != null) {
 			panel.repaint();
 		} else {
@@ -177,6 +198,7 @@ public class GamePanel extends JPanel {
 //					if(Math.abs(heapchange) > 1) {
 //						System.out.println("Heap changed bigly during TickTimer loop! " + heapchange);
 //					}
+					
 					long laststart = start;
 					start = System.nanoTime();
 					long ttime = start - laststart;
@@ -190,9 +212,16 @@ public class GamePanel extends JPanel {
 						fpsometer.draw(g, (int) ((double) lagometer.getWidth()), ((height + 1) * boxHeight), mfps);
 						heapometer.draw(g, 0, ((height + 1) * boxHeight)-(1*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
 						
+						chatBox.draw(g, 0, ((height + 1) * boxHeight)-(2*meterheight), mframe);
+						
 						int pos = 0;
 						for(int i = 0; i < ddzs.size(); i++) {
-							pos = pos + ddzs.get(i).draw(g, 0, pos);
+							int c = ddzs.get(i).draw(g, 0, pos);
+							if(c >= 0) {
+								pos = pos + c;
+							} else {
+								
+							}
 						}
 					} else {
 						lagometer.addData(mtps);
@@ -230,4 +259,7 @@ public class GamePanel extends JPanel {
 		return lagoEnable;
 	}
 
+	public ChatBox getChatBox() {
+		return chatBox;
+	}
 }
