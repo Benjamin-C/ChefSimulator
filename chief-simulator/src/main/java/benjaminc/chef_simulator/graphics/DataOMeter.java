@@ -36,7 +36,6 @@ public class DataOMeter {
 	
 	/**
 	 * Makes a {@link DataOMeter}
-	 * @param enabled the {@link Boolean} of enabled
 	 * @param linedel the int time between special lines
 	 * @param width the int width of the meter
 	 * @param height the int height of the meter
@@ -53,7 +52,6 @@ public class DataOMeter {
 	
 	/**
 	 * Makes a {@link DataOMeter}, locking the max value
-	 * @param enabled the {@link Boolean} of enabled
 	 * @param linedel the int time between special lines
 	 * @param width the int width of the meter
 	 * @param height the int height of the meter
@@ -91,6 +89,7 @@ public class DataOMeter {
 	}
 	
 	public void addData(double fps) {
+		
 		if(title.contains("tps")) {
 			if(fps > maxValue * 1.5) {
 				System.out.println("Big TPS");
@@ -103,16 +102,6 @@ public class DataOMeter {
 					Util.showHeapStats(true);
 				}
 			}
-		}
-		
-		if(!lockMax) {
-			lastMax = maxValue;
-			
-			maxValue = 5;
-			for(DataOBar l : data) {
-				maxValue = Math.max(maxValue, l.getFPS());
-			}
-			maxValue = Math.max(maxValue, fps);
 		}
 		
 		if(nextlinems < System.currentTimeMillis()) {
@@ -133,6 +122,16 @@ public class DataOMeter {
 	 */
 	public void draw(Graphics g, int left, int bottom, double fps) {
 		addData(fps);
+		
+		if(!lockMax) {
+			lastMax = maxValue;
+			
+			maxValue = 5;
+			for(DataOBar l : data) {
+				maxValue = Math.max(maxValue, l.getFPS());
+			}
+			maxValue = Math.max(maxValue, fps);
+		}
 		
 		boolean recalc = maxValue != lastMax;
 		

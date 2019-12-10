@@ -63,7 +63,6 @@ public class DebugDataZone {
 	 * @param g the {@link Graphics} to draw on
 	 * @param x the int x location
 	 * @param y the in ty location
-	 * @param datastr the {@link String} data to show
 	 * @return the int height of the meter. Returns -1 if the {@link DebugDataZoneDataGetter} is null.
 	 */
 	public int draw(Graphics g, int x, int y) {
@@ -88,7 +87,7 @@ public class DebugDataZone {
 		if(enabled) {
 			String dta = title + ": " + datastr + " " + unit;
 			
-			g.setFont(g.getFont().deriveFont(size));
+			g.setFont(g.getFont().deriveFont((float) size));
 			
 			int width = g.getFontMetrics().stringWidth(dta);
 			height = g.getFontMetrics().getHeight();

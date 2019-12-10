@@ -17,7 +17,6 @@ import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.rooms.Level1;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_textures.dialog.MessageDialog;
-import benjaminc.util.PrintStreamDuplicator;
 import benjaminc.util.Util;
 
 public class Game {
@@ -44,10 +43,6 @@ public class Game {
 		GraphicalLoader.loadCache("assets/textures/");
 		room = new Room(1, 1, new Object(), cooks);
 		gamePanel = new GamePanel(room, scale, room.getWidth()*scale, room.getHeight()*scale, lago, fps, exitOnClose);
-		
-		// TODO here is the print router
-		PrintStreamDuplicator psd = new PrintStreamDuplicator(System.out, gamePanel.getChatBox().out);
-		System.setOut(psd);
 		
 		System.out.println("New SysOut setd");
 		
@@ -134,5 +129,9 @@ public class Game {
 	
 	public static void registerKeylistener(KeyListenAction a) {
 		gamePanel.addKeyListener(a);
+	}
+	
+	public static void chat(String msg) {
+		gamePanel.getChatBox().out.println(msg);
 	}
 }

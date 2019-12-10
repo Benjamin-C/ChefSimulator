@@ -132,7 +132,6 @@ public class Room implements Drawable, Savable, Cloneable {
 	/**
 	 * Basic {@link Room} init
 	 * @param whenDone the {@link Object} to run {@link Object#notify()} when done
-	 * @param score the {@link Score} for the room to use
 	 * @param cooks the {@link List} of {@link Cook} to put in the room
 	 */
 	public void initForGame(Object whenDone, List<Cook> cooks) {

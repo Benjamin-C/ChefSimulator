@@ -84,8 +84,7 @@ public class ChatBox {
 		while(i >= 0) {
 			if(i >= elems.size()) {
 				i = elems.size() - 1;
-			}
-			if(elems.get(i).getTimeout() < frame) {
+			} else if(elems.get(i).getTimeout() < frame) {
 				elems.remove(i);
 				i++;
 			} else {

@@ -109,12 +109,6 @@ public class GamePanel extends JPanel {
 		ddzs.add(framezone);
 		
 		chatBox = new ChatBox(12, (int) (width*4), 14, new Color(64, 64, 64, 192), new Color(255, 255, 255, 192), 60*4);
-		chatBox.addElement("This is a message" + boxWidth + " " + width, 60*4);
-		
-		chatBox.addElement(Long.toString(chatBox.getElems().get(0).getTimeout()), 60*4);
-		
-		chatBox.out.println("This is some text");
-		chatBox.out.println("I want to eat food");
 		
 		jf = new JFrame("I am bob");
 		jf.setResizable(false);
@@ -158,7 +152,7 @@ public class GamePanel extends JPanel {
 		lagometer.setWidth(jf.getWidth()/2); 
 		fpsometer.setWidth(jf.getWidth()/2);
 		heapometer.setWidth(jf.getWidth());
-		chatBox.setWidth((int) (width*boxWidth*.5));
+		chatBox.setWidth((int) (width*boxWidth*.75));
 		System.out.println("I make picture now");
 		update(0, 0, 0);
 	}
@@ -195,7 +189,7 @@ public class GamePanel extends JPanel {
 					long laststart = start;
 					start = System.nanoTime();
 					long ttime = start - laststart;
-					
+
 					toDraw.draw(g, xloc, yloc, boxWidth, boxHeight, mtps);
 					
 					double mfps = 1/((double) ttime/1000000000);
@@ -218,8 +212,10 @@ public class GamePanel extends JPanel {
 						}
 					} else {
 						lagometer.addData(mtps);
-						lagometer.addData(mfps);
-						lagometer.addData((double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+						fpsometer.addData(mfps);
+						heapometer.addData((double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
+						
+						chatBox.draw(g, 0, ((height + 1) * boxHeight), mframe);
 					}
 				}
 			};

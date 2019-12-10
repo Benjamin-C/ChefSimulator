@@ -4,18 +4,21 @@ import java.util.List;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Direction;
+import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
+import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.AttachedThing;
+import benjaminc.chef_simulator.things.types.Tickable;
 import benjaminc.chef_simulator.things.types.ToolThing;
 
 /**
  * @author 705822
  *
  */
-public class Button extends BasicThing implements ToolThing, AttachedThing {
+public class Button extends BasicThing implements ToolThing, AttachedThing, Tickable {
 
 	protected final static int VARIANT_COUNT = 1;
 	public Button() {
@@ -38,9 +41,15 @@ public class Button extends BasicThing implements ToolThing, AttachedThing {
 	
 	@Override
 	public List<Thing> useTool(Thing t) {
-		Game.gamePanel.getChatBox().addElement("You pressed the button! Good job", 60*4);
+		click();
 		System.out.println("Button pressed");
 		return null;
+	}
+	
+	public void click() {
+		Game.gamePanel.getChatBox().addElement("MSG that takes space\nmsg This is a long message that should be split into lines because it length is longer thatn that of the box that it lives in so I need to test if it can be split in the correct ways to appear nicely but not be too wide", 120);
+//		Game.chat("You pressed the button! Good job\nAnd this is more text");
+		Game.gamePanel.getChatBox().addElement("I want to test a message", 120);
 	}
 	
 	@Override
@@ -54,5 +63,10 @@ public class Button extends BasicThing implements ToolThing, AttachedThing {
 	@Override
 	public DataMap getDataMap() {
 		return dataMap;
+	}
+	@Override
+	public void tick(Room r, Location l, double f) {
+		// TODO Auto-generated method stub
+		
 	}
 }

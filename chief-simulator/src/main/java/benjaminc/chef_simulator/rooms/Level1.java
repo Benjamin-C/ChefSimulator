@@ -125,6 +125,25 @@ public class Level1 extends Room {
 		addThing(new Dishbin(), new Location(0, 9));
 		
 		addThing(new Button(), new Location(15, 5));
+		addThing(new Button() {
+			boolean toFreeze = false;
+			@Override public void click() {
+				toFreeze = true;
+			}
+			@Override
+			public void tick(Room r, Location l, double f) {
+				// TODO Auto-generated method stub
+				if(toFreeze) {
+					toFreeze = false;
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}, new Location(15, 6));
 		
 		List<Thing> toppings = new ArrayList<Thing>();
 		toppings.add(new Lettuce(-1, FoodState.CHOPPED));

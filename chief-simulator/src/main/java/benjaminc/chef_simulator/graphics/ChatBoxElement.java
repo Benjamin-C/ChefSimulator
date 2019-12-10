@@ -10,6 +10,12 @@ public class ChatBoxElement {
 	/** the long time in frames to remove the message */
 	protected long timeout;
 	
+	/** the int size that the {@link ChatBoxElement} was calced for */
+	private int calcSize = 0;
+	/** the int width that the {@link ChatBoxElement} was calced for */
+	private int calcWidth = 0;
+	
+	
 	/**
 	 * @param msg the {@link String} message
 	 * @param timeout the long timeout
@@ -31,18 +37,46 @@ public class ChatBoxElement {
 	 * @return the int height of the textbox
 	 */
 	public int draw(Graphics g, int x, int y, int width, int size, Color text, Color back) {
-		g.setFont(g.getFont().deriveFont(size));
+		g.setFont(g.getFont().deriveFont((float) size));
 		
-		int height = g.getFontMetrics().getHeight();
+		if(calcSize != size || calcWidth != width) {
+			int textWidth = g.getFontMetrics().stringWidth(msg);
+			if(textWidth > width) {
+				String str[] = msg.split(" ");
+				msg = "";
+				for(int i = 0; i < str.length; i++) {
+					if(!str[i].contains("\n")) {
+						if(g.getFontMetrics().getStringBounds(msg.substring(Math.max(0, msg.lastIndexOf("\n"))), g).getWidth() > width*.9) {
+							msg += "\n";
+						} else if (i != 0) {
+							msg += " ";
+						}
+						msg += str[i];
+					} else {
+						msg += " " + str[i];
+					}
+				}
+				
+			}
+			calcSize = size;
+			calcWidth = width;
+		}
 		
-		int xloc = x;
-		int yloc = y - g.getFontMetrics().getDescent();
-		
-		g.setColor(back);
-		g.fillRect(x, y-height, width, height);
-		
-		g.setColor(text);
-		g.drawString(msg, xloc, yloc);
+		int height = 0;
+		String str[] = msg.split("\n");
+		for(int i = str.length-1; i >= 0 ; i--) {
+			int h = g.getFontMetrics().getHeight();
+			
+			int yloc = y - g.getFontMetrics().getDescent();
+			
+			g.setColor(back);
+			g.fillRect(x, y-height-h, width, h);
+			
+			g.setColor(text);
+			g.drawString(str[i], x, yloc-height);
+			
+			height += h;
+		}
 		
 		return height;
 	}
