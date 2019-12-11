@@ -1,4 +1,4 @@
-package benjaminc.chef_simulator.graphics;
+package benjaminc.chef_simulator.graphics.debug;
 
 import java.awt.Color;
 

@@ -14,8 +14,9 @@ import java.util.List;
 
 import benjaminc.chef_simulator.control.KeyListen;
 import benjaminc.chef_simulator.control.KeyListenAction;
-
-import benjaminc.chef_simulator.graphics.DebugDataZone.DebugDataZoneDataGetter;
+import benjaminc.chef_simulator.graphics.debug.DataOMeter;
+import benjaminc.chef_simulator.graphics.debug.DebugDataZone;
+import benjaminc.chef_simulator.graphics.debug.DebugDataZone.DebugDataZoneDataGetter;
 
 public class GamePanel extends JPanel {
 	

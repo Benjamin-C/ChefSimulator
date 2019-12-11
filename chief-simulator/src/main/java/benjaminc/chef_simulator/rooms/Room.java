@@ -367,7 +367,7 @@ public class Room implements Drawable, Savable, Cloneable {
 			if(i == width - 1) {
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("arial", 0, boxHeight));
-				String score = Game.score.getScore() + "";
+				String score = Game.getScore().getScore() + "";
 				int textWidth = g.getFontMetrics().stringWidth(score+ "");
 				g.drawString(score + "", x+((i+1)*boxWidth)-textWidth-(boxWidth/8), boxHeight - (boxHeight / 8));
 			}

@@ -116,8 +116,8 @@ public class Cook implements Tickable {
 	
 	public void useItem() {
 		Location newloc = loc.clone().add(direction);
-		if(newloc.inside(0, Game.room.getSize().width, 0, Game.room.getSize().height)) {
-			List<Thing> whatIsHere = Game.room.getSpace(newloc).getThings();
+		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
+			List<Thing> whatIsHere = Game.getRoom().getSpace(newloc).getThings();
 			ToolThing tool = null;
 			int loc = 0;
 			if(whatIsHere.size() > 0) {
@@ -134,13 +134,13 @@ public class Cook implements Tickable {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing) && (thingHere != tool)) {
 							food = thingHere;
-							Game.room.getSpace(newloc).removeThing(food);
+							Game.getRoom().getSpace(newloc).removeThing(food);
 						}
 					} while(food == null && ++loc < whatIsHere.size());
 					List<Thing> tempThing = tool.useTool(food);
 					if(tempThing != null) {
 						for(Thing t : tempThing) {
-							Game.room.getSpace(newloc).addThing(t);
+							Game.getRoom().getSpace(newloc).addThing(t);
 						}
 					}
 				}
@@ -151,21 +151,21 @@ public class Cook implements Tickable {
 	
 	public void pickUp() {
 		Location newloc = loc.clone().add(direction);
-		if(newloc.inside(0, Game.room.getSize().width, 0, Game.room.getSize().height)) {
+		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
 			if(hand == null) {
-				List<Thing> whatIsHere = Game.room.getSpace(newloc).getThings();
+				List<Thing> whatIsHere = Game.getRoom().getSpace(newloc).getThings();
 				int loc = whatIsHere.size() - 1;
 				if(whatIsHere.size() > 1) {
 					do {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing)) {
 							hand = thingHere;
-							Game.room.getSpace(newloc).removeThing(hand);
+							Game.getRoom().getSpace(newloc).removeThing(hand);
 						}
 					} while(hand == null && loc-- <= 0);
 				}
 			} else {
-				Game.room.getSpace(newloc).addThing(hand);
+				Game.getRoom().getSpace(newloc).addThing(hand);
 				hand = null;
 			}
 //			game.updateGraphics();
@@ -179,8 +179,8 @@ public class Cook implements Tickable {
 	public void move(Direction dir) {
 		direction = dir;
 		Location newloc = loc.clone().add(dir);
-		if(newloc.inside(0, Game.room.getSize().width, 0, Game.room.getSize().height)) {
-			if(!Game.room.getSpace(newloc).isSolid()) {
+		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
+			if(!Game.getRoom().getSpace(newloc).isSolid()) {
 				loc = newloc;
 			}
 		}
@@ -208,7 +208,7 @@ public class Cook implements Tickable {
 		g.drawString(printName,drawX + ((w - g.getFontMetrics().stringWidth(printName)) / 2), (drawY + w - 4));
 		int handX = x + direction.getX();
 		int handY = y + direction.getY();
-		if(handX < Game.room.getSize().width && handX >= 0 && handY < Game.room.getSize().height && handY >= 0) {
+		if(handX < Game.getRoom().getSize().width && handX >= 0 && handY < Game.getRoom().getSize().height && handY >= 0) {
 			handX = (handX * w) + xos;
 			handY = (handY * h) + yos;
 			if(hand != null) {

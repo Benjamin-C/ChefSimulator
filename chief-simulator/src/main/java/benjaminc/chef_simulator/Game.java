@@ -21,15 +21,14 @@ import benjaminc.util.Util;
 
 public class Game {
 
-	public static GamePanel gamePanel;
-	public static Room room;
-	public static Score score;
-	public static double observedTps;
+	private static GamePanel gamePanel;
+	private static Room room;
+	private static Score score;
+	private static double observedTps;
+	private static TickTimer tickTimer;
 	
 	public static int droppedFrameCount = 0;
-	
 	private static int setTps = 6;
-	private static TickTimer tickTimer;
 	private static List<Cook> cooks;
 	
 	public static void setupGame() {
@@ -134,4 +133,48 @@ public class Game {
 	public static void chat(String msg) {
 		gamePanel.getChatBox().out.println(msg);
 	}
+	/**
+	 * @return the {@link int} droppedFrameCount
+	 */
+	public static int getDroppedFrameCount() {
+		return droppedFrameCount;
+	}
+	/**
+	 * @param droppedFrameCount the {@link int} droppedFrameCount to set
+	 */
+	public static void setDroppedFrameCount(int droppedFrameCount) {
+		Game.droppedFrameCount = droppedFrameCount;
+	}
+	/**
+	 * @return the {@link GamePanel} the {@link Room} draws on
+	 */
+	public static GamePanel getGamePanel() {
+		return gamePanel;
+	}
+	/**
+	 * @return the {@link Room} the {@link Game} plays in
+	 */
+	public static Room getRoom() {
+		return room;
+	}
+	/**
+	 * @return the {@link Score} the {@link Game} uses
+	 */
+	public static Score getScore() {
+		return score;
+	}
+	/**
+	 * @return the {@link double} observedTps
+	 */
+	public static double getObservedTps() {
+		return observedTps;
+	}
+	/**
+	 * @return the {@link TickTimer} the {@link Game} uses
+	 */
+	public static TickTimer getTickTimer() {
+		return tickTimer;
+	}
+	
+	
 }

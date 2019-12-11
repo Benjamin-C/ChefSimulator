@@ -47,9 +47,9 @@ public class Button extends BasicThing implements ToolThing, AttachedThing, Tick
 	}
 	
 	public void click() {
-		Game.gamePanel.getChatBox().addElement("MSG that takes space\nmsg This is a long message that should be split into lines because it length is longer thatn that of the box that it lives in so I need to test if it can be split in the correct ways to appear nicely but not be too wide", 120);
+		Game.getGamePanel().getChatBox().addElement("MSG that takes space\nmsg This is a long message that should be split into lines because it length is longer thatn that of the box that it lives in so I need to test if it can be split in the correct ways to appear nicely but not be too wide", 120);
 //		Game.chat("You pressed the button! Good job\nAnd this is more text");
-		Game.gamePanel.getChatBox().addElement("I want to test a message", 120);
+		Game.getGamePanel().getChatBox().addElement("I want to test a message", 120);
 	}
 	
 	@Override

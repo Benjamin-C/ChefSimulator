@@ -47,22 +47,22 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing {
 		List<Thing> li = new ArrayList<Thing>();
 		System.out.println("Is objective complete?");
 		if(t != null) {
-			for(int i = 0; i < Game.room.getObjectives().size(); i++) {
-				Objective o = Game.room.getObjectives().get(i);
+			for(int i = 0; i < Game.getRoom().getObjectives().size(); i++) {
+				Objective o = Game.getRoom().getObjectives().get(i);
 				if(o.isMet(t)) {
 					System.out.println("isMet");
-					Game.score.addScore(o.getScore());
-					Game.room.getObjectives().remove(i);
-					if(Game.room.getObjectives().size() == 0) {
-						Util.resume(Game.room.getSyncObj());
+					Game.getScore().addScore(o.getScore());
+					Game.getRoom().getObjectives().remove(i);
+					if(Game.getRoom().getObjectives().size() == 0) {
+						Util.resume(Game.getRoom().getSyncObj());
 					}
 					if(t instanceof Plate) {
 						List<GameSpace> returnlist = new ArrayList<GameSpace>();
-						for(int x = 0; x < Game.room.getWidth(); x++) {
-							for(int y = 0; y < Game.room.getHeight(); y++) {
+						for(int x = 0; x < Game.getRoom().getWidth(); x++) {
+							for(int y = 0; y < Game.getRoom().getHeight(); y++) {
 								Location here = new Location(x, y);
-								if(Game.room.getSpace(here).contains(DishReturn.class)) {
-								 returnlist.add(Game.room.getSpace(here));
+								if(Game.getRoom().getSpace(here).contains(DishReturn.class)) {
+								 returnlist.add(Game.getRoom().getSpace(here));
 								}
 							}
 						}

@@ -1,4 +1,4 @@
-package benjaminc.chef_simulator.graphics;
+package benjaminc.chef_simulator.graphics.debug;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -95,6 +95,7 @@ public class DataOMeter {
 				System.out.println("Big TPS");
 			}
 		}
+		
 		if(title.contains("heap")) {
 			if(data != null && data.size() > 0) {
 				if(fps > data.get(Math.max(data.size()-1, 0)).getFPS()+10) {

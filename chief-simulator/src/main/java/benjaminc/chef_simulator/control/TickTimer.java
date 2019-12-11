@@ -68,7 +68,7 @@ public class TickTimer extends Thread {
 				startTick = System.nanoTime();
 				long ttime = startTick - laststart;
 				
-				Game.observedTps = (1/((double) ttime/1000000000));
+				Game.setObservedTps(1/((double) ttime/1000000000));
 //				if(vals.size() == fps/10) {
 //					long tot = 0;
 //					for(Long l : vals) {
