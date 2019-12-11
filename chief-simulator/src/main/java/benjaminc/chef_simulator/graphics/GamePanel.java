@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +77,14 @@ public class GamePanel extends JPanel {
 	/** the {@link ChatBox} to show */
 	private ChatBox chatBox;
 	
+	/** the {@link PauseScreen} to show when paused */
+	private PauseScreen pauseScreen;
+	
+	/** the default {@link Color} for text backgounds */
+	private Color defaultTextBackgroundColor;
+	
+	/** the default {@link Color} for text */
+	private Color defaultTextForgroundColor;
 	/**
 	 * @param lvl the {@link Drawable} to draw
 	 * @param scale the int scale for each box
@@ -98,6 +105,8 @@ public class GamePanel extends JPanel {
 		
 		lagoEnable = lago;
 		
+		defaultTextBackgroundColor = new Color(64, 64, 64, 192);
+		defaultTextForgroundColor = new Color(255, 255, 255, 192);
 		lagometer = new DataOMeter(1000, width * boxWidth, meterheight, "tps");
 		fpsometer = new DataOMeter(1000, width * boxWidth, meterheight, "fps");
 		heapometer = new DataOMeter(1000, width * boxWidth, meterheight, (int) (Runtime.getRuntime().maxMemory() / Math.pow(2,  20)), "MiB heap");
@@ -111,7 +120,9 @@ public class GamePanel extends JPanel {
 		ddzs.add(dropzone);
 		ddzs.add(framezone);
 		
-		chatBox = new ChatBox(12, (int) (width*4), 14, new Color(64, 64, 64, 192), new Color(255, 255, 255, 192), 60*4);
+		chatBox = new ChatBox(12, (int) (width*4), 14, defaultTextBackgroundColor, defaultTextForgroundColor, 60*4);
+		
+		pauseScreen = new PauseScreen(defaultTextBackgroundColor, defaultTextForgroundColor);
 		
 		jf = new JFrame("I am bob");
 		jf.setResizable(false);
@@ -222,11 +233,7 @@ public class GamePanel extends JPanel {
 					}
 					
 					if(Game.getTickTimer() == null || Game.getTickTimer().getPaused()) {
-						g.setFont(g.getFont().deriveFont(128f));
-						g.setColor(Color.RED);
-						
-						Rectangle2D txt = g.getFontMetrics().getStringBounds("TT paused", g);
-						g.drawString("TT paused", (int) ((width*boxWidth)-txt.getWidth())/2, (int) ((height*boxHeight)+txt.getHeight())/2);
+						pauseScreen.draw(g, 0, 0, width*boxWidth, (height+1)*boxHeight);
 					}
 				}
 			};
