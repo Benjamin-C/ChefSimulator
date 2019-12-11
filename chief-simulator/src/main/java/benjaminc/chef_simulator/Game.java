@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
@@ -102,8 +104,26 @@ public class Game {
 		room = lvl;
 		room.initForGame(new Object(), cooks);
 		gamePanel.setLevel(lvl);
-		tickTimer = new TickTimer(setTps, lvl);
+		tickTimer = new TickTimer(setTps);
+		tickTimer.addToDo(new TickEvent() { @Override public void tick(long frame) {
+			if(room != null) { room.tick(frame); } else { System.out.println("[ERROR] Room is NULL!"); } }
+			}, UUID.randomUUID());
+		tickTimer.addToDo(new TickEvent() { @Override public void tick(long frame) {
+			Game.roomUDG(frame);} }, UUID.randomUUID());
 		tickTimer.start();
+		registerKeylistener(new KeyListenAction() {
+			
+			@Override
+			public void keyReleaseEvent(int key) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressEvent(int key) {
+				if(key == KeyEvent.VK_ESCAPE) { if(!tickTimer.getPaused()) {tickTimer.pause(); } else { tickTimer.unpause(); } }
+			}
+		});
 		System.out.println("Started");
 		Util.showThreads();
 		System.out.println("UDG start");

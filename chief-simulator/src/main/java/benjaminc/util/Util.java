@@ -6,7 +6,7 @@ import java.util.Set;
 public class Util {
 
 	public static void pause(Object sync) {
-		System.out.println("Pausing thread " + Thread.currentThread().getName());
+//		System.out.println("Pausing thread " + Thread.currentThread().getName());
         synchronized(sync) {
             try {
                 sync.wait();

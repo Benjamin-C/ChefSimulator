@@ -21,7 +21,6 @@ public class KeyListen {
 	public void keyPressed(KeyEvent e) {
 		for(KeyListenAction a : actions) { a.keyPressEvent(e.getKeyCode());}
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_ESCAPE: { System.exit(1); } break;
 		case KeyEvent.VK_F3: { Game.getGamePanel().enableLagometer(!Game.getGamePanel().getLagometerEnabled()); } break;
 		}
 	}
