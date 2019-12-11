@@ -9,9 +9,11 @@ import javax.swing.JPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.KeyListen;
 import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.graphics.debug.DataOMeter;
@@ -218,6 +220,14 @@ public class GamePanel extends JPanel {
 						
 						chatBox.draw(g, 0, ((height + 1) * boxHeight), mframe);
 					}
+					
+					if(Game.getTickTimer() == null || Game.getTickTimer().getPaused()) {
+						g.setFont(g.getFont().deriveFont(128f));
+						g.setColor(Color.RED);
+						
+						Rectangle2D txt = g.getFontMetrics().getStringBounds("TT paused", g);
+						g.drawString("TT paused", (int) ((width*boxWidth)-txt.getWidth())/2, (int) ((height*boxHeight)+txt.getHeight())/2);
+					}
 				}
 			};
 			jf.add(panel);
@@ -225,6 +235,9 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
+	public JPanel getPanel() {
+		return panel;
+	}
 	/**
 	 * Add a task when a key is pressed
 	 * @param a the {@link KeyListenAction} to add

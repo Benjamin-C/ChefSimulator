@@ -121,7 +121,14 @@ public class Game {
 			
 			@Override
 			public void keyPressEvent(int key) {
-				if(key == KeyEvent.VK_ESCAPE) { if(!tickTimer.getPaused()) {tickTimer.pause(); } else { tickTimer.unpause(); } }
+				if(key == KeyEvent.VK_ESCAPE) {
+					if(!tickTimer.getPaused()) {
+						tickTimer.pause();
+						Game.getGamePanel().getPanel().repaint();
+					} else {
+						tickTimer.unpause();
+					}
+				}
 			}
 		});
 		System.out.println("Started");
