@@ -1,31 +1,40 @@
 package benjaminc.chef_simulator.control;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import benjaminc.chef_simulator.Game;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyListen {
 	
-	protected List<KeyListenAction> actions;
+	protected Map<UUID, KeyListenAction> actions;
 	
 	public KeyListen() {
-		actions = new ArrayList<KeyListenAction>();
+		actions = new ConcurrentHashMap<UUID, KeyListenAction>();
 	}
 
 	public void keyTyped(KeyEvent e) {}
 	
-	public void keyReleased(KeyEvent e) { for(KeyListenAction a : actions) { a.keyReleaseEvent(e.getKeyCode());} }
-	
-	public void keyPressed(KeyEvent e) {
-		for(KeyListenAction a : actions) { a.keyPressEvent(e.getKeyCode());}
-		switch(e.getKeyCode()) {
-		case KeyEvent.VK_F3: { Game.getGamePanel().enableLagometer(!Game.getGamePanel().getLagometerEnabled()); } break;
+	public void keyReleased(KeyEvent e) {
+		for (Iterator<KeyListenAction> iterator = actions.values().iterator(); iterator.hasNext();) {
+			iterator.next().keyReleaseEvent(e.getKeyCode());
 		}
 	}
 	
-	public void addKeyListen(KeyListenAction a) {
-		actions.add(a);
+	public void keyPressed(KeyEvent e) {
+		for (Iterator<KeyListenAction> iterator = actions.values().iterator(); iterator.hasNext();) {
+		    iterator.next().keyPressEvent(e.getKeyCode());
+		}
+	}
+	
+	public UUID addKeyListen(KeyListenAction a) {
+		UUID id = UUID.randomUUID();
+		actions.put(id, a);
+		return id;
+	}
+	
+	public void removeKeyListen(UUID id) {
+		actions.remove(id);
 	}
 }

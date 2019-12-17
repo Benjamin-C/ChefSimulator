@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.KeyListen;
@@ -72,7 +73,7 @@ public class GamePanel extends JPanel {
 	private Long mframe;
 	
 	/** the boolean to enable the Lag-O-Meter */
-	private boolean lagoEnable;
+	private boolean lagoEnables;
 	
 	/** the {@link ChatBox} to show */
 	private ChatBox chatBox;
@@ -103,7 +104,7 @@ public class GamePanel extends JPanel {
 		width = (int) toDraw.getWidth();
 		height = (int) toDraw.getHeight();
 		
-		lagoEnable = lago;
+		lagoEnables = lago;
 		
 		defaultTextBackgroundColor = new Color(64, 64, 64, 192);
 		defaultTextForgroundColor = new Color(255, 255, 255, 192);
@@ -140,6 +141,22 @@ public class GamePanel extends JPanel {
 		update(0, 0, 0);
 		//drawRoom(xloc, yloc, 0);
         keyListen = new KeyListen();
+        
+        keyListen.addKeyListen(new KeyListenAction() {
+			
+			@Override
+			public void keyReleaseEvent(int key) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressEvent(int key) {
+				if(key == KeyEvent.VK_F3 && !Game.getPaused()) {
+					toggleLagometer();
+				}
+			}
+		});
         jf.addKeyListener(new KeyListener() {
 
 			public void keyTyped(KeyEvent e) {keyListen.keyTyped(e);}
@@ -208,7 +225,7 @@ public class GamePanel extends JPanel {
 					
 					double mfps = 1/((double) ttime/1000000000);
 					
-					if(lagoEnable) {
+					if(lagoEnables) {
 						lagometer.draw(g, 0, ((height + 1) * boxHeight), mtps);
 						fpsometer.draw(g, (int) ((double) lagometer.getWidth()), ((height + 1) * boxHeight), mfps);
 						heapometer.draw(g, 0, ((height + 1) * boxHeight)-(1*meterheight), (double) (Runtime.getRuntime().totalMemory() / Math.pow(2,  20)));
@@ -232,7 +249,7 @@ public class GamePanel extends JPanel {
 						chatBox.draw(g, 0, ((height + 1) * boxHeight), mframe);
 					}
 					
-					if(Game.getTickTimer() == null || Game.getTickTimer().getPaused()) {
+					if(Game.getPaused()) {
 						pauseScreen.draw(g, 0, 0, width*boxWidth, (height+1)*boxHeight);
 					}
 				}
@@ -245,12 +262,30 @@ public class GamePanel extends JPanel {
 	public JPanel getPanel() {
 		return panel;
 	}
+	
+	/**
+	 * Gets the {@link PauseScreen} for the game.
+	 * @return the {@link PauseScreen}
+	 */
+	public PauseScreen getPauseScreen() {
+		return pauseScreen;
+	}
+	
 	/**
 	 * Add a task when a key is pressed
 	 * @param a the {@link KeyListenAction} to add
+	 * @return the {@link UUID} of the {@link KeyListenAction}
 	 */
-	public void addKeyListener(KeyListenAction a) {
-		keyListen.addKeyListen(a);
+	public UUID addKeyListener(KeyListenAction a) {
+		return keyListen.addKeyListen(a);
+	}
+	
+	/**
+	 * Removes a task when a key is pressed
+	 * @param a the {@link UUID} of the KeyListenAction to remove
+	 */
+	public void removeKeyListener(UUID a) {
+		keyListen.removeKeyListen(a);
 	}
 	
 	/**
@@ -258,15 +293,18 @@ public class GamePanel extends JPanel {
 	 * @param enabled the Boolean to enable
 	 */
 	public void enableLagometer(boolean enabled) {
-		lagoEnable = enabled;
+		lagoEnables = enabled;
 	}
 	
+	public void toggleLagometer() {
+		lagoEnables = !lagoEnables;
+	}
 	/**
 	 * See if the lagometer is enabled
 	 * @return a boolean of the lagometer state
 	 */
 	public boolean getLagometerEnabled() {
-		return lagoEnable;
+		return lagoEnables;
 	}
 
 	public ChatBox getChatBox() {

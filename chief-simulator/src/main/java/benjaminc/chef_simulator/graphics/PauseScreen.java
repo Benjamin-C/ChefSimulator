@@ -2,7 +2,12 @@ package benjaminc.chef_simulator.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.UUID;
+
+import benjaminc.chef_simulator.Game;
+import benjaminc.chef_simulator.control.KeyListenAction;
 
 /**
  * @author 705822
@@ -12,10 +17,38 @@ public class PauseScreen {
 	
 	private Color backgroundColor;
 	private Color textColor;
-	private String options = "[esc] Resume game\n[F1] Help\n[F2] Exit\n[F3] Debug\n";
+	private String label = "ChefSimulator";
+	private String options = "[esc] Resume game\n[F2] Exit\n[F3] Debug\n[F5] Start multiplayer";
+	private UUID kla;
+	
 	public PauseScreen(Color background, Color text) {
 		this.backgroundColor = background;
 		this.textColor = text;
+	}
+	
+	public void enableKeys() {
+		kla = Game.registerKeylistener(new KeyListenAction() {
+			
+			@Override
+			public void keyReleaseEvent(int key) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressEvent(int key) {
+				switch(key) {
+				case KeyEvent.VK_F2: { Game.end(); } break;
+				case KeyEvent.VK_F3: { Game.getGamePanel().toggleLagometer(); Game.redrawFrame(); } break;
+				case KeyEvent.VK_F5: { Game.openMultiplayer(); } break;
+				}
+			}
+		});
+	}
+	
+	public void disableKeys() {
+		Game.removeKeyListener(kla);
+		kla = null;
 	}
 	
 	/**
@@ -30,13 +63,13 @@ public class PauseScreen {
 		g.setColor(backgroundColor);
 		g.fillRect(x, y, w, h);
 		
-		g.setFont(g.getFont().deriveFont(128f));
+		g.setFont(g.getFont().deriveFont((float) h/8));
 		g.setColor(textColor);
 		
-		Rectangle2D txt = g.getFontMetrics().getStringBounds("TT paused", g);
+		Rectangle2D txt = g.getFontMetrics().getStringBounds(label, g);
 		int xloc = (int) (w-txt.getWidth())/2;
 		int yloc = (int) (h+txt.getHeight())/4;
-		g.drawString("TT paused", xloc , yloc);
+		g.drawString(label, xloc , yloc);
 		
 		g.setFont(g.getFont().deriveFont(16f));
 		yloc += g.getFontMetrics().getHeight();

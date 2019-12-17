@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.UUID;
 
+import benjamin.BenTCP.TCPOnDataArrival;
+import benjamin.BenTCP.TCPServer;
+import benjamin.BenTCP.TCPSetupStream;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
@@ -33,10 +37,19 @@ public class Game {
 	private static int setTps = 6;
 	private static List<Cook> cooks;
 	
+	private static boolean paused;
+	private static boolean multiplayer = false;
+	
+	private static TCPServer server;
+	
+	private static Scanner sysin;
+	
 	public static void setupGame() {
 		setupGame(40, 30, false, true);
 	}
 	public static void setupGame(int scale, int fps, boolean lago, boolean exitOnClose) {
+		sysin = new Scanner(System.in);
+		
 		setTps = fps;
 		
 		cooks = new ArrayList<Cook>();
@@ -122,12 +135,7 @@ public class Game {
 			@Override
 			public void keyPressEvent(int key) {
 				if(key == KeyEvent.VK_ESCAPE) {
-					if(!tickTimer.getPaused()) {
-						tickTimer.pause();
-						Game.getGamePanel().getPanel().repaint();
-					} else {
-						tickTimer.unpause();
-					}
+					togglePaused();
 				}
 			}
 		});
@@ -139,6 +147,57 @@ public class Game {
 		tickTimer.end();
 		System.out.println("Done");
 		new MessageDialog("Game Over, You Win", "You won the game! Your score was " + score.getScore());
+	}
+	
+	/**
+	 * Gets weather the game is paused. If the game is multiplayer, the {@link TickTimer} continues even when paused.
+	 * @return the boolean if paused
+	 */
+	public static boolean getPaused() {
+		return paused;
+	}
+	
+	/**
+	 * Sets weather the game is paused. If the game is multiplayer, the {@link TickTimer} continues even when paused.
+	 * @param newPaused the boolean if paused
+	 */
+	public static void setPaused(boolean newPaused) {
+		if(!multiplayer) {
+			if(newPaused) {
+				tickTimer.pause();
+			} else {
+				tickTimer.unpause();
+			}
+		}
+		if(newPaused) {
+			gamePanel.getPauseScreen().enableKeys();
+			Game.getGamePanel().getPanel().repaint();
+		} else {
+			gamePanel.getPauseScreen().disableKeys();
+		}
+		paused = newPaused;
+	}
+	
+	/**
+	 * Toggles weather the game is paused. If the game is multiplayer, the {@link TickTimer} continues even when paused.
+	 */
+	public static void togglePaused() {
+		setPaused(!paused);
+	}
+	
+	public static void openMultiplayer() {
+		multiplayer = true;
+		if(paused) {
+			tickTimer.unpause();
+		}
+		Thread serverStarter = new Thread() {
+			@Override public void run() {
+				server = new TCPServer(25242, TCPOnDataArrival.defaultOnDataArrival, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
+				server.start();
+				chat("Server started on port 25242");
+		} };
+		serverStarter.start();
+		
 	}
 	
 	public static List<Objective> getObjectives() {
@@ -153,10 +212,22 @@ public class Game {
 		gamePanel.update(observedTps, droppedFrameCount, frame);
 	}
 	
-	public static void registerKeylistener(KeyListenAction a) {
-		gamePanel.addKeyListener(a);
+	public static UUID registerKeylistener(KeyListenAction a) {
+		return gamePanel.addKeyListener(a);
 	}
-	
+	public static void removeKeyListener(UUID a) {
+		gamePanel.removeKeyListener(a);
+	}
+	/**
+	 * Redraws the current frame. Does not cause a tick or increment the frame counter
+	 */
+	public static void redrawFrame() {
+		gamePanel.getPanel().repaint();
+	}
+	/**
+	 * Sends a message to the in game chat
+	 * @param msg the {@link String} message
+	 */
 	public static void chat(String msg) {
 		gamePanel.getChatBox().out.println(msg);
 	}
@@ -203,5 +274,12 @@ public class Game {
 		return tickTimer;
 	}
 	
-	
+	/**
+	 * Exits the game
+	 */
+	public static void end() {
+		sysin.close();
+		
+		System.exit(0);
+	}
 }
