@@ -13,7 +13,7 @@ public interface Command {
 	 * 
 	 * @return the {@link String} name
 	 */
-	public abstract String getCommandName();
+	public abstract String getName();
 	/**
 	 * Gets the help text of the command. Use "\n" to create a new line.<br/>
 	 * Must include the following separated by line breaks:<ul>
@@ -31,6 +31,6 @@ public interface Command {
 	 * 
 	 * @return the {@link String} help text
 	 */
-	public abstract String getCommandHelp();
+	public abstract String getHelp();
 	
 }

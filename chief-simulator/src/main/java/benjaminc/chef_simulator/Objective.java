@@ -11,6 +11,9 @@ import benjaminc.util.JSONTools;
 
 public class Objective implements Savable, Cloneable {
 	
+	// fixed?
+	int bobwillbuildit = 7;
+	
 	/** the {@link Thing} to be made */
 	protected Thing target;
 	/** the int score */

@@ -19,12 +19,12 @@ public class MoveCommand implements Command {
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return NAME;
 	}
 
 	@Override
-	public String getCommandHelp() {
+	public String getHelp() {
 		return HELP;
 	}
 
