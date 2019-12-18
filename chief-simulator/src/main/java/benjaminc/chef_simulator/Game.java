@@ -210,7 +210,7 @@ public class Game {
 							}
 							System.out.println("Recived: " + dataString);
 							if(dataString.charAt(0) == '/') {
-								cp.process(dataString);
+								cp.process(dataString.substring(Math.min(dataString.length()-1, 1)));
 							} else {
 								chat(dataString);
 							}
@@ -226,6 +226,9 @@ public class Game {
 		
 	}
 	
+	public static List<Cook> getCooks() {
+		return cooks;
+	}
 	public static List<Objective> getObjectives() {
 		return room.getObjectives();
 	}

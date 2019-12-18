@@ -7,7 +7,7 @@ public interface Command {
 	 * 
 	 * @param args An array of {@link String} args for the command
 	 */
-	public abstract void execute(String[] args);
+	public abstract boolean execute(String[] args);
 	/**
 	 * Gets the name of the command
 	 * 

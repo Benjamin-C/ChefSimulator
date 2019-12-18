@@ -225,6 +225,10 @@ public class Cook implements Tickable {
 		
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	@Override
 	public String toString() {
 		return "Cook[name=" + name + ",loc= " + loc.toString() + ",d=" + direction + ",h=" + hand + "]";
