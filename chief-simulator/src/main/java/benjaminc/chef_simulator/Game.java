@@ -12,11 +12,13 @@ import java.util.UUID;
 import benjamin.BenTCP.TCPOnDataArrival;
 import benjamin.BenTCP.TCPServer;
 import benjamin.BenTCP.TCPSetupStream;
+import benjaminc.chef_simulator.control.CommandProcessor;
 import benjaminc.chef_simulator.control.Cook;
 import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
+import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
@@ -44,6 +46,8 @@ public class Game {
 	
 	private static Scanner sysin;
 	
+	public static CommandProcessor cp = new CommandProcessor();
+	
 	public static void setupGame() {
 		setupGame(40, 30, false, true);
 	}
@@ -66,6 +70,8 @@ public class Game {
 		cooks.add(newCook("Matt", Color.GREEN, new Location(1, 1),
 				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
+		cp = new CommandProcessor();
+		cp.addCommand(new MoveCommand());
 	}
 	
 	public static void playDefaultGame() {
@@ -186,17 +192,37 @@ public class Game {
 	}
 	
 	public static void openMultiplayer() {
-		multiplayer = true;
-		if(paused) {
-			tickTimer.unpause();
+		if(!multiplayer) {
+			multiplayer = true;
+			if(paused) {
+				tickTimer.unpause();
+			}
+			Thread serverStarter = new Thread("ServerStart") {
+				@Override public void run() {
+					chat("Waiting for client on port 25242");
+					TCPOnDataArrival odr = new TCPOnDataArrival() {
+						
+						@Override
+						public void onDataArrived(byte[] data) {
+							String dataString = "";
+							for(int i = 0; i < data.length; i++) {
+								dataString = dataString + (char) data[i];
+							}
+							System.out.println("Recived: " + dataString);
+							if(dataString.charAt(0) == '/') {
+								cp.process(dataString);
+							} else {
+								chat(dataString);
+							}
+						}
+					};
+					server = new TCPServer(25242, odr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
+					chat("Client connected");
+			} };
+			serverStarter.start();
+		} else {
+			chat("Game is already multiplayer! (port 25242)");
 		}
-		Thread serverStarter = new Thread() {
-			@Override public void run() {
-				server = new TCPServer(25242, TCPOnDataArrival.defaultOnDataArrival, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
-				server.start();
-				chat("Server started on port 25242");
-		} };
-		serverStarter.start();
 		
 	}
 	
