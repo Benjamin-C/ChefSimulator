@@ -17,7 +17,11 @@ public class CommandProcessor {
 		String args[] = cmd.split(" ");
 		if(commands.containsKey(args[0])) {
 			try {
-				commands.get(args[0]).execute(args);
+				Command comm = commands.get(args[0]);
+				boolean sucess = comm.execute(args);
+				if(!sucess) {
+					Game.chat(comm.getHelp());
+				}
 			} catch (Exception e) {
 				Game.chat("An error occured while executing command " + args[0] + ". Check log for details");
 				e.printStackTrace();

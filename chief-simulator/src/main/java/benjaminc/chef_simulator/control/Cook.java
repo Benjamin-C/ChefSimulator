@@ -185,6 +185,9 @@ public class Cook implements Tickable {
 			}
 		}
 	}
+	public Direction getDirection() {
+		return direction;
+	}
 	public void setDirection(Direction d) {
 		direction = d;
 	}

@@ -18,7 +18,7 @@ public interface Command {
 	 * Gets the help text of the command. Use "\n" to create a new line.<br/>
 	 * Must include the following separated by line breaks:<ul>
 	 * <li>	A brief description of what the command does </li>
-	 * <li> The syntax for the command
+	 * <li> The syntax for the command preceded by "Usage: "
 	 * <li>	All arguments and their uses in form arg: use</li>
 	 * <li> Any other information as needed</li>
 	 * </ul>

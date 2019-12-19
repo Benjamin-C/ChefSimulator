@@ -18,6 +18,7 @@ import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
+import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
@@ -72,6 +73,10 @@ public class Game {
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
 		cp = new CommandProcessor();
 		cp.addCommand(new MoveCommand());
+		cp.addCommand(new ListCommand());
+		
+		openMultiplayer();
+		
 	}
 	
 	public static void playDefaultGame() {
