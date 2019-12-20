@@ -20,6 +20,7 @@ import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
 import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
+import benjaminc.chef_simulator.control.command.SetCommand;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
@@ -71,9 +72,12 @@ public class Game {
 		cooks.add(newCook("Matt", Color.GREEN, new Location(1, 1),
 				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
+		
+		// AddCommands
 		cp = new CommandProcessor();
 		cp.addCommand(new MoveCommand());
 		cp.addCommand(new ListCommand());
+		cp.addCommand(new SetCommand());
 		
 		openMultiplayer();
 		
@@ -231,6 +235,10 @@ public class Game {
 		
 	}
 	
+	public static boolean isMultiplayer() {
+		return multiplayer;
+	}
+	
 	public static List<Cook> getCooks() {
 		return cooks;
 	}
@@ -315,5 +323,9 @@ public class Game {
 		sysin.close();
 		
 		System.exit(0);
+	}
+	
+	public static TCPServer getServer() {
+		return server;
 	}
 }

@@ -15,8 +15,7 @@ public class MoveCommand implements Command {
 			+ "x: the x location to move to\n"
 			+ "y: the y location to move to\n"
 			+ "dir = up|down|left|right: the direction to face"
-			+ "check = true|false: Check if the move is legal. Defaults to false"
-			+ "Does not work yet";
+			+ "check = true|false: Check if the move is legal. Defaults to false";
 	private final int ARG_COUNT = 3;
 	
 	@Override

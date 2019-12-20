@@ -8,6 +8,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chef_simulator.Game;
+
 public class ChatBox {
 	
 	protected List<ChatBoxElement> elems;
@@ -70,6 +72,15 @@ public class ChatBox {
 	 */
 	public void addElement(String msg, int time) {
 		elems.add(new ChatBoxElement(msg, lastTick + time));
+		if(Game.isMultiplayer()) {
+			try {
+				if(Game.getServer() != null && Game.getServer().getOutputStream() != null) {
+					Game.getServer().getOutputStream().write(msg.getBytes());
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
