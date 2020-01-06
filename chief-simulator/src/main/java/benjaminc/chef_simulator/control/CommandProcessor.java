@@ -14,6 +14,8 @@ public class CommandProcessor {
 	}
 	
 	public void process(String cmd) {
+		Game.chat("Executing Command ...");
+		
 		String args[] = cmd.split(" ");
 		if(commands.containsKey(args[0])) {
 			try {

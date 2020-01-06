@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Direction;
+import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.types.ContainerThing;
@@ -30,13 +31,14 @@ public class DataMap implements Savable {
 		Map<String, String> js = JSONTools.splitJSON(json);
 		
 		for(String s : js.keySet()) {
-			DataMapKey dmk = DataMapKey.valueOf(s);
+			DataMapKey dmk = DataMapKey.valueOf(s.toUpperCase());
 			switch(dmk) {
-			case DIRECTION: dataMap.put(dmk, Direction.valueOf(js.get(s))); break;
-			case FOOD_STATE: dataMap.put(dmk, FoodState.valueOf(js.get(s))); break;
+			case DIRECTION: dataMap.put(dmk, Direction.valueOf(js.get(s.toUpperCase()))); break;
+			case FOOD_STATE: dataMap.put(dmk, FoodState.valueOf(js.get(s.toUpperCase()))); break;
 			case INVENTORY: dataMap.put(dmk, new Inventory(js.get(s))); break;
 			case MAKES: dataMap.put(dmk, BasicThing.makeThingFromJSON(js.get(s))); break;
 			case UUID: dataMap.put(dmk, UUID.fromString(js.get(s))); break;
+			case TEXTURE: dataMap.put(DataMapKey.TEXTURE, GraphicalLoader.load(js.get(s)));
 			default: break;
 			}
 		}

@@ -190,6 +190,6 @@ public class BasicThing implements Thing, Cloneable {
 	
 	@Override
 	public String toString() {
-		return subclass.getName() + dataMap.toString();
+		return subclass.getSimpleName() + " " + dataMap.toString();
 	}
 }

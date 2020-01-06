@@ -29,7 +29,7 @@ public class ShapeLoader {
 	 */
 	
 	public Texture loadShapeList(File file) {
-		Texture list = new Texture();
+		Texture list = new Texture(file.getName());
 /*>*/	System.out.println("Trying " + file.getName());
 		if(file.exists()) {
 /*>*/		System.out.println("It exists");

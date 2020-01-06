@@ -29,15 +29,22 @@ public class SetCommand implements Command {
 			if(args.length > ARG_COUNT + 1) {
 				elev = CommandUtils.parseNum(args[4], 0, Game.getRoom().getWidth(), Integer.MIN_VALUE, "E");
 				if(args.length > ARG_COUNT + 2) {
+					Game.chat(args[5]);
 					dm = new DataMap(args[5]);
 				}
 			}
-			Thing t = ThingType.getThingOfType(ThingType.valueOf(args[1].toUpperCase()), dm);
-			if(x >= 0 && y >= 0 && t != null) {
-				Game.getRoom().getSpace(new Location(x, y)).addThing(elev, t);
-				return true;
-			} else {
-				Game.chat("Could not spawn thing as specified");
+			try {
+				Thing t = ThingType.getThingOfType(ThingType.valueOf(args[1].toUpperCase()), dm);
+				if(x >= 0 && y >= 0 && t != null) {
+					Game.getRoom().getSpace(new Location(x, y)).addThing(elev, t);
+					Game.chat("Spawning " + t);
+					return true;
+				} else {
+					Game.chat("Could not spawn thing as specified");
+				}
+			} catch(IllegalArgumentException e) {
+				Game.chat("Type is not valid");
+				return false;
 			}
 		}
 		return false;
