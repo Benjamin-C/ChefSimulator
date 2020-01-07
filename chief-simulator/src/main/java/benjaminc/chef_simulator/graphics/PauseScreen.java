@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.UUID;
 
+import benjaminc.chef_simulator.CommandSenderConsole;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.KeyListenAction;
 
@@ -18,7 +19,7 @@ public class PauseScreen {
 	private Color backgroundColor;
 	private Color textColor;
 	private String label = "ChefSimulator";
-	private String options = "[esc] Resume game\n[F2] Exit\n[F3] Debug\n[F5] Start multiplayer";
+	private String options = "[esc] Resume game\n[F2] Exit\n[F3] Debug\n[F5] Start multiplayer\n[F7] Open console input";
 	private UUID kla;
 	
 	public PauseScreen(Color background, Color text) {
@@ -41,6 +42,7 @@ public class PauseScreen {
 				case KeyEvent.VK_F2: { Game.end(); } break;
 				case KeyEvent.VK_F3: { Game.getGamePanel().toggleLagometer(); Game.redrawFrame(); } break;
 				case KeyEvent.VK_F5: { Game.openMultiplayer(); } break;
+				case KeyEvent.VK_F7: { new CommandSenderConsole(); } break;
 				}
 			}
 		});

@@ -24,10 +24,10 @@ public class SetCommand implements Command {
 		if(args.length > ARG_COUNT) {
 			int x = CommandUtils.parseNum(args[2], 0, Game.getRoom().getWidth(), Integer.MIN_VALUE, "X");
 			int y = CommandUtils.parseNum(args[3], 0, Game.getRoom().getWidth(), Integer.MIN_VALUE, "Y");
-			int elev = 0;
+			int elev = -1;
 			DataMap dm = null;
 			if(args.length > ARG_COUNT + 1) {
-				elev = CommandUtils.parseNum(args[4], 0, Game.getRoom().getWidth(), Integer.MIN_VALUE, "E");
+				elev = CommandUtils.parseNum(args[4], 0, Integer.MAX_VALUE, Integer.MAX_VALUE, "E");
 				if(args.length > ARG_COUNT + 2) {
 					Game.chat(args[5]);
 					dm = new DataMap(args[5]);
@@ -36,8 +36,12 @@ public class SetCommand implements Command {
 			try {
 				Thing t = ThingType.getThingOfType(ThingType.valueOf(args[1].toUpperCase()), dm);
 				if(x >= 0 && y >= 0 && t != null) {
-					Game.getRoom().getSpace(new Location(x, y)).addThing(elev, t);
-					Game.chat("Spawning " + t);
+					if(elev == -1) {
+						Game.getRoom().addThing(t, new Location(x, y));
+					} else {
+						Game.getRoom().addThing(t, new Location(x, y), elev);
+					}
+					Game.chat("Spawned " + t.getName());
 					return true;
 				} else {
 					Game.chat("Could not spawn thing as specified");

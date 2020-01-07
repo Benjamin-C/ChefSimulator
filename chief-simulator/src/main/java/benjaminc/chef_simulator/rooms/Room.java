@@ -291,6 +291,16 @@ public class Room implements Drawable, Savable, Cloneable {
 	}
 	
 	/**
+	 * Adds a {@link Thing} to the room
+	 * @param t the {@link Thing} to add
+	 * @param loc the {@link Location} to add it
+	 * @param elev the int elevation to add the {@link Thing} at
+	 */
+	public void addThing(Thing t, Location loc, int elev) {
+		room[loc.getX()][loc.getY()].addThing(elev, t);
+	}
+	
+	/**
 	 * Gets the size of the room
 	 * @return the {@link Dimension} size
 	 */

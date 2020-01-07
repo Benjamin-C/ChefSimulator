@@ -81,6 +81,7 @@ public class Game {
 		
 		openMultiplayer();
 		
+		new CommandSenderConsole();
 	}
 	
 	public static void playDefaultGame() {
@@ -218,11 +219,7 @@ public class Game {
 								dataString = dataString + (char) data[i];
 							}
 							System.out.println("Recived: " + dataString);
-							if(dataString.charAt(0) == '/') {
-								cp.process(dataString.substring(Math.min(dataString.length()-1, 1)));
-							} else {
-								chat(dataString);
-							}
+							consoleInput(dataString);
 						}
 					};
 					server = new TCPServer(25242, odr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
@@ -272,6 +269,14 @@ public class Game {
 	 */
 	public static void chat(String msg) {
 		gamePanel.getChatBox().out.println(msg);
+	}
+	
+	public static void consoleInput(String in) {
+		if(in.charAt(0) == '/') {
+			cp.process(in.substring(Math.min(in.length()-1, 1)));
+		} else {
+			chat(in);
+		}
 	}
 	/**
 	 * @return the {@link int} droppedFrameCount
