@@ -37,7 +37,6 @@ public class CommandSenderConsole {
 			@Override public void keyPressed(KeyEvent e) { 
 				if(e.getKeyCode() == KeyEvent.VK_UP) {
 					pos = Math.min(++pos, txts.size()-1);
-					jt.setText(txts.get(pos));
 					if(pos >= 0 && txts.size() > 0) {
 						jt.setText(txts.get(pos));
 					} else {
