@@ -71,7 +71,11 @@ public class GameSpace {
 	 */
 	public void addThing(int elev, Thing t) {
 		if(t != null) {
-			things.add(elev, t);
+			if(elev < size()) {
+				things.add(elev, t);
+			} else {
+				things.add(t);
+			}
 		}
 	}
 	/**
