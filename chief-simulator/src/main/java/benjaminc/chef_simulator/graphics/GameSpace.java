@@ -22,6 +22,7 @@ public class GameSpace {
 	
 	/**
 	 * Make a new GameSpace
+	 * 
 	 * @param loc the {@link Location} the space exists at
 	 */
 	public GameSpace(Location loc) {
@@ -30,7 +31,8 @@ public class GameSpace {
 	
 	/**
 	 * Make a new GameSpace
-	 * @param loc the {@link Location} the space exists at
+	 * 
+	 * @param loc 	the {@link Location} the space exists at
 	 * @param floor the boolean to add a floor or not
 	 */
 	public GameSpace(Location loc, boolean floor) {
@@ -42,7 +44,18 @@ public class GameSpace {
 	}
 	
 	/**
+	 * Makes a new GameSpace
+	 * 
+	 * @param loc		the {@link Location}
+	 * @param things	the {@link List} of {@link Thing} at the space
+	 */
+	public GameSpace(Location loc, List<Thing> things) {
+		this.loc = loc;
+		this.things = things;
+	}
+	/**
 	 * Sets the location the {@link GameSpace} represents
+	 * 
 	 * @param l the new {@link Location}
 	 */
 	public void setLoc(Location l) {
@@ -50,23 +63,25 @@ public class GameSpace {
 	}
 	/**
 	 * Gets the location the {@link GameSpace} represents
+	 * 
 	 * @return the {@link Location}
 	 */
 	public Location getLoc() {
 		return loc;
 	}
 	/**
-	 * Adds a {@link Thing} to the space
+	 * Adds a {@link Thing} to the space<br/>
+	 * Calls {@link #addThing(int, Thing)} with elev of {@link Integer#MAX_VALUE}
+	 * 
 	 * @param t the {@link Thing} to add
 	 */
 	public void addThing(Thing t) {
-		if(t != null) {
-			things.add(t);
-		}
+		addThing(Integer.MAX_VALUE, t);
 	}
 	/**
 	 * Adds a thing to this {@link GameSpace} at a specific elevation
-	 * @param elev the int elevation of the new {@link Thing}
+	 * 
+	 * @param elev 	the int elevation of the new {@link Thing}
 	 * @param t the new {@link Thing}
 	 */
 	public void addThing(int elev, Thing t) {
@@ -78,10 +93,12 @@ public class GameSpace {
 			}
 		}
 	}
+	
 	/**
 	 * Removes a {@link Thing} from the {@link GameSpace}
-	 * @param t the {@link Thing} to remove
-	 * @return the removed {@link Thing}
+	 * 
+	 * @param t 	the {@link Thing} to remove
+	 * @return the 	removed {@link Thing}
 	 */
 	public Thing removeThing(Thing t) {
 		things.remove(t);
@@ -89,6 +106,7 @@ public class GameSpace {
 	}
 	/**
 	 * Removes all instances of a {@link Thing} from the space
+	 * 
 	 * @param t the {@link Thing}
 	 */
 	public void removeAll(Thing t) {
@@ -100,8 +118,9 @@ public class GameSpace {
 	}
 	/**
 	 * Remove a {@link Thing} by its elevation
-	 * @param elev the int elevation of the {@link Thing} to remove
-	 * @return the {@link Thing} that was removed
+	 * 
+	 * @param elev 	the int elevation of the {@link Thing} to remove
+	 * @return the 	{@link Thing} that was removed
 	 */
 	public Thing removeThing(int elev) {
 		Thing temp = things.remove(elev);
@@ -112,15 +131,17 @@ public class GameSpace {
 	}
 	/**
 	 * Removes the top {@link Thing} from a room
-	 * @return
+	 * 
+	 * @return the {@link Thing} that was removed
 	 */
 	public Thing removeTopThing() {
 		return removeThing(things.size()-1);
 	}
 	/**
 	 * Get the {@link Thing} at the elevation
+	 * 
 	 * @param elev the int elevation of the thing to get
-	 * @return
+	 * @return the {@link Thing}
 	 */
 	public Thing getThing(int elev) {
 		if(elev < things.size() && elev >= 0) {
@@ -131,6 +152,7 @@ public class GameSpace {
 	}
 	/**
 	 * Gets the top {@link Thing} in the space
+	 * 
 	 * @return the {@link Thing}
 	 */
 	public Thing getThing() {
@@ -146,11 +168,12 @@ public class GameSpace {
 	
 	/**
 	 * Draw the {@link GameSpace}
-	 * @param g the {@link GraphicalDrawer} to use
-	 * @param x the int x ofset
-	 * @param y the int y ofset
-	 * @param w the int width
-	 * @param h the int height
+	 * 
+	 * @param g 	the {@link GraphicalDrawer} to use
+	 * @param x 	the int x ofset
+	 * @param y 	the int y ofset
+	 * @param w 	the int width
+	 * @param h 	the int height
 	 */
 	public void draw(GraphicalDrawer g, int x, int y, int w, int h) {
 		for(int i = 0; i < things.size(); i++) {
@@ -159,8 +182,9 @@ public class GameSpace {
 	}
 	/**
 	 * Checks to see if the space contains a {@link Thing}
-	 * @param test the {@link Class} of the {@link Thing} to test for
-	 * @return the boolean if true
+	 * 
+	 * @param test 	the {@link Class} of the {@link Thing} to test for
+	 * @return 		the boolean if true
 	 */
 	public boolean contains(Class<?> test) {
 		for(Thing th : things) {
@@ -172,6 +196,7 @@ public class GameSpace {
 	}
 	/**
 	 * Checks if any Thing is solid in the space
+	 * 
 	 * @return the boolean if solid
 	 */
 	public boolean isSolid() {
@@ -184,9 +209,10 @@ public class GameSpace {
 	}
 	/**
 	 * Ticks the {@link GameSpace}
-	 * @param r the {@link Room} the {@link GameSpace} is in
-	 * @param l the {@link Location} in the room
-	 * @param frame the long frame of the game
+	 * 
+	 * @param r 	the {@link Room} the {@link GameSpace} is in
+	 * @param l 	the {@link Location} in the room
+	 * @param 		frame the long frame of the game
 	 */
 	public void tick(Room r, Location l, long frame) {
 		for(int i = 0; i < things.size(); i++) {
@@ -198,7 +224,8 @@ public class GameSpace {
 	}
 	/**
 	 * Gets the size of the {@link GameSpace}
-	 * @return
+	 * 
+	 * @return the int size
 	 */
 	public int size() {
 		return things.size();
