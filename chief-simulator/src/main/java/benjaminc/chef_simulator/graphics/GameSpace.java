@@ -19,6 +19,7 @@ public class GameSpace {
 
 	protected List<Thing> things;
 	protected Location loc;
+	protected boolean isChanged;
 	
 	/**
 	 * Make a new GameSpace
@@ -54,14 +55,6 @@ public class GameSpace {
 		this.things = things;
 	}
 	/**
-	 * Sets the location the {@link GameSpace} represents
-	 * 
-	 * @param l the new {@link Location}
-	 */
-	public void setLoc(Location l) {
-		loc = l;
-	}
-	/**
 	 * Gets the location the {@link GameSpace} represents
 	 * 
 	 * @return the {@link Location}
@@ -76,6 +69,7 @@ public class GameSpace {
 	 * @param t the {@link Thing} to add
 	 */
 	public void addThing(Thing t) {
+		isChanged = true;
 		addThing(Integer.MAX_VALUE, t);
 	}
 	/**
@@ -85,6 +79,7 @@ public class GameSpace {
 	 * @param t the new {@link Thing}
 	 */
 	public void addThing(int elev, Thing t) {
+		isChanged = true;
 		if(t != null) {
 			if(elev < size()) {
 				things.add(elev, t);
@@ -101,6 +96,7 @@ public class GameSpace {
 	 * @return the 	removed {@link Thing}
 	 */
 	public Thing removeThing(Thing t) {
+		isChanged = true;
 		things.remove(t);
 		return t;
 	}
@@ -110,6 +106,7 @@ public class GameSpace {
 	 * @param t the {@link Thing}
 	 */
 	public void removeAll(Thing t) {
+		isChanged = true;
 		for(int i = 0; i < things.size(); i++) {
 			if(things.get(i).getClass().isAssignableFrom( t.getClass() )) {
 				things.remove(i--);
@@ -123,6 +120,7 @@ public class GameSpace {
 	 * @return the 	{@link Thing} that was removed
 	 */
 	public Thing removeThing(int elev) {
+		isChanged = true;
 		Thing temp = things.remove(elev);
 		if(things.size() < 1) {
 			things.add(new Floor());
@@ -135,6 +133,7 @@ public class GameSpace {
 	 * @return the {@link Thing} that was removed
 	 */
 	public Thing removeTopThing() {
+		isChanged = true;
 		return removeThing(things.size()-1);
 	}
 	/**
@@ -221,6 +220,10 @@ public class GameSpace {
 				((Tickable) t).tick(r, l, frame);
 			}
 		}
+		if(isChanged) {
+			System.out.println("GameSpace at " + loc.getX() + "," + loc.getY() + "changed");
+		}
+		isChanged = false;
 	}
 	/**
 	 * Gets the size of the {@link GameSpace}
@@ -229,6 +232,28 @@ public class GameSpace {
 	 */
 	public int size() {
 		return things.size();
+	}
+	/**
+	 * Gets if the {@link GameSpace} has been changed
+	 * 
+	 * @return the boolean isChanged
+	 */
+	public boolean isChanged() {
+		return isChanged;
+	}
+	/**
+	 * Sets isChanged to true
+	 */
+	public void setChanged() {
+		isChanged = true;
+	}
+	/**
+	 * Sets if the {@link GameSpace} has been changed
+	 * 
+	 * @param isChanged the boolean isChanged
+	 */
+	public void setChanged(boolean isChanged) {
+		this.isChanged = isChanged;
 	}
 	@Override
 	public String toString() {
