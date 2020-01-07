@@ -270,7 +270,10 @@ public class Game {
 	public static void chat(String msg) {
 		gamePanel.getChatBox().out.println(msg);
 	}
-	
+	/**
+	 * Handles input from a console sending to chat or {@link CommandProcessor} as needed
+	 * @param in the {@link String} to handel 
+	 */
 	public static void consoleInput(String in) {
 		if(in.charAt(0) == '/') {
 			cp.process(in.substring(Math.min(in.length()-1, 1)));
