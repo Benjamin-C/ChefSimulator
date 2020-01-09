@@ -3,7 +3,10 @@ package benjaminc.chef_simulator.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.events.GSChangeEvent;
+import benjaminc.chef_simulator.events.GSChangeEvent.GSChangeEventTypes;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.*;
 import benjaminc.chef_simulator.things.building.Floor;
@@ -83,8 +86,10 @@ public class GameSpace {
 		if(t != null) {
 			if(elev < size()) {
 				things.add(elev, t);
+				EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.ADD, t, loc.toLocation3d(elev)));
 			} else {
 				things.add(t);
+				EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.ADD, t, loc.toLocation3d(size()-1)));
 			}
 		}
 	}
@@ -97,6 +102,7 @@ public class GameSpace {
 	 */
 	public Thing removeThing(Thing t) {
 		isChanged = true;
+		EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, t, loc.toLocation3d(things.indexOf(t))));
 		things.remove(t);
 		return t;
 	}
@@ -109,7 +115,8 @@ public class GameSpace {
 		isChanged = true;
 		for(int i = 0; i < things.size(); i++) {
 			if(things.get(i).getClass().isAssignableFrom( t.getClass() )) {
-				things.remove(i--);
+				EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, things.remove(i), loc.toLocation3d(i)));
+				i--;
 			}
 		}
 	}
@@ -122,6 +129,7 @@ public class GameSpace {
 	public Thing removeThing(int elev) {
 		isChanged = true;
 		Thing temp = things.remove(elev);
+		EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, temp, loc.toLocation3d(elev)));
 		if(things.size() < 1) {
 			things.add(new Floor());
 		}
@@ -134,7 +142,9 @@ public class GameSpace {
 	 */
 	public Thing removeTopThing() {
 		isChanged = true;
-		return removeThing(things.size()-1);
+		Thing rm = removeThing(things.size()-1);
+		EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, rm, loc.toLocation3d(things.size()-1)));
+		return rm;
 	}
 	/**
 	 * Get the {@link Thing} at the elevation
@@ -221,7 +231,7 @@ public class GameSpace {
 			}
 		}
 		if(isChanged) {
-			System.out.println("GameSpace at " + loc.getX() + "," + loc.getY() + "changed");
+//			System.out.println("GameSpace at " + loc.getX() + "," + loc.getY() + "changed");
 		}
 		isChanged = false;
 	}

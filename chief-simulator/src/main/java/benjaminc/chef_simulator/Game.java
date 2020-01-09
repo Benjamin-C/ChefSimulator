@@ -2,6 +2,7 @@ package benjaminc.chef_simulator;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
+import benjaminc.chef_simulator.control.command.EventCommand;
 import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.control.command.SetCommand;
@@ -45,6 +47,8 @@ public class Game {
 	private static boolean multiplayer = false;
 	
 	private static TCPServer server;
+	private static PrintStream serverPrintStream;
+	private static boolean serverConnected;
 	
 	private static Scanner sysin;
 	
@@ -55,7 +59,6 @@ public class Game {
 	}
 	public static void setupGame(int scale, int fps, boolean lago, boolean exitOnClose) {
 		sysin = new Scanner(System.in);
-		
 		setTps = fps;
 		
 		cooks = new ArrayList<Cook>();
@@ -78,6 +81,7 @@ public class Game {
 		cp.addCommand(new MoveCommand());
 		cp.addCommand(new ListCommand());
 		cp.addCommand(new SetCommand());
+		cp.addCommand(new EventCommand());
 		
 		openMultiplayer();
 		
@@ -223,6 +227,8 @@ public class Game {
 						}
 					};
 					server = new TCPServer(25242, odr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
+					serverPrintStream = new PrintStream(server.getOutputStream());
+					serverConnected = true;
 					chat("Client connected");
 			} };
 			serverStarter.start();
@@ -232,6 +238,9 @@ public class Game {
 		
 	}
 	
+	public static boolean isServerConnected() {
+		return serverConnected;
+	}
 	public static boolean isMultiplayer() {
 		return multiplayer;
 	}
@@ -335,5 +344,26 @@ public class Game {
 	
 	public static TCPServer getServer() {
 		return server;
+	}
+	
+	public static PrintStream getServerPrintStream() {
+		return serverPrintStream;
+	}
+	/**
+	 * Gets a {@link Cook} by name
+	 * @param name	the {@link String} name
+	 * @return		the {@link Cook}. Null if no cook of that name exists
+	 */
+	public static Cook getCookByName(String name) {
+		for(Cook c : cooks) {
+			if(c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public static void doNothing() {
+		
 	}
 }

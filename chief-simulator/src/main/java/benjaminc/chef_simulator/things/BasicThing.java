@@ -90,7 +90,7 @@ public class BasicThing implements Thing, Cloneable {
 	 * @param JSON the JSON {@link String};
 	 */
 	public static Thing makeThingFromJSON(String json) {
-		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
+		if(json.length() > 2 && json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			DataMap newDm = null;
 			ThingType newTT = null;
 			json = json.substring(1, json.length() - 1);

@@ -155,8 +155,12 @@ public class JSONTools {
 	}
 	
 	private static void addKVPair(Map<String, String> map, String pair) {
-		String k = peelChar(pair.substring(0, pair.indexOf(":")), '"');
-		String v = peelChar(pair.substring(pair.indexOf(":")+1, pair.length()), '"');
-		map.put(k, v);
+		if(pair.contains(":")) {
+			String k = peelChar(pair.substring(0, pair.indexOf(":")), '"');
+			String v = peelChar(pair.substring(pair.indexOf(":")+1, pair.length()), '"');
+			map.put(k, v);
+		} else {
+			System.out.println("Malformed JSON -->" + pair);
+		}
 	}
 }

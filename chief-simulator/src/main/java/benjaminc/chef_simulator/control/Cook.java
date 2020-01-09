@@ -195,7 +195,6 @@ public class Cook implements Tickable {
 				Game.getRoom().getSpace(newloc).addThing(hand);
 				hand = null;
 			}
-//			game.updateGraphics();
 		}
 	}
 	/**
@@ -204,7 +203,6 @@ public class Cook implements Tickable {
 	 */
 	public void setLocation(Location l) {
 		loc = l;
-//		game.updateGraphics();
 	}
 	/**
 	 * Moves the {@link Cook} 1 step in a direction

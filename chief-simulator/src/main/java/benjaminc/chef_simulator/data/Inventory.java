@@ -42,7 +42,7 @@ public class Inventory implements Savable {
 		List<String> jm = JSONTools.splitJSONArray(json);
 
 		for(String s : jm) {
-			inv.add(BasicThing.makeThingFromJSON(s));
+			add(BasicThing.makeThingFromJSON(s));
 		}
 	}
 	
@@ -68,7 +68,9 @@ public class Inventory implements Savable {
 	 * @param t the {@link Thing} to add
 	 */
 	public void add(Thing t) {
-		inv.add(t);
+		if(t != null) {
+			inv.add(t);
+		}
 	}
 	/**
 	 * Add an {@link Thing} at a location
@@ -76,7 +78,7 @@ public class Inventory implements Savable {
 	 * @param t the {@link Thing} item to put
 	 */
 	public void add(int loc, Thing t) {
-		if(loc < inv.size() && loc >= 0) {
+		if(t != null && loc < inv.size() && loc >= 0) {
 			inv.add(loc, t);
 		}
 	}
@@ -85,7 +87,9 @@ public class Inventory implements Savable {
 	 * @param add the {@link Inventory} to add;
 	 */
 	public void add(Inventory add) {
-		inv.addAll(add.getAll());
+		if(add != null) {
+			inv.addAll(add.getAll());
+		}
 	}
 	/**
 	 * Forcefully puts a {@link Thing} at a location. Overrides and returns whatever was there
