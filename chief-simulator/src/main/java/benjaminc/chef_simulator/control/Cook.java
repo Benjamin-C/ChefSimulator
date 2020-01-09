@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
+import benjaminc.chef_simulator.events.ChefMoveEvent;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.rooms.Room;
@@ -30,9 +31,23 @@ public class Cook implements Tickable {
 	protected long movesDel;
 
 	protected String name;
+	
+	/**
+	 * Makes a new cook.
+	 * @param name	the {@link String} name of the {@link Cook}. Must be unique
+	 * @param color	the {@link Color} of the cook
+	 * @param k		the {@link Map} of {@link ActionType} to {@link Integer} of key actions
+	 */
 	public Cook(String name, Color color, Map<ActionType,Integer> k) {
 		this(name, color, k, new Location(0, 0));
 	}
+	/**
+	 * Makes a new cook.
+	 * @param name	the {@link String} name of the {@link Cook}. Must be unique
+	 * @param color	the {@link Color} of the cook
+	 * @param k		the {@link Map} of {@link ActionType} to {@link Integer} of key actions
+	 * @param l		the {@link Location} of the cook
+	 */
 	public Cook(String name, Color color, Map<ActionType,Integer> k, Location l) {
 		this.name = name;
 		this.color = color;
@@ -73,6 +88,13 @@ public class Cook implements Tickable {
 		});
 	}
 	
+	/**
+	 * Tries to tick the cook
+	 * @param a		the {@link Action} to try
+	 * @param now	the double current frame
+	 * @param del	the long delay
+	 * @return		boolean of success
+	 */
 	private boolean tryTick(Action a, double now, long del) {
 		if(a.getLastUse() <= (now - del) || a.isDoOnce()) {
 			a.setLastUse(now);
@@ -114,6 +136,9 @@ public class Cook implements Tickable {
 		else if (key==keys.get(ActionType.USE_ITEM)) { useItem(); }
 	}
 	
+	/**
+	 * Uses the item in the {@link Cook} hand
+	 */
 	public void useItem() {
 		Location newloc = loc.clone().add(direction);
 		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
@@ -144,11 +169,13 @@ public class Cook implements Tickable {
 						}
 					}
 				}
-//			game.updateGraphics();
 			}
 		}
 	}
 	
+	/**
+	 * Picks up an item at the {@link Cook} location
+	 */
 	public void pickUp() {
 		Location newloc = loc.clone().add(direction);
 		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
@@ -171,12 +198,21 @@ public class Cook implements Tickable {
 //			game.updateGraphics();
 		}
 	}
+	/**
+	 * Sets the {@link Location} of the {@link Cook}
+	 * @param l	the new {@link Location}
+	 */
 	public void setLocation(Location l) {
 		loc = l;
 //		game.updateGraphics();
 	}
-	
+	/**
+	 * Moves the {@link Cook} 1 step in a direction
+	 * @param dir the {@link Direction} to move
+	 */
 	public void move(Direction dir) {
+		Direction startDir = direction;
+		Location startLoc = loc;
 		direction = dir;
 		Location newloc = loc.clone().add(dir);
 		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
@@ -184,19 +220,44 @@ public class Cook implements Tickable {
 				loc = newloc;
 			}
 		}
+		EventHandler.onEvent(new ChefMoveEvent(startDir, direction, startLoc, loc, this));
 	}
+	/**
+	 * Gets the {@link Direction} the cook is facing
+	 * @return the {@link Direction}
+	 */
 	public Direction getDirection() {
 		return direction;
 	}
+	/**
+	 * Sets the {@link Direction} the cook is facing
+	 * @param d	the new {@link Direction}
+	 */
 	public void setDirection(Direction d) {
 		direction = d;
 	}
+	/**
+	 * Adds a {@link Location} to the cook's location and moves there
+	 * @param l	the {@link Location} to add
+	 */
 	public void addLocation(Location l) {
 		loc.add(l);
 	}
+	/**
+	 * Gets the {@link Cook} location
+	 * @return	the {@link Location}
+	 */
 	public Location getLocation() {
 		return loc;
 	}
+	/**
+	 * Draws the {@link Cook} on the screen
+	 * @param g		the {@link Graphics} to draw on
+	 * @param xos	the int x ofset to draw at
+	 * @param yos	the int y ofset to draw at
+	 * @param w		the int width to draw
+	 * @param h		the int height to draw
+	 */
 	public void draw(Graphics g, int xos, int yos, int w, int h) {
 		GraphicalDrawer gd = new GraphicalDrawer(g);
 		int x = loc.getX();
@@ -227,7 +288,10 @@ public class Cook implements Tickable {
 		
 		
 	}
-	
+	/**
+	 * Gets the name of the {@link Cook}
+	 * @return the {@link String} name
+	 */
 	public String getName() {
 		return name;
 	}
