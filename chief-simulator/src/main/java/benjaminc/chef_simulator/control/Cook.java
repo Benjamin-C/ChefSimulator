@@ -10,6 +10,8 @@ import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.events.ChefMoveEvent;
+import benjaminc.chef_simulator.events.ThingAddEvent;
+import benjaminc.chef_simulator.events.ThingRemoveEvent;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.rooms.Room;
@@ -159,13 +161,17 @@ public class Cook implements Tickable {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing) && (thingHere != tool)) {
 							food = thingHere;
-							Game.getRoom().getSpace(newloc).removeThing(food);
+							EventHandler.fireEvent(new ThingRemoveEvent(food, newloc.as3d(0)));
+//							Game.getRoom().getSpace(newloc).removeThing(food); Replaced by above event
 						}
 					} while(food == null && ++loc < whatIsHere.size());
 					List<Thing> tempThing = tool.useTool(food);
 					if(tempThing != null) {
 						for(Thing t : tempThing) {
-							Game.getRoom().getSpace(newloc).addThing(t);
+							if(t != null) {
+								EventHandler.fireEvent(new ThingAddEvent(t, newloc.as3d(0)));
+							}
+//							Game.getRoom().getSpace(newloc).addThing(t); Replaced by above event
 						}
 					}
 				}
@@ -218,7 +224,7 @@ public class Cook implements Tickable {
 				loc = newloc;
 			}
 		}
-		EventHandler.onEvent(new ChefMoveEvent(startDir, direction, startLoc, loc, this));
+		EventHandler.fireEvent(new ChefMoveEvent(startDir, direction, startLoc, loc, this));
 	}
 	/**
 	 * Gets the {@link Direction} the cook is facing

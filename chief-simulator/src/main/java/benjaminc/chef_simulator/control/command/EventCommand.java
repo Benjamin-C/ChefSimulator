@@ -23,7 +23,7 @@ public class EventCommand implements Command {
 			System.out.println(json);
 			Event e = Event.loadEventFromJSON(json);
 			System.out.println(e);
-			EventHandler.runEvent(e);
+			EventHandler.fireEvent(e);
 			return true;
 		}
 		return false;

@@ -118,6 +118,6 @@ public class ThingMoveEvent extends Event implements Savable {
 	
 	@Override
 	public String toString() {
-		return "GSChangeEvent[" + uuid + " " + from.toSimpleString() + " at " + to.toSimpleString() + "]";
+		return "ThingMoveEvent[" + uuid + " " + from.toSimpleString() + " at " + to.toSimpleString() + "]";
 	}
 }

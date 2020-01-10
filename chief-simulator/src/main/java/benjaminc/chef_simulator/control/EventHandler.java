@@ -4,19 +4,36 @@ import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.events.Event;
 
 public class EventHandler {
-
-	public static void onEvent(Event e) {
-		System.out.println(e.asJSON());
-		if(Game.isServerConnected()) {
-			Game.getServerPrintStream().println(e.asJSON());
+	
+	/**
+	 * Fires an {@link Event} to the server
+	 * @param e	the {@link Event} to fire
+	 */
+	public static void fireEvent(Event e) {
+		System.out.println("Trying to run event");
+		if(e != null) {
+			if(Game.isMultiplayer()) {
+				if(Game.getServerPrintStream() != null) {
+					Game.getServerPrintStream().println(e.asJSON());
+				} else {
+					System.out.println("SPS is null");
+					Game.chat("SPS is null");
+				}
+			}
+			reciveEvent(e);
 		}
 	}
 	
-	public static void runEvent(Event e) {
-		System.out.println("Trying to run event");
+	/**
+	 * Executes an {@link Event} from the Server
+	 * @param e	the {@link Event} to call {@link Event#run()} on
+	 */
+	public static void reciveEvent(Event e) {
 		try {
 			if(e != null) {
+				// If the event exists ...
 				e.run();
+				System.out.println(e);
 			} else {
 				System.out.println("Event was null");
 			}
@@ -25,6 +42,4 @@ public class EventHandler {
 			ex.printStackTrace();
 		}
 	}
-	
-	// /event {"EVENT_TYPE":"GS_CHANGE_EVENT","TYPE":"ADD","THING":"{"TYPE":"SPAWNER", "DATAMAP":{"MAKES":{"TYPE":"PLATE", "DATAMAP":{"INVENTORY":[], "DIRECTION":"UP", "VARIANT":"-1", "FOOD_STATE":"RAW"}}, "DIRECTION":"UP", "FOOD_STATE":"RAW"}","LOCATION":"{"D":"3","X":"2","Y":"8","Z":"1"}"}
 }

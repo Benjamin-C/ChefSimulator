@@ -17,7 +17,7 @@ public abstract class Event implements Savable {
 	private boolean canceled;
 	
 	/**
-	 * Loads an {@link Event} from JSON
+	 * Loads an {@link Event} from JSON. Returns null if the event could not be parsed.
 	 * @param json 	the {@link String} JSON
 	 * @return		the {@link Event}
 	 */

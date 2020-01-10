@@ -6,6 +6,7 @@ import java.util.UUID;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.Location3d;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
@@ -25,6 +26,9 @@ public class ThingRemoveEvent extends Event {
 	private UUID uuid;
 	private Location3d location;
 	
+	public ThingRemoveEvent(Thing t, Location3d loc) {
+		this((UUID) t.getDataMap().get(DataMapKey.UUID), loc);
+	}
 	/**
 	 * @param type	the {@link GSChangeEventTypes} of the change
 	 * @param t		the {@link Thing} affected
@@ -75,7 +79,7 @@ public class ThingRemoveEvent extends Event {
 
 	public void run() {
 		GameSpace sp = Game.getRoom().getSpace(location);
-		sp.removeThing(sp.getThing(uuid));
+		System.out.println(sp.removeThing(sp.getThing(uuid)));
 	}
 	
 	@Override
@@ -88,6 +92,6 @@ public class ThingRemoveEvent extends Event {
 	
 	@Override
 	public String toString() {
-		return "GSChangeEvent[" + uuid + " at " + location.toSimpleString() + "]";
+		return "ThingRemoveEvent[" + uuid + " at " + location.toSimpleString() + "]";
 	}
 }

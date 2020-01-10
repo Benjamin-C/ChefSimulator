@@ -10,19 +10,24 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
+import benjamin.BenTCP.TCPClient;
 import benjamin.BenTCP.TCPOnDataArrival;
 import benjamin.BenTCP.TCPServer;
 import benjamin.BenTCP.TCPSetupStream;
 import benjaminc.chef_simulator.control.CommandProcessor;
 import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
+import benjaminc.chef_simulator.control.command.ConnectCommand;
 import benjaminc.chef_simulator.control.command.EventCommand;
 import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.control.command.SetCommand;
+import benjaminc.chef_simulator.events.ChatEvent;
+import benjaminc.chef_simulator.events.Event;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GamePanel;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
@@ -47,8 +52,27 @@ public class Game {
 	private static boolean multiplayer = false;
 	
 	private static TCPServer server;
-	private static PrintStream serverPrintStream;
-	private static boolean serverConnected;
+	private static PrintStream mpPrintStream;
+	private static boolean mpConnected;
+	
+	private static TCPClient client;
+	
+	private static TCPOnDataArrival tcpodr = new TCPOnDataArrival() {
+		
+		@Override
+		public void onDataArrived(byte[] data) {
+			String dataString = "";
+			for(int i = 0; i < data.length; i++) {
+				dataString = dataString + (char) data[i];
+			}
+			System.out.println("Recived: " + dataString);
+//			consoleInput(dataString);
+			Event e = Event.loadEventFromJSON(dataString);
+			if(e != null) {
+				EventHandler.reciveEvent(e);
+			}	
+		}
+	};
 	
 	private static Scanner sysin;
 	
@@ -82,8 +106,9 @@ public class Game {
 		cp.addCommand(new ListCommand());
 		cp.addCommand(new SetCommand());
 		cp.addCommand(new EventCommand());
+		cp.addCommand(new ConnectCommand());
 		
-		openMultiplayer();
+//		openMultiplayer();
 		
 		new CommandSenderConsole();
 	}
@@ -214,35 +239,42 @@ public class Game {
 			Thread serverStarter = new Thread("ServerStart") {
 				@Override public void run() {
 					chat("Waiting for client on port 25242");
-					TCPOnDataArrival odr = new TCPOnDataArrival() {
-						
-						@Override
-						public void onDataArrived(byte[] data) {
-							String dataString = "";
-							for(int i = 0; i < data.length; i++) {
-								dataString = dataString + (char) data[i];
-							}
-							System.out.println("Recived: " + dataString);
-							consoleInput(dataString);
-						}
-					};
-					server = new TCPServer(25242, odr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
-					serverPrintStream = new PrintStream(server.getOutputStream());
-					serverConnected = true;
+					
+					server = new TCPServer(25242, tcpodr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
+					mpPrintStream = new PrintStream(server.getOutputStream());
+					mpConnected = true;
 					chat("Client connected");
 			} };
 			serverStarter.start();
 		} else {
 			chat("Game is already multiplayer! (port 25242)");
-		}
-		
+		}	
 	}
 	
-	public static boolean isServerConnected() {
-		return serverConnected;
+	public static void connectToServer(String ip, int port) {
+		if(!multiplayer) {
+			multiplayer = true;
+			if(paused) {
+				tickTimer.unpause();
+			}
+		}
+		client = new TCPClient(ip, port, tcpodr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), "GameClient");
+		mpPrintStream = new PrintStream(client.getOutputStream());
+		mpConnected = true;
+	}
+	
+	public static boolean isMPConnected() {
+		return mpConnected;
 	}
 	public static boolean isMultiplayer() {
 		return multiplayer;
+	}
+	public static boolean isServer() {
+		if(server != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public static List<Cook> getCooks() {
@@ -277,7 +309,7 @@ public class Game {
 	 * @param msg the {@link String} message
 	 */
 	public static void chat(String msg) {
-		gamePanel.getChatBox().out.println(msg);
+		EventHandler.fireEvent(new ChatEvent(msg, 480));
 	}
 	/**
 	 * Handles input from a console sending to chat or {@link CommandProcessor} as needed
@@ -287,7 +319,7 @@ public class Game {
 		if(in.charAt(0) == '/') {
 			cp.process(in.substring(Math.min(in.length()-1, 1)));
 		} else {
-			chat(in);
+			gamePanel.getChatBox().out.println(in);
 		}
 	}
 	/**
@@ -347,7 +379,7 @@ public class Game {
 	}
 	
 	public static PrintStream getServerPrintStream() {
-		return serverPrintStream;
+		return mpPrintStream;
 	}
 	/**
 	 * Gets a {@link Cook} by name

@@ -73,7 +73,6 @@ public class ChatBox {
 	 */
 	public void addElement(String msg, int time) {
 		elems.add(new ChatBoxElement(msg, lastTick + time));
-		EventHandler.onEvent(new ChatEvent(msg, time));
 	}
 	
 	/**

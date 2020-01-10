@@ -73,7 +73,10 @@ public class Location implements Savable {
 	public boolean equals(Location l) {
 		return l.x == x && l.y == y;
 	}
-	public Location3d toLocation3d(int z) {
-		return new Location3d(z, y, z);
+	public Location3d as3d() {
+		return as3d(0);
+	}
+	public Location3d as3d(int z) {
+		return new Location3d(x, y, z);
 	}
 }

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 import benjaminc.chef_simulator.control.Direction;
+import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
+import benjaminc.chef_simulator.events.ThingMoveEvent;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
@@ -75,7 +77,7 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 					}
 				}
 				for(Thing t : toMove) {
-					ngs.addThing(gs.removeThing(t));
+					EventHandler.fireEvent(new ThingMoveEvent(t, gs.getLoc().as3d(), ngs.getLoc().as3d()));
 				}
 			}
 		} else {

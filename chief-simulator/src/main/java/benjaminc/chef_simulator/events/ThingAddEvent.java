@@ -96,4 +96,9 @@ public class ThingAddEvent extends Event {
 		out += "\"" + ThingAddEventJsonKeys.LOCATION + "\":\"" + loc.asJSON() + "\"";
 		return super.asJSON(EventTypes.THING_ADD_EVENT, out + "}");
 	}
+	
+	@Override
+	public String toString() {
+		return "ThingAddEvent[" + thing + " at " + loc.toSimpleString() + "]";
+	}
 }
