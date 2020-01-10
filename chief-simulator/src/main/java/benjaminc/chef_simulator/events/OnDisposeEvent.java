@@ -9,4 +9,16 @@ package benjaminc.chef_simulator.events;
  */
 public class OnDisposeEvent extends Event {
 
+	@Override
+	public String asJSON() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

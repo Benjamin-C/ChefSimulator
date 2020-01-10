@@ -16,7 +16,7 @@ import benjaminc.util.JSONTools;
  */
 public class ChefMoveEvent extends Event {
 	
-	public enum ChefMoveEventJsonKeys {
+	private enum ChefMoveEventJsonKeys {
 		START_DIR, END_DIR, START_LOC, END_LOC, COOK_ID
 	}
 	
@@ -103,6 +103,21 @@ public class ChefMoveEvent extends Event {
 		return cook;
 	}
 	
+	/**
+	 * Sets the {@link Location} the cook is going to
+	 * @param endLoc the new {@link Location}
+	 */
+	public void setEndLoc(Location endLoc) {
+		this.endLoc = endLoc;
+	}
+	/**
+	 * Sets the {@link Direction} the {@link Cook} will be facing
+	 * @param endDir the new {@link Direction}
+	 */
+	public void setEndDir(Direction endDir) {
+		this.endDir = endDir;
+	}
+	
 	@Override
 	public String toString() {
 		return "ChefMoveEvent[from " + startLoc.toSimpleString() + "," + startDir + " to "
@@ -120,10 +135,8 @@ public class ChefMoveEvent extends Event {
 		return super.asJSON(EventTypes.CHEF_MOVE_EVENT, out + "}");
 	}
 	
-	public void setEndLoc(Location endLoc) {
-		this.endLoc = endLoc;
-	}
-	public void setEndDir(Direction endDir) {
-		this.endDir = endDir;
+	@Override
+	public void run() {
+		
 	}
 }

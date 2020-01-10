@@ -2,11 +2,13 @@ package benjaminc.chef_simulator.graphics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import benjaminc.chef_simulator.control.EventHandler;
+//import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.events.GSChangeEvent;
-import benjaminc.chef_simulator.events.GSChangeEvent.GSChangeEventTypes;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
+//import benjaminc.chef_simulator.events.ThingChangeEvent;
+//import benjaminc.chef_simulator.events.ThingChangeEvent.GSChangeEventTypes;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.*;
 import benjaminc.chef_simulator.things.building.Floor;
@@ -86,10 +88,10 @@ public class GameSpace {
 		if(t != null) {
 			if(elev < size()) {
 				things.add(elev, t);
-				EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.ADD, t, loc.toLocation3d(elev)));
+//				EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.ADD, t, loc.toLocation3d(elev)));
 			} else {
 				things.add(t);
-				EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.ADD, t, loc.toLocation3d(size()-1)));
+//				EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.ADD, t, loc.toLocation3d(size()-1)));
 			}
 		}
 	}
@@ -101,10 +103,14 @@ public class GameSpace {
 	 * @return the 	removed {@link Thing}
 	 */
 	public Thing removeThing(Thing t) {
-		isChanged = true;
-		EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, t, loc.toLocation3d(things.indexOf(t))));
-		things.remove(t);
-		return t;
+		if(t != null) {
+			isChanged = true;
+	//		EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.REMOVE, t, loc.toLocation3d(things.indexOf(t))));
+			things.remove(t);
+			return t;
+		} else {
+			return null;
+		}
 	}
 	/**
 	 * Removes all instances of a {@link Thing} from the space
@@ -115,7 +121,7 @@ public class GameSpace {
 		isChanged = true;
 		for(int i = 0; i < things.size(); i++) {
 			if(things.get(i).getClass().isAssignableFrom( t.getClass() )) {
-				EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, things.remove(i), loc.toLocation3d(i)));
+//				EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.REMOVE, things.remove(i), loc.toLocation3d(i)));
 				i--;
 			}
 		}
@@ -129,7 +135,7 @@ public class GameSpace {
 	public Thing removeThing(int elev) {
 		isChanged = true;
 		Thing temp = things.remove(elev);
-		EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, temp, loc.toLocation3d(elev)));
+//		EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.REMOVE, temp, loc.toLocation3d(elev)));
 		if(things.size() < 1) {
 			things.add(new Floor());
 		}
@@ -137,13 +143,12 @@ public class GameSpace {
 	}
 	/**
 	 * Removes the top {@link Thing} from a room
-	 * 
 	 * @return the {@link Thing} that was removed
 	 */
 	public Thing removeTopThing() {
 		isChanged = true;
 		Thing rm = removeThing(things.size()-1);
-		EventHandler.onEvent(new GSChangeEvent(GSChangeEventTypes.REMOVE, rm, loc.toLocation3d(things.size()-1)));
+//		EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.REMOVE, rm, loc.toLocation3d(things.size()-1)));
 		return rm;
 	}
 	/**
@@ -166,6 +171,19 @@ public class GameSpace {
 	 */
 	public Thing getThing() {
 		return things.get(things.size() - 1);
+	}
+	/**
+	 * Gets a {@link Thing} by {@link UUID}
+	 * @param uuid	the {@link UUID} of the {@link Thing}
+	 * @return		the {@link Thing}
+	 */
+	public Thing getThing(UUID uuid) {
+		for(Thing t : things) {
+			if(t.getDataMap().get(DataMapKey.UUID).equals(uuid)) {
+				return t;
+			}
+		}
+		return null;
 	}
 	/**
 	 * Gets all {@link Thing}s here

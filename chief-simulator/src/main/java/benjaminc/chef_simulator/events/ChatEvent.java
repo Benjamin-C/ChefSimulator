@@ -7,7 +7,7 @@ import benjaminc.util.JSONTools;
 
 public class ChatEvent extends Event {
 
-	public enum ChatEventJsonKeys {
+	private enum ChatEventJsonKeys {
 		MESSAGE, TIME;
 	}
 

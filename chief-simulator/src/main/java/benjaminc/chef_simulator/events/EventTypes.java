@@ -1,7 +1,10 @@
 package benjaminc.chef_simulator.events;
 
 public enum EventTypes {
-	GS_CHANGE_EVENT(GSChangeEvent.class),
+	THING_ADD_EVENT(ThingAddEvent.class),
+	THING_CHANGE_EVENT(ThingChangeEvent.class),
+	THING_REMOVE_EVENT(ThingMoveEvent.class),
+	THING_MOVE_EVENT(ThingRemoveEvent.class),
 	CHEF_MOVE_EVENT(ChefMoveEvent.class),
 	CHAT_EVENT(ChatEvent.class);
 	

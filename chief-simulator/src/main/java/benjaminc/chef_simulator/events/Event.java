@@ -12,14 +12,15 @@ import benjaminc.util.JSONTools;
  * @author Benjamin-C
  *
  */
-public class Event implements Savable {
+public abstract class Event implements Savable {
 	
-	boolean canceled;
+	private boolean canceled;
 	
-	public Event() {
-		
-	}
-	
+	/**
+	 * Loads an {@link Event} from JSON
+	 * @param json 	the {@link String} JSON
+	 * @return		the {@link Event}
+	 */
 	public static Event loadEventFromJSON(String json) {
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			EventTypes type = null;
@@ -73,17 +74,13 @@ public class Event implements Savable {
 		return canceled;
 	}
 	
-	@Override
-	public String asJSON() {
-		return null;
-	}
-	
 	protected String asJSON(EventTypes type, String eventJSON) {
 		return "{\"EVENT_TYPE\":\"" + type + "\",\"DATA\":" + eventJSON + "}";
 	}
 	
-	public void run() {
-		throw new NullPointerException("Run must be defined by the subclass");
-	}
+	/**
+	 * Runs the event
+	 */
+	public abstract void run();
 
 }
