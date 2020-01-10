@@ -95,7 +95,14 @@ public class GameSpace {
 			}
 		}
 	}
-	
+	/**
+	 * Removes a {@link Thing} by a {@link UUID}
+	 * @param uuid	the {@link UUID} of the {@link Thing} to remove
+	 * @return		the {@link Thing} that was removed
+	 */
+	public Thing removeThing(UUID uuid) {
+		return removeThing(getThing(uuid));
+	}
 	/**
 	 * Removes a {@link Thing} from the {@link GameSpace}
 	 * 
@@ -121,6 +128,8 @@ public class GameSpace {
 		isChanged = true;
 		for(int i = 0; i < things.size(); i++) {
 			if(things.get(i).getClass().isAssignableFrom( t.getClass() )) {
+				System.out.println("Found thing to remove");
+				/* Thing rm = */things.remove(i);
 //				EventHandler.onEvent(new ThingChangeEvent(GSChangeEventTypes.REMOVE, things.remove(i), loc.toLocation3d(i)));
 				i--;
 			}

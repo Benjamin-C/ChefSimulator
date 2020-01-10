@@ -3,6 +3,7 @@ package benjaminc.chef_simulator.events;
 import java.util.Map;
 import java.util.UUID;
 
+import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.Location3d;
 import benjaminc.chef_simulator.data.Savable;
@@ -103,7 +104,7 @@ public class ThingMoveEvent extends Event implements Savable {
 	
 	@Override
 	public void run() {
-		// TODO make go code
+		Game.getRoom().getSpace(to).addThing(Game.getRoom().getSpace(from).removeThing(uuid));
 	}
 	
 	@Override
