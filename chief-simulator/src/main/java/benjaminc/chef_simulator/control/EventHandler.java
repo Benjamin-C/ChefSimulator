@@ -6,18 +6,25 @@ import benjaminc.chef_simulator.events.Event;
 public class EventHandler {
 	
 	/**
+	  * IMPORTANT NOTE
+	  * DO NOT FIRE EVENTS HERE. Make sure that no events are fired during
+	  * the event handling routines. If an event must be fired during
+	  * an Event, be sure that the event does not fire itself.
+	 */
+	
+	/**
 	 * Fires an {@link Event} to the server
 	 * @param e	the {@link Event} to fire
 	 */
 	public static void fireEvent(Event e) {
-		System.out.println("Trying to run event");
+		Game.getGamePanel().getChatBox().out.println("Firing Event");
 		if(e != null) {
 			if(Game.isMultiplayer()) {
 				if(Game.getServerPrintStream() != null) {
 					Game.getServerPrintStream().println(e.asJSON());
 				} else {
 					System.out.println("SPS is null");
-					Game.chat("SPS is null");
+					Game.getGamePanel().getChatBox().out.println("SPS is null");
 				}
 			}
 			reciveEvent(e);
@@ -29,6 +36,7 @@ public class EventHandler {
 	 * @param e	the {@link Event} to call {@link Event#run()} on
 	 */
 	public static void reciveEvent(Event e) {
+		Game.getGamePanel().getChatBox().out.println("Got Event");
 		try {
 			if(e != null) {
 				// If the event exists ...

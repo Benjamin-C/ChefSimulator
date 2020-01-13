@@ -22,6 +22,7 @@ public abstract class Event implements Savable {
 	 * @return		the {@link Event}
 	 */
 	public static Event loadEventFromJSON(String json) {
+		json = JSONTools.unformatJSON(json);
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			EventTypes type = null;
 			String data = "";

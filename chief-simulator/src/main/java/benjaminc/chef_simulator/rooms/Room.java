@@ -84,10 +84,11 @@ public class Room implements Drawable, Savable, Cloneable {
 	public void changeLayout(String json) {
 		Map<String, String> j = JSONTools.splitJSON(json);
 		
-		System.out.println(JSONTools.unformatJSON(json));
+		System.out.println("JSON size is " + JSONTools.unformatJSON(json));
+		System.out.println(JSONTools.printMap(j));
 		System.out.println(j.keySet());
 		List<String> rows = JSONTools.splitJSONArray(j.get(RoomDataKey.ROOM.toString()));
-		
+		System.out.println(rows);
 		try {
 			width = Integer.parseInt(j.get(RoomDataKey.WIDTH.toString()));
 			height = Integer.parseInt(j.get(RoomDataKey.HEIGHT.toString()));
@@ -159,8 +160,8 @@ public class Room implements Drawable, Savable, Cloneable {
 		String s = "{\n";
 		
 		// Size
-		s = s + tabs(tabs) + "\"" + RoomDataKey.WIDTH + "\":" + width + ",\n";
-		s = s + tabs(tabs) + "\"" + RoomDataKey.HEIGHT + "\":" + height + ",\n";
+		s = s + tabs(tabs) + "\"" + RoomDataKey.WIDTH + "\":\"" + width + "\",\n";
+		s = s + tabs(tabs) + "\"" + RoomDataKey.HEIGHT + "\":\"" + height + "\",\n";
 		
 		// Room
 		s = s + tabs(tabs) + "\"" + RoomDataKey.ROOM + "\":[\n" + tabs(++tabs);

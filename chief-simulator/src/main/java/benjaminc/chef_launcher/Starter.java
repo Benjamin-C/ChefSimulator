@@ -93,6 +93,26 @@ public class Starter {
 		gamestartjp.add(gamestartjpBottom);
 		window.add(gamestartjp);
 		
+		JPanel serverConnect = new JPanel();
+		
+		JTextArea serverAddress = new JTextArea();
+		serverAddress.setText("localhost:25242");
+		serverConnect.add(serverAddress);
+		
+		JButton serverConnectButton = new JButton("Connect");
+		
+		serverConnectButton.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent arg0) {
+				try {
+					int sc = Integer.parseInt(gamestartjt.getText());
+					int fs = Integer.parseInt(gamestartjtf.getText());
+					ChefSimulatorControl.run(sc, fs, gamestartjcb.isSelected(), serverAddress.getText());
+					jf.dispose();
+				} catch (NumberFormatException e) { System.out.println("Size must be number"); }
+		} });
+		serverConnect.add(serverConnectButton);
+		window.add(serverConnect);
+		
 		JPanel others = new JPanel();
 		
 		JButton texturestartjb = new JButton("Texture Editor");

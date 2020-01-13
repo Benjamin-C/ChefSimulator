@@ -4,12 +4,44 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import benjaminc.chef_simulator.data.DataLoader;
+
 /**
  * @author Benjamin-C
  *
  */
 public class ChefSimulatorControl {
 
+	/**
+	 * Starts a new Chief Simulator Game
+	 * @param sc the int number of pixels for the width and height of each gamespace
+	 * @param fs the int number of target frames per second / ticks per second
+	 * @param lm the boolean to show the lagometer by default
+	 */
+	public static void run(int sc, int fs, boolean lm, String ipAndPort) {
+		try {
+			int c = ipAndPort.indexOf(':');
+			String ip = ipAndPort.substring(0, c);
+			System.out.println(ip);
+			System.out.println(ipAndPort.substring(c+1));
+			int port = Integer.parseInt(ipAndPort.substring(c+1));
+			Game.connectToServer(ip, port);
+			Game.setupGame(sc, fs, lm, true);
+			Game.setDataLoader(new DataLoader() {
+				@Override public void processData(String data) {
+					Game.setDataLoader(null);
+					Game.playJSONMap(data);
+				}
+			});
+			Game.getServerPrintStream().print("%");
+			System.out.println("Waiting for data ...");
+			System.out.println(Thread.currentThread().getName());
+		} catch(NumberFormatException e) {
+			System.out.println("A number broke me");
+		}
+		
+	}
+	
 	/**
 	 * Starts a new Chief Simulator Game
 	 * @param sc the int number of pixels for the width and height of each gamespace

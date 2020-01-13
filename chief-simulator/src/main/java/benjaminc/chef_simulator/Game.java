@@ -26,6 +26,7 @@ import benjaminc.chef_simulator.control.command.EventCommand;
 import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.control.command.SetCommand;
+import benjaminc.chef_simulator.data.DataLoader;
 import benjaminc.chef_simulator.events.ChatEvent;
 import benjaminc.chef_simulator.events.Event;
 import benjaminc.chef_simulator.graphics.ActionType;
@@ -57,6 +58,8 @@ public class Game {
 	
 	private static TCPClient client;
 	
+	private static DataLoader dataLoader = null;
+	
 	private static TCPOnDataArrival tcpodr = new TCPOnDataArrival() {
 		
 		@Override
@@ -65,12 +68,20 @@ public class Game {
 			for(int i = 0; i < data.length; i++) {
 				dataString = dataString + (char) data[i];
 			}
-			System.out.println("Recived: " + dataString);
-//			consoleInput(dataString);
-			Event e = Event.loadEventFromJSON(dataString);
-			if(e != null) {
-				EventHandler.reciveEvent(e);
-			}	
+			System.out.println("Recived: " + dataString + "<");
+			if(dataLoader != null) {
+				dataLoader.processData(dataString);
+			} else {
+	//			consoleInput(dataString);
+				switch(dataString.charAt(0)) {
+				case '{': Event e = Event.loadEventFromJSON(dataString);
+					if(e != null) {
+						EventHandler.reciveEvent(e);
+					} break;
+				case '%': getServerPrintStream().println(Game.getRoom().asJSON());
+				default: Game.getGamePanel().getChatBox().out.println(dataString);
+				}
+			}
 		}
 	};
 	
@@ -192,6 +203,21 @@ public class Game {
 		tickTimer.end();
 		System.out.println("Done");
 		new MessageDialog("Game Over, You Win", "You won the game! Your score was " + score.getScore());
+	}
+	
+	/**
+	 * Checks if the game is trying to load data
+	 * @return the boolean loadingData
+	 */
+	public static DataLoader getDataLoader() {
+		return dataLoader;
+	}
+	/**
+	 * Sets wether or not the game is loading data
+	 * @param newLoadingData the boolean newLoadingData
+	 */
+	public static void setDataLoader(DataLoader newDataLoader) {
+		dataLoader = newDataLoader;
 	}
 	
 	/**

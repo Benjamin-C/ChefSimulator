@@ -28,7 +28,7 @@ public class JSONTools {
 		case '\"': return JSONType.ELEMENT;
 		case '{': return JSONType.OBJECT;
 		case '[': return JSONType.ARRAY;
-		default: return JSONType.ELEMENT;
+		default: return JSONType.NONE;
 		}
 	}
 	
@@ -38,6 +38,7 @@ public class JSONTools {
 	 * @return the {@link String} of unformatted JSON
 	 */
 	public static String unformatJSON(String formattedJSON) {
+		System.out.println(formattedJSON.length());
 		return formattedJSON.replace(" ","").replace("\t","").replace("\n","");
 	}
 	
@@ -162,5 +163,25 @@ public class JSONTools {
 		} else {
 			System.out.println("Malformed JSON -->" + pair);
 		}
+	}
+	
+	/**
+	 * Gets a {@link Map} of {@link String} to {@link String} as a {@link String} for clean printing
+	 * @param map 	the {@link Map} of {@link String} to {@link String} to print
+	 * @return 		the {@link String} result
+	 */
+	public static String printMap(Map<String, String> map) {
+		String s = "[ <";
+		boolean fencepost = false;
+		for(String st : map.keySet()) {
+			if(fencepost) {
+				s += "> <";
+			} else {
+				fencepost = true;
+			}
+			s += st + ">=<" + map.get(s);
+		}
+		s += "> ]";
+		return s;
 	}
 }

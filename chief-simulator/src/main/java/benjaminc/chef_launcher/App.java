@@ -33,6 +33,7 @@ public class App {
  		
  		boolean runGame = true;
  		boolean useStarter = true;
+ 		
  		if(runGame) {
  			doit(useStarter);
  		} else {
