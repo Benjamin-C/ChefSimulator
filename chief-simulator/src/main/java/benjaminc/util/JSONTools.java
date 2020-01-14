@@ -100,7 +100,6 @@ public class JSONTools {
 				case ',': { 
 					if(curl==0 && squ==0) {
 						String p = json.substring(startdata, i);
-						System.out.println(p);
 						addKVPair(s, p);
 						startdata = i + 1;
 					}

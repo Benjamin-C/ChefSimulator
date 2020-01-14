@@ -10,7 +10,7 @@ import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
-import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.Savable;
 import benjaminc.chef_simulator.graphics.Drawable;
@@ -26,8 +26,8 @@ public class Room implements Drawable, Savable, Cloneable {
 	/** the {@link GameSpace} 2d array of the room */
 	protected GameSpace[][] room;
 	
-	/** the {@link List} of {@link Cook} in the room */
-	protected List<Cook> cooks;
+	/** the {@link List} of {@link Chef} in the room */
+	protected List<Chef> cooks;
 	/** the int width of the room in cells */
 	protected int width;
 	/** the int height of the room in cells */
@@ -43,16 +43,16 @@ public class Room implements Drawable, Savable, Cloneable {
 	 * @param whenDone the {@link Object} to run {@link Object#notify()} when done
 	 */
 	public Room(int w, int h, Object whenDone) {
-		this(w, h, whenDone, new ArrayList<Cook>());
+		this(w, h, whenDone, new ArrayList<Chef>());
 	}
 	
 	/**
 	 * @param w the int width in cells
 	 * @param h the int height in cells
 	 * @param whenDone the {@link Object} to run {@link Object}#{@link #notify()} when done
-	 * @param cooks the {@link List} of {@link Cook} to put in the room
+	 * @param cooks the {@link List} of {@link Chef} to put in the room
 	 */
-	public Room(int w, int h, Object whenDone, List<Cook> cooks) {
+	public Room(int w, int h, Object whenDone, List<Chef> cooks) {
 		initForGame(whenDone, cooks);
 		
 		width = w;
@@ -69,9 +69,9 @@ public class Room implements Drawable, Savable, Cloneable {
 	/**
 	 * @param json the JSON {@link String} representation of the {@link Room}
 	 * @param whenDone the {@link Object} to run {@link Object}#{@link #notify()} when done
-	 * @param cooks the {@link List} of {@link Cook} to put in the room
+	 * @param cooks the {@link List} of {@link Chef} to put in the room
 	 */
-	public Room(String json, Object whenDone, List<Cook> cooks) {
+	public Room(String json, Object whenDone, List<Chef> cooks) {
 		initForGame(whenDone, cooks);
 		
 		changeLayout(json);
@@ -133,9 +133,9 @@ public class Room implements Drawable, Savable, Cloneable {
 	/**
 	 * Basic {@link Room} init
 	 * @param whenDone the {@link Object} to run {@link Object#notify()} when done
-	 * @param cooks the {@link List} of {@link Cook} to put in the room
+	 * @param cooks the {@link List} of {@link Chef} to put in the room
 	 */
-	public void initForGame(Object whenDone, List<Cook> cooks) {
+	public void initForGame(Object whenDone, List<Chef> cooks) {
 		this.cooks = cooks;
 		whenDoneSync = whenDone;
 		if(whenDoneSync == null) {
@@ -328,9 +328,9 @@ public class Room implements Drawable, Savable, Cloneable {
 	}
 	/**
 	 * Adds a cook to the room
-	 * @param c the {@link Cook} to add
+	 * @param c the {@link Chef} to add
 	 */
-	public void addCook(Cook c) {
+	public void addCook(Chef c) {
 		cooks.add(c);
 	}
 	
@@ -344,7 +344,7 @@ public class Room implements Drawable, Savable, Cloneable {
 				room[i][j].tick(this, new Location(i, j), frame);
 			}
 		}
-		for(Cook c : cooks) {
+		for(Chef c : cooks) {
 			c.tick(this, c.getLocation(), frame);
 		}
 	}
@@ -359,7 +359,7 @@ public class Room implements Drawable, Savable, Cloneable {
 	}
 	public void drawCooks(Graphics g, int x, int y, int boxWidth, int boxHeight) {
 		if(cooks != null) {
-			for(Cook c : cooks) {
+			for(Chef c : cooks) {
 				c.draw(g, x, y, boxWidth,  boxHeight);
 			}
 		} else {

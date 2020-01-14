@@ -5,7 +5,7 @@ import java.util.List;
 
 import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.Score;
-import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.FoodState;
@@ -38,7 +38,7 @@ public class Level1 extends Room {
 	
 	private int cookStart[][] = {{1, 1}, {14, 1}};
 	
-	public Level1(List<Cook> cooks, Score score) {
+	public Level1(List<Chef> cooks, Score score) {
 		super(16, 16, new Object(), cooks); // Change these to width and height!
 
 		for(int i = 0; i < cooks.size(); i++) {

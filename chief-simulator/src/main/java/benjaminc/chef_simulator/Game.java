@@ -15,7 +15,7 @@ import benjamin.BenTCP.TCPOnDataArrival;
 import benjamin.BenTCP.TCPServer;
 import benjamin.BenTCP.TCPSetupStream;
 import benjaminc.chef_simulator.control.CommandProcessor;
-import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.KeyListenAction;
 import benjaminc.chef_simulator.control.Location;
@@ -48,7 +48,7 @@ public class Game {
 	
 	public static int droppedFrameCount = 0;
 	private static int setTps = 6;
-	private static List<Cook> cooks;
+	private static List<Chef> cooks;
 	
 	private static boolean paused;
 	private static boolean multiplayer = false;
@@ -92,7 +92,7 @@ public class Game {
 		sysin = new Scanner(System.in);
 		setTps = fps;
 		
-		cooks = new ArrayList<Cook>();
+		cooks = new ArrayList<Chef>();
 		score = new Score();
 		GraphicalLoader.loadCache("assets/textures/");
 		room = new Room(1, 1, new Object(), cooks);
@@ -152,7 +152,7 @@ public class Game {
 		};
 		control.start();
 	}
-	public static Cook newCook(String name, Color color, Location location, int up, int down, int left, int right, int pickup, int use) {
+	public static Chef newCook(String name, Color color, Location location, int up, int down, int left, int right, int pickup, int use) {
 		Map<ActionType, Integer> keys = new HashMap<ActionType, Integer>();
 		keys.put(ActionType.MOVE_UP, up);
 		keys.put(ActionType.MOVE_DOWN, down);
@@ -160,7 +160,7 @@ public class Game {
 		keys.put(ActionType.MOVE_RIGHT, right);
 		keys.put(ActionType.PICKUP_ITEM, pickup);
 		keys.put(ActionType.USE_ITEM, use);
-		return new Cook(name, color, keys, location);
+		return new Chef(name, color, keys, location);
 	}
 
 	public static void setObservedTps(double tps) {
@@ -300,7 +300,7 @@ public class Game {
 		}
 	}
 	
-	public static List<Cook> getCooks() {
+	public static List<Chef> getCooks() {
 		return cooks;
 	}
 	public static List<Objective> getObjectives() {
@@ -405,12 +405,12 @@ public class Game {
 		return mpPrintStream;
 	}
 	/**
-	 * Gets a {@link Cook} by name
+	 * Gets a {@link Chef} by name
 	 * @param name	the {@link String} name
-	 * @return		the {@link Cook}. Null if no cook of that name exists
+	 * @return		the {@link Chef}. Null if no cook of that name exists
 	 */
-	public static Cook getCookByName(String name) {
-		for(Cook c : cooks) {
+	public static Chef getChefByName(String name) {
+		for(Chef c : cooks) {
 			if(c.getName().equals(name)) {
 				return c;
 			}

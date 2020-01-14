@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
+import benjaminc.chef_simulator.events.ChefInteractEvent;
+import benjaminc.chef_simulator.events.ChefInteractEvent.ChefInteractEventTypes;
 import benjaminc.chef_simulator.events.ChefMoveEvent;
 import benjaminc.chef_simulator.events.ThingAddEvent;
 import benjaminc.chef_simulator.events.ThingRemoveEvent;
@@ -20,7 +22,7 @@ import benjaminc.chef_simulator.things.types.AttachedThing;
 import benjaminc.chef_simulator.things.types.Tickable;
 import benjaminc.chef_simulator.things.types.ToolThing;
 
-public class Cook implements Tickable {
+public class Chef implements Tickable {
 	
 	protected Location loc;
 	protected Thing hand;
@@ -35,22 +37,22 @@ public class Cook implements Tickable {
 	protected String name;
 	
 	/**
-	 * Makes a new cook.
-	 * @param name	the {@link String} name of the {@link Cook}. Must be unique
+	 * Makes a new {@link Chef}.
+	 * @param name	the {@link String} name of the {@link Chef}. Must be unique
 	 * @param color	the {@link Color} of the cook
 	 * @param k		the {@link Map} of {@link ActionType} to {@link Integer} of key actions
 	 */
-	public Cook(String name, Color color, Map<ActionType,Integer> k) {
+	public Chef(String name, Color color, Map<ActionType,Integer> k) {
 		this(name, color, k, new Location(0, 0));
 	}
 	/**
-	 * Makes a new cook.
-	 * @param name	the {@link String} name of the {@link Cook}. Must be unique
+	 * Makes a new {@link Chef}.
+	 * @param name	the {@link String} name of the {@link Chef}. Must be unique
 	 * @param color	the {@link Color} of the cook
 	 * @param k		the {@link Map} of {@link ActionType} to {@link Integer} of key actions
 	 * @param l		the {@link Location} of the cook
 	 */
-	public Cook(String name, Color color, Map<ActionType,Integer> k, Location l) {
+	public Chef(String name, Color color, Map<ActionType,Integer> k, Location l) {
 		this.name = name;
 		this.color = color;
 		loc = l;
@@ -139,7 +141,7 @@ public class Cook implements Tickable {
 	}
 	
 	/**
-	 * Uses the item in the {@link Cook} hand
+	 * Uses the item in the {@link Chef} hand
 	 */
 	public void useItem() {
 		Location newloc = loc.clone().add(direction);
@@ -180,7 +182,7 @@ public class Cook implements Tickable {
 	}
 	
 	/**
-	 * Picks up an item at the {@link Cook} location
+	 * Picks up an item at the {@link Chef} location
 	 */
 	public void pickUp() {
 		Location newloc = loc.clone().add(direction);
@@ -192,26 +194,24 @@ public class Cook implements Tickable {
 					do {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing)) {
-							hand = thingHere;
-							Game.getRoom().getSpace(newloc).removeThing(hand);
+							EventHandler.fireEvent(new ChefInteractEvent(ChefInteractEventTypes.PICK_UP, name, thingHere));
 						}
 					} while(hand == null && loc-- <= 0);
 				}
 			} else {
-				Game.getRoom().getSpace(newloc).addThing(hand);
-				hand = null;
+				EventHandler.fireEvent(new ChefInteractEvent(ChefInteractEventTypes.PUT_DOWN, name, hand));
 			}
 		}
 	}
 	/**
-	 * Sets the {@link Location} of the {@link Cook}
+	 * Sets the {@link Location} of the {@link Chef}
 	 * @param l	the new {@link Location}
 	 */
 	public void setLocation(Location l) {
 		loc = l;
 	}
 	/**
-	 * Moves the {@link Cook} 1 step in a direction
+	 * Moves the {@link Chef} 1 step in a direction
 	 * @param dir the {@link Direction} to move
 	 */
 	public void move(Direction dir) {
@@ -248,14 +248,14 @@ public class Cook implements Tickable {
 		loc.add(l);
 	}
 	/**
-	 * Gets the {@link Cook} location
+	 * Gets the {@link Chef} location
 	 * @return	the {@link Location}
 	 */
 	public Location getLocation() {
 		return loc;
 	}
 	/**
-	 * Draws the {@link Cook} on the screen
+	 * Draws the {@link Chef} on the screen
 	 * @param g		the {@link Graphics} to draw on
 	 * @param xos	the int x ofset to draw at
 	 * @param yos	the int y ofset to draw at
@@ -293,7 +293,21 @@ public class Cook implements Tickable {
 		
 	}
 	/**
-	 * Gets the name of the {@link Cook}
+	 * Gets the {@link Thing} in the {@link Chef} hand.
+	 * @return the {@link Thing}
+	 */
+	public Thing getHand() {
+		return hand;
+	}
+	/**
+	 * Sets the {@link Thing} in the {@link Chef} hand.
+	 * @param hand the new {@link Thing}
+	 */
+	public void setHand(Thing hand) {
+		this.hand = hand;
+	}
+	/**
+	 * Gets the name of the {@link Chef}
 	 * @return the {@link String} name
 	 */
 	public String getName() {

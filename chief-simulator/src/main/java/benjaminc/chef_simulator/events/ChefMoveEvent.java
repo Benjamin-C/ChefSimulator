@@ -3,7 +3,7 @@ package benjaminc.chef_simulator.events;
 import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.util.JSONTools;
@@ -24,17 +24,17 @@ public class ChefMoveEvent extends Event {
 	private Direction endDir;
 	private Location startLoc;
 	private Location endLoc;
-	private Cook cook;
+	private Chef cook;
 	
 	/**
 	 * Makes a new Chef Move Event
-	 * @param startDir	the {@link Direction} the {@link Cook} was looking
-	 * @param endDir	the {@link Direction} the {@link Cook} is now looking
-	 * @param startLoc	the {@link Location} the {@link Cook} was in
-	 * @param endLoc	the {@link Location} the {@link Cook} is now in
-	 * @param cook		the {@link Cook}
+	 * @param startDir	the {@link Direction} the {@link Chef} was looking
+	 * @param endDir	the {@link Direction} the {@link Chef} is now looking
+	 * @param startLoc	the {@link Location} the {@link Chef} was in
+	 * @param endLoc	the {@link Location} the {@link Chef} is now in
+	 * @param cook		the {@link Chef}
 	 */
-	public ChefMoveEvent(Direction startDir, Direction endDir, Location startLoc, Location endLoc, Cook cook) {
+	public ChefMoveEvent(Direction startDir, Direction endDir, Location startLoc, Location endLoc, Chef cook) {
 		super();
 		this.startDir = startDir;
 		this.endDir = endDir;
@@ -51,7 +51,7 @@ public class ChefMoveEvent extends Event {
 				try {
 					ChefMoveEventJsonKeys tdk = ChefMoveEventJsonKeys.valueOf(s);
 					switch(tdk) {
-					case COOK_ID: cook = Game.getCookByName(js.get(s)); break;
+					case COOK_ID: cook = Game.getChefByName(js.get(s)); break;
 					case END_DIR: endDir = Direction.valueOf(js.get(s)); break;
 					case START_DIR:  startDir = Direction.valueOf(js.get(s));break;
 					case END_LOC: endLoc = new Location(js.get(s)); break;
@@ -68,38 +68,38 @@ public class ChefMoveEvent extends Event {
 	}
 	
 	/**
-	 * Gets the {@link Direction} the {@link Cook} is now looking
+	 * Gets the {@link Direction} the {@link Chef} is now looking
 	 * @return the {@link Direction}
 	 */
 	public Direction getEndDir() {
 		return endDir;
 	}
 	/**
-	 * Gets the {@link Location} the {@link Cook} is now at
+	 * Gets the {@link Location} the {@link Chef} is now at
 	 * @return the {@link Location}
 	 */
 	public Location getEndLoc() {
 		return endLoc;
 	}
 	/**
-	 * Gets the {@link Direction} the {@link Cook} was looking
+	 * Gets the {@link Direction} the {@link Chef} was looking
 	 * @return the {@link Direction}
 	 */
 	public Direction getStartDir() {
 		return startDir;
 	}
 	/**
-	 * Gets the {@link Location} the {@link Cook} was at
+	 * Gets the {@link Location} the {@link Chef} was at
 	 * @return the {@link Location}
 	 */
 	public Location getStartLoc() {
 		return startLoc;
 	}
 	/**
-	 * Gets the {@link Cook} that moved
-	 * @return the {@link Cook}
+	 * Gets the {@link Chef} that moved
+	 * @return the {@link Chef}
 	 */
-	public Cook getCook() {
+	public Chef getCook() {
 		return cook;
 	}
 	
@@ -111,7 +111,7 @@ public class ChefMoveEvent extends Event {
 		this.endLoc = endLoc;
 	}
 	/**
-	 * Sets the {@link Direction} the {@link Cook} will be facing
+	 * Sets the {@link Direction} the {@link Chef} will be facing
 	 * @param endDir the new {@link Direction}
 	 */
 	public void setEndDir(Direction endDir) {

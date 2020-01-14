@@ -1,7 +1,7 @@
 package benjaminc.chef_simulator.control.command;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.control.Location;
 
@@ -21,7 +21,7 @@ public class MoveCommand implements Command {
 	@Override
 	public boolean execute(String[] args) {
 		if(args.length > ARG_COUNT) {
-			for(Cook c : Game.getCooks()) {
+			for(Chef c : Game.getCooks()) {
 				if(c.getName().equalsIgnoreCase(args[1])) {
 					int x = -1;
 					int y = -1;

@@ -1,7 +1,7 @@
 package benjaminc.chef_simulator.control.command;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Cook;
+import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.things.Thing;
 
@@ -22,7 +22,7 @@ public class ListCommand implements Command{
 			if(args.length == 1) {
 				String out = "Cooks: ";
 				boolean fencepost = false;
-				for(Cook c : Game.getCooks()) {
+				for(Chef c : Game.getCooks()) {
 					if(fencepost) {
 						out += ", ";
 					} else {
