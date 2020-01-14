@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.data.DataLoader;
+import benjaminc.chef_simulator.events.EventDestination;
+import benjaminc.chef_simulator.events.SpecialActionEvent;
+import benjaminc.chef_simulator.events.SpecialActionEvent.SpecialActionEventTypes;
 
 /**
  * @author Benjamin-C
@@ -33,7 +37,7 @@ public class ChefSimulatorControl {
 					Game.playJSONMap(data);
 				}
 			});
-			Game.getServerPrintStream().print("%");
+			EventHandler.fireEvent(new SpecialActionEvent(SpecialActionEventTypes.GET_MAP, ""), EventDestination.SERVER);
 			System.out.println("Waiting for data ...");
 			System.out.println(Thread.currentThread().getName());
 		} catch(NumberFormatException e) {

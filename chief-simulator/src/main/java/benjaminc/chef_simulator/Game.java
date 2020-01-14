@@ -23,6 +23,7 @@ import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
 import benjaminc.chef_simulator.control.command.ConnectCommand;
 import benjaminc.chef_simulator.control.command.EventCommand;
+import benjaminc.chef_simulator.control.command.FindCommand;
 import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.control.command.SetCommand;
@@ -69,18 +70,13 @@ public class Game {
 				dataString = dataString + (char) data[i];
 			}
 			System.out.println("Recived: " + dataString + "<");
-			if(dataLoader != null) {
-				dataLoader.processData(dataString);
-			} else {
-	//			consoleInput(dataString);
-				switch(dataString.charAt(0)) {
-				case '{': Event e = Event.loadEventFromJSON(dataString);
-					if(e != null) {
-						EventHandler.reciveEvent(e);
-					} break;
-				case '%': getServerPrintStream().println(Game.getRoom().asJSON());
-				default: Game.getGamePanel().getChatBox().out.println(dataString);
+//			consoleInput(dataString);
+			switch(dataString.charAt(0)) {
+			case '{': Event e = Event.loadEventFromJSON(dataString);
+				if(e != null) {
+					EventHandler.reciveEvent(e); break;
 				}
+			default: Game.getGamePanel().getChatBox().out.println(dataString);
 			}
 		}
 	};
@@ -118,6 +114,7 @@ public class Game {
 		cp.addCommand(new SetCommand());
 		cp.addCommand(new EventCommand());
 		cp.addCommand(new ConnectCommand());
+		cp.addCommand(new FindCommand());
 		
 //		openMultiplayer();
 		

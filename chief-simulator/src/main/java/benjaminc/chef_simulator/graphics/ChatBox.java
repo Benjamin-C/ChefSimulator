@@ -8,9 +8,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import benjaminc.chef_simulator.control.EventHandler;
-import benjaminc.chef_simulator.events.ChatEvent;
-
 public class ChatBox {
 	
 	protected List<ChatBoxElement> elems;

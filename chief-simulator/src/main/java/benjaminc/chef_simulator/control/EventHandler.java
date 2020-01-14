@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.control;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.events.Event;
+import benjaminc.chef_simulator.events.EventDestination;
 
 public class EventHandler {
 	
@@ -17,17 +18,28 @@ public class EventHandler {
 	 * @param e	the {@link Event} to fire
 	 */
 	public static void fireEvent(Event e) {
-		Game.getGamePanel().getChatBox().out.println("Firing Event");
+		fireEvent(e, EventDestination.BOTH);
+	}
+	
+	/**
+	 * Fires an {@link Event} to the server
+	 * @param e	the {@link Event} to fire
+	 */
+	public static void fireEvent(Event e, EventDestination d) {
 		if(e != null) {
-			if(Game.isMultiplayer()) {
-				if(Game.getServerPrintStream() != null) {
-					Game.getServerPrintStream().println(e.asJSON());
-				} else {
-					System.out.println("SPS is null");
-					Game.getGamePanel().getChatBox().out.println("SPS is null");
+			if(d == EventDestination.SERVER || d == EventDestination.BOTH) {
+				if(Game.isMultiplayer()) {
+					if(Game.getServerPrintStream() != null) {
+						Game.getServerPrintStream().println(e.asJSON());
+					} else {
+						System.out.println("SPS is null");
+						Game.getGamePanel().getChatBox().out.println("SPS is null");
+					}
 				}
 			}
-			reciveEvent(e);
+			if(d == EventDestination.LOCAL || d == EventDestination.BOTH) {
+				reciveEvent(e);
+			}
 		}
 	}
 	
@@ -36,7 +48,6 @@ public class EventHandler {
 	 * @param e	the {@link Event} to call {@link Event#run()} on
 	 */
 	public static void reciveEvent(Event e) {
-		Game.getGamePanel().getChatBox().out.println("Got Event");
 		try {
 			if(e != null) {
 				// If the event exists ...

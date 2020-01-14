@@ -38,8 +38,7 @@ public class JSONTools {
 	 * @return the {@link String} of unformatted JSON
 	 */
 	public static String unformatJSON(String formattedJSON) {
-		System.out.println(formattedJSON.length());
-		return formattedJSON.replace(" ","").replace("\t","").replace("\n","");
+		return formattedJSON.replace(" ","").replace("\t","").replace("\n","").replace("\r","");
 	}
 	
 	/**
@@ -101,6 +100,7 @@ public class JSONTools {
 				case ',': { 
 					if(curl==0 && squ==0) {
 						String p = json.substring(startdata, i);
+						System.out.println(p);
 						addKVPair(s, p);
 						startdata = i + 1;
 					}

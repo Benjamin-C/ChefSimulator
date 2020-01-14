@@ -102,7 +102,8 @@ public class BasicThing implements Thing, Cloneable {
 					newDm = new DataMap(js.get(s));
 					break;
 				case TYPE:
-					newTT = ThingType.valueOf(js.get(s)); 
+					System.out.println(js.get(s) + " from " + json);
+					newTT = ThingType.valueOf(js.get(s).toUpperCase()); 
 					break;
 				default:
 					break;

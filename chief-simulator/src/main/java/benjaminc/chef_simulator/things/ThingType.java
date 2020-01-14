@@ -34,6 +34,8 @@ import benjaminc.chef_simulator.things.tools.Plate;
  */
 public enum ThingType {
 	
+	/** {@link NullThing} */
+	NULL(NullThing.class),
 	/** {@link Belt} */
 	BELT(Belt.class),
 	/** {@link Counter} */

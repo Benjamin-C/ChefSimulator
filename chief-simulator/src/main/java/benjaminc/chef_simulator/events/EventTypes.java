@@ -6,7 +6,8 @@ public enum EventTypes {
 	THING_REMOVE_EVENT(ThingMoveEvent.class),
 	THING_MOVE_EVENT(ThingRemoveEvent.class),
 	CHEF_MOVE_EVENT(ChefMoveEvent.class),
-	CHAT_EVENT(ChatEvent.class);
+	CHAT_EVENT(ChatEvent.class),
+	SPECIAL_ACTION(SpecialActionEvent.class);
 	
 	Class<?> mclass;
 	

@@ -1,9 +1,6 @@
 package benjaminc.chef_simulator.control.command;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Cook;
-import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.things.Thing;
 
 public class ConnectCommand implements Command{
 	
