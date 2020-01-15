@@ -9,6 +9,7 @@ import benjaminc.chef_simulator.data.DataLoader;
 import benjaminc.chef_simulator.events.EventDestination;
 import benjaminc.chef_simulator.events.SpecialActionEvent;
 import benjaminc.chef_simulator.events.SpecialActionEvent.SpecialActionEventTypes;
+import benjaminc.chef_simulator.graphics.GraphicalLoader;
 
 /**
  * @author Benjamin-C

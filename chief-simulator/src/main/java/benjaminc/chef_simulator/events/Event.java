@@ -36,7 +36,7 @@ public abstract class Event implements Savable {
 			}
 			if(type != null && data != "") {
 				Object newobj = null;
-
+				
 				try {
 					Class<?> clazz = type.getMyClass();
 					Constructor<?> ctor = clazz.getConstructor(String.class);

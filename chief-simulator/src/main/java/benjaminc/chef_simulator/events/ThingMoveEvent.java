@@ -60,12 +60,13 @@ public class ThingMoveEvent extends Event implements Savable {
 					ThingRemoveEventJsonKeys tdk = ThingRemoveEventJsonKeys.valueOf(s);
 					switch(tdk) {
 					case FROM: from = new Location3d(js.get(s)); break;
-					case TO: from = new Location3d(js.get(s)); break;
+					case TO: to = new Location3d(js.get(s)); break;
 					case UUID: uuid = UUID.fromString(js.get(s)); break;
 					default: break;
 					 }
 				} catch(IllegalArgumentException e) {}
 			}
+			
 			if(uuid != null && from != null && to != null) {
 				return;
 			}

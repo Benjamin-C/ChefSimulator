@@ -69,7 +69,6 @@ public class Game {
 			for(int i = 0; i < data.length; i++) {
 				dataString = dataString + (char) data[i];
 			}
-			System.out.println("Recived: " + dataString + "<");
 //			consoleInput(dataString);
 			switch(dataString.charAt(0)) {
 			case '{': Event e = Event.loadEventFromJSON(dataString);

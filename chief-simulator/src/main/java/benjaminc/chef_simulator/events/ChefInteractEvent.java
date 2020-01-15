@@ -63,6 +63,7 @@ public class ChefInteractEvent extends Event {
 		this.chefName = name;
 	}
 	public void run() {
+		Game.getGamePanel().getChatBox().out.println("Running ChefInteractEvent");
 		Chef c = Game.getChefByName(chefName);
 		Location newloc = c.getLocation().clone().add(c.getDirection());
 		
