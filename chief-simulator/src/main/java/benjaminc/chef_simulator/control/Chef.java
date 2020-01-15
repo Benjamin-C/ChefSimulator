@@ -172,9 +172,9 @@ public class Chef implements Tickable {
 					if(tempThing != null) {
 						boolean changedFood = false;
 						for(Thing t : tempThing) {
-							if(t.getDataMap().get(DataMapKey.UUID).equals(food.getDataMap().get(DataMapKey.UUID))) {
-								EventHandler.fireEvent(
-										new ThingChangeEvent((UUID) food.getDataMap().get(DataMapKey.UUID), t.getDataMap(), newloc.as3d(0)));
+							if(t.getUUID().equals(food.getUUID())) {
+								EventHandler.fireEvent(new ThingChangeEvent((UUID) food.getUUID(), t.getDataMap(), newloc.as3d(0)));
+								changedFood = true;
 							}
 							if(t != null) {
 								EventHandler.fireEvent(new ThingAddEvent(t, newloc.as3d(0)));

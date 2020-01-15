@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.Savable;
 
@@ -9,6 +11,7 @@ public interface Thing extends Savable {
 	public abstract boolean isSame(Thing t);
 	public abstract DataMap getDataMap();
 	public abstract void setDataMap(DataMap m);
+	public abstract UUID getUUID();
 	public abstract Thing clone();
 	public abstract boolean equals(Thing t);
 	public abstract String getName();

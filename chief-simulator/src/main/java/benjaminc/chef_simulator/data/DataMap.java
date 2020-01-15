@@ -2,7 +2,6 @@ package benjaminc.chef_simulator.data;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.graphics.GraphicalLoader;
@@ -22,7 +21,6 @@ public class DataMap implements Savable {
 	 */
 	public DataMap() {
 		dataMap = new HashMap<DataMapKey, Object>();
-		put(DataMapKey.UUID, UUID.randomUUID());
 	}
 	
 	public DataMap(String json) {
@@ -37,7 +35,6 @@ public class DataMap implements Savable {
 			case FOOD_STATE: dataMap.put(dmk, FoodState.valueOf(js.get(s.toUpperCase()))); break;
 			case INVENTORY: dataMap.put(dmk, new Inventory(js.get(s))); break;
 			case MAKES: dataMap.put(dmk, BasicThing.makeThingFromJSON(js.get(s))); break;
-			case UUID: dataMap.put(dmk, UUID.fromString(js.get(s))); break;
 			case TEXTURE: dataMap.put(DataMapKey.TEXTURE, GraphicalLoader.load(js.get(s)));
 			default: break;
 			}
@@ -120,10 +117,6 @@ public class DataMap implements Savable {
 			if(!dm.containsKey(k) && onlyCheckSame) {
 				return false;
 			}
-			if(k != DataMapKey.UUID && !dataMap.get(k).equals(dm.get(k))) {
-				System.out.println(k + " did not match (they=" + dm.get(k) + " me=" + dataMap.get(k) + ")");
-				return false;
-			}
 		}
 		return true;
 	}
@@ -178,10 +171,6 @@ public class DataMap implements Savable {
 	}
 
 	public enum DataMapKey {
-		/**
-		 * a {@link UUID} unique to this DataMap
-		 */
-		UUID(UUID.class, false, true),
 		/**
 		 * a {@link Double} of the last frame that the Object was moved
 		 */

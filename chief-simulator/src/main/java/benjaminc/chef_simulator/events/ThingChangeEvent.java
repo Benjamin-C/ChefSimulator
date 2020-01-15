@@ -94,8 +94,7 @@ public class ThingChangeEvent extends Event {
 
 	public void run() {
 		Thing th = Game.getRoom().getSpace(location).getThing(location.getZ());
-		if(th.getDataMap().get(DataMapKey.UUID).equals(uuid)) {
-			data.put(DataMapKey.UUID, th.getDataMap().get(DataMapKey.UUID));
+		if(th.getUUID().equals(uuid)) {
 			th.setDataMap(data);
 		}
 	}

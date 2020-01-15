@@ -21,14 +21,24 @@ public class BasicThing implements Thing, Cloneable {
 	//protected GraphicalThing graphics;
 	protected DataMap dataMap;
 	protected Class<?> subclass;
+	protected UUID uuid;
 	
 	/**
+	 * Creates a new {@link BasicThing} with a random {@link UUID}
+	 * @param dataMap 	the {@link DataMap} information for the Thing
+	 * @param subclass 	the {@link Class} of the {@link Thing} this represents
+	 */
+	public BasicThing(DataMap dataMap, Class<?> subclass) {
+		this(dataMap, subclass, UUID.randomUUID());
+	}
+	/**
 	 * Creates a new {@link BasicThing}
-	 * @param dataMap the {@link DataMap} information for the Thing
-	 * @param subclass the {@link Class} of the {@link Thing} this represents
+	 * @param dataMap 	the {@link DataMap} information for the Thing
+	 * @param subclass 	the {@link Class} of the {@link Thing} this represents
+	 * @param uuid		the {@link UUID} of the {@link Thing}
 	 */
 	@SuppressWarnings("deprecation")
-	public BasicThing(DataMap dataMap, Class<?> subclass) {
+	public BasicThing(DataMap dataMap, Class<?> subclass, UUID uuid) {
 		this.subclass = subclass;
 		this.dataMap = dataMap;
 		if(this.dataMap == null) {
@@ -55,7 +65,11 @@ public class BasicThing implements Thing, Cloneable {
 			pkg = pkg.substring(pkg.lastIndexOf(".")+1);
 			this.dataMap.put(DataMapKey.TEXTURE, GraphicalLoader.load(pkg + "/" + this.subclass.getSimpleName()));
 		}
-		
+		if(uuid != null) {
+			this.uuid = uuid;
+		} else {
+			this.uuid = UUID.randomUUID();
+		}
 	}
 	/**
 	 * Creates a new {@link BasicThing}
@@ -174,7 +188,7 @@ public class BasicThing implements Thing, Cloneable {
 	}
 	
 	public UUID getUUID() {
-		return (UUID) dataMap.get(DataMapKey.UUID);
+		return uuid;
 	}
 	
 	@Override
