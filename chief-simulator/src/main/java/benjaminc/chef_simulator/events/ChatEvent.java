@@ -29,7 +29,7 @@ public class ChatEvent extends Event {
 				ChatEventJsonKeys tdk = ChatEventJsonKeys.valueOf(s);
 				switch(tdk) {
 				case TIME: try { time = Double.parseDouble(js.get(s)); } catch(NumberFormatException e) {} break;
-				case MESSAGE: message = js.get(s); break;
+				case MESSAGE: message = js.get(s).replace("\n", "\\n"); break;
 				default: break;
 				}
 			}
@@ -53,7 +53,7 @@ public class ChatEvent extends Event {
 		this.time = frame;
 	}
 	public void run() {
-		Game.consoleInput(message);
+		Game.consoleInput(message.replace("\\n", "\n"));
 	}
 	
 	@Override

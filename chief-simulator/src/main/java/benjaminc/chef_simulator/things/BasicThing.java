@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
@@ -170,6 +171,10 @@ public class BasicThing implements Thing, Cloneable {
 		}
 		System.out.println("BasicThing is same");
 		return true;
+	}
+	
+	public UUID getUUID() {
+		return (UUID) dataMap.get(DataMapKey.UUID);
 	}
 	
 	@Override

@@ -7,12 +7,15 @@ import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
+import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.events.ChefInteractEvent;
 import benjaminc.chef_simulator.events.ChefInteractEvent.ChefInteractEventTypes;
 import benjaminc.chef_simulator.events.ChefMoveEvent;
 import benjaminc.chef_simulator.events.ThingAddEvent;
+import benjaminc.chef_simulator.events.ThingChangeEvent;
 import benjaminc.chef_simulator.events.ThingRemoveEvent;
 import benjaminc.chef_simulator.graphics.ActionType;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
@@ -163,18 +166,23 @@ public class Chef implements Tickable {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing) && (thingHere != tool)) {
 							food = thingHere;
-							EventHandler.fireEvent(new ThingRemoveEvent(food, newloc.as3d(0)));
-//							Game.getRoom().getSpace(newloc).removeThing(food); Replaced by above event
 						}
 					} while(food == null && ++loc < whatIsHere.size());
 					List<Thing> tempThing = tool.useTool(food);
 					if(tempThing != null) {
+						boolean changedFood = false;
 						for(Thing t : tempThing) {
+							if(t.getDataMap().get(DataMapKey.UUID).equals(food.getDataMap().get(DataMapKey.UUID))) {
+								EventHandler.fireEvent(
+										new ThingChangeEvent((UUID) food.getDataMap().get(DataMapKey.UUID), t.getDataMap(), newloc.as3d(0)));
+							}
 							if(t != null) {
 								EventHandler.fireEvent(new ThingAddEvent(t, newloc.as3d(0)));
 							}
 //							Game.getRoom().getSpace(newloc).addThing(t); Replaced by above event
 						}
+						EventHandler.fireEvent(new ThingRemoveEvent(food, newloc.as3d(0)));
+						
 					}
 				}
 			}
