@@ -7,7 +7,6 @@ import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.Location3d;
 import benjaminc.chef_simulator.data.DataMap;
-import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;

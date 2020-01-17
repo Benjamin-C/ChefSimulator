@@ -7,7 +7,6 @@ import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.Location3d;
 import benjaminc.chef_simulator.data.Savable;
-import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
@@ -33,7 +32,7 @@ public class ThingMoveEvent extends Event implements Savable {
 	 * @param loc	the {@link Location3d} of the thing
 	 */
 	public ThingMoveEvent(Thing thing, Location3d from, Location3d to) {
-		this.uuid = (UUID) thing.getDataMap().get(DataMapKey.UUID);
+		this.uuid = thing.getUUID();
 		this.from = from;
 		this.to = to;
 	}

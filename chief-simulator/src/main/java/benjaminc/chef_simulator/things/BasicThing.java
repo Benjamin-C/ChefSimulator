@@ -108,6 +108,7 @@ public class BasicThing implements Thing, Cloneable {
 		if(json.length() > 2 && json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			DataMap newDm = null;
 			ThingType newTT = null;
+			UUID newUUID = null;
 			json = json.substring(1, json.length() - 1);
 			Map<String, String> js = JSONTools.splitJSON(json);
 			for(String s : js.keySet()) {
@@ -120,12 +121,14 @@ public class BasicThing implements Thing, Cloneable {
 					System.out.println(js.get(s) + " from " + json);
 					newTT = ThingType.valueOf(js.get(s).toUpperCase()); 
 					break;
+				case UUID:
+					newUUID = UUID.fromString(js.get(s));
 				default:
 					break;
 				}
 			}
 			
-			return ThingType.getThingOfType(newTT, newDm);
+			return ThingType.getThingOfType(newTT, newDm, newUUID);
 		}
 		return null;
 	}

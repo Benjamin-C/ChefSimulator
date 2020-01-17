@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-//import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.data.DataMap.DataMapKey;
-//import benjaminc.chef_simulator.events.ThingChangeEvent;
-//import benjaminc.chef_simulator.events.ThingChangeEvent.GSChangeEventTypes;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.*;
 import benjaminc.chef_simulator.things.building.Floor;
@@ -188,7 +184,7 @@ public class GameSpace {
 	 */
 	public Thing getThing(UUID uuid) {
 		for(Thing t : things) {
-			if(t.getDataMap().get(DataMapKey.UUID).equals(uuid)) {
+			if(t.getUUID().equals(uuid)) {
 				return t;
 			}
 		}

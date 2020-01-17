@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.building.Belt;
@@ -101,17 +102,27 @@ public enum ThingType {
 	
 	/**
 	 * Gets a {@link Thing} from a {@link ThingType}
-	 * @param t the {@link ThingType} to make
-	 * @param d the {@link DataMap} pass to the {@link Thing} constructor
-	 * @return the new {@link Thing}. Null if something bad happened
+	 * @param t		the {@link ThingType} to make
+	 * @param d 	the {@link DataMap} pass to the {@link Thing} constructor
+	 * @return 		the new {@link Thing}. Null if something bad happened
 	 */
 	public static Thing getThingOfType(ThingType t, DataMap d) {
+		return getThingOfType(t, d, UUID.randomUUID());
+	}
+	/**
+	 * Gets a {@link Thing} from a {@link ThingType}
+	 * @param t		the {@link ThingType} to make
+	 * @param d		the {@link DataMap} pass to the {@link Thing} constructor
+	 * @param uuid	the {@link UUID} of the new {@link Thing} 
+	 * @return the	new {@link Thing}. Null if something bad happened
+	 */
+	public static Thing getThingOfType(ThingType t, DataMap d, UUID uuid) {
 		Object newobj = null;
 
 		try {
 			Class<?> clazz = t.getMyClass();
-			Constructor<?> ctor = clazz.getConstructor(DataMap.class);
-			newobj = ctor.newInstance(d);
+			Constructor<?> ctor = clazz.getConstructor(DataMap.class, Class.class, UUID.class);
+			newobj = ctor.newInstance(d, t.getClass(), uuid);
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException err) {
 			err.printStackTrace();
 		}
@@ -126,7 +137,7 @@ public enum ThingType {
 	/**
 	 * Gets the {@link ThingType} of a {@link Thing}
 	 * @param t the {@link Thing} to look at
-	 * @return the {@link ThingType}
+	 * @return 	the {@link ThingType}
 	 */
 	public static ThingType getTypeOfThing(Thing t) {
 		for(ThingType tt : ThingType.values()) {

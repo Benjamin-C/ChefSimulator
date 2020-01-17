@@ -25,6 +25,8 @@ public interface Thing extends Savable {
 	/** the {@link ThingType} of the {@link Thing} */
 	TYPE,
 	/** the {@link DataMap} of the {@link Thing} */
-	DATAMAP;
+	DATAMAP,
+	/** the {@link UUID} of the {@link Thing} */
+	UUID;
 	}
 }

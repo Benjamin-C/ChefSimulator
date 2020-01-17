@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.events.ChefInteractEvent;
 import benjaminc.chef_simulator.events.ChefInteractEvent.ChefInteractEventTypes;
 import benjaminc.chef_simulator.events.ChefMoveEvent;
@@ -180,6 +179,9 @@ public class Chef implements Tickable {
 								EventHandler.fireEvent(new ThingAddEvent(t, newloc.as3d(0)));
 							}
 //							Game.getRoom().getSpace(newloc).addThing(t); Replaced by above event
+						}
+						if(changedFood) {
+							// TODO change food
 						}
 						EventHandler.fireEvent(new ThingRemoveEvent(food, newloc.as3d(0)));
 						

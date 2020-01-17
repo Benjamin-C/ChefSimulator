@@ -6,7 +6,6 @@ import java.util.UUID;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
@@ -26,7 +25,7 @@ public class ChefInteractEvent extends Event {
 	public ChefInteractEvent(ChefInteractEventTypes type, String chefName, Thing thing) {
 		this.type = type;
 		this.chefName = chefName;
-		this.uuid = (UUID) thing.getDataMap().get(DataMapKey.UUID);
+		this.uuid = thing.getUUID();
 	}
 	
 	public ChefInteractEvent(String json) {

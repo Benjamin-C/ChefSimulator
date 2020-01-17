@@ -6,7 +6,6 @@ import java.util.UUID;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.Location3d;
-import benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
@@ -27,7 +26,7 @@ public class ThingRemoveEvent extends Event {
 	private Location3d location;
 	
 	public ThingRemoveEvent(Thing t, Location3d loc) {
-		this((UUID) t.getDataMap().get(DataMapKey.UUID), loc);
+		this(t.getUUID(), loc);
 	}
 	/**
 	 * @param type	the {@link GSChangeEventTypes} of the change
