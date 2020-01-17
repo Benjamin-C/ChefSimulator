@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things.building;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -9,10 +11,10 @@ public class Floor extends BasicThing implements AttachedThing {
 
 	protected final static int VARIANT_COUNT = (int) System.currentTimeMillis();
 	public Floor() {
-		this(null);
+		this(null, null);
 	}
-	public Floor(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Floor.class);
+	public Floor(DataMap dataMap, UUID uuid) {
+		super(dataMap, Floor.class, uuid);
 	}
 
 //	@Override

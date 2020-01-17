@@ -1,6 +1,7 @@
 package benjaminc.chef_simulator.things.building;
 
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Direction;
@@ -22,10 +23,10 @@ public class Button extends BasicThing implements ToolThing, AttachedThing, Tick
 
 	protected final static int VARIANT_COUNT = 1;
 	public Button() {
-		this(null, null);
+		this(null, (UUID) null);
 	}
-	public Button(DataMap dataMap) {
-		this(dataMap, null);
+	public Button(DataMap dataMap, UUID uuid) {
+		super(dataMap, Button.class, uuid);
 	}
 	public Button(Direction dir) {
 		this(null, dir);

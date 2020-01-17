@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.building;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
@@ -25,10 +26,10 @@ public class Disposal extends BasicThing implements SolidThing, Tickable {
 
 	protected final static int VARIANT_COUNT = 1;
 	public Disposal() {
-		this(null);
+		this(null, null);
 	}
-	public Disposal(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Disposal.class);
+	public Disposal(DataMap dataMap, UUID uuid) {
+		super(dataMap, Disposal.class, uuid);
 	}
 
 	@Override

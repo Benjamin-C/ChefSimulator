@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things.building;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
@@ -13,10 +15,10 @@ public class DishCounter extends BasicThing implements SolidThing, DirectionalTh
 	
 	protected final static int VARIANT_COUNT = 1;
 	public DishCounter() {
-		this(null, null);
+		this(null, (UUID) null);
 	}
-	public DishCounter(DataMap dataMap) {
-		this(dataMap, null, null);
+	public DishCounter(DataMap dataMap, UUID uuid) {
+		super(dataMap, DishCounter.class, uuid);
 	}
 	public DishCounter(Direction dir, FoodState fs) {
 		this(null, dir, fs);

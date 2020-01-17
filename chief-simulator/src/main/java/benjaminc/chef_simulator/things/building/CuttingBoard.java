@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.building;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.BasicThing;
@@ -14,10 +15,10 @@ public class CuttingBoard extends BasicThing implements ToolThing, SolidThing {
 
 	protected final static int VARIANT_COUNT = 1;
 	public CuttingBoard() {
-		this(null);
+		this(null, null);
 	}
-	public CuttingBoard(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, CuttingBoard.class);
+	public CuttingBoard(DataMap dataMap, UUID uuid) {
+		super(dataMap, CuttingBoard.class, uuid);
 	}
 	
 //	@Override

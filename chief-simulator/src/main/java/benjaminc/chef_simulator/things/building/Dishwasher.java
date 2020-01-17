@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.building;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.DataMap;
@@ -18,10 +19,10 @@ public class Dishwasher extends BasicThing implements ToolThing, SolidThing, Dir
 
 	protected final static int VARIANT_COUNT = 1;
 	public Dishwasher() {
-		this(null, null);
+		this(null, (UUID) null);
 	}
-	public Dishwasher(DataMap dataMap) {
-		this(dataMap, null);
+	public Dishwasher(DataMap dataMap, UUID uuid) {
+		super(dataMap, Dishwasher.class, uuid);
 	}
 	public Dishwasher(Direction dir) {
 		this(null, dir);

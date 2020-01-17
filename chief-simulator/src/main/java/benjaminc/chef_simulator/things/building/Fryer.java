@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.building;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.BasicThing;
@@ -14,10 +15,10 @@ public class Fryer extends BasicThing implements ToolThing, SolidThing {
 
 	protected final static int VARIANT_COUNT = 1;
 	public Fryer() {
-		this(null);
+		this(null, null);
 	}
-	public Fryer(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Fryer.class);
+	public Fryer(DataMap dataMap, UUID uuid) {
+		super(dataMap, Fryer.class, uuid);
 	}
 	
 //	@Override

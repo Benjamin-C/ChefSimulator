@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things.building;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -9,10 +11,10 @@ public class Counter extends BasicThing implements SolidThing {
 	
 	protected final static int VARIANT_COUNT = 1;
 	public Counter() {
-		this(null);
+		this(null, null);
 	}
-	public Counter(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Counter.class);
+	public Counter(DataMap dataMap, UUID uuid) {
+		super(dataMap, Counter.class, uuid);
 	}
 
 //	@Override

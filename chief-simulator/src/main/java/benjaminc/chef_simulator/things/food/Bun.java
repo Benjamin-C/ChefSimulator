@@ -1,6 +1,7 @@
 package benjaminc.chef_simulator.things.food;
 
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
@@ -26,10 +27,10 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 	protected final static int VARIANT_COUNT = 1;
 	protected final static int MAX_INV_SIZE = 64;
 	public Bun() {
-		this((DataMap) null);
+		this(null, null);
 	}
-	public Bun(DataMap idataMap) {
-		super(idataMap, VARIANT_COUNT, Bun.class);
+	public Bun(DataMap idataMap, UUID uuid) {
+		super(idataMap, Bun.class, uuid);
 		finalPrep();
 	}
 	public Bun(int variant, FoodState state) {
@@ -42,7 +43,7 @@ public class Bun extends BasicThing implements FoodThing, ContainerThing, Custom
 		finalPrep();
 	}
 	public Bun(List<Thing> toppings) {
-		this((DataMap) null);
+		this(null, null);
 		dataMap.put(DataMapKey.INVENTORY, new Inventory(toppings));
 		finalPrep();
 	}

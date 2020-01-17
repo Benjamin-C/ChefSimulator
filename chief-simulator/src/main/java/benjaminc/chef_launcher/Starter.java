@@ -41,12 +41,12 @@ public class Starter {
 		
 		JLabel gamestartjl = new JLabel("Resolution");
 		JTextArea gamestartjt = new JTextArea(1, 3);
-		gamestartjt.setText("40");
+		gamestartjt.setText("32");
 		gamestartjpTop.add(gamestartjl); gamestartjpTop.add(gamestartjt);
 		
 		JLabel gamestartjlf = new JLabel("FPS");
 		JTextArea gamestartjtf = new JTextArea(1, 3);
-		gamestartjtf.setText("60");
+		gamestartjtf.setText("15");
 		JCheckBox gamestartjcb = new JCheckBox("Lag-O-Meter");
 		gamestartjcb.setSelected(true);
 		JButton gamestartjb = new JButton("go");

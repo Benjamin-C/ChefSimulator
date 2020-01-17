@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
@@ -72,8 +73,8 @@ public class Plate extends BasicThing implements ContainerThing, CustomDrawingTh
 		}
 		dataMap.put(DataMapKey.INVENTORY, myinv);
 	}
-	public Plate(DataMap data) {
-		super(data, Plate.class);
+	public Plate(DataMap dataMap, UUID uuid) {
+		super(dataMap, Plate.class, uuid);
 	}
 	
 	@Override

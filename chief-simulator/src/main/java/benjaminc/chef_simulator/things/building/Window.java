@@ -3,6 +3,7 @@ package benjaminc.chef_simulator.things.building;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
@@ -22,10 +23,10 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing {
 	protected final static int VARIANT_COUNT = 1;
 
 	public Window() {
-		this(null);
+		this(null, null);
 	}
-	public Window(DataMap dataMap) {
-		super(dataMap, Window.class);
+	public Window(DataMap dataMap, UUID uuid) {
+		super(dataMap, Window.class, uuid);
 	}
 	
 //	@Override

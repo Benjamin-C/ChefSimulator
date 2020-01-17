@@ -1,6 +1,7 @@
 package benjaminc.chef_simulator.things.building;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.ArrayList;
 
 import benjaminc.chef_simulator.control.Direction;
@@ -26,7 +27,10 @@ public class Belt extends BasicThing implements SolidThing, DirectionalThing, Ti
 	
 	protected final static int VARIANT_COUNT = 1;
 	public Belt() {
-		this((DataMap) null);
+		this(null, null);
+	}
+	public Belt(DataMap dataMap, UUID uuid) {
+		super(dataMap, Belt.class, uuid);
 	}
 	public Belt(DataMap dataMap) {
 		super(dataMap, VARIANT_COUNT, Belt.class);

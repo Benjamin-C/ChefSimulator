@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things.food;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.InvalidDatatypeException;
@@ -13,11 +15,10 @@ public class Tomato extends BasicThing implements FoodThing, Choppable{
 
 	protected final static int VARIANT_COUNT = 1;
 	public Tomato() {
-		this(null);
+		this(null, null);
 	}
-	public Tomato(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Tomato.class);
-		//graphics = GraphicalLoader.load(this.getClass().getSimpleName(), this.dataMap);
+	public Tomato(DataMap dataMap, UUID uuid) {
+		super(dataMap, Tomato.class, uuid);
 	}
 	public Tomato(int variant, FoodState state) {
 		super(variant, state, VARIANT_COUNT, Tomato.class);

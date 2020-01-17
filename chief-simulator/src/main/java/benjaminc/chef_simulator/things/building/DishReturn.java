@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things.building;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -9,10 +11,10 @@ public class DishReturn extends BasicThing implements SolidThing {
 	
 	protected final static int VARIANT_COUNT = 1;
 	public DishReturn() {
-		this(null);
+		this(null, null);
 	}
-	public DishReturn(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, DishReturn.class);
+	public DishReturn(DataMap dataMap, UUID uuid) {
+		super(dataMap, DishReturn.class, uuid);
 	}
 
 //	@Override

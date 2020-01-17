@@ -28,6 +28,7 @@ import benjaminc.chef_simulator.things.food.Tomato;
 import benjaminc.chef_simulator.things.tools.Dishbin;
 import benjaminc.chef_simulator.things.tools.Pan;
 import benjaminc.chef_simulator.things.tools.Plate;
+import benjaminc.chef_textures.dialog.MessageDialog;
 
 /**
  * @author Benjamin-C
@@ -121,10 +122,11 @@ public enum ThingType {
 
 		try {
 			Class<?> clazz = t.getMyClass();
-			Constructor<?> ctor = clazz.getConstructor(DataMap.class, Class.class, UUID.class);
-			newobj = ctor.newInstance(d, t.getClass(), uuid);
+			Constructor<?> ctor = clazz.getConstructor(DataMap.class, UUID.class);
+			newobj = ctor.newInstance(d, uuid);
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException err) {
 			err.printStackTrace();
+			new MessageDialog("Constructor fail", "The reflective constructor lost its shine " + err.getMessage());
 		}
 		
 		if(newobj != null && newobj instanceof Thing) {

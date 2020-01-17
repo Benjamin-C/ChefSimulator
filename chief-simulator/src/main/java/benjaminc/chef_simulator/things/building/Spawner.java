@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.building;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
@@ -17,11 +18,14 @@ import benjaminc.chef_utils.graphics.Texture;
 public class Spawner extends BasicThing implements ToolThing, SolidThing, CustomDrawingThing{
 
 	protected final static int VARIANT_COUNT = 1;
-	public Spawner(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Spawner.class);
+	public Spawner() {
+		this(null, null);
+	}
+	public Spawner(DataMap dataMap, UUID uuid) {
+		super(dataMap, Spawner.class, uuid);
 	}
 	public Spawner(Thing t) {
-		this((DataMap) null);
+		this(null, null);
 		dataMap.put(DataMapKey.MAKES, t);
 	}
 	

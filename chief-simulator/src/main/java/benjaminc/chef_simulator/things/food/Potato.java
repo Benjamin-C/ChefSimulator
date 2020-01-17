@@ -1,5 +1,7 @@
 package benjaminc.chef_simulator.things.food;
 
+import java.util.UUID;
+
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
 import benjaminc.chef_simulator.data.InvalidDatatypeException;
@@ -15,10 +17,10 @@ public class Potato extends BasicThing implements FoodThing, Cookable, Choppable
 
 	protected final static int VARIANT_COUNT = 1;
 	public Potato() {
-		this(null);
+		this(null, null);
 	}
-	public Potato(DataMap dataMap) {
-		super(dataMap, Potato.class);
+	public Potato(DataMap dataMap, UUID uuid) {
+		super(dataMap, Potato.class, uuid);
 	}
 	public Potato(int variant, FoodState state) {
 		super(variant, state, VARIANT_COUNT, Potato.class);

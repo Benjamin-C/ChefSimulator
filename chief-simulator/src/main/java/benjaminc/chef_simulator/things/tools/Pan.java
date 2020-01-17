@@ -2,6 +2,7 @@ package benjaminc.chef_simulator.things.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
@@ -23,11 +24,10 @@ public class Pan extends BasicThing implements CookwareThing, ContainerThing, Cu
 	protected final static int VARIANT_COUNT = 1;
 	protected final static int MAX_INV_SIZE = 1;
 	public Pan() {
-		this(null);
+		this(null, null);
 	}
-	public Pan(DataMap dataMap) {
-		super(dataMap, VARIANT_COUNT, Pan.class);
-		finalPrep();
+	public Pan(DataMap dataMap, UUID uuid) {
+		super(dataMap, Pan.class, uuid);
 	}
 	public Pan(int variant, Thing item) {
 		super(variant, FoodState.RAW, VARIANT_COUNT, Pan.class);
