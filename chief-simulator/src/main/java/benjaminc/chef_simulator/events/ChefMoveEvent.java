@@ -5,7 +5,8 @@ import java.util.Map;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Direction;
-import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.location.Location2d;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.util.JSONTools;
 
 /**
@@ -22,19 +23,19 @@ public class ChefMoveEvent extends Event {
 	
 	private Direction startDir;
 	private Direction endDir;
-	private Location startLoc;
-	private Location endLoc;
+	private Location2d startLoc;
+	private Location2d endLoc;
 	private Chef cook;
 	
 	/**
 	 * Makes a new Chef Move Event
 	 * @param startDir	the {@link Direction} the {@link Chef} was looking
 	 * @param endDir	the {@link Direction} the {@link Chef} is now looking
-	 * @param startLoc	the {@link Location} the {@link Chef} was in
-	 * @param endLoc	the {@link Location} the {@link Chef} is now in
+	 * @param startLoc	the {@link Location2d} the {@link Chef} was in
+	 * @param endLoc	the {@link Location2d} the {@link Chef} is now in
 	 * @param cook		the {@link Chef}
 	 */
-	public ChefMoveEvent(Direction startDir, Direction endDir, Location startLoc, Location endLoc, Chef cook) {
+	public ChefMoveEvent(Direction startDir, Direction endDir, Location2d startLoc, Location2d endLoc, Chef cook) {
 		super();
 		this.startDir = startDir;
 		this.endDir = endDir;
@@ -54,8 +55,8 @@ public class ChefMoveEvent extends Event {
 					case COOK_ID: cook = Game.getChefByName(js.get(s)); break;
 					case END_DIR: endDir = Direction.valueOf(js.get(s)); break;
 					case START_DIR:  startDir = Direction.valueOf(js.get(s));break;
-					case END_LOC: endLoc = new Location(js.get(s)); break;
-					case START_LOC: startLoc = new Location(js.get(s)); break;
+					case END_LOC: endLoc = new Location2d(js.get(s)); break;
+					case START_LOC: startLoc = new Location2d(js.get(s)); break;
 					default: break;
 					}
 				} catch(IllegalArgumentException e) {}
@@ -75,10 +76,10 @@ public class ChefMoveEvent extends Event {
 		return endDir;
 	}
 	/**
-	 * Gets the {@link Location} the {@link Chef} is now at
-	 * @return the {@link Location}
+	 * Gets the {@link Location2d} the {@link Chef} is now at
+	 * @return the {@link Location2d}
 	 */
-	public Location getEndLoc() {
+	public Location2d getEndLoc() {
 		return endLoc;
 	}
 	/**
@@ -89,10 +90,10 @@ public class ChefMoveEvent extends Event {
 		return startDir;
 	}
 	/**
-	 * Gets the {@link Location} the {@link Chef} was at
-	 * @return the {@link Location}
+	 * Gets the {@link Location2d} the {@link Chef} was at
+	 * @return the {@link Location2d}
 	 */
-	public Location getStartLoc() {
+	public Location2d getStartLoc() {
 		return startLoc;
 	}
 	/**
@@ -104,10 +105,10 @@ public class ChefMoveEvent extends Event {
 	}
 	
 	/**
-	 * Sets the {@link Location} the cook is going to
-	 * @param endLoc the new {@link Location}
+	 * Sets the {@link Location2d} the cook is going to
+	 * @param endLoc the new {@link Location2d}
 	 */
-	public void setEndLoc(Location endLoc) {
+	public void setEndLoc(Location2d endLoc) {
 		this.endLoc = endLoc;
 	}
 	/**

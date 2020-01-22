@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.*;
 import benjaminc.chef_simulator.things.building.Floor;
@@ -19,25 +18,25 @@ import benjaminc.chef_simulator.things.types.Tickable;
 public class GameSpace {
 
 	protected List<Thing> things;
-	protected Location loc;
+	protected Location2d loc;
 	protected boolean isChanged;
 	
 	/**
 	 * Make a new GameSpace
 	 * 
-	 * @param loc the {@link Location} the space exists at
+	 * @param loc the {@link Location2d} the space exists at
 	 */
-	public GameSpace(Location loc) {
+	public GameSpace(Location2d loc) {
 		this(loc, true);
 	}
 	
 	/**
 	 * Make a new GameSpace
 	 * 
-	 * @param loc 	the {@link Location} the space exists at
+	 * @param loc 	the {@link Location2d} the space exists at
 	 * @param floor the boolean to add a floor or not
 	 */
-	public GameSpace(Location loc, boolean floor) {
+	public GameSpace(Location2d loc, boolean floor) {
 		things = new ArrayList<Thing>();
 		if(floor) {
 			things.add(new Floor());
@@ -48,19 +47,19 @@ public class GameSpace {
 	/**
 	 * Makes a new GameSpace
 	 * 
-	 * @param loc		the {@link Location}
+	 * @param loc		the {@link Location2d}
 	 * @param things	the {@link List} of {@link Thing} at the space
 	 */
-	public GameSpace(Location loc, List<Thing> things) {
+	public GameSpace(Location2d loc, List<Thing> things) {
 		this.loc = loc;
 		this.things = things;
 	}
 	/**
 	 * Gets the location the {@link GameSpace} represents
 	 * 
-	 * @return the {@link Location}
+	 * @return the {@link Location2d}
 	 */
-	public Location getLoc() {
+	public Location2d getLoc() {
 		return loc;
 	}
 	/**
@@ -243,10 +242,10 @@ public class GameSpace {
 	 * Ticks the {@link GameSpace}
 	 * 
 	 * @param r 	the {@link Room} the {@link GameSpace} is in
-	 * @param l 	the {@link Location} in the room
+	 * @param l 	the {@link Location2d} in the room
 	 * @param 		frame the long frame of the game
 	 */
-	public void tick(Room r, Location l, long frame) {
+	public void tick(Room r, Location2d l, long frame) {
 		for(int i = 0; i < things.size(); i++) {
 			Thing t = things.get(i);
 			if(t instanceof Tickable) {

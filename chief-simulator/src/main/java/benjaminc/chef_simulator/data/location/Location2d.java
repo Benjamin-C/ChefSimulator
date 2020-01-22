@@ -1,20 +1,20 @@
-package benjaminc.chef_simulator.control;
+package benjaminc.chef_simulator.data.location;
 
 import java.util.Map;
 
-import benjaminc.chef_simulator.data.Savable;
+import benjaminc.chef_simulator.control.Direction;
 import benjaminc.util.JSONTools;
 
-public class Location implements Savable {
+public class Location2d extends Location2d {
 	
 	protected int x;
 	protected int y;
 	
-	public Location(int x, int y) {
+	public Location2d(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	public Location(String json) {
+	public Location2d(String json) {
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			json = json.substring(1, json.length() - 1);
 			Map<String, String> js = JSONTools.splitJSON(json);
@@ -40,12 +40,14 @@ public class Location implements Savable {
 		this.y = y;
 	}
 	
-	public Location add(Location l) {
-		x = x + l.getX();
-		y = y + l.getY();
+	public Location2d add(Location2d l) {
+		if(l instanceof Location2d) {
+			x = x + ((Location2d) l).getX();
+			y = y + ((Location2d) l).getY();
+		}
 		return this;
 	}
-	public Location add(Direction d) {
+	public Location2d add(Direction d) {
 		x = x + d.getX();
 		y = y + d.getY();
 		return this;
@@ -60,8 +62,8 @@ public class Location implements Savable {
 		return "Location[x=" + x + ",y=" + y +"]";
 	}
 	@Override
-	public Location clone() {
-		return new Location(x, y);
+	public Location2d clone() {
+		return new Location2d(x, y);
 	}
 
 	public String toSimpleString() {
@@ -70,8 +72,11 @@ public class Location implements Savable {
 	public String asJSON() {
 		return "{\"D\":\"2\",\"X\":\"" + x + "\",\"Y\":\"" + y + "\"}";
 	}
-	public boolean equals(Location l) {
-		return l.x == x && l.y == y;
+	public boolean equals(Location2d l) {
+		if(l instanceof Location2d) {
+			return ((Location2d) l).x == x && ((Location2d) l).y == y;
+		}
+		return false;
 	}
 	public Location3d as3d() {
 		return as3d(0);

@@ -3,8 +3,8 @@ package benjaminc.chef_simulator.events;
 import java.util.Map;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.control.Location3d;
+import benjaminc.chef_simulator.data.location.Location2d;
+import benjaminc.chef_simulator.data.location.Location3d;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -23,15 +23,15 @@ public class ThingAddEvent extends Event {
 	}
 	
 	private Thing thing;
-	private Location loc;
+	private Location2d loc;
 	
 	/**
 	 * Creates an {@link ThingAddEvent}
 	 * 
 	 * @param t the {@link Thing} being added
-	 * @param l the {@link Location} it is being added
+	 * @param l the {@link Location2d} it is being added
 	 */
-	public ThingAddEvent(Thing t, Location l) {
+	public ThingAddEvent(Thing t, Location2d l) {
 		thing = t;
 		loc = l;
 	}
@@ -70,9 +70,9 @@ public class ThingAddEvent extends Event {
 	/**
 	 * Gets where the thing is being added
 	 * 
-	 * @return the {@link Location}
+	 * @return the {@link Location2d}
 	 */
-	public Location getLocation() {
+	public Location2d getLocation() {
 		return loc;
 	}
 	/**

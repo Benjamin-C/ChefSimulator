@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.control.Location3d;
 import benjaminc.chef_simulator.data.Savable;
+import benjaminc.chef_simulator.data.location.Location2d;
+import benjaminc.chef_simulator.data.location.Location3d;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
@@ -81,22 +81,22 @@ public class ThingMoveEvent extends Event implements Savable {
 		return uuid;
 	}
 	/**
-	 * Gets the {@link Location} the {@link Thing} came from
-	 * @return	the old {@link Location}
+	 * Gets the {@link Location2d} the {@link Thing} came from
+	 * @return	the old {@link Location2d}
 	 */
 	public Location3d getFrom() {
 		return from;
 	}
 	/**
-	 * Gets the {@link Location} the {@link Thing} is going to
-	 * @return	the new {@link Location}
+	 * Gets the {@link Location2d} the {@link Thing} is going to
+	 * @return	the new {@link Location2d}
 	 */
 	public Location3d getTo() {
 		return to;
 	}
 	/**
-	 * Sets the {@link Location} the {@link Thing} is going to
-	 * @param to the new {@link Location}
+	 * Sets the {@link Location2d} the {@link Thing} is going to
+	 * @param to the new {@link Location2d}
 	 */
 	public void setTo(Location3d to) {
 		this.to = to;

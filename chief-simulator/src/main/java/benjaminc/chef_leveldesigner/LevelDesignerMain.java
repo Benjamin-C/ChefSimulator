@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import benjaminc.chef_simulator.Objective;
-import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
@@ -42,7 +42,7 @@ public class LevelDesignerMain {
 	
 	protected static JPanel roomjp;
 	
-	protected static Location lastDragLoc;
+	protected static Location2d lastDragLoc;
 	protected static int mouseButton[] = {0, 0};
 	
 	public static void run() {
@@ -63,7 +63,7 @@ public class LevelDesignerMain {
 		String json = "{\"TYPE\":\"DISHBIN\", \"DATAMAP\":{\"VARIANT\":\"-1\", \"DIRECTION\":\"UP\", \"UUID\":\"63492fd5-3e93-4a7a-9a1d-43c8fc968286\", \"INVENTORY\":[{\"TYPE\":\"POTATO\", \"DATAMAP\":{\"DIRECTION\":\"UP\", \"UUID\":\"2a86b4d8-f303-4968-9a52-0eb544eadc51\", \"FOOD_STATE\":\"RAW\"}}, {\"TYPE\":\"TOMATO\", \"DATAMAP\":{\"DIRECTION\":\"UP\", \"UUID\":\"f18f579b-7a65-4df5-863d-cca07b696f2e\", \"FOOD_STATE\":\"RAW\"}}], \"FOOD_STATE\":\"RAW\"}}";
 		Thing toAdd2 = BasicThing.makeThingFromJSON(json);
 		System.out.println(toAdd2.asJSON());
-		r.addThing(toAdd2, new Location(2, 2));
+		r.addThing(toAdd2, new Location2d(2, 2));
 		
 		jf.setJMenuBar(new LevelDesignerMenuBar(r, new Runnable() { @Override public void run() { roomjp.repaint(); } }));
 		
@@ -139,7 +139,7 @@ public class LevelDesignerMain {
 			
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				Location loc = new Location(e.getX()/boxSize, e.getY()/boxSize);
+				Location2d loc = new Location2d(e.getX()/boxSize, e.getY()/boxSize);
 				if(lastDragLoc == null || !loc.equals(lastDragLoc)) {
 					doMouseThing(loc);
 				}
@@ -185,9 +185,9 @@ public class LevelDesignerMain {
 //		System.out.println("[" + mouseButton[0] + "," + mouseButton[1] + "]" + lastDragLoc);
 	}
 	protected static void doMouseThing(MouseEvent e) {
-		doMouseThing(new Location(e.getX()/boxSize, e.getY()/boxSize));
+		doMouseThing(new Location2d(e.getX()/boxSize, e.getY()/boxSize));
 	}
-	protected static void doMouseThing(Location loc) {
+	protected static void doMouseThing(Location2d loc) {
 		lastDragLoc = loc;
 		if(loc.getX() >= 0 && loc.getX() < r.getWidth() && loc.getY() >= 0 && loc.getY() < r.getHeight()) {
 			switch(mouseButton[0]) { // 1=left 2=middle 3=right

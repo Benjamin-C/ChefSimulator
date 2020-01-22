@@ -3,7 +3,7 @@ package benjaminc.chef_simulator.control.command;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Direction;
-import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.location.Location2d;
 
 public class MoveCommand implements Command {
 
@@ -39,7 +39,7 @@ public class MoveCommand implements Command {
 					}
 					if(x != Integer.MIN_VALUE && y != Integer.MIN_VALUE) {
 						Game.chat("Moving to " + x + ", " + y);
-						Location loc = new Location(x, y);
+						Location2d loc = new Location2d(x, y);
 						boolean check = true;
 						if(args.length > ARG_COUNT + 2) {
 							check = Boolean.parseBoolean(args[5]);
@@ -47,7 +47,7 @@ public class MoveCommand implements Command {
 						if(check && Game.getRoom().getSpace(loc).isSolid()) {
 							Game.chat("The requested move space is solid");
 						} else {
-							c.setLocation(new Location(x, y));
+							c.setLocation(new Location2d(x, y));
 							c.setDirection(dir);
 						}
 						return true;

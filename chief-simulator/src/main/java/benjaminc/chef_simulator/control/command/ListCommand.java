@@ -2,7 +2,7 @@ package benjaminc.chef_simulator.control.command;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Chef;
-import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.things.Thing;
 
 public class ListCommand implements Command{
@@ -38,7 +38,7 @@ public class ListCommand implements Command{
 				if(x >= 0 && y >= 0) {
 					String out = "Things at " + x + ", " + y + ": ";
 					boolean fencepost = false;
-					for(Thing t : Game.getRoom().getSpace(new Location(x, y)).getThings()) {
+					for(Thing t : Game.getRoom().getSpace(new Location2d(x, y)).getThings()) {
 						if(fencepost) {
 							out += ", ";
 						} else {

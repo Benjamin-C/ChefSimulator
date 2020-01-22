@@ -11,8 +11,8 @@ import java.util.Map;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
 import benjaminc.chef_simulator.control.Chef;
-import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.Savable;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.graphics.Drawable;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.graphics.GraphicalDrawer;
@@ -60,7 +60,7 @@ public class Room implements Drawable, Savable, Cloneable {
 		room = new GameSpace[width][height];
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
-				room[i][j] = new GameSpace(new Location(i, j));
+				room[i][j] = new GameSpace(new Location2d(i, j));
 			}
 		}
 		objective = new ArrayList<Objective>();
@@ -102,7 +102,7 @@ public class Room implements Drawable, Savable, Cloneable {
 		for(int y = 0; y < height; y++) {
 			List<String> row = JSONTools.splitJSONArray(rows.get(y));
 			for(int x = 0; x < width; x++) {
-				GameSpace here = new GameSpace(new Location(x, y), false);
+				GameSpace here = new GameSpace(new Location2d(x, y), false);
 				String spot = row.get(x);
 				switch(JSONTools.guessType(spot)) {
 				case ARRAY: {
@@ -216,7 +216,7 @@ public class Room implements Drawable, Savable, Cloneable {
 		
 		for(int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++) {
-				Location here = new Location(x, y);
+				Location2d here = new Location2d(x, y);
 				for(int i = 0; i < getSpace(here).size(); i++) {
 					n.getSpace(here).addThing(getSpace(here).getThing(i).clone());
 				}
@@ -285,19 +285,19 @@ public class Room implements Drawable, Savable, Cloneable {
 	/**
 	 * Adds a {@link Thing} to the room
 	 * @param t the {@link Thing} to add
-	 * @param loc the {@link Location} to add it
+	 * @param loc the {@link Location2d} to add it
 	 */
-	public void addThing(Thing t, Location loc) {
+	public void addThing(Thing t, Location2d loc) {
 		room[loc.getX()][loc.getY()].addThing(t);
 	}
 	
 	/**
 	 * Adds a {@link Thing} to the room
 	 * @param t the {@link Thing} to add
-	 * @param loc the {@link Location} to add it
+	 * @param loc the {@link Location2d} to add it
 	 * @param elev the int elevation to add the {@link Thing} at
 	 */
-	public void addThing(Thing t, Location loc, int elev) {
+	public void addThing(Thing t, Location2d loc, int elev) {
 		room[loc.getX()][loc.getY()].addThing(elev, t);
 	}
 	
@@ -310,20 +310,20 @@ public class Room implements Drawable, Savable, Cloneable {
 	}
 	
 	/**
-	 * gets the {@link GameSpace} at a {@link Location}
-	 * @param loc the {@link Location} to look
+	 * gets the {@link GameSpace} at a {@link Location2d}
+	 * @param loc the {@link Location2d} to look
 	 * @return the {@link GameSpace} there
 	 */
-	public GameSpace getSpace(Location loc) {
+	public GameSpace getSpace(Location2d loc) {
 		return room[loc.getX()][loc.getY()];
 	}
 	
 	/**
 	 * Gets the things from the room
-	 * @param loc the {@link Location} to get from
+	 * @param loc the {@link Location2d} to get from
 	 * @return the {@link List} of {@link Thing} at that spot
 	 */
-	public List<Thing> getThings(Location loc) {
+	public List<Thing> getThings(Location2d loc) {
 		return room[loc.getX()][loc.getY()].getThings();
 	}
 	/**
@@ -341,7 +341,7 @@ public class Room implements Drawable, Savable, Cloneable {
 	public void tick(long frame) {
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
-				room[i][j].tick(this, new Location(i, j), frame);
+				room[i][j].tick(this, new Location2d(i, j), frame);
 			}
 		}
 		for(Chef c : cooks) {

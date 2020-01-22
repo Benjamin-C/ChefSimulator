@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
+import benjaminc.chef_simulator.data.location.Location2d;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.events.ChefInteractEvent;
 import benjaminc.chef_simulator.events.ChefInteractEvent.ChefInteractEventTypes;
 import benjaminc.chef_simulator.events.ChefMoveEvent;
@@ -26,7 +28,7 @@ import benjaminc.chef_simulator.things.types.ToolThing;
 
 public class Chef implements Tickable {
 	
-	protected Location loc;
+	protected Location2d loc;
 	protected Thing hand;
 	protected Direction direction;
 	protected Color color;
@@ -45,16 +47,16 @@ public class Chef implements Tickable {
 	 * @param k		the {@link Map} of {@link ActionType} to {@link Integer} of key actions
 	 */
 	public Chef(String name, Color color, Map<ActionType,Integer> k) {
-		this(name, color, k, new Location(0, 0));
+		this(name, color, k, new Location2d(0, 0));
 	}
 	/**
 	 * Makes a new {@link Chef}.
 	 * @param name	the {@link String} name of the {@link Chef}. Must be unique
 	 * @param color	the {@link Color} of the cook
 	 * @param k		the {@link Map} of {@link ActionType} to {@link Integer} of key actions
-	 * @param l		the {@link Location} of the cook
+	 * @param l		the {@link Location2d} of the cook
 	 */
-	public Chef(String name, Color color, Map<ActionType,Integer> k, Location l) {
+	public Chef(String name, Color color, Map<ActionType,Integer> k, Location2d l) {
 		this.name = name;
 		this.color = color;
 		loc = l;
@@ -114,7 +116,7 @@ public class Chef implements Tickable {
 		return false;
 	}
 	@Override
-	public void tick(Room r, Location l, double f) {
+	public void tick(Room r, Location2d l, double f) {
 		for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
 			Action a = e.getValue();
 			f = System.currentTimeMillis();
@@ -146,7 +148,7 @@ public class Chef implements Tickable {
 	 * Uses the item in the {@link Chef} hand
 	 */
 	public void useItem() {
-		Location newloc = loc.clone().add(direction);
+		Location2d newloc = loc.clone().add(direction);
 		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
 			List<Thing> whatIsHere = Game.getRoom().getSpace(newloc).getThings();
 			ToolThing tool = null;
@@ -193,7 +195,7 @@ public class Chef implements Tickable {
 	 * Picks up an item at the {@link Chef} location
 	 */
 	public void pickUp() {
-		Location newloc = loc.clone().add(direction);
+		Location2d newloc = loc.clone().add(direction);
 		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
 			if(hand == null) {
 				List<Thing> whatIsHere = Game.getRoom().getSpace(newloc).getThings();
@@ -212,10 +214,10 @@ public class Chef implements Tickable {
 		}
 	}
 	/**
-	 * Sets the {@link Location} of the {@link Chef}
-	 * @param l	the new {@link Location}
+	 * Sets the {@link Location2d} of the {@link Chef}
+	 * @param l	the new {@link Location2d}
 	 */
-	public void setLocation(Location l) {
+	public void setLocation(Location2d l) {
 		loc = l;
 	}
 	/**
@@ -224,9 +226,9 @@ public class Chef implements Tickable {
 	 */
 	public void move(Direction dir) {
 		Direction startDir = direction;
-		Location startLoc = loc;
+		Location2d startLoc = loc;
 		direction = dir;
-		Location newloc = loc.clone().add(dir);
+		Location2d newloc = loc.clone().add(dir);
 		if(newloc.inside(0, Game.getRoom().getSize().width, 0, Game.getRoom().getSize().height)) {
 			if(!Game.getRoom().getSpace(newloc).isSolid()) {
 				loc = newloc;
@@ -249,17 +251,17 @@ public class Chef implements Tickable {
 		direction = d;
 	}
 	/**
-	 * Adds a {@link Location} to the cook's location and moves there
-	 * @param l	the {@link Location} to add
+	 * Adds a {@link Location2d} to the cook's location and moves there
+	 * @param l	the {@link Location2d} to add
 	 */
-	public void addLocation(Location l) {
+	public void addLocation(Location2d l) {
 		loc.add(l);
 	}
 	/**
 	 * Gets the {@link Chef} location
-	 * @return	the {@link Location}
+	 * @return	the {@link Location2d}
 	 */
-	public Location getLocation() {
+	public Location2d getLocation() {
 		return loc;
 	}
 	/**

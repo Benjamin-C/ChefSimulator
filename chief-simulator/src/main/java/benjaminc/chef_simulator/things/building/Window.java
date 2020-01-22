@@ -7,9 +7,9 @@ import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
-import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.FoodState;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -61,7 +61,7 @@ public class Window extends BasicThing implements ToolThing, Thing, SolidThing {
 						List<GameSpace> returnlist = new ArrayList<GameSpace>();
 						for(int x = 0; x < Game.getRoom().getWidth(); x++) {
 							for(int y = 0; y < Game.getRoom().getHeight(); y++) {
-								Location here = new Location(x, y);
+								Location2d here = new Location2d(x, y);
 								if(Game.getRoom().getSpace(here).contains(DishReturn.class)) {
 								 returnlist.add(Game.getRoom().getSpace(here));
 								}

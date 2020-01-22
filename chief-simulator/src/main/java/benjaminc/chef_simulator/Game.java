@@ -18,7 +18,6 @@ import benjaminc.chef_simulator.control.CommandProcessor;
 import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.EventHandler;
 import benjaminc.chef_simulator.control.KeyListenAction;
-import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.control.TickEvent;
 import benjaminc.chef_simulator.control.TickTimer;
 import benjaminc.chef_simulator.control.command.ConnectCommand;
@@ -28,6 +27,7 @@ import benjaminc.chef_simulator.control.command.ListCommand;
 import benjaminc.chef_simulator.control.command.MoveCommand;
 import benjaminc.chef_simulator.control.command.SetCommand;
 import benjaminc.chef_simulator.data.DataLoader;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.events.ChatEvent;
 import benjaminc.chef_simulator.events.Event;
 import benjaminc.chef_simulator.graphics.ActionType;
@@ -99,10 +99,10 @@ public class Game {
 		
 		System.out.println("New SysOut setd");
 		
-		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location(14, 1),
+		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location2d(14, 1),
 				KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
 				KeyEvent.VK_RIGHT, KeyEvent.VK_CONTROL, KeyEvent.VK_NUMPAD0));
-		cooks.add(newCook("Matt", Color.GREEN, new Location(1, 1),
+		cooks.add(newCook("Matt", Color.GREEN, new Location2d(1, 1),
 				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
 				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
 		
@@ -151,7 +151,7 @@ public class Game {
 		};
 		control.start();
 	}
-	public static Chef newCook(String name, Color color, Location location, int up, int down, int left, int right, int pickup, int use) {
+	public static Chef newCook(String name, Color color, Location2d location, int up, int down, int left, int right, int pickup, int use) {
 		Map<ActionType, Integer> keys = new HashMap<ActionType, Integer>();
 		keys.put(ActionType.MOVE_UP, up);
 		keys.put(ActionType.MOVE_DOWN, down);

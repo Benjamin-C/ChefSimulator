@@ -2,9 +2,9 @@ package benjaminc.chef_simulator.control.command;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.EventHandler;
-import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.control.Location3d;
 import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.data.location.Location2d;
+import benjaminc.chef_simulator.data.location.Location3d;
 import benjaminc.chef_simulator.events.ThingAddEvent;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.chef_simulator.things.ThingType;
@@ -40,7 +40,7 @@ public class SetCommand implements Command {
 				Thing t = ThingType.getThingOfType(ThingType.valueOf(args[1].toUpperCase()), dm);
 				if(x >= 0 && y >= 0 && t != null) {
 					if(elev == -1) {
-						EventHandler.fireEvent(new ThingAddEvent(t, new Location(x, y)));
+						EventHandler.fireEvent(new ThingAddEvent(t, new Location2d(x, y)));
 					} else {
 						EventHandler.fireEvent(new ThingAddEvent(t, new Location3d(x, y, elev)));
 					}

@@ -1,10 +1,10 @@
-package benjaminc.chef_simulator.control;
+package benjaminc.chef_simulator.data.location;
 
 import java.util.Map;
 
 import benjaminc.util.JSONTools;
 
-public class Location3d extends Location {
+public class Location3d extends Location2d {
 
 	protected int z;
 	
@@ -33,7 +33,7 @@ public class Location3d extends Location {
 	public void setZ(int z) {
 		this.z = z;
 	}
-	public Location add(Location3d l) {
+	public Location3d add(Location3d l) {
 		x = x + l.getX();
 		y = y + l.getY();
 		z = z + l.getZ();
@@ -62,7 +62,7 @@ public class Location3d extends Location {
 	public boolean equals(Location3d l) {
 		return l.x == x && l.y == y && l.z == z;
 	}
-	public Location as2d() {
-		return new Location(x, y);
+	public Location2d as2d() {
+		return new Location2d(x, y);
 	}
 }

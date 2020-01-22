@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Direction;
-import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
 import benjaminc.chef_simulator.things.Thing;
@@ -66,7 +66,7 @@ public class Button extends BasicThing implements ToolThing, AttachedThing, Tick
 		return dataMap;
 	}
 	@Override
-	public void tick(Room r, Location l, double f) {
+	public void tick(Room r, Location2d l, double f) {
 		// TODO Auto-generated method stub
 		
 	}

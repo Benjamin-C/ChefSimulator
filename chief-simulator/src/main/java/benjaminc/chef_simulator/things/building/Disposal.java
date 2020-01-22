@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import benjaminc.chef_simulator.control.Location;
 import benjaminc.chef_simulator.data.DataMap;
 import benjaminc.chef_simulator.data.DataMap.DataMapKey;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.events.OnDisposeEvent;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.BasicThing;
@@ -45,7 +45,7 @@ public class Disposal extends BasicThing implements SolidThing, Tickable {
 		return dataMap;
 	}
 	@Override
-	public void tick(Room r, Location l, double frame) {
+	public void tick(Room r, Location2d l, double frame) {
 		List<Thing> stuff = r.getThings(l);
 		List<Thing> toRemove = new ArrayList<Thing>();
 		for(Thing t : stuff) {

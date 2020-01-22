@@ -4,7 +4,7 @@ import benjamin.BenTCP.TCPTesterMain;
 import benjaminc.chef_simulator.ChefSimulatorControl;
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.Objective;
-import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_simulator.things.food.Tomato;
@@ -44,7 +44,7 @@ public class App {
 	public static void doit(boolean useStarter) {
 		if(!useStarter) {
 			Room r = new Room(16, 16, null);
-			r.addThing(new Potato(), new Location(5, 5));
+			r.addThing(new Potato(), new Location2d(5, 5));
 			Game.setupGame(40, 30, false, true);
 			Game.playJSONMap(r.asJSON());
 		} else {

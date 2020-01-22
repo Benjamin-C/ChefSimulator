@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
-import benjaminc.chef_simulator.control.Location;
-import benjaminc.chef_simulator.control.Location3d;
 import benjaminc.chef_simulator.data.DataMap;
+import benjaminc.chef_simulator.data.location.Location2d;
+import benjaminc.chef_simulator.data.location.Location3d;
 import benjaminc.chef_simulator.graphics.GameSpace;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
@@ -77,8 +77,8 @@ public class ThingChangeEvent extends Event {
 		return data;
 	}
 	/**
-	 * Gets the {@link Location} the change happened
-	 * @return the {@link Location}
+	 * Gets the {@link Location2d} the change happened
+	 * @return the {@link Location2d}
 	 */
 	public Location3d getLocation() {
 		return location;

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Chef;
-import benjaminc.chef_simulator.control.Location;
+import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.things.Thing;
 import benjaminc.util.JSONTools;
 
@@ -63,7 +63,7 @@ public class ChefInteractEvent extends Event {
 	}
 	public void run() {
 		Chef c = Game.getChefByName(chefName);
-		Location newloc = c.getLocation().clone().add(c.getDirection());
+		Location2d newloc = c.getLocation().clone().add(c.getDirection());
 		
 		switch(type) {
 		case PICK_UP: {
