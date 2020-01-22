@@ -137,7 +137,6 @@ public class ChefMoveEvent extends Event {
 	
 	@Override
 	public void run() {
-		Game.getGamePanel().getChatBox().out.println("Running ChefInteractEvent");
 		cook.setLocation(endLoc);
 		cook.setDirection(endDir);
 	}

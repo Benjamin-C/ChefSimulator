@@ -167,24 +167,22 @@ public class Chef implements Tickable {
 							food = thingHere;
 						}
 					} while(food == null && ++loc < whatIsHere.size());
-					if(food != null) {
-						List<Thing> tempThing = tool.useTool(food);
-						if(tempThing != null) {
-							boolean changedFood = false;
-							for(Thing t : tempThing) {
-								if(t != null) {
-									if(t.getUUID().equals(food.getUUID())) {
-										EventHandler.fireEvent(new ThingChangeEvent((UUID) food.getUUID(), t.getDataMap(), newloc.as3d(0)));
-										changedFood = true;
-									} else {
-										EventHandler.fireEvent(new ThingAddEvent(t, newloc.as3d(0)));
-									}
+					List<Thing> tempThing = tool.useTool(food);
+					boolean changedFood = false;
+					if(tempThing != null) {
+						for(Thing t : tempThing) {
+							if(t != null) {
+								if(food!= null && t.getUUID().equals(food.getUUID())) {
+									EventHandler.fireEvent(new ThingChangeEvent((UUID) food.getUUID(), t.getDataMap(), newloc.as3d(0)));
+									changedFood = true;
+								} else {
+									EventHandler.fireEvent(new ThingAddEvent(t, newloc.as3d(0)));
 								}
 							}
-							if(!changedFood) {
-								EventHandler.fireEvent(new ThingRemoveEvent(food, newloc.as3d(0)));
-							}
 						}
+					}
+					if(!changedFood && food != null) {
+						EventHandler.fireEvent(new ThingRemoveEvent(food, newloc.as3d(0)));
 					}
 				}
 			}
