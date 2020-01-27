@@ -32,6 +32,7 @@ public class ChefInteractEvent extends Event {
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 
 			json = json.substring(1, json.length() - 1);
+			System.out.println(json);
 			Map<String, String> js = JSONTools.splitJSON(json);
 			for(String s : js.keySet()) {
 				ChefInteractEventJsonKeys tdk = ChefInteractEventJsonKeys.valueOf(s);
@@ -63,7 +64,7 @@ public class ChefInteractEvent extends Event {
 	}
 	public void run() {
 		Chef c = Game.getChefByName(chefName);
-		Location2d newloc = c.getLocation().clone().add(c.getDirection());
+		Location2d newloc = c.getHandLocation();
 		
 		switch(type) {
 		case PICK_UP: {

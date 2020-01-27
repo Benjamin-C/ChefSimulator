@@ -135,7 +135,7 @@ public class BasicThing implements Thing, Cloneable {
 	
 	@Override
 	public String asJSON() {
-		return "{\"" + ThingDataKey.TYPE + "\":\"" + ThingType.getTypeOfThing(this) + "\", \"" + ThingDataKey.DATAMAP + "\":" + dataMap.asJSON() + "}";
+		return "{\"" + ThingDataKey.UUID + "\":\"" + uuid.toString() + "\", \"" + ThingDataKey.TYPE + "\":\"" + ThingType.getTypeOfThing(this) + "\", \"" + ThingDataKey.DATAMAP + "\":" + dataMap.asJSON() + "}";
 	}
 	
 	

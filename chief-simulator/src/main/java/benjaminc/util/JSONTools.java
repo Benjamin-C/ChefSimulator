@@ -76,6 +76,34 @@ public class JSONTools {
 		}
 		return null;
 	}
+	
+	/**
+	 * Splits a String into separate independent JSON elements. Will only return JSON elements with matched curly brackets
+	 * @param json	the {@link String} JSON to separate
+	 * @return		the {@link List} of {@link String} JSON elemnts
+	 */
+	public static List<String> seperateJSON(String json) {
+		if(json != null && json.length() > 0) {
+			List<String> s = new ArrayList<String>();
+			
+			int curl = 0;
+			int startdata = 0;
+			for(int i = 0; i < json.length(); i++) {
+				switch(json.charAt(i)) {
+				case '{': { curl++; } break;
+				case '}': { curl--; } break;
+				}
+				if(curl==0) {
+					s.add(json.substring(startdata, i+1));
+					startdata = i + 1;
+				}
+			}
+			
+			return s;
+		}
+		return null;
+	}
+	
 	/**
 	 * Splits JSON into its root key:value pairs
 	 * @param json the JSON {@link String} to split

@@ -29,7 +29,7 @@ public class ChatEvent extends Event {
 				ChatEventJsonKeys tdk = ChatEventJsonKeys.valueOf(s);
 				switch(tdk) {
 				case TIME: try { time = Double.parseDouble(js.get(s)); } catch(NumberFormatException e) {} break;
-				case MESSAGE: message = js.get(s).replace("\n", "\\n"); break;
+				case MESSAGE: message = js.get(s).replace("\\n", "\n"); break;
 				default: break;
 				}
 			}
@@ -59,7 +59,7 @@ public class ChatEvent extends Event {
 	@Override
 	public String asJSON() {
 		String out = "{";
-		out += "\"" + ChatEventJsonKeys.MESSAGE + "\":\"" + message + "\",";
+		out += "\"" + ChatEventJsonKeys.MESSAGE + "\":\"" + message.replace("\n", "\\n") + "\",";
 		out += "\"" + ChatEventJsonKeys.TIME + "\":\"" + time + "\"";
 		return super.asJSON(EventTypes.CHAT_EVENT, out + "}");
 	}

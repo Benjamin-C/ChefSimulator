@@ -199,13 +199,16 @@ public class Chef implements Tickable {
 			if(hand == null) {
 				List<Thing> whatIsHere = Game.getRoom().getSpace(newloc).getThings();
 				int loc = whatIsHere.size() - 1;
+				boolean foundThing = false;
 				if(whatIsHere.size() > 1) {
 					do {
 						Thing thingHere = whatIsHere.get(loc);
 						if (!(thingHere instanceof AttachedThing)) {
 							EventHandler.fireEvent(new ChefInteractEvent(ChefInteractEventTypes.PICK_UP, name, thingHere));
+							foundThing = true;
+							Game.chat("I have a chef interact event where I pick up a thing");
 						}
-					} while(hand == null && loc-- <= 0);
+					} while(!foundThing && loc-- > 0);
 				}
 			} else {
 				EventHandler.fireEvent(new ChefInteractEvent(ChefInteractEventTypes.PUT_DOWN, name, hand));
@@ -263,6 +266,11 @@ public class Chef implements Tickable {
 	public Location2d getLocation() {
 		return loc;
 	}
+	
+	public Location2d getHandLocation() {
+		return loc.clone().add(direction);
+	}
+	
 	/**
 	 * Draws the {@link Chef} on the screen
 	 * @param g		the {@link Graphics} to draw on

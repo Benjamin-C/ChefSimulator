@@ -36,6 +36,7 @@ import benjaminc.chef_simulator.graphics.GraphicalLoader;
 import benjaminc.chef_simulator.rooms.Level1;
 import benjaminc.chef_simulator.rooms.Room;
 import benjaminc.chef_textures.dialog.MessageDialog;
+import benjaminc.util.JSONTools;
 import benjaminc.util.Util;
 
 public class Game {
@@ -62,19 +63,24 @@ public class Game {
 	private static DataLoader dataLoader = null;
 	
 	private static TCPOnDataArrival tcpodr = new TCPOnDataArrival() {
-		
-		@Override
-		public void onDataArrived(byte[] data) {
+		@Override public void onDataArrived(byte[] data) {
 			String dataString = "";
 			for(int i = 0; i < data.length; i++) {
 				dataString = dataString + (char) data[i];
 			}
 //			consoleInput(dataString);
 			switch(dataString.charAt(0)) {
-			case '{': Event e = Event.loadEventFromJSON(dataString);
-				if(e != null) {
-					EventHandler.reciveEvent(e); break;
+			case '{': 
+				List<String> evts = JSONTools.seperateJSON(dataString);
+				for(String s : evts) {
+					if(s.length() > 1) {
+						Event e = Event.loadEventFromJSON(s);
+						if(e != null) {
+							EventHandler.reciveEvent(e);
+						}
+					}
 				}
+				break;
 			default: Game.getGamePanel().getChatBox().out.println(dataString);
 			}
 		}

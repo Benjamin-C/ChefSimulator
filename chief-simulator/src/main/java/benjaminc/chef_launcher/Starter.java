@@ -41,7 +41,7 @@ public class Starter {
 		
 		JLabel gamestartjl = new JLabel("Resolution");
 		JTextArea gamestartjt = new JTextArea(1, 3);
-		gamestartjt.setText("32");
+		gamestartjt.setText("48");
 		gamestartjpTop.add(gamestartjl); gamestartjpTop.add(gamestartjt);
 		
 		JLabel gamestartjlf = new JLabel("FPS");
