@@ -10,11 +10,6 @@ import benjaminc.chef_simulator.things.food.Potato;
 import benjaminc.chef_simulator.things.food.Tomato;
 import benjaminc.chef_simulator.things.tools.Dishbin;
 import benjaminc.util.Logger;
-import net.java.games.input.Component;
-import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
-import net.java.games.input.Event;
-import net.java.games.input.EventQueue;
 
 @SuppressWarnings("unused")
 public class App {

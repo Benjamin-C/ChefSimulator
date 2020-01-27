@@ -4,13 +4,14 @@ import java.util.Map;
 
 import benjaminc.util.JSONTools;
 
-public class ChefHandLocation extends Location2d {
+public class ChefHandLocation extends Location {
 
 	private String name;
 	
 	public ChefHandLocation(String name, boolean itdoesntmatteritcanbeanythingyourheartdesires) {
 		this.name = name;
 	}
+	
 	public ChefHandLocation(String json) {
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 			json = json.substring(1, json.length() - 1);
@@ -35,7 +36,7 @@ public class ChefHandLocation extends Location2d {
 		return "ChefHandLocation[name=" + name + "]";
 	}
 	@Override
-	public Location2d clone() {
+	public Location clone() {
 		return new ChefHandLocation(name, false);
 	}
 
@@ -45,7 +46,7 @@ public class ChefHandLocation extends Location2d {
 	public String asJSON() {
 		return "{\"D\":\"1\",\"NAME\":\"" + name + "\"}";
 	}
-	public boolean equals(Location2d l) {
+	public boolean equals(Location l) {
 		if(l instanceof ChefHandLocation) {
 			if(name.equals(((ChefHandLocation) l).getName())) {
 				return true;

@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.data.location.Location2d;
-import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.chef_simulator.events.ChefInteractEvent;
 import benjaminc.chef_simulator.events.ChefInteractEvent.ChefInteractEventTypes;
 import benjaminc.chef_simulator.events.ChefMoveEvent;

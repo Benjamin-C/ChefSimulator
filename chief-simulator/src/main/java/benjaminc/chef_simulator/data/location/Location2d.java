@@ -5,7 +5,7 @@ import java.util.Map;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.util.JSONTools;
 
-public class Location2d extends Location2d {
+public class Location2d extends Location {
 	
 	protected int x;
 	protected int y;

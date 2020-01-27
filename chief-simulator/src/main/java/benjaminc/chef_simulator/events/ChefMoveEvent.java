@@ -6,7 +6,6 @@ import benjaminc.chef_simulator.Game;
 import benjaminc.chef_simulator.control.Chef;
 import benjaminc.chef_simulator.control.Direction;
 import benjaminc.chef_simulator.data.location.Location2d;
-import benjaminc.chef_simulator.data.location.Location2d;
 import benjaminc.util.JSONTools;
 
 /**
