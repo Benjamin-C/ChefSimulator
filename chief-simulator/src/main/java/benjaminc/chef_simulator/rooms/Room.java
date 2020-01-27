@@ -339,16 +339,22 @@ public class Room implements Drawable, Savable, Cloneable {
 	 * @param frame the long number of the frame in the game
 	 */
 	public void tick(long frame) {
+		tickRoom(frame);
+		tickCooks(frame);
+	}
+	
+	public void tickRoom(long frame) {
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
 				room[i][j].tick(this, new Location2d(i, j), frame);
 			}
 		}
+	}
+	public void tickCooks(long frame) {
 		for(Chef c : cooks) {
 			c.tick(this, c.getLocation(), frame);
 		}
 	}
-	
 	public void drawRoom(Graphics g, int x, int y, int boxWidth, int boxHeight) {
 		GraphicalDrawer gd = new GraphicalDrawer(g);
 		for(int i = 0; i < width; i++) {

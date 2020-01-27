@@ -22,7 +22,7 @@ import benjaminc.chef_simulator.things.types.Tickable;
 public class Belt extends BasicThing implements SolidThing, DirectionalThing, Tickable {
 	
 	// Not to be saved, only to be used
-	protected static int movedel = 100; 
+	protected static int movedel = 250; 
 	protected List<Thing> toMove;
 	
 	protected final static int VARIANT_COUNT = 1;

@@ -55,6 +55,7 @@ public class Game {
 	private static boolean multiplayer = false;
 	
 	private static TCPServer server;
+	private static boolean isServer = false;
 	private static PrintStream mpPrintStream;
 	private static boolean mpConnected;
 	
@@ -105,7 +106,7 @@ public class Game {
 		
 		System.out.println("New SysOut setd");
 		
-		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location2d(14, 1),
+		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location2d(14, 14),
 				KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
 				KeyEvent.VK_RIGHT, KeyEvent.VK_CONTROL, KeyEvent.VK_NUMPAD0));
 		cooks.add(newCook("Matt", Color.GREEN, new Location2d(1, 1),
@@ -120,10 +121,6 @@ public class Game {
 		cp.addCommand(new EventCommand());
 		cp.addCommand(new ConnectCommand());
 		cp.addCommand(new FindCommand());
-		
-//		openMultiplayer();
-		
-		new CommandSenderConsole();
 	}
 	
 	public static void playDefaultGame() {
@@ -177,8 +174,14 @@ public class Game {
 		gamePanel.setLevel(lvl);
 		tickTimer = new TickTimer(setTps);
 		tickTimer.addToDo(new TickEvent() { @Override public void tick(long frame) {
-			if(room != null) { room.tick(frame); } else { System.out.println("[ERROR] Room is NULL!"); } }
-			}, UUID.randomUUID());
+			if(room != null) { 
+				if(!(multiplayer && !isServer)) {
+					room.tick(frame); 
+				} else {
+					room.tickCooks(frame);
+				}
+			} else { System.out.println("[ERROR] Room is NULL!"); }
+			}}, UUID.randomUUID());
 		tickTimer.addToDo(new TickEvent() { @Override public void tick(long frame) {
 			Game.roomUDG(frame);} }, UUID.randomUUID());
 		tickTimer.start();
@@ -271,6 +274,7 @@ public class Game {
 					server = new TCPServer(25242, tcpodr, TCPSetupStream.defaultSetupStream(new Scanner(System.in)), 1);
 					mpPrintStream = new PrintStream(server.getOutputStream());
 					mpConnected = true;
+					isServer = true;
 					chat("Client connected");
 			} };
 			serverStarter.start();
@@ -298,11 +302,7 @@ public class Game {
 		return multiplayer;
 	}
 	public static boolean isServer() {
-		if(server != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return isServer;
 	}
 	
 	public static List<Chef> getCooks() {

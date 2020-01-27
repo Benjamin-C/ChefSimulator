@@ -15,12 +15,12 @@ public class ChatEvent extends Event {
 	private double time = -1;
 	
 	public ChatEvent(String message, double frame) {
-		this.message = message;
+		this.message = replaceToStorage(message);
 		this.time = frame;
 	}
 	
 	public ChatEvent(String json) {
-		System.out.println(json);
+		System.out.println("ChatJSON: " + json);
 		if(json.charAt(0) == '{' && json.charAt(json.length()-1) == '}') {
 
 			json = json.substring(1, json.length() - 1);
@@ -29,7 +29,7 @@ public class ChatEvent extends Event {
 				ChatEventJsonKeys tdk = ChatEventJsonKeys.valueOf(s);
 				switch(tdk) {
 				case TIME: try { time = Double.parseDouble(js.get(s)); } catch(NumberFormatException e) {} break;
-				case MESSAGE: message = js.get(s).replace("\\n", "\n"); break;
+				case MESSAGE: message = js.get(s); break;
 				default: break;
 				}
 			}
@@ -53,14 +53,23 @@ public class ChatEvent extends Event {
 		this.time = frame;
 	}
 	public void run() {
-		Game.consoleInput(message.replace("\\n", "\n"));
+		System.out.println("msg: " + message);
+		Game.consoleInput(replaceToDisplay(message));
+	}
+	
+	private String replaceToStorage(String msg) {
+		return msg.replace("\n", "\\n").replace(" ", "\\s");
+	}
+	private String replaceToDisplay(String msg) {
+		return msg.replace("\\n", "\n").replace("\\s", " ");
 	}
 	
 	@Override
 	public String asJSON() {
 		String out = "{";
-		out += "\"" + ChatEventJsonKeys.MESSAGE + "\":\"" + message.replace("\n", "\\n") + "\",";
+		out += "\"" + ChatEventJsonKeys.MESSAGE + "\":\"" + message + "\",";
 		out += "\"" + ChatEventJsonKeys.TIME + "\":\"" + time + "\"";
+		System.out.println("json: " + out);
 		return super.asJSON(EventTypes.CHAT_EVENT, out + "}");
 	}
 	
