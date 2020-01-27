@@ -55,8 +55,9 @@ public class SpecialActionEvent extends Event {
 	}
 	public void run() {
 		switch(actioncode) {
-		case GET_MAP: EventHandler.fireEvent(new SpecialActionEvent(SpecialActionEventTypes.SEND_DATA, Game.getRoom().asJSON()));break;
-		case SEND_DATA: if(Game.getDataLoader() != null) { System.out.println(payload); Game.getDataLoader().processData(payload); } break;
+		case GET_MAP: EventHandler.fireEvent(
+				new SpecialActionEvent(SpecialActionEventTypes.SEND_DATA, JSONTools.unformatJSON(Game.getRoom().asJSON())));break;
+		case SEND_DATA: if(Game.getDataLoader() != null) { Game.getDataLoader().processData(payload); } break;
 		default: break;
 		}
 	}

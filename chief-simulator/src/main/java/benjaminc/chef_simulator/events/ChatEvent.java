@@ -53,7 +53,6 @@ public class ChatEvent extends Event {
 		this.time = frame;
 	}
 	public void run() {
-		System.out.println("msg: " + message);
 		Game.consoleInput(replaceToDisplay(message));
 	}
 	
@@ -69,7 +68,6 @@ public class ChatEvent extends Event {
 		String out = "{";
 		out += "\"" + ChatEventJsonKeys.MESSAGE + "\":\"" + message + "\",";
 		out += "\"" + ChatEventJsonKeys.TIME + "\":\"" + time + "\"";
-		System.out.println("json: " + out);
 		return super.asJSON(EventTypes.CHAT_EVENT, out + "}");
 	}
 	

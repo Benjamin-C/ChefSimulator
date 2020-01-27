@@ -40,11 +40,11 @@ public class ListCommand implements Command{
 					boolean fencepost = false;
 					for(Thing t : Game.getRoom().getSpace(new Location2d(x, y)).getThings()) {
 						if(fencepost) {
-							out += ", ";
+							out += "\n";
 						} else {
 							fencepost = true;
 						}
-						out += t.getName();
+						out += t.getName() + "(" + t.getUUID() + ")";
 					}
 					Game.chat(out);
 					return true;
