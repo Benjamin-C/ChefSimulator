@@ -26,6 +26,7 @@ public class FindCommand implements Command{
 					Thing t = r.getSpace(new Location2d(x, y)).getThing(UUID.fromString(args[1]));
 					if(t != null) {
 						Game.chat(t.toString());
+						System.out.println(t.toString());
 						return true;
 					}
 				}
