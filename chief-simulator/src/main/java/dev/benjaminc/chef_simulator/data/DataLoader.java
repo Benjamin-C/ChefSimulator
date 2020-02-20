@@ -1,0 +1,11 @@
+package dev.benjaminc.chef_simulator.data;
+
+public interface DataLoader {
+	
+	/**
+	 * Process a data string
+	 * @param data	the {@link String} of data
+	 */
+	public abstract void processData(String data);
+
+}
