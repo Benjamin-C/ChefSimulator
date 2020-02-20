@@ -28,8 +28,8 @@ public class Scene {
     private IParticleEmitter[] particleEmitters;
 
     public Scene() {
-        meshMap = new HashMap();
-        instancedMeshMap = new HashMap();
+        meshMap = new HashMap<Mesh, List<GameItem>>();
+        instancedMeshMap = new HashMap<InstancedMesh, List<GameItem>>();
         fog = Fog.NOFOG;
         renderShadows = true;
     }

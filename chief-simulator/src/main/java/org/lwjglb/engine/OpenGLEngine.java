@@ -41,7 +41,7 @@ public class OpenGLEngine implements Runnable {
 
 	private final Camera camera;
 
-	private Scene scene;
+	public Scene scene;
 
 //    private Hud hud;
 
@@ -73,8 +73,10 @@ public class OpenGLEngine implements Runnable {
 
 	private String windowTitle;
 
-	Mesh[] houseMesh;
-	GameItem bunny;
+	private Mesh[] houseMesh;
+	private Mesh[] bunnyMesh;
+	
+	private GameItem bunny;
 
 	public OpenGLEngine(String windowTitle, boolean vSync, Window.WindowOptions opts)
 			throws Exception {
@@ -129,6 +131,24 @@ public class OpenGLEngine implements Runnable {
 		sceneLight.setPointLightList(new PointLight[] { pointLight });
 	}
 
+	/**
+	 * Makes a new Bunny
+	 * @param xp	the float x position
+	 * @param yp	the float y position
+	 * @param zp	the float z position
+	 * @param xr	the float x rotation
+	 * @param yr	the float y rotation
+	 * @param zr	the float z rotation
+	 */
+	public void newBunny(float xp, float yp, float zp, float xr, float yr, float zr) {
+		GameItem b = new GameItem(bunnyMesh);
+		b.setPosition(xp, yp, zp);
+		b.setRotation(b.getRotation().rotationXYZ(xr, yr, zr));
+		b.setScale(0.25f);
+		scene.addGameItem(b);
+	}
+	
+	
 	protected void init() throws Exception {
 		window.init();
 		timer.init();
@@ -139,8 +159,9 @@ public class OpenGLEngine implements Runnable {
 
 		scene = new Scene();
 
-		Mesh[] bunnyMesh = StaticMeshesLoader.load("models/bunny.obj", "models");
+		bunnyMesh = StaticMeshesLoader.load("models/cube.obj", "models");
 		bunny = new GameItem(bunnyMesh);
+		bunny.setPosition(-1.0f, 1.0f, 4.0f);
 		bunny.setRotation(bunny.getRotation().rotationXYZ(0.0f, (float) Math.toRadians(200), 0.0f));
 
 		Mesh[] terrainMesh = StaticMeshesLoader.load("models/terrain/terrain.obj", "models/terrain");
@@ -156,7 +177,7 @@ public class OpenGLEngine implements Runnable {
 
 		// Fog
 		Vector3f fogColour = new Vector3f(0.5f, 0.5f, 0.5f);
-        scene.setFog(new Fog(true, fogColour, 0.02f));
+//        scene.setFog(new Fog(true, fogColour, 0.02f));
 
 		// Setup SkyBox
 		float skyBoxScale = 100.0f;
@@ -167,17 +188,25 @@ public class OpenGLEngine implements Runnable {
 		// Setup Lights
 		setupLights();
 
-		camera.getPosition().x = -17.0f;
-		camera.getPosition().y = 17.0f;
-		camera.getPosition().z = -30.0f;
-		camera.getRotation().x = 20.0f;
-		camera.getRotation().y = 140.f;
-		camera.getRotation().z = 45.0f;
+//		camera.getPosition().x = -17.0f;
+//		camera.getPosition().y = 17.0f;
+//		camera.getPosition().z = -30.0f;
+//		camera.getRotation().x = 20.0f;
+//		camera.getRotation().y = 140.f;
+//		camera.getRotation().z = 45.0f;
 
+		camera.getPosition().x = -16.0f;
+		camera.getPosition().y = 4.0f;
+		camera.getPosition().z = 8.0f;
+		camera.getRotation().x = 0.0f;
+		camera.getRotation().y = 90.0f;
+		camera.getRotation().z = 0.0f;
 		lastFps = timer.getTime();
 		fps = 0;
 	}
 
+	public boolean mod = false;
+	
 	protected void gameLoop() {
 		float elapsedTime;
 		float accumulator = 0f;
@@ -195,6 +224,15 @@ public class OpenGLEngine implements Runnable {
 				accumulator -= interval;
 			}
 
+			if(mod) {
+				long start = System.currentTimeMillis();
+				while(mod) {
+					if(start+10 < System.currentTimeMillis()) {
+						mod = false;
+					}
+				}
+			}
+			
 			render();
 
 			if (!window.isvSync()) {
@@ -264,7 +302,9 @@ public class OpenGLEngine implements Runnable {
 		if (window.isKeyPressed(GLFW_KEY_P)) {
 			System.out.println("New House!");
 			GameItem house = new GameItem(houseMesh);
-			house.setPosition((5 * (float) Math.random()), (5 * (float) Math.random()), (5 * (float) Math.random()));
+			house.setPosition((16 * (float) Math.random())-8+bunny.getPosition().x,
+					(16 * (float) Math.random())-8+bunny.getPosition().y,
+					(16 * (float) Math.random())-8+bunny.getPosition().z);
 			scene.addGameItem(house);
 		}
 		if (window.isKeyPressed(GLFW_KEY_I)) {
@@ -284,6 +324,30 @@ public class OpenGLEngine implements Runnable {
 		}
 		if (window.isKeyPressed(GLFW_KEY_M)) {
 			bunny.setRotation(bunny.getRotation().rotateZ((float) Math.toRadians(-5)));
+		}
+		if (window.isKeyPressed(84)) { // T
+			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y, bunny.getPosition().z-.05f);
+		}
+		if (window.isKeyPressed(71)) { // G
+			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y, bunny.getPosition().z+.05f);
+		}
+		if (window.isKeyPressed(70)) { // F
+			bunny.setPosition(bunny.getPosition().x-.05f, bunny.getPosition().y, bunny.getPosition().z);
+		}
+		if (window.isKeyPressed(72)) { // H
+			bunny.setPosition(bunny.getPosition().x+.05f, bunny.getPosition().y, bunny.getPosition().z);
+		}
+		if (window.isKeyPressed(89)) { // Y
+			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y+.05f, bunny.getPosition().z);
+		}
+		if (window.isKeyPressed(82)) { // R
+			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y-.05f, bunny.getPosition().z);
+		}
+		if (window.isKeyPressed(66)) { // B
+			bunny.setScale(bunny.getScale() + .25f);;
+		}
+		if (window.isKeyPressed(86)) { // R
+			bunny.setScale(bunny.getScale() - .25f);;
 		}
 	}
 

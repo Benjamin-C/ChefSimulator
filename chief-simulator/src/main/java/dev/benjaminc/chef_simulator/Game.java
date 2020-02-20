@@ -26,6 +26,7 @@ import dev.benjaminc.chef_simulator.control.EventHandler;
 import dev.benjaminc.chef_simulator.control.KeyListenAction;
 import dev.benjaminc.chef_simulator.control.TickEvent;
 import dev.benjaminc.chef_simulator.control.TickTimer;
+import dev.benjaminc.chef_simulator.control.command.BunnyCommand;
 import dev.benjaminc.chef_simulator.control.command.ConnectCommand;
 import dev.benjaminc.chef_simulator.control.command.EventCommand;
 import dev.benjaminc.chef_simulator.control.command.FindCommand;
@@ -65,6 +66,8 @@ public class Game {
 	private static TCPClient client;
 	
 	private static DataLoader dataLoader = null;
+	
+	public static OpenGLEngine openglEngine;
 	
 	private static TCPOnDataArrival tcpodr = new TCPOnDataArrival() {
 		@Override public void onDataArrived(byte[] data) {
@@ -125,6 +128,7 @@ public class Game {
 		cp.addCommand(new EventCommand());
 		cp.addCommand(new ConnectCommand());
 		cp.addCommand(new FindCommand());
+		cp.addCommand(new BunnyCommand());
 	}
 	
 	public static void playDefaultGame() {
@@ -168,8 +172,9 @@ public class Game {
 	        opts.compatibleProfile = true;
 	        opts.antialiasing = true;
 	        opts.frustumCulling = false;
-	        OpenGLEngine gameEng = new OpenGLEngine("GAME", vSync, opts);
-	        gameEng.run();
+	        openglEngine = new OpenGLEngine("GAME", vSync, opts);
+	        Thread opengl = new Thread(openglEngine, "OpenGL");
+	        opengl.start();
 	    } catch (Exception excp) {
 	        excp.printStackTrace();
 	        System.exit(-1);
