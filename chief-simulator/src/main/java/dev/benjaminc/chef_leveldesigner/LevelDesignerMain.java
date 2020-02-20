@@ -21,8 +21,8 @@ import dev.benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditD
 import dev.benjaminc.chef_leveldesigner.ObjectiveEditDialog.ObjectiveTypeChangeEvent;
 import dev.benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
 import dev.benjaminc.chef_simulator.Objective;
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;

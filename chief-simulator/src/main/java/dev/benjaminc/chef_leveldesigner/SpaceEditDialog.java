@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import dev.benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
 import dev.benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
 import dev.benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
-import dev.benjaminc.chef_simulator.graphics.GameSpace;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
+import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.food.Potato;
 

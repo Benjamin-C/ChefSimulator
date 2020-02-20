@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.data.DataMap;
 import dev.benjaminc.chef_simulator.data.FoodState;
 import dev.benjaminc.chef_simulator.data.Inventory;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.events.OnDisposeEvent;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.types.ContainerThing;

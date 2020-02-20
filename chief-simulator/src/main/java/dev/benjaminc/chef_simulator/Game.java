@@ -10,10 +10,16 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
 
+import org.lwjglb.engine.OpenGLEngine;
+import org.lwjglb.engine.Window;
+
 import benjamin.BenTCP.TCPClient;
 import benjamin.BenTCP.TCPOnDataArrival;
 import benjamin.BenTCP.TCPServer;
 import benjamin.BenTCP.TCPSetupStream;
+import dev.benjaminc.chef_simulator.chef_graphics.ActionType;
+import dev.benjaminc.chef_simulator.chef_graphics.GamePanel;
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.control.Chef;
 import dev.benjaminc.chef_simulator.control.CommandProcessor;
 import dev.benjaminc.chef_simulator.control.EventHandler;
@@ -30,9 +36,6 @@ import dev.benjaminc.chef_simulator.data.DataLoader;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.events.ChatEvent;
 import dev.benjaminc.chef_simulator.events.Event;
-import dev.benjaminc.chef_simulator.graphics.ActionType;
-import dev.benjaminc.chef_simulator.graphics.GamePanel;
-import dev.benjaminc.chef_simulator.graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.rooms.Level1;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_textures.dialog.MessageDialog;
@@ -103,6 +106,7 @@ public class Game {
 		GraphicalLoader.loadCache("assets/textures/");
 		room = new Room(1, 1, new Object(), cooks);
 		gamePanel = new GamePanel(room, scale, room.getWidth()*scale, room.getHeight()*scale, lago, fps, exitOnClose);
+		initOpenGLGraphics();
 		
 		System.out.println("New SysOut setd");
 		
@@ -154,6 +158,24 @@ public class Game {
 		};
 		control.start();
 	}
+	
+	public static void initOpenGLGraphics() {
+		try {
+	        boolean vSync = false;
+	        Window.WindowOptions opts = new Window.WindowOptions();
+	        opts.cullFace = false;
+	        opts.showFps = true;
+	        opts.compatibleProfile = true;
+	        opts.antialiasing = true;
+	        opts.frustumCulling = false;
+	        OpenGLEngine gameEng = new OpenGLEngine("GAME", vSync, opts);
+	        gameEng.run();
+	    } catch (Exception excp) {
+	        excp.printStackTrace();
+	        System.exit(-1);
+	    }
+	}
+	
 	public static Chef newCook(String name, Color color, Location2d location, int up, int down, int left, int right, int pickup, int use) {
 		Map<ActionType, Integer> keys = new HashMap<ActionType, Integer>();
 		keys.put(ActionType.MOVE_UP, up);

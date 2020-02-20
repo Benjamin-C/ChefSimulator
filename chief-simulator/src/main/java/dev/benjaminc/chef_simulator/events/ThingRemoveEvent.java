@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import dev.benjaminc.chef_simulator.Game;
+import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
-import dev.benjaminc.chef_simulator.graphics.GameSpace;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.util.JSONTools;
 

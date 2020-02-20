@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.control.Direction;
 import dev.benjaminc.chef_simulator.data.DataMap;
 import dev.benjaminc.chef_simulator.data.FoodState;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
-import dev.benjaminc.chef_simulator.graphics.GraphicalLoader;
 import dev.benjaminc.util.JSONTools;
 
 /**

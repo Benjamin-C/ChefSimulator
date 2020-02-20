@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import dev.benjaminc.chef_simulator.Game;
+import dev.benjaminc.chef_simulator.chef_graphics.ActionType;
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.events.ChefInteractEvent;
 import dev.benjaminc.chef_simulator.events.ChefMoveEvent;
@@ -17,8 +19,6 @@ import dev.benjaminc.chef_simulator.events.ThingAddEvent;
 import dev.benjaminc.chef_simulator.events.ThingChangeEvent;
 import dev.benjaminc.chef_simulator.events.ThingRemoveEvent;
 import dev.benjaminc.chef_simulator.events.ChefInteractEvent.ChefInteractEventTypes;
-import dev.benjaminc.chef_simulator.graphics.ActionType;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.types.AttachedThing;

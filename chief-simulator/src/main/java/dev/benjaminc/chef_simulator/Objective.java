@@ -3,8 +3,8 @@ package dev.benjaminc.chef_simulator;
 import java.awt.Graphics;
 import java.util.Map;
 
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.data.Savable;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.util.JSONTools;

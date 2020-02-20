@@ -7,10 +7,10 @@ import java.util.UUID;
 
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.Objective;
+import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
 import dev.benjaminc.chef_simulator.data.DataMap;
 import dev.benjaminc.chef_simulator.data.FoodState;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
-import dev.benjaminc.chef_simulator.graphics.GameSpace;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.tools.Plate;

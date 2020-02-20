@@ -24,6 +24,5 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/BenTCP"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/CarrotEngine"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

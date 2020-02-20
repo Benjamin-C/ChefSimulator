@@ -14,12 +14,12 @@ import javax.swing.JPanel;
 import dev.benjaminc.chef_leveldesigner.EditableList.EditableListEvents;
 import dev.benjaminc.chef_leveldesigner.EditableListEditDialog.EditableListEditDialogDrawEvent;
 import dev.benjaminc.chef_leveldesigner.ThingEditDialog.ThingTypeChangeEvent;
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.control.Direction;
 import dev.benjaminc.chef_simulator.data.DataMap;
 import dev.benjaminc.chef_simulator.data.FoodState;
 import dev.benjaminc.chef_simulator.data.Inventory;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.food.Potato;
 

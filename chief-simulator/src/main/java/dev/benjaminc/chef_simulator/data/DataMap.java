@@ -3,8 +3,8 @@ package dev.benjaminc.chef_simulator.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.control.Direction;
-import dev.benjaminc.chef_simulator.graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.types.ContainerThing;

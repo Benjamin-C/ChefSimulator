@@ -1,6 +1,6 @@
 package dev.benjaminc.chef_simulator.control;
 
-import dev.benjaminc.chef_simulator.graphics.ActionType;
+import dev.benjaminc.chef_simulator.chef_graphics.ActionType;
 
 public class Action {
 

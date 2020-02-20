@@ -1,7 +1,7 @@
 package dev.benjaminc.chef_simulator.things.types;
 
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.data.Inventory;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.things.Thing;
 
 /**

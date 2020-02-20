@@ -10,12 +10,12 @@ import java.util.Map;
 
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.Objective;
+import dev.benjaminc.chef_simulator.chef_graphics.Drawable;
+import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
+import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.control.Chef;
 import dev.benjaminc.chef_simulator.data.Savable;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
-import dev.benjaminc.chef_simulator.graphics.Drawable;
-import dev.benjaminc.chef_simulator.graphics.GameSpace;
-import dev.benjaminc.chef_simulator.graphics.GraphicalDrawer;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.chef_simulator.things.types.NeedsInitThing;

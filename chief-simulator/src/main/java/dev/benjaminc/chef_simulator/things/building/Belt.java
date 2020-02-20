@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
 
+import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
 import dev.benjaminc.chef_simulator.control.Direction;
 import dev.benjaminc.chef_simulator.control.EventHandler;
 import dev.benjaminc.chef_simulator.data.DataMap;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.events.ThingMoveEvent;
-import dev.benjaminc.chef_simulator.graphics.GameSpace;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
