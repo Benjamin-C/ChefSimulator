@@ -11,6 +11,10 @@ public class GraphicalLoader {
 
 	private static Map<String, Texture> cache;
 	
+	public static Map<String, Texture> getCache() {
+		return cache;
+	}
+	
 	public static void loadCache(String root) {
 		if(cache == null) {
 			cache = new HashMap<String, Texture>();
@@ -47,7 +51,7 @@ public class GraphicalLoader {
 		if(cache == null) {
 			cache = new HashMap<String, Texture>();
 		}
-		String fullname = "assets/textures/" + filename.toLowerCase() + ".cst";
+		String fullname = "assets/chefgraphics/textures/" + filename.toLowerCase() + ".cst";
 		if(cache.containsKey(filename)) {
 			//System.out.println("Loading " + filename/*.substring((fullname.lastIndexOf("/"))+1)*/ + " from cache");
 			return cache.get(filename);

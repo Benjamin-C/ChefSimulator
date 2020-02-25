@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import dev.benjaminc.chef_simulator.data.location.Location2d;
+import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_simulator.things.*;
 import dev.benjaminc.chef_simulator.things.building.Floor;
@@ -69,9 +70,11 @@ public class GameSpace {
 	 * 
 	 * @param t the {@link Thing} to add
 	 */
-	public void addThing(Thing t) {
+	public Location3d addThing(Thing t) {
 		isChanged = true;
-		addThing(Integer.MAX_VALUE, t);
+		int elev = things.size();
+		addThing(elev, t);
+		return loc.as3d(elev);
 	}
 	/**
 	 * Adds a thing to this {@link GameSpace} at a specific elevation

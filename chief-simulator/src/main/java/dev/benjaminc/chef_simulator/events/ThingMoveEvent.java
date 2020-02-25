@@ -3,8 +3,11 @@ package dev.benjaminc.chef_simulator.events;
 import java.util.Map;
 import java.util.UUID;
 
+import org.lwjglb.engine.items.GameItem;
+
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.data.Savable;
+import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.things.Thing;
@@ -104,7 +107,9 @@ public class ThingMoveEvent extends Event implements Savable {
 	
 	@Override
 	public void run() {
-		Game.getRoom().getSpace(to).addThing(Game.getRoom().getSpace(from).removeThing(uuid));
+		Thing t = Game.getRoom().getSpace(from).removeThing(uuid);
+		Location3d newloc = Game.getRoom().getSpace(to).addThing(t);
+		Game.openglEngine.moveItem(t, newloc);
 	}
 	
 	@Override

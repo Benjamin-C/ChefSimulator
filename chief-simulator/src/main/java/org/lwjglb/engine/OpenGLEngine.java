@@ -18,6 +18,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -30,6 +35,11 @@ import org.lwjglb.engine.graph.weather.Fog;
 import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
+
+import dev.benjaminc.chef_simulator.Game;
+import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
+import dev.benjaminc.chef_simulator.data.location.Location3d;
+import dev.benjaminc.chef_simulator.things.Thing;
 
 public class OpenGLEngine implements Runnable {
 
@@ -78,6 +88,12 @@ public class OpenGLEngine implements Runnable {
 	
 	private GameItem bunny;
 
+	private Map<String, Mesh[]> meshes;
+	
+	private boolean ready = false;
+	
+	private List<Runnable> todo;
+	
 	public OpenGLEngine(String windowTitle, boolean vSync, Window.WindowOptions opts)
 			throws Exception {
 		this(windowTitle, 0, 0, vSync, opts);
@@ -96,6 +112,10 @@ public class OpenGLEngine implements Runnable {
 		window = new Window(windowTitle, width, height, vSync, opts);
 		mouseInput = new MouseInput();
 		timer = new Timer();
+		
+		todo = new ArrayList<Runnable>();
+		
+		meshes = new HashMap<String, Mesh[]>();
 	}
 
 	@Override
@@ -115,11 +135,11 @@ public class OpenGLEngine implements Runnable {
 		scene.setSceneLight(sceneLight);
 
 		// Ambient Light
-		sceneLight.setAmbientLight(new Vector3f(0.9f, 0.8f, 0.6f));
+		sceneLight.setAmbientLight(new Vector3f(1.0f, 1.0f, 1.0f));
 		sceneLight.setSkyBoxLight(new Vector3f(0.0f, 0.0f, 0.0f));
 
 		// Directional Light
-		float lightIntensity = 1.0f;
+		float lightIntensity = 0.0f;
 		Vector3f lightDirection = new Vector3f(0, 1, 1);
 		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), lightDirection, lightIntensity);
 		sceneLight.setDirectionalLight(directionalLight);
@@ -140,14 +160,27 @@ public class OpenGLEngine implements Runnable {
 	 * @param yr	the float y rotation
 	 * @param zr	the float z rotation
 	 */
-	public void newBunny(float xp, float yp, float zp, float xr, float yr, float zr) {
+	public GameItem newBunny(float xp, float yp, float zp, float xr, float yr, float zr) {
 		GameItem b = new GameItem(bunnyMesh);
 		b.setPosition(xp, yp, zp);
 		b.setRotation(b.getRotation().rotationXYZ(xr, yr, zr));
-		b.setScale(0.25f);
+		b.setScale(1f);
 		scene.addGameItem(b);
+		return b;
 	}
 	
+	public void loadMesh(String name) {
+		try {
+			meshes.put(name, StaticMeshesLoader.load("models/cube.obj", "models"));
+		} catch (Exception e) {
+			try {
+				meshes.put(name, StaticMeshesLoader.load("models/cube.obj", "models"));
+			} catch (Exception e1) {
+				System.out.println("The cube default texture could not be found.");
+				e1.printStackTrace();
+			}
+		}
+	}
 	
 	protected void init() throws Exception {
 		window.init();
@@ -161,28 +194,28 @@ public class OpenGLEngine implements Runnable {
 
 		bunnyMesh = StaticMeshesLoader.load("models/cube.obj", "models");
 		bunny = new GameItem(bunnyMesh);
-		bunny.setPosition(-1.0f, 1.0f, 4.0f);
-		bunny.setRotation(bunny.getRotation().rotationXYZ(0.0f, (float) Math.toRadians(200), 0.0f));
+//		bunny.setPosition(-1.0f, 1.0f, 4.0f);
+//		bunny.setRotation(bunny.getRotation().rotationXYZ(0.0f, (float) Math.toRadians(200), 0.0f));
 
-		Mesh[] terrainMesh = StaticMeshesLoader.load("models/terrain/terrain.obj", "models/terrain");
-		GameItem terrain = new GameItem(terrainMesh);
-		terrain.setScale(100.0f);
+//		Mesh[] terrainMesh = StaticMeshesLoader.load("models/terrain/terrain.obj", "models/terrain");
+//		GameItem terrain = new GameItem(terrainMesh);
+//		terrain.setScale(100.0f);
 
-		scene.setGameItems(new GameItem[] { bunny });
+		scene.setGameItems(new GameItem[] { });
 
-		houseMesh = StaticMeshesLoader.load("models/compass.obj", "models");
+//		houseMesh = StaticMeshesLoader.load("models/compass.obj", "models");
 
 		// Shadows
-        scene.setRenderShadows(true);
+        scene.setRenderShadows(false);
 
 		// Fog
-		Vector3f fogColour = new Vector3f(0.5f, 0.5f, 0.5f);
+//		Vector3f fogColour = new Vector3f(0.5f, 0.5f, 0.5f);
 //        scene.setFog(new Fog(true, fogColour, 0.02f));
 
 		// Setup SkyBox
-		float skyBoxScale = 100.0f;
-		SkyBox skyBox = new SkyBox("models/skybox.obj", new Vector4f(0.0f, 0.0f, 0.0f, 1.0f));
-		skyBox.setScale(skyBoxScale);
+//		float skyBoxScale = 100.0f;
+//		SkyBox skyBox = new SkyBox("models/skybox.obj", new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
+//		skyBox.setScale(skyBoxScale);
 //        scene.setSkyBox(skyBox);
 
 		// Setup Lights
@@ -203,9 +236,30 @@ public class OpenGLEngine implements Runnable {
 		camera.getRotation().z = 0.0f;
 		lastFps = timer.getTime();
 		fps = 0;
+		
+		ready = true;
 	}
 
-	public boolean mod = false;
+	public boolean isReady() {
+		return ready;
+	}
+	
+	public void mod(Runnable r) {
+		if(!rendering) {
+			r.run();
+		} else {
+			todo.add(r);
+		}
+	}
+	public void moveItem(Thing t, Location3d newloc) {
+		Game.openglEngine.mod(new Runnable() {
+			@Override public void run() {
+				((GameItem) t.getDataMap().get(DataMapKey.TEXTURE_OPENGL)).setPosition(newloc.getX(), newloc.getZ(), newloc.getY());
+			}
+		});
+	}
+	
+	private boolean rendering = false;
 	
 	protected void gameLoop() {
 		float elapsedTime;
@@ -224,17 +278,16 @@ public class OpenGLEngine implements Runnable {
 				accumulator -= interval;
 			}
 
-			if(mod) {
-				long start = System.currentTimeMillis();
-				while(mod) {
-					if(start+10 < System.currentTimeMillis()) {
-						mod = false;
-					}
-				}
-			}
-			
+			rendering = true;
 			render();
+			rendering = false;
 
+			if(todo.size() > 0) {
+				for(Runnable r : todo) {
+					r.run();
+				}
+				todo.clear();
+			}
 			if (!window.isvSync()) {
 				sync();
 			}
@@ -276,10 +329,10 @@ public class OpenGLEngine implements Runnable {
 			sceneChanged = true;
 			cameraInc.x = 1;
 		}
-		if (window.isKeyPressed(GLFW_KEY_E)) {
+		if (window.isKeyPressed(340)) { // Left Shift
 			sceneChanged = true;
 			cameraInc.y = -1;
-		} else if (window.isKeyPressed(GLFW_KEY_Q)) {
+		} else if (window.isKeyPressed(32)) { // Space
 			sceneChanged = true;
 			cameraInc.y = 1;
 		}

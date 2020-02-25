@@ -58,9 +58,9 @@ public class ShapeLoader {
 		}
 		return list;
 	}
-	
+
 	public Texture loadShapeListFromFile(File file) {
-		Texture list = new Texture();
+		Texture list = new Texture(file.getParentFile().getName() + "/" + file.getName());
 		System.out.println("Loading: " + file.getName() + " ... ");
     	try {
 			Scanner s = new Scanner(file);

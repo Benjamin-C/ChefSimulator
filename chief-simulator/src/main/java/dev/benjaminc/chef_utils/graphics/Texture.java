@@ -16,6 +16,7 @@ public class Texture {
 	}
 	public Texture(String name) {
 		txtr = new HashMap<FoodState, List<Shape>>();
+		fileName = name;
 	}
 	public Texture(Map<FoodState, List<Shape>> txtr) {
 		this(txtr, null);
@@ -58,6 +59,10 @@ public class Texture {
 		for(FoodState f : FoodState.values()) {
 			System.out.println(f + " " + get(f));
 		}
+	}
+	
+	public String getFilename() {
+		return fileName;
 	}
 	
 	@Override

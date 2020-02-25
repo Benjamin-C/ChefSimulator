@@ -6,6 +6,7 @@ import java.util.UUID;
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.control.Chef;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
+import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.things.Thing;
 import dev.benjaminc.util.JSONTools;
 
@@ -47,7 +48,7 @@ public class ChefInteractEvent extends Event {
 				return;
 			}
 		}
-		throw new IllegalArgumentException("The ChatEvent could not be created from the provided JSON");
+		throw new IllegalArgumentException("The ChefInteractEvent could not be created from the provided JSON");
 	}
 	
 	public ChefInteractEventTypes getType() {
@@ -71,10 +72,12 @@ public class ChefInteractEvent extends Event {
 			Thing thing = Game.getRoom().getSpace(newloc).getThing(uuid);
 			c.setHand(thing);
 			Game.getRoom().getSpace(newloc).removeThing(thing);
+			Game.openglEngine.moveItem(thing, new Location3d(-1, -1, -1));
 		} break;
 		case PUT_DOWN: {
 			Thing thing = c.getHand();
-			Game.getRoom().getSpace(newloc).addThing(thing);
+			Location3d addat = Game.getRoom().getSpace(newloc).addThing(thing);
+			Game.openglEngine.moveItem(thing, addat);
 			c.setHand(null);
 		} break;
 		}

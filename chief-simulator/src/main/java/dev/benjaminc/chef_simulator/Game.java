@@ -19,6 +19,7 @@ import benjamin.BenTCP.TCPServer;
 import benjamin.BenTCP.TCPSetupStream;
 import dev.benjaminc.chef_simulator.chef_graphics.ActionType;
 import dev.benjaminc.chef_simulator.chef_graphics.GamePanel;
+import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
 import dev.benjaminc.chef_simulator.chef_graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.control.Chef;
 import dev.benjaminc.chef_simulator.control.CommandProcessor;
@@ -26,7 +27,6 @@ import dev.benjaminc.chef_simulator.control.EventHandler;
 import dev.benjaminc.chef_simulator.control.KeyListenAction;
 import dev.benjaminc.chef_simulator.control.TickEvent;
 import dev.benjaminc.chef_simulator.control.TickTimer;
-import dev.benjaminc.chef_simulator.control.command.BunnyCommand;
 import dev.benjaminc.chef_simulator.control.command.ConnectCommand;
 import dev.benjaminc.chef_simulator.control.command.EventCommand;
 import dev.benjaminc.chef_simulator.control.command.FindCommand;
@@ -34,6 +34,7 @@ import dev.benjaminc.chef_simulator.control.command.ListCommand;
 import dev.benjaminc.chef_simulator.control.command.MoveCommand;
 import dev.benjaminc.chef_simulator.control.command.SetCommand;
 import dev.benjaminc.chef_simulator.data.DataLoader;
+import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.events.ChatEvent;
 import dev.benjaminc.chef_simulator.events.Event;
@@ -68,6 +69,8 @@ public class Game {
 	private static DataLoader dataLoader = null;
 	
 	public static OpenGLEngine openglEngine;
+	
+	public static boolean usingOpenGL = true;
 	
 	private static TCPOnDataArrival tcpodr = new TCPOnDataArrival() {
 		@Override public void onDataArrived(byte[] data) {
@@ -109,7 +112,11 @@ public class Game {
 		GraphicalLoader.loadCache("assets/textures/");
 		room = new Room(1, 1, new Object(), cooks);
 		gamePanel = new GamePanel(room, scale, room.getWidth()*scale, room.getHeight()*scale, lago, fps, exitOnClose);
-		initOpenGLGraphics();
+		
+		if(usingOpenGL) {
+			initOpenGLGraphics();
+			while(!openglEngine.isReady()) { System.out.print("."); try {Thread.sleep(1); } catch(InterruptedException e) {} }
+		}
 		
 		System.out.println("New SysOut setd");
 		
@@ -128,7 +135,6 @@ public class Game {
 		cp.addCommand(new EventCommand());
 		cp.addCommand(new ConnectCommand());
 		cp.addCommand(new FindCommand());
-		cp.addCommand(new BunnyCommand());
 	}
 	
 	public static void playDefaultGame() {
@@ -227,6 +233,24 @@ public class Game {
 				}
 			}
 		});
+		System.out.println("Spinich " + usingOpenGL);
+		if(usingOpenGL) {
+			for(int x = 0; x < room.getWidth(); x++) {
+				for(int y = 0; y < room.getHeight(); y++) {
+					GameSpace s = room.getSpace(new Location2d(x, y));
+					for(int z = 0; z < s.size(); z++) {
+						final int nx = x;
+						final int ny = y;
+						final int nz = z;
+						openglEngine.mod(new Runnable() {
+							@Override public void run() {
+								s.getThing(nz).getDataMap().put(DataMapKey.TEXTURE_OPENGL, openglEngine.newBunny(nx, nz, ny, 0.0f, 0.0f, 0.0f));
+							}
+						}); 
+					}
+				}
+			}	
+		}
 		System.out.println("Started");
 		Util.showThreads();
 		System.out.println("UDG start");
