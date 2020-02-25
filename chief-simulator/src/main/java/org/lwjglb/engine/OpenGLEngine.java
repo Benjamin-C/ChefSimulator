@@ -40,6 +40,7 @@ import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.things.Thing;
+import dev.benjaminc.chef_utils.graphics.Texture;
 
 public class OpenGLEngine implements Runnable {
 
@@ -169,15 +170,62 @@ public class OpenGLEngine implements Runnable {
 		return b;
 	}
 	
+	private static final String TEXTURE_ROOT_DIR = "assets/carrotgraphics/textures/";
+	
+	public void newThing(Thing t, Location3d loc) {
+		Texture tx = (Texture) (t.getDataMap().get(DataMapKey.TEXTURE));
+		final String type = tx.getFilename().substring(0, tx.getFilename().lastIndexOf(".")) + ".obj";
+		final int nx = loc.getX();
+		final int ny = loc.getY();
+		final int nz = loc.getZ();
+		mod(new Runnable() {
+			@Override public void run() {
+				t.getDataMap().put(DataMapKey.TEXTURE_OPENGL, newItem(type, nx, nz, ny, 0.0f, 0.0f, 0.0f));
+			}
+		}); 
+	}
+	
+	/**
+	 * Makes a new Bunny
+	 * @param xp	the float x position
+	 * @param yp	the float y position
+	 * @param zp	the float z position
+	 * @param xr	the float x rotation
+	 * @param yr	the float y rotation
+	 * @param zr	the float z rotation
+	 */
+	public GameItem newItem(String type, float xp, float yp, float zp, float xr, float yr, float zr) {
+		loadMesh(type);
+		GameItem b = new GameItem(meshes.get(type));
+		b.setPosition(xp, yp, zp);
+		b.setRotation(b.getRotation().rotationXYZ(xr, yr, zr));
+		b.setScale(1f);
+		scene.addGameItem(b);
+		return b;
+	}
+	
 	public void loadMesh(String name) {
-		try {
-			meshes.put(name, StaticMeshesLoader.load("models/cube.obj", "models"));
-		} catch (Exception e) {
+		loadMesh(name, false);
+	}
+	public void loadMesh(String name, boolean force) {
+		String loc = TEXTURE_ROOT_DIR + name;
+		if(!meshes.containsKey(name) || force) {
+			String dir = TEXTURE_ROOT_DIR + name.substring(0, name.lastIndexOf("/"));
+			
 			try {
-				meshes.put(name, StaticMeshesLoader.load("models/cube.obj", "models"));
-			} catch (Exception e1) {
-				System.out.println("The cube default texture could not be found.");
-				e1.printStackTrace();
+				loc = "assets/carrotgraphics/textures/" + name;
+//				System.out.println(loc);
+//				System.out.println("assets/carrotgraphics/textures/building/belt.obj");
+//				System.out.println(name + "\t\t\t" + loc + "\t\t\t" + dir); // building/belt.obj
+				meshes.put(name, StaticMeshesLoader.load(loc, dir));
+			} catch (Exception e) {
+				e.printStackTrace();
+				try {
+					meshes.put(name, StaticMeshesLoader.load("models/cube.obj", "models"));
+				} catch (Exception e1) {
+					System.out.println("The cube default texture could not be found.");
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -192,7 +240,7 @@ public class OpenGLEngine implements Runnable {
 
 		scene = new Scene();
 
-		bunnyMesh = StaticMeshesLoader.load("models/cube.obj", "models");
+		bunnyMesh = StaticMeshesLoader.load("assets/carrotgraphics/textures/building/belt.obj", "assets/carrotgraphics/textures/building");
 		bunny = new GameItem(bunnyMesh);
 //		bunny.setPosition(-1.0f, 1.0f, 4.0f);
 //		bunny.setRotation(bunny.getRotation().rotationXYZ(0.0f, (float) Math.toRadians(200), 0.0f));

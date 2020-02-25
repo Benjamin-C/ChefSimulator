@@ -86,7 +86,8 @@ public class ThingAddEvent extends Event {
 	
 	@Override
 	public void run() {
-		Game.getRoom().getSpace(loc).addThing(thing);
+		Location3d l3d = Game.getRoom().getSpace(loc).addThing(thing);
+		Game.openglEngine.newThing(thing, l3d);
 	}
 	
 	@Override

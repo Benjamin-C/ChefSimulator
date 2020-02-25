@@ -36,11 +36,13 @@ import dev.benjaminc.chef_simulator.control.command.SetCommand;
 import dev.benjaminc.chef_simulator.data.DataLoader;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
+import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.events.ChatEvent;
 import dev.benjaminc.chef_simulator.events.Event;
 import dev.benjaminc.chef_simulator.rooms.Level1;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_textures.dialog.MessageDialog;
+import dev.benjaminc.chef_utils.graphics.Texture;
 import dev.benjaminc.util.JSONTools;
 import dev.benjaminc.util.Util;
 
@@ -109,7 +111,7 @@ public class Game {
 		
 		cooks = new ArrayList<Chef>();
 		score = new Score();
-		GraphicalLoader.loadCache("assets/textures/");
+		GraphicalLoader.loadCache("assets/chefgraphics/textures/");
 		room = new Room(1, 1, new Object(), cooks);
 		gamePanel = new GamePanel(room, scale, room.getWidth()*scale, room.getHeight()*scale, lago, fps, exitOnClose);
 		
@@ -239,14 +241,7 @@ public class Game {
 				for(int y = 0; y < room.getHeight(); y++) {
 					GameSpace s = room.getSpace(new Location2d(x, y));
 					for(int z = 0; z < s.size(); z++) {
-						final int nx = x;
-						final int ny = y;
-						final int nz = z;
-						openglEngine.mod(new Runnable() {
-							@Override public void run() {
-								s.getThing(nz).getDataMap().put(DataMapKey.TEXTURE_OPENGL, openglEngine.newBunny(nx, nz, ny, 0.0f, 0.0f, 0.0f));
-							}
-						}); 
+						openglEngine.newThing(s.getThing(z), new Location3d(x, y, z));
 					}
 				}
 			}	
