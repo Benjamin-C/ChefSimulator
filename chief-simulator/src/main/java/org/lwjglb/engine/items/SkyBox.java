@@ -9,7 +9,7 @@ import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.Texture;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
-public class SkyBox extends GameItem {
+public class SkyBox extends OpenGLItem {
 
     public SkyBox(String objModel, String textureFile) throws Exception {
         super();

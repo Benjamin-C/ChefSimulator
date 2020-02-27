@@ -21,7 +21,7 @@ import org.lwjglb.engine.graph.Transformation;
 import org.lwjglb.engine.graph.anim.AnimGameItem;
 import org.lwjglb.engine.graph.anim.AnimatedFrame;
 import org.lwjglb.engine.graph.lights.DirectionalLight;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 public class ShadowRenderer {
 
@@ -35,7 +35,7 @@ public class ShadowRenderer {
 
     private ShadowBuffer shadowBuffer;
 
-    private final List<GameItem> filteredItems;
+    private final List<OpenGLItem> filteredItems;
 
     public ShadowRenderer() {
         filteredItems = new ArrayList<>();
@@ -119,9 +119,9 @@ public class ShadowRenderer {
         depthShaderProgram.setUniform("isInstanced", 0);
 
         // Render each mesh with the associated game Items
-        Map<Mesh, List<GameItem>> mapMeshes = scene.getGameMeshes();
+        Map<Mesh, List<OpenGLItem>> mapMeshes = scene.getGameMeshes();
         for (Mesh mesh : mapMeshes.keySet()) {
-            mesh.renderList(mapMeshes.get(mesh), (GameItem gameItem) -> {
+            mesh.renderList(mapMeshes.get(mesh), (OpenGLItem gameItem) -> {
                 Matrix4f modelMatrix = transformation.buildModelMatrix(gameItem);
                 depthShaderProgram.setUniform("modelNonInstancedMatrix", modelMatrix);
                 if (gameItem instanceof AnimGameItem) {
@@ -138,10 +138,10 @@ public class ShadowRenderer {
         depthShaderProgram.setUniform("isInstanced", 1);
 
         // Render each mesh with the associated game Items
-        Map<InstancedMesh, List<GameItem>> mapMeshes = scene.getGameInstancedMeshes();
+        Map<InstancedMesh, List<OpenGLItem>> mapMeshes = scene.getGameInstancedMeshes();
         for (InstancedMesh mesh : mapMeshes.keySet()) {
             filteredItems.clear();
-            for (GameItem gameItem : mapMeshes.get(mesh)) {
+            for (OpenGLItem gameItem : mapMeshes.get(mesh)) {
                 if (gameItem.isInsideFrustum()) {
                     filteredItems.add(gameItem);
                 }

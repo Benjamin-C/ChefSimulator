@@ -3,8 +3,11 @@ package dev.benjaminc.chef_simulator.events;
 import java.util.Map;
 import java.util.UUID;
 
+import org.lwjglb.engine.items.OpenGLItem;
+
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.control.Chef;
+import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.things.Thing;
@@ -72,12 +75,19 @@ public class ChefInteractEvent extends Event {
 			Thing thing = Game.getRoom().getSpace(newloc).getThing(uuid);
 			c.setHand(thing);
 			Game.getRoom().getSpace(newloc).removeThing(thing);
-			Game.openglEngine.moveItem(thing, new Location3d(-1, -1, -1));
+			
+			int z = Game.getRoom().getSpace(c.getLocation()).size();
+			OpenGLItem chi = (OpenGLItem) c.getHand().getDataMap().get(DataMapKey.TEXTURE_OPENGL);
+			chi.setPosition(c.getHandLocation().getX()+.25f, z+.25f, c.getHandLocation().getY()+.25f);
+			chi.setScale(.5f);
 		} break;
 		case PUT_DOWN: {
 			Thing thing = c.getHand();
 			Location3d addat = Game.getRoom().getSpace(newloc).addThing(thing);
 			Game.openglEngine.moveItem(thing, addat);
+			OpenGLItem chi = (OpenGLItem) c.getHand().getDataMap().get(DataMapKey.TEXTURE_OPENGL);
+			chi.setScale(1.0f);
+			
 			c.setHand(null);
 		} break;
 		}

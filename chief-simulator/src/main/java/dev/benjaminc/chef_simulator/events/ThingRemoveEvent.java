@@ -3,8 +3,11 @@ package dev.benjaminc.chef_simulator.events;
 import java.util.Map;
 import java.util.UUID;
 
+import org.lwjglb.engine.items.OpenGLItem;
+
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.chef_graphics.GameSpace;
+import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.things.Thing;
@@ -78,6 +81,7 @@ public class ThingRemoveEvent extends Event {
 
 	public void run() {
 		GameSpace sp = Game.getRoom().getSpace(location);
+		Game.openglEngine.scene.removeGameItem((OpenGLItem) sp.getThing(uuid).getDataMap().get(DataMapKey.TEXTURE_OPENGL));
 		System.out.println(sp.removeThing(sp.getThing(uuid)));
 	}
 	

@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.lwjglb.engine.graph.Mesh;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
-public class AnimGameItem extends GameItem {
+public class AnimGameItem extends OpenGLItem {
 
     private Map<String, Animation> animations;
 

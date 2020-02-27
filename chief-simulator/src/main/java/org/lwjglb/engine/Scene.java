@@ -1,7 +1,7 @@
 package org.lwjglb.engine;
 
 import org.lwjglb.engine.items.SkyBox;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.lwjglb.engine.graph.weather.Fog;
 
 public class Scene {
 
-    private final Map<Mesh, List<GameItem>> meshMap;
+    private final Map<Mesh, List<OpenGLItem>> meshMap;
 
-    private final Map<InstancedMesh, List<GameItem>> instancedMeshMap;
+    private final Map<InstancedMesh, List<OpenGLItem>> instancedMeshMap;
 
     private SkyBox skyBox;
 
@@ -28,17 +28,17 @@ public class Scene {
     private IParticleEmitter[] particleEmitters;
 
     public Scene() {
-        meshMap = new HashMap<Mesh, List<GameItem>>();
-        instancedMeshMap = new HashMap<InstancedMesh, List<GameItem>>();
+        meshMap = new HashMap<Mesh, List<OpenGLItem>>();
+        instancedMeshMap = new HashMap<InstancedMesh, List<OpenGLItem>>();
         fog = Fog.NOFOG;
         renderShadows = true;
     }
 
-    public Map<Mesh, List<GameItem>> getGameMeshes() {
+    public Map<Mesh, List<OpenGLItem>> getGameMeshes() {
         return meshMap;
     }
 
-    public Map<InstancedMesh, List<GameItem>> getGameInstancedMeshes() {
+    public Map<InstancedMesh, List<OpenGLItem>> getGameInstancedMeshes() {
         return instancedMeshMap;
     }
 
@@ -46,7 +46,7 @@ public class Scene {
         return renderShadows;
     }
 
-    public void setGameItems(GameItem[] gameItems) {
+    public void setGameItems(OpenGLItem[] gameItems) {
         // Create a map of meshes to speed up rendering
         int numGameItems = gameItems != null ? gameItems.length : 0;
         for (int i = 0; i < numGameItems; i++) {
@@ -54,11 +54,11 @@ public class Scene {
         }
     }
     
-    public void addGameItem(GameItem itm) {
+    public void addGameItem(OpenGLItem itm) {
         Mesh[] meshes = itm.getMeshes();
         for (Mesh mesh : meshes) {
             boolean instancedMesh = mesh instanceof InstancedMesh;
-            List<GameItem> list = instancedMesh ? instancedMeshMap.get(mesh) : meshMap.get(mesh);
+            List<OpenGLItem> list = instancedMesh ? instancedMeshMap.get(mesh) : meshMap.get(mesh);
             if (list == null) {
                 list = new ArrayList<>();
                 if (instancedMesh) {
@@ -68,6 +68,25 @@ public class Scene {
                 }
             }
             list.add(itm);
+        }
+    }
+    
+    public void removeGameItem(OpenGLItem itm) {
+    	System.out.println("Removing item ...");
+        Mesh[] meshes = itm.getMeshes();
+        for (Mesh mesh : meshes) {
+            boolean instancedMesh = mesh instanceof InstancedMesh;
+            List<OpenGLItem> list = instancedMesh ? instancedMeshMap.get(mesh) : meshMap.get(mesh);
+            if (list == null) {
+                list = new ArrayList<>();
+                mesh.cleanUp();
+                if (instancedMesh) {
+                    instancedMeshMap.remove((InstancedMesh)mesh);
+                } else {
+                    meshMap.remove(mesh);
+                }
+            }
+            list.remove(itm);
         }
     }
 

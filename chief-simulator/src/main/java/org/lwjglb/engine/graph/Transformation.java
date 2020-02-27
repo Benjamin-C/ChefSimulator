@@ -3,7 +3,7 @@ package org.lwjglb.engine.graph;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 public class Transformation {
 
@@ -51,7 +51,7 @@ public class Transformation {
         return ortho2DMatrix.setOrtho2D(left, right, bottom, top);
     }
     
-    public Matrix4f buildModelMatrix(GameItem gameItem) {
+    public Matrix4f buildModelMatrix(OpenGLItem gameItem) {
         Quaternionf rotation = gameItem.getRotation();
         return modelMatrix.translationRotateScale(
                 gameItem.getPosition().x, gameItem.getPosition().y, gameItem.getPosition().z,
@@ -59,7 +59,7 @@ public class Transformation {
                 gameItem.getScale(), gameItem.getScale(), gameItem.getScale());
     }
 
-    public Matrix4f buildModelViewMatrix(GameItem gameItem, Matrix4f viewMatrix) {
+    public Matrix4f buildModelViewMatrix(OpenGLItem gameItem, Matrix4f viewMatrix) {
         return buildModelViewMatrix(buildModelMatrix(gameItem), viewMatrix);
     }
     
@@ -67,7 +67,7 @@ public class Transformation {
         return viewMatrix.mulAffine(modelMatrix, modelViewMatrix);
     }
 
-    public Matrix4f buildModelLightViewMatrix(GameItem gameItem, Matrix4f lightViewMatrix) {
+    public Matrix4f buildModelLightViewMatrix(OpenGLItem gameItem, Matrix4f lightViewMatrix) {
         return buildModelViewMatrix(buildModelMatrix(gameItem), lightViewMatrix);
     }
 
@@ -75,7 +75,7 @@ public class Transformation {
         return lightViewMatrix.mulAffine(modelMatrix, modelLightViewMatrix);
     }
 
-    public Matrix4f buildOrthoProjModelMatrix(GameItem gameItem, Matrix4f orthoMatrix) {
+    public Matrix4f buildOrthoProjModelMatrix(OpenGLItem gameItem, Matrix4f orthoMatrix) {
         return orthoMatrix.mulOrthoAffine(buildModelMatrix(gameItem), orthoModelMatrix);
     }
 }

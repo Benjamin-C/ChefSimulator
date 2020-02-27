@@ -3,7 +3,7 @@ package dev.benjaminc.chef_simulator.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 import dev.benjaminc.chef_simulator.chef_graphics.GraphicalLoader;
 import dev.benjaminc.chef_simulator.control.Direction;
@@ -216,7 +216,7 @@ public class DataMap implements Savable {
 		/**
 		 * the {@link Texture} of the thing in the ChefGraphics engine
 		 */
-		TEXTURE_OPENGL(GameItem.class, true, false),
+		TEXTURE_OPENGL(OpenGLItem.class, true, false),
 		/**
 		 * the {@link Boolean} of if the item has been used.<br/>
 		 * May not be accurate

@@ -1,7 +1,7 @@
 package org.lwjglb.engine.graph;
 
 import org.lwjgl.system.MemoryUtil;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -226,10 +226,10 @@ public class Mesh {
         endRender();
     }
 
-    public void renderList(List<GameItem> gameItems, Consumer<GameItem> consumer) {
+    public void renderList(List<OpenGLItem> gameItems, Consumer<OpenGLItem> consumer) {
         initRender();
 
-        for (GameItem gameItem : gameItems) {
+        for (OpenGLItem gameItem : gameItems) {
             if (gameItem.isInsideFrustum()) {
                 // Set up data required by GameItem
                 consumer.accept(gameItem);

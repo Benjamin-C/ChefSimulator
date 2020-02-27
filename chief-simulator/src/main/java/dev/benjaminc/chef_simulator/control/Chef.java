@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.lwjglb.engine.items.OpenGLItem;
+
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.chef_graphics.ActionType;
 import dev.benjaminc.chef_simulator.chef_graphics.GraphicalDrawer;
@@ -37,6 +39,8 @@ public class Chef implements Tickable {
 	protected double movesPerSecond = 6.5d;
 	protected long movesDel;
 
+	protected OpenGLItem openglme;
+	
 	protected String name;
 	
 	/**
@@ -309,6 +313,14 @@ public class Chef implements Tickable {
 		
 		
 	}
+	
+	public OpenGLItem getGLGameItem() {
+		return openglme;
+	}
+	public void setGLGameItem(OpenGLItem ngi) {
+		this.openglme = ngi;
+	}
+	
 	/**
 	 * Gets the {@link Thing} in the {@link Chef} hand.
 	 * @return the {@link Thing}

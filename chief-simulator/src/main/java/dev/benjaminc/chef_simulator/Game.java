@@ -34,7 +34,6 @@ import dev.benjaminc.chef_simulator.control.command.ListCommand;
 import dev.benjaminc.chef_simulator.control.command.MoveCommand;
 import dev.benjaminc.chef_simulator.control.command.SetCommand;
 import dev.benjaminc.chef_simulator.data.DataLoader;
-import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.events.ChatEvent;
@@ -42,7 +41,6 @@ import dev.benjaminc.chef_simulator.events.Event;
 import dev.benjaminc.chef_simulator.rooms.Level1;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_textures.dialog.MessageDialog;
-import dev.benjaminc.chef_utils.graphics.Texture;
 import dev.benjaminc.util.JSONTools;
 import dev.benjaminc.util.Util;
 
@@ -246,6 +244,16 @@ public class Game {
 				}
 			}	
 		}
+		for(Chef c : cooks) {
+			int z = Game.getRoom().getSpace(c.getLocation()).size();
+			openglEngine.mod(new Runnable() {
+				@Override public void run() {
+					c.setGLGameItem(Game.openglEngine.newItem("chef/chef.obj", c.getLocation().getX(), z, c.getLocation().getY(), 0, 0, 0));
+				}
+			}); 
+			
+		}
+		
 		System.out.println("Started");
 		Util.showThreads();
 		System.out.println("UDG start");

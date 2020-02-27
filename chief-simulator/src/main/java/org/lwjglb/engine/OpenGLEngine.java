@@ -32,7 +32,7 @@ import org.lwjglb.engine.graph.Renderer;
 import org.lwjglb.engine.graph.lights.DirectionalLight;
 import org.lwjglb.engine.graph.lights.PointLight;
 import org.lwjglb.engine.graph.weather.Fog;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
@@ -87,7 +87,7 @@ public class OpenGLEngine implements Runnable {
 	private Mesh[] houseMesh;
 	private Mesh[] bunnyMesh;
 	
-	private GameItem bunny;
+	private OpenGLItem bunny;
 
 	private Map<String, Mesh[]> meshes;
 	
@@ -161,8 +161,8 @@ public class OpenGLEngine implements Runnable {
 	 * @param yr	the float y rotation
 	 * @param zr	the float z rotation
 	 */
-	public GameItem newBunny(float xp, float yp, float zp, float xr, float yr, float zr) {
-		GameItem b = new GameItem(bunnyMesh);
+	public OpenGLItem newBunny(float xp, float yp, float zp, float xr, float yr, float zr) {
+		OpenGLItem b = new OpenGLItem(bunnyMesh);
 		b.setPosition(xp, yp, zp);
 		b.setRotation(b.getRotation().rotationXYZ(xr, yr, zr));
 		b.setScale(1f);
@@ -194,9 +194,9 @@ public class OpenGLEngine implements Runnable {
 	 * @param yr	the float y rotation
 	 * @param zr	the float z rotation
 	 */
-	public GameItem newItem(String type, float xp, float yp, float zp, float xr, float yr, float zr) {
+	public OpenGLItem newItem(String type, float xp, float yp, float zp, float xr, float yr, float zr) {
 		loadMesh(type);
-		GameItem b = new GameItem(meshes.get(type));
+		OpenGLItem b = new OpenGLItem(meshes.get(type));
 		b.setPosition(xp, yp, zp);
 		b.setRotation(b.getRotation().rotationXYZ(xr, yr, zr));
 		b.setScale(1f);
@@ -211,12 +211,8 @@ public class OpenGLEngine implements Runnable {
 		String loc = TEXTURE_ROOT_DIR + name;
 		if(!meshes.containsKey(name) || force) {
 			String dir = TEXTURE_ROOT_DIR + name.substring(0, name.lastIndexOf("/"));
-			
 			try {
-				loc = "assets/carrotgraphics/textures/" + name;
-//				System.out.println(loc);
-//				System.out.println("assets/carrotgraphics/textures/building/belt.obj");
-//				System.out.println(name + "\t\t\t" + loc + "\t\t\t" + dir); // building/belt.obj
+				loc = TEXTURE_ROOT_DIR + name;
 				meshes.put(name, StaticMeshesLoader.load(loc, dir));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -241,7 +237,7 @@ public class OpenGLEngine implements Runnable {
 		scene = new Scene();
 
 		bunnyMesh = StaticMeshesLoader.load("assets/carrotgraphics/textures/building/belt.obj", "assets/carrotgraphics/textures/building");
-		bunny = new GameItem(bunnyMesh);
+		bunny = new OpenGLItem(bunnyMesh);
 //		bunny.setPosition(-1.0f, 1.0f, 4.0f);
 //		bunny.setRotation(bunny.getRotation().rotationXYZ(0.0f, (float) Math.toRadians(200), 0.0f));
 
@@ -249,7 +245,7 @@ public class OpenGLEngine implements Runnable {
 //		GameItem terrain = new GameItem(terrainMesh);
 //		terrain.setScale(100.0f);
 
-		scene.setGameItems(new GameItem[] { });
+		scene.setGameItems(new OpenGLItem[] { });
 
 //		houseMesh = StaticMeshesLoader.load("models/compass.obj", "models");
 
@@ -302,7 +298,7 @@ public class OpenGLEngine implements Runnable {
 	public void moveItem(Thing t, Location3d newloc) {
 		Game.openglEngine.mod(new Runnable() {
 			@Override public void run() {
-				((GameItem) t.getDataMap().get(DataMapKey.TEXTURE_OPENGL)).setPosition(newloc.getX(), newloc.getZ(), newloc.getY());
+				((OpenGLItem) t.getDataMap().get(DataMapKey.TEXTURE_OPENGL)).setPosition(newloc.getX(), newloc.getZ(), newloc.getY());
 			}
 		});
 	}
@@ -402,7 +398,7 @@ public class OpenGLEngine implements Runnable {
 		}
 		if (window.isKeyPressed(GLFW_KEY_P)) {
 			System.out.println("New House!");
-			GameItem house = new GameItem(houseMesh);
+			OpenGLItem house = new OpenGLItem(houseMesh);
 			house.setPosition((16 * (float) Math.random())-8+bunny.getPosition().x,
 					(16 * (float) Math.random())-8+bunny.getPosition().y,
 					(16 * (float) Math.random())-8+bunny.getPosition().z);

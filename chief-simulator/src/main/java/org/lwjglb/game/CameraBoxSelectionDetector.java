@@ -4,7 +4,7 @@ import org.joml.Intersectionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjglb.engine.graph.Camera;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 public class CameraBoxSelectionDetector {
 
@@ -23,17 +23,17 @@ public class CameraBoxSelectionDetector {
         nearFar = new Vector2f();
     }
 
-    public void selectGameItem(GameItem[] gameItems, Camera camera) {        
+    public void selectGameItem(OpenGLItem[] gameItems, Camera camera) {        
         dir = camera.getViewMatrix().positiveZ(dir).negate();
         selectGameItem(gameItems, camera.getPosition(), dir);
     }
     
-    protected boolean selectGameItem(GameItem[] gameItems, Vector3f center, Vector3f dir) {
+    protected boolean selectGameItem(OpenGLItem[] gameItems, Vector3f center, Vector3f dir) {
         boolean selected = false;
-        GameItem selectedGameItem = null;
+        OpenGLItem selectedGameItem = null;
         float closestDistance = Float.POSITIVE_INFINITY;
 
-        for (GameItem gameItem : gameItems) {
+        for (OpenGLItem gameItem : gameItems) {
             gameItem.setSelected(false);
             min.set(gameItem.getPosition());
             max.set(gameItem.getPosition());

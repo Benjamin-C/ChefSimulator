@@ -12,7 +12,7 @@ import org.lwjglb.engine.graph.HeightMapMesh;
 
 public class Terrain {
 
-    private final GameItem[] gameItems;
+    private final OpenGLItem[] gameItems;
 
     private final int terrainSize;
 
@@ -42,7 +42,7 @@ public class Terrain {
      */
     public Terrain(int terrainSize, float scale, float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
         this.terrainSize = terrainSize;
-        gameItems = new GameItem[terrainSize * terrainSize];
+        gameItems = new OpenGLItem[terrainSize * terrainSize];
 
         try (MemoryStack stack = stackPush()) {
             IntBuffer w = stack.mallocInt(1);
@@ -68,7 +68,7 @@ public class Terrain {
                     float xDisplacement = (col - ((float) terrainSize - 1) / (float) 2) * scale * HeightMapMesh.getXLength();
                     float zDisplacement = (row - ((float) terrainSize - 1) / (float) 2) * scale * HeightMapMesh.getZLength();
 
-                    GameItem terrainBlock = new GameItem(heightMapMesh.getMesh());
+                    OpenGLItem terrainBlock = new OpenGLItem(heightMapMesh.getMesh());
                     terrainBlock.setScale(scale);
                     terrainBlock.setPosition(xDisplacement, 0, zDisplacement);
                     gameItems[row * terrainSize + col] = terrainBlock;
@@ -85,7 +85,7 @@ public class Terrain {
         // and check if the position is contained in that bounding box
         Box2D boundingBox = null;
         boolean found = false;
-        GameItem terrainBlock = null;
+        OpenGLItem terrainBlock = null;
         for (int row = 0; row < terrainSize && !found; row++) {
             for (int col = 0; col < terrainSize && !found; col++) {
                 terrainBlock = gameItems[row * terrainSize + col];
@@ -104,7 +104,7 @@ public class Terrain {
         return result;
     }
 
-    protected Vector3f[] getTriangle(Vector3f position, Box2D boundingBox, GameItem terrainBlock) {
+    protected Vector3f[] getTriangle(Vector3f position, Box2D boundingBox, OpenGLItem terrainBlock) {
         // Get the column and row of the heightmap associated to the current position
         float cellWidth = boundingBox.width / (float) verticesPerCol;
         float cellHeight = boundingBox.height / (float) verticesPerRow;
@@ -140,7 +140,7 @@ public class Terrain {
         return z;
     }
 
-    protected float getWorldHeight(int row, int col, GameItem gameItem) {
+    protected float getWorldHeight(int row, int col, OpenGLItem gameItem) {
         float y = heightMapMesh.getHeight(row, col);
         return y * gameItem.getScale() + gameItem.getPosition().y;
     }
@@ -162,7 +162,7 @@ public class Terrain {
      * @param terrainBlock A GameItem instance that defines the terrain block
      * @return The boundingg box of the terrain block
      */
-    private Box2D getBoundingBox(GameItem terrainBlock) {
+    private Box2D getBoundingBox(OpenGLItem terrainBlock) {
         float scale = terrainBlock.getScale();
         Vector3f position = terrainBlock.getPosition();
 
@@ -174,7 +174,7 @@ public class Terrain {
         return boundingBox;
     }
 
-    public GameItem[] getGameItems() {
+    public OpenGLItem[] getGameItems() {
         return gameItems;
     }
 

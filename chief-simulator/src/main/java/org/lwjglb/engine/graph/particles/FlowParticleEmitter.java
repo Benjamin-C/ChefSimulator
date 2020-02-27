@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.joml.Vector3f;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 public class FlowParticleEmitter implements IParticleEmitter {
 
@@ -12,7 +12,7 @@ public class FlowParticleEmitter implements IParticleEmitter {
 
     private boolean active;
 
-    private final List<GameItem> particles;
+    private final List<OpenGLItem> particles;
 
     private final Particle baseParticle;
 
@@ -51,7 +51,7 @@ public class FlowParticleEmitter implements IParticleEmitter {
     }
 
     @Override
-    public List<GameItem> getParticles() {
+    public List<OpenGLItem> getParticles() {
         return particles;
     }
 
@@ -104,7 +104,7 @@ public class FlowParticleEmitter implements IParticleEmitter {
         if (lastCreationTime == 0) {
             lastCreationTime = now;
         }
-        Iterator<? extends GameItem> it = particles.iterator();
+        Iterator<? extends OpenGLItem> it = particles.iterator();
         while (it.hasNext()) {
             Particle particle = (Particle) it.next();
             if (particle.updateTtl(elapsedTime) < 0) {
@@ -153,7 +153,7 @@ public class FlowParticleEmitter implements IParticleEmitter {
 
     @Override
     public void cleanup() {
-        for (GameItem particle : getParticles()) {
+        for (OpenGLItem particle : getParticles()) {
             particle.cleanup();
         }
     }

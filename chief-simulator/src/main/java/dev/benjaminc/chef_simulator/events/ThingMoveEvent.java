@@ -3,7 +3,7 @@ package dev.benjaminc.chef_simulator.events;
 import java.util.Map;
 import java.util.UUID;
 
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.data.Savable;

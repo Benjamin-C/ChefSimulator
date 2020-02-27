@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL14.*;
 import static org.lwjgl.opengl.GL30.*;
 
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.Scene;
 import org.lwjglb.engine.SceneLight;
@@ -49,7 +49,7 @@ public class Renderer {
 
     private final FrustumCullingFilter frustumFilter;
 
-    private final List<GameItem> filteredItems;
+    private final List<OpenGLItem> filteredItems;
 
     private GBuffer gBuffer;
 
@@ -513,7 +513,7 @@ public class Renderer {
         gBufferShaderProgram.setUniform("isInstanced", 0);
 
         // Render each mesh with the associated game Items
-        Map<Mesh, List<GameItem>> mapMeshes = scene.getGameMeshes();
+        Map<Mesh, List<OpenGLItem>> mapMeshes = scene.getGameMeshes();
         for (Mesh mesh : mapMeshes.keySet()) {
             gBufferShaderProgram.setUniform("material", mesh.getMaterial());
 
@@ -523,7 +523,7 @@ public class Renderer {
                 gBufferShaderProgram.setUniform("numRows", text.getNumRows());
             }
 
-            mesh.renderList(mapMeshes.get(mesh), (GameItem gameItem) -> {
+            mesh.renderList(mapMeshes.get(mesh), (OpenGLItem gameItem) -> {
                 gBufferShaderProgram.setUniform("selectedNonInstanced", gameItem.isSelected() ? 1.0f : 0.0f);
                 Matrix4f modelMatrix = transformation.buildModelMatrix(gameItem);
                 gBufferShaderProgram.setUniform("modelNonInstancedMatrix", modelMatrix);
@@ -541,7 +541,7 @@ public class Renderer {
         gBufferShaderProgram.setUniform("isInstanced", 1);
 
         // Render each mesh with the associated game Items
-        Map<InstancedMesh, List<GameItem>> mapMeshes = scene.getGameInstancedMeshes();
+        Map<InstancedMesh, List<OpenGLItem>> mapMeshes = scene.getGameInstancedMeshes();
         for (InstancedMesh mesh : mapMeshes.keySet()) {
             Texture text = mesh.getMaterial().getTexture();
             if (text != null) {
@@ -552,7 +552,7 @@ public class Renderer {
             gBufferShaderProgram.setUniform("material", mesh.getMaterial());
 
             filteredItems.clear();
-            for (GameItem gameItem : mapMeshes.get(mesh)) {
+            for (OpenGLItem gameItem : mapMeshes.get(mesh)) {
                 if (gameItem.isInsideFrustum()) {
                     filteredItems.add(gameItem);
                 }

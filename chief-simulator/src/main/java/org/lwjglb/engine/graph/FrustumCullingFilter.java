@@ -5,7 +5,7 @@ import java.util.Map;
 import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjglb.engine.items.GameItem;
+import org.lwjglb.engine.items.OpenGLItem;
 
 public class FrustumCullingFilter {
 
@@ -26,17 +26,17 @@ public class FrustumCullingFilter {
         frustumInt.set(prjViewMatrix);
     }
 
-    public void filter(Map<? extends Mesh, List<GameItem>> mapMesh) {
-        for (Map.Entry<? extends Mesh, List<GameItem>> entry : mapMesh.entrySet()) {
-            List<GameItem> gameItems = entry.getValue();
+    public void filter(Map<? extends Mesh, List<OpenGLItem>> mapMesh) {
+        for (Map.Entry<? extends Mesh, List<OpenGLItem>> entry : mapMesh.entrySet()) {
+            List<OpenGLItem> gameItems = entry.getValue();
             filter(gameItems, entry.getKey().getBoundingRadius());
         }
     }
 
-    public void filter(List<GameItem> gameItems, float meshBoundingRadius) {
+    public void filter(List<OpenGLItem> gameItems, float meshBoundingRadius) {
         float boundingRadius;
         Vector3f pos;
-        for (GameItem gameItem : gameItems) {
+        for (OpenGLItem gameItem : gameItems) {
             if (!gameItem.isDisableFrustumCulling()) {
                 boundingRadius = gameItem.getScale() * meshBoundingRadius;
                 pos = gameItem.getPosition();

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import dev.benjaminc.chef_simulator.control.EventHandler;
 import dev.benjaminc.chef_simulator.data.DataMap;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.chef_simulator.events.OnDisposeEvent;
+import dev.benjaminc.chef_simulator.events.ThingRemoveEvent;
 import dev.benjaminc.chef_simulator.rooms.Room;
 import dev.benjaminc.chef_simulator.things.BasicThing;
 import dev.benjaminc.chef_simulator.things.Thing;
@@ -67,7 +69,7 @@ public class Disposal extends BasicThing implements SolidThing, Tickable {
 			}
 		}
 		for(Thing t : toRemove) {
-			r.getSpace(l).removeThing(t);
+			EventHandler.fireEvent(new ThingRemoveEvent(t, l.as3d()));
 		}
 	}
 }

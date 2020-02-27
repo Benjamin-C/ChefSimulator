@@ -2,9 +2,12 @@ package dev.benjaminc.chef_simulator.events;
 
 import java.util.Map;
 
+import org.lwjglb.engine.items.OpenGLItem;
+
 import dev.benjaminc.chef_simulator.Game;
 import dev.benjaminc.chef_simulator.control.Chef;
 import dev.benjaminc.chef_simulator.control.Direction;
+import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location2d;
 import dev.benjaminc.util.JSONTools;
 
@@ -139,5 +142,17 @@ public class ChefMoveEvent extends Event {
 	public void run() {
 		cook.setLocation(endLoc);
 		cook.setDirection(endDir);
+		
+		if(Game.usingOpenGL && Game.openglEngine.isReady()) {
+			int z = Game.getRoom().getSpace(cook.getLocation()).size();
+			cook.getGLGameItem().setPosition(cook.getLocation().getX(), z, cook.getLocation().getY());
+			cook.getGLGameItem().setRotation(cook.getGLGameItem().getRotation().rotateXYZ(0, (0.5f*((float) Math.PI)*endDir.getId()), 0));
+			
+			if(cook.getHand() != null) {
+				OpenGLItem chi = (OpenGLItem) cook.getHand().getDataMap().get(DataMapKey.TEXTURE_OPENGL);
+				chi.setPosition(cook.getHandLocation().getX()+.125f, z+.125f, cook.getHandLocation().getY()+.125f);
+				chi.setScale(.5f);
+			}
+		}
 	}
 }

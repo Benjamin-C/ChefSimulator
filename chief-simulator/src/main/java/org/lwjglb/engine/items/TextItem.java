@@ -8,7 +8,7 @@ import org.lwjglb.engine.graph.FontTexture;
 import org.lwjglb.engine.graph.Material;
 import org.lwjglb.engine.graph.Mesh;
 
-public class TextItem extends GameItem {
+public class TextItem extends OpenGLItem {
 
     private static final float ZPOS = 0.0f;
 

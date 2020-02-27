@@ -4,7 +4,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjglb.engine.graph.Mesh;
 
-public class GameItem {
+public class OpenGLItem {
 
     private boolean selected;
 
@@ -22,7 +22,7 @@ public class GameItem {
 
     private boolean insideFrustum;
 
-    public GameItem() {
+    public OpenGLItem() {
         selected = false;
         position = new Vector3f();
         scale = 1;
@@ -32,12 +32,12 @@ public class GameItem {
         disableFrustumCulling = false;
     }
 
-    public GameItem(Mesh mesh) {
+    public OpenGLItem(Mesh mesh) {
         this();
         this.meshes = new Mesh[]{mesh};
     }
 
-    public GameItem(Mesh[] meshes) {
+    public OpenGLItem(Mesh[] meshes) {
         this();
         this.meshes = meshes;
     }
