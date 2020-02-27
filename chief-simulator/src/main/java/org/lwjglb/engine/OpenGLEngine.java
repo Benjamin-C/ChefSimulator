@@ -37,6 +37,7 @@ import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
 import dev.benjaminc.chef_simulator.Game;
+import dev.benjaminc.chef_simulator.data.FoodState;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
 import dev.benjaminc.chef_simulator.things.Thing;
@@ -174,15 +175,34 @@ public class OpenGLEngine implements Runnable {
 	
 	public void newThing(Thing t, Location3d loc) {
 		Texture tx = (Texture) (t.getDataMap().get(DataMapKey.TEXTURE));
-		final String type = tx.getFilename().substring(0, tx.getFilename().lastIndexOf(".")) + ".obj";
+
 		final int nx = loc.getX();
 		final int ny = loc.getY();
 		final int nz = loc.getZ();
 		mod(new Runnable() {
 			@Override public void run() {
-				t.getDataMap().put(DataMapKey.TEXTURE_OPENGL, newItem(type, nx, nz, ny, 0.0f, 0.0f, 0.0f));
+				t.getDataMap().put(DataMapKey.TEXTURE_OPENGL, newItem(t, nx, nz, ny, 0.0f, 0.0f, 0.0f));
 			}
 		}); 
+	}
+	
+	public OpenGLItem newItem(Thing t, float xp, float yp, float zp, float xr, float yr, float zr) {
+		Texture tx = (Texture) (t.getDataMap().get(DataMapKey.TEXTURE));
+		String cat = tx.getFilename().substring(0, tx.getFilename().lastIndexOf('/')+1);
+		String name = tx.getFilename().substring(tx.getFilename().lastIndexOf('/')+1, tx.getFilename().lastIndexOf('.'));
+		String state = t.getDataMap().get(DataMapKey.FOOD_STATE).toString().toLowerCase();
+		
+		String file = cat + "/" + name + "/" + state + "/" + name + "-" + state + ".obj";
+		
+		System.out.println(file);
+		
+		loadMesh(file);
+		OpenGLItem b = new OpenGLItem(meshes.get(file));
+		b.setPosition(xp, yp, zp);
+		b.setRotation(b.getRotation().rotationXYZ(xr, yr, zr));
+		b.setScale(1f);
+		scene.addGameItem(b);
+		return b;
 	}
 	
 	/**
@@ -204,10 +224,10 @@ public class OpenGLEngine implements Runnable {
 		return b;
 	}
 	
-	public void loadMesh(String name) {
+	private void loadMesh(String name) {
 		loadMesh(name, false);
 	}
-	public void loadMesh(String name, boolean force) {
+	private void loadMesh(String name, boolean force) {
 		String loc = TEXTURE_ROOT_DIR + name;
 		if(!meshes.containsKey(name) || force) {
 			String dir = TEXTURE_ROOT_DIR + name.substring(0, name.lastIndexOf("/"));
@@ -236,7 +256,7 @@ public class OpenGLEngine implements Runnable {
 
 		scene = new Scene();
 
-		bunnyMesh = StaticMeshesLoader.load("assets/carrotgraphics/textures/building/belt.obj", "assets/carrotgraphics/textures/building");
+		bunnyMesh = StaticMeshesLoader.load("models/cube.obj", "models");
 		bunny = new OpenGLItem(bunnyMesh);
 //		bunny.setPosition(-1.0f, 1.0f, 4.0f);
 //		bunny.setRotation(bunny.getRotation().rotationXYZ(0.0f, (float) Math.toRadians(200), 0.0f));
@@ -478,6 +498,10 @@ public class OpenGLEngine implements Runnable {
 		camera.updateViewMatrix();
 	}
 
+	public void close() {
+		window.close();
+	}
+	
 	protected void render() {
 		if (window.getWindowOptions().showFps && timer.getLastLoopTime() - lastFps > 1) {
 			lastFps = timer.getLastLoopTime();

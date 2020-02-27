@@ -131,6 +131,13 @@ public class GamePanel extends JPanel {
 		jf.setSize(panelWidth, panelHeight);
 		if(exitOnClose) {
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			jf.addWindowListener(new java.awt.event.WindowAdapter() {
+			    @Override
+			    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			    	Game.openglEngine.close();
+		            System.exit(0);
+			    }
+			});
 		} else {
 			jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
