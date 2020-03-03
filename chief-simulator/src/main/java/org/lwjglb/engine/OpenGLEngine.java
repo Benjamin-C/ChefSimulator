@@ -20,6 +20,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,10 @@ import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.loaders.assimp.StaticMeshesLoader;
 
 import dev.benjaminc.chef_simulator.Game;
+import dev.benjaminc.chef_simulator.chef_graphics.ActionType;
+import dev.benjaminc.chef_simulator.control.Action;
+import dev.benjaminc.chef_simulator.control.Chef;
+import dev.benjaminc.chef_simulator.control.Direction;
 import dev.benjaminc.chef_simulator.data.FoodState;
 import dev.benjaminc.chef_simulator.data.DataMap.DataMapKey;
 import dev.benjaminc.chef_simulator.data.location.Location3d;
@@ -124,6 +129,7 @@ public class OpenGLEngine implements Runnable {
 	public void run() {
 		try {
 			init();
+			ready = true;
 			gameLoop();
 		} catch (Exception excp) {
 			excp.printStackTrace();
@@ -188,7 +194,7 @@ public class OpenGLEngine implements Runnable {
 	
 	public OpenGLItem newItem(Thing t, float xp, float yp, float zp, float xr, float yr, float zr) {
 		Texture tx = (Texture) (t.getDataMap().get(DataMapKey.TEXTURE));
-		String cat = tx.getFilename().substring(0, tx.getFilename().lastIndexOf('/')+1);
+		String cat = tx.getFilename().substring(0, tx.getFilename().lastIndexOf('/'));
 		String name = tx.getFilename().substring(tx.getFilename().lastIndexOf('/')+1, tx.getFilename().lastIndexOf('.'));
 		String state = t.getDataMap().get(DataMapKey.FOOD_STATE).toString().toLowerCase();
 		
@@ -301,7 +307,6 @@ public class OpenGLEngine implements Runnable {
 		lastFps = timer.getTime();
 		fps = 0;
 		
-		ready = true;
 	}
 
 	public boolean isReady() {
@@ -309,11 +314,11 @@ public class OpenGLEngine implements Runnable {
 	}
 	
 	public void mod(Runnable r) {
-		if(!rendering) {
-			r.run();
-		} else {
+//		if(!rendering && ready) {
+//			r.run();
+//		} else {
 			todo.add(r);
-		}
+//		}
 	}
 	public void moveItem(Thing t, Location3d newloc) {
 		Game.openglEngine.mod(new Runnable() {
@@ -332,6 +337,17 @@ public class OpenGLEngine implements Runnable {
 
 		boolean running = true;
 		while (running && !window.windowShouldClose()) {
+			
+			if(todo.size() > 0) {
+				Iterator<Runnable> iter = todo.iterator();
+
+				while (iter.hasNext()) {
+					Runnable str = iter.next();
+					str.run();
+					iter.remove();
+				}
+			}
+			
 			elapsedTime = timer.getElapsedTime();
 			accumulator += elapsedTime;
 
@@ -345,13 +361,7 @@ public class OpenGLEngine implements Runnable {
 			rendering = true;
 			render();
 			rendering = false;
-
-			if(todo.size() > 0) {
-				for(Runnable r : todo) {
-					r.run();
-				}
-				todo.clear();
-			}
+			
 			if (!window.isvSync()) {
 				sync();
 			}
@@ -374,22 +384,70 @@ public class OpenGLEngine implements Runnable {
 			}
 		}
 	}
-
+	
+	protected void moveCook(boolean pressed) {
+		Chef c = Game.getCooks().get(0);
+		Action a = null;
+		switch(c.getDirection()) {
+		case DOWN: a = c.getActions().get(ActionType.MOVE_DOWN); break;
+		case LEFT: a = c.getActions().get(ActionType.MOVE_LEFT); break;
+		case RIGHT: a = c.getActions().get(ActionType.MOVE_RIGHT); break;
+		case UP: a = c.getActions().get(ActionType.MOVE_UP); break;
+		}
+		
+		if(a != null && a.isPressed() && !pressed && !a.isUsed()) {
+			a.setDoOnce(true);
+		}
+		a.setPressed(pressed);
+	}
+	
+	protected void spinCook(int dir, boolean pressed) {
+		Action a = null;
+		if(dir == 1) {
+			a = Game.getCooks().get(0).getActions().get(ActionType.TURN_RIGHT);
+		} else if(dir == -1) {
+			a = Game.getCooks().get(0).getActions().get(ActionType.TURN_LEFT);
+		}
+		
+		if(a != null && a.isPressed() && !pressed && !a.isUsed()) {
+			a.setDoOnce(true);
+		}
+		a.setPressed(pressed);
+	}
+	
 	protected void input() {
 		mouseInput.input(window);
 		sceneChanged = false;
 		cameraInc.set(0, 0, 0);
-		if (window.isKeyPressed(GLFW_KEY_W)) {
+		if(Game.getCooks().size() > 0) {
+			moveCook(window.isKeyPressed(GLFW_KEY_W));
+			spinCook(1, window.isKeyPressed(GLFW_KEY_D));
+//			moveCook(Direction.DOWN, window.isKeyPressed(GLFW_KEY_S));
+			spinCook(-1, window.isKeyPressed(GLFW_KEY_A));
+			
+			if(window.isKeyPressed(GLFW_KEY_Q)) {
+				Game.getCooks().get(0).doKeyPress(17);
+			} else {
+				Game.getCooks().get(0).doKeyRelease(17);
+			}
+			if(window.isKeyPressed(GLFW_KEY_E)) {
+				Game.getCooks().get(0).doKeyPress(96);
+			} else {
+				Game.getCooks().get(0).doKeyRelease(96);
+			}
+		}
+		
+		if (window.isKeyPressed(GLFW_KEY_I)) {
 			sceneChanged = true;
 			cameraInc.z = -1;
-		} else if (window.isKeyPressed(GLFW_KEY_S)) {
+		} else if (window.isKeyPressed(GLFW_KEY_K)) {
 			sceneChanged = true;
 			cameraInc.z = 1;
 		}
-		if (window.isKeyPressed(GLFW_KEY_A)) {
+		if (window.isKeyPressed(GLFW_KEY_J)) {
 			sceneChanged = true;
 			cameraInc.x = -1;
-		} else if (window.isKeyPressed(GLFW_KEY_D)) {
+		} else if (window.isKeyPressed(76)) { // L
 			sceneChanged = true;
 			cameraInc.x = 1;
 		}
@@ -409,73 +467,50 @@ public class OpenGLEngine implements Runnable {
 		} else {
 			angleInc = 0;
 		}
-		if (window.isKeyPressed(GLFW_KEY_UP)) {
-			sceneChanged = true;
-			pointLightPos.y += 0.5f;
-		} else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
-			sceneChanged = true;
-			pointLightPos.y -= 0.5f;
-		}
-		if (window.isKeyPressed(GLFW_KEY_P)) {
-			System.out.println("New House!");
-			OpenGLItem house = new OpenGLItem(houseMesh);
-			house.setPosition((16 * (float) Math.random())-8+bunny.getPosition().x,
-					(16 * (float) Math.random())-8+bunny.getPosition().y,
-					(16 * (float) Math.random())-8+bunny.getPosition().z);
-			scene.addGameItem(house);
-		}
-		if (window.isKeyPressed(GLFW_KEY_I)) {
-			bunny.setRotation(bunny.getRotation().rotateX((float) Math.toRadians(-5)));
-		}
-		if (window.isKeyPressed(GLFW_KEY_O)) {
-			bunny.setRotation(bunny.getRotation().rotateX((float) Math.toRadians(5)));
-		}
-		if (window.isKeyPressed(GLFW_KEY_J)) {
-			bunny.setRotation(bunny.getRotation().rotateY((float) Math.toRadians(-5)));
-		}
-		if (window.isKeyPressed(GLFW_KEY_K)) {
-			bunny.setRotation(bunny.getRotation().rotateY((float) Math.toRadians(5)));
-		}
-		if (window.isKeyPressed(GLFW_KEY_N)) {
-			bunny.setRotation(bunny.getRotation().rotateZ((float) Math.toRadians(5)));
-		}
-		if (window.isKeyPressed(GLFW_KEY_M)) {
-			bunny.setRotation(bunny.getRotation().rotateZ((float) Math.toRadians(-5)));
-		}
-		if (window.isKeyPressed(84)) { // T
-			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y, bunny.getPosition().z-.05f);
-		}
-		if (window.isKeyPressed(71)) { // G
-			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y, bunny.getPosition().z+.05f);
-		}
-		if (window.isKeyPressed(70)) { // F
-			bunny.setPosition(bunny.getPosition().x-.05f, bunny.getPosition().y, bunny.getPosition().z);
-		}
-		if (window.isKeyPressed(72)) { // H
-			bunny.setPosition(bunny.getPosition().x+.05f, bunny.getPosition().y, bunny.getPosition().z);
-		}
-		if (window.isKeyPressed(89)) { // Y
-			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y+.05f, bunny.getPosition().z);
-		}
-		if (window.isKeyPressed(82)) { // R
-			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y-.05f, bunny.getPosition().z);
-		}
-		if (window.isKeyPressed(66)) { // B
-			bunny.setScale(bunny.getScale() + .25f);;
-		}
-		if (window.isKeyPressed(86)) { // R
-			bunny.setScale(bunny.getScale() - .25f);;
-		}
+
+		
+//		if (window.isKeyPressed(GLFW_KEY_M)) {
+//			bunny.setRotation(bunny.getRotation().rotateZ((float) Math.toRadians(-5)));
+//		}
+//		if (window.isKeyPressed(84)) { // T
+//			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y, bunny.getPosition().z-.05f);
+//		}
+//		if (window.isKeyPressed(71)) { // G
+//			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y, bunny.getPosition().z+.05f);
+//		}
+//		if (window.isKeyPressed(70)) { // F
+//			bunny.setPosition(bunny.getPosition().x-.05f, bunny.getPosition().y, bunny.getPosition().z);
+//		}
+//		if (window.isKeyPressed(72)) { // H
+//			bunny.setPosition(bunny.getPosition().x+.05f, bunny.getPosition().y, bunny.getPosition().z);
+//		}
+//		if (window.isKeyPressed(89)) { // Y
+//			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y+.05f, bunny.getPosition().z);
+//		}
+//		if (window.isKeyPressed(82)) { // R
+//			bunny.setPosition(bunny.getPosition().x, bunny.getPosition().y-.05f, bunny.getPosition().z);
+//		}
+//		if (window.isKeyPressed(66)) { // B
+//			bunny.setScale(bunny.getScale() + .25f);;
+//		}
+//		if (window.isKeyPressed(86)) { // R
+//			bunny.setScale(bunny.getScale() - .25f);;
+//		}
 	}
 
+	public void setSceneChanged(boolean sc) {
+		sceneChanged = sc;
+	}
+	
 	protected void update(float interval) {
-		if (mouseInput.isRightButtonPressed()) {
-			// Update camera based on mouse
-			Vector2f rotVec = mouseInput.getDisplVec();
-			camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
+		
+//		if (mouseInput.isRightButtonPressed()) {
+//			// Update camera based on mouse
+//			Vector2f rotVec = mouseInput.getDisplVec();
+//			camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
 			sceneChanged = true;
-		}
-
+//		}
+			
 		// Update camera position
 		camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP,
 				cameraInc.z * CAMERA_POS_STEP);
@@ -500,6 +535,10 @@ public class OpenGLEngine implements Runnable {
 
 	public void close() {
 		window.close();
+	}
+	
+	public Camera getCamera() {
+		return camera;
 	}
 	
 	protected void render() {

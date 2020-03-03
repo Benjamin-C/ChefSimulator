@@ -123,9 +123,9 @@ public class Game {
 		cooks.add(newCook("Ben", new Color(255, 128, 0), new Location2d(14, 14),
 				KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
 				KeyEvent.VK_RIGHT, KeyEvent.VK_CONTROL, KeyEvent.VK_NUMPAD0));
-		cooks.add(newCook("Matt", Color.GREEN, new Location2d(1, 1),
-				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
-				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
+//		cooks.add(newCook("Matt", Color.GREEN, new Location2d(1, 1),
+//				KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A,
+//				KeyEvent.VK_D, KeyEvent.VK_Q, KeyEvent.VK_E));
 		
 		// AddCommands
 		cp = new CommandProcessor();

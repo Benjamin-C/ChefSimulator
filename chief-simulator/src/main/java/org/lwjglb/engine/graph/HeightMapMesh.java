@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import org.joml.Vector3f;
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 
 public class HeightMapMesh {
 
@@ -67,9 +67,9 @@ public class HeightMapMesh {
                 }
             }
         }
-        float[] posArr = Utils.listToArray(positions);
+        float[] posArr = OpenGLUtils.listToArray(positions);
         int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
-        float[] textCoordsArr = Utils.listToArray(textCoords);
+        float[] textCoordsArr = OpenGLUtils.listToArray(textCoords);
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
         Material material = new Material(texture, 0.0f);
@@ -167,7 +167,7 @@ public class HeightMapMesh {
                 normals.add(normal.z);
             }
         }
-        return Utils.listToArray(normals);
+        return OpenGLUtils.listToArray(normals);
     }
 
     private float getHeight(int x, int z, int width, ByteBuffer buffer) {

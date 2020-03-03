@@ -3,7 +3,7 @@ package org.lwjglb.engine.items;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.graph.FontTexture;
 import org.lwjglb.engine.graph.Material;
 import org.lwjglb.engine.graph.Mesh;
@@ -78,8 +78,8 @@ public class TextItem extends OpenGLItem {
             startx += charInfo.getWidth();
         }
 
-        float[] posArr = Utils.listToArray(positions);
-        float[] textCoordsArr = Utils.listToArray(textCoords);
+        float[] posArr = OpenGLUtils.listToArray(positions);
+        float[] textCoordsArr = OpenGLUtils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i->i).toArray();
         Mesh mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
         mesh.setMaterial(new Material(fontTexture.getTexture()));

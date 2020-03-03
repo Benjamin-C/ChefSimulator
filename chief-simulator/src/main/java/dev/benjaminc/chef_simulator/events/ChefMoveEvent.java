@@ -2,6 +2,8 @@ package dev.benjaminc.chef_simulator.events;
 
 import java.util.Map;
 
+import org.joml.Matrix3d;
+import org.joml.Vector3f;
 import org.lwjglb.engine.items.OpenGLItem;
 
 import dev.benjaminc.chef_simulator.Game;
@@ -146,11 +148,19 @@ public class ChefMoveEvent extends Event {
 		if(Game.usingOpenGL && Game.openglEngine.isReady()) {
 			int z = Game.getRoom().getSpace(cook.getLocation()).size();
 			cook.getGLGameItem().setPosition(cook.getLocation().getX(), z, cook.getLocation().getY());
-			cook.getGLGameItem().setRotation(cook.getGLGameItem().getRotation().rotateXYZ(0, (0.5f*((float) Math.PI)*endDir.getId()), 0));
+			Game.openglEngine.getCamera().setPosition(cook.getLocation().getX(), z+1, cook.getLocation().getY());
+			
+			if(startDir != endDir) {
+				float tgty_rad = 0.5f*((float) Math.PI)*(startDir.getId() - endDir.getId());
+				float tgty_deg = 90*endDir.getId();
+				System.out.println(tgty_deg);
+				cook.getGLGameItem().setRotation(cook.getGLGameItem().getRotation().rotateY(tgty_rad));
+				Game.openglEngine.getCamera().setRotation(0.0f, tgty_deg, 0.0f);
+			}
 			
 			if(cook.getHand() != null) {
 				OpenGLItem chi = (OpenGLItem) cook.getHand().getDataMap().get(DataMapKey.TEXTURE_OPENGL);
-				chi.setPosition(cook.getHandLocation().getX()+.125f, z+.125f, cook.getHandLocation().getY()+.125f);
+				chi.setPosition(cook.getHandLocation().getX(), z, cook.getHandLocation().getY());
 				chi.setScale(.5f);
 			}
 		}

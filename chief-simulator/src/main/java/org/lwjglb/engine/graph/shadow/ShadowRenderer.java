@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 import org.lwjglb.engine.Scene;
 import org.lwjglb.engine.SceneLight;
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Camera;
 import org.lwjglb.engine.graph.InstancedMesh;
@@ -65,8 +65,8 @@ public class ShadowRenderer {
 
     private void setupDepthShader() throws Exception {
         depthShaderProgram = new ShaderProgram();
-        depthShaderProgram.createVertexShader(Utils.loadResource("/shaders/depth_vertex.vs"));
-        depthShaderProgram.createFragmentShader(Utils.loadResource("/shaders/depth_fragment.fs"));
+        depthShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/depth_vertex.vs"));
+        depthShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/depth_fragment.fs"));
         depthShaderProgram.link();
 
         depthShaderProgram.createUniform("isInstanced");

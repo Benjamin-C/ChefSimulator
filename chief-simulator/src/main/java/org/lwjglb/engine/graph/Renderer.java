@@ -18,7 +18,7 @@ import org.lwjglb.engine.items.OpenGLItem;
 import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.Scene;
 import org.lwjglb.engine.SceneLight;
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.anim.AnimGameItem;
 import org.lwjglb.engine.graph.anim.AnimatedFrame;
@@ -118,8 +118,8 @@ public class Renderer {
 
     private void setupParticlesShader() throws Exception {
     	particlesShaderProgram = new ShaderProgram();
-        particlesShaderProgram.createVertexShader(Utils.loadResource("/shaders/particles_vertex.vs"));
-        particlesShaderProgram.createFragmentShader(Utils.loadResource("/shaders/particles_fragment.fs"));
+        particlesShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/particles_vertex.vs"));
+        particlesShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/particles_fragment.fs"));
         particlesShaderProgram.link();
 
         particlesShaderProgram.createUniform("viewMatrix");
@@ -132,8 +132,8 @@ public class Renderer {
 
     private void setupSkyBoxShader() throws Exception {
         skyBoxShaderProgram = new ShaderProgram();
-        skyBoxShaderProgram.createVertexShader(Utils.loadResource("/shaders/sb_vertex.vs"));
-        skyBoxShaderProgram.createFragmentShader(Utils.loadResource("/shaders/sb_fragment.fs"));
+        skyBoxShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/sb_vertex.vs"));
+        skyBoxShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/sb_fragment.fs"));
         skyBoxShaderProgram.link();
 
         // Create uniforms for projection matrix
@@ -150,8 +150,8 @@ public class Renderer {
 
     private void setupGeometryShader() throws Exception {
         gBufferShaderProgram = new ShaderProgram();
-        gBufferShaderProgram.createVertexShader(Utils.loadResource("/shaders/gbuffer_vertex.vs"));
-        gBufferShaderProgram.createFragmentShader(Utils.loadResource("/shaders/gbuffer_fragment.fs"));
+        gBufferShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/gbuffer_vertex.vs"));
+        gBufferShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/gbuffer_fragment.fs"));
         gBufferShaderProgram.link();
 
         gBufferShaderProgram.createUniform("projectionMatrix");
@@ -178,8 +178,8 @@ public class Renderer {
 
     private void setupDirLightShader() throws Exception {
         dirLightShaderProgram = new ShaderProgram();
-        dirLightShaderProgram.createVertexShader(Utils.loadResource("/shaders/light_vertex.vs"));
-        dirLightShaderProgram.createFragmentShader(Utils.loadResource("/shaders/dir_light_fragment.fs"));
+        dirLightShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/light_vertex.vs"));
+        dirLightShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/dir_light_fragment.fs"));
         dirLightShaderProgram.link();
 
         dirLightShaderProgram.createUniform("modelMatrix");
@@ -199,8 +199,8 @@ public class Renderer {
 
     private void setupPointLightShader() throws Exception {
         pointLightShaderProgram = new ShaderProgram();
-        pointLightShaderProgram.createVertexShader(Utils.loadResource("/shaders/light_vertex.vs"));
-        pointLightShaderProgram.createFragmentShader(Utils.loadResource("/shaders/point_light_fragment.fs"));
+        pointLightShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/light_vertex.vs"));
+        pointLightShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/point_light_fragment.fs"));
         pointLightShaderProgram.link();
 
         pointLightShaderProgram.createUniform("modelMatrix");
@@ -219,8 +219,8 @@ public class Renderer {
 
     private void setupFogShader() throws Exception {
         fogShaderProgram = new ShaderProgram();
-        fogShaderProgram.createVertexShader(Utils.loadResource("/shaders/light_vertex.vs"));
-        fogShaderProgram.createFragmentShader(Utils.loadResource("/shaders/fog_fragment.fs"));
+        fogShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/light_vertex.vs"));
+        fogShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/fog_fragment.fs"));
         fogShaderProgram.link();
 
         fogShaderProgram.createUniform("modelMatrix");

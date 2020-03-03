@@ -27,4 +27,20 @@ public enum Direction {
 	public int getId() {
 		return id;
 	}
+	public static Direction fromID(int id) {
+		switch(id) {
+		case 0: return Direction.UP;
+		case 1: return Direction.RIGHT;
+		case 2: return Direction.DOWN;
+		case 3: return Direction.LEFT;
+		}
+		return null;
+	}
+	
+	public Direction add(Direction toadd) {
+		return fromID((id + toadd.getId()) % 4);
+	}
+	public Direction sub(Direction toadd) {
+		return fromID((id - toadd.getId()) % 4);
+	}
 }

@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL12.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.stb.STBImage.*;
 import org.lwjgl.system.MemoryStack;
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 
 import static org.lwjgl.system.MemoryStack.*;
 
@@ -51,7 +51,7 @@ public class Texture {
     }
 
     public Texture(String fileName) throws Exception {
-        this(Utils.ioResourceToByteBuffer(fileName, 1024));
+        this(OpenGLUtils.ioResourceToByteBuffer(fileName, 1024));
     }
 
     public Texture(ByteBuffer imageData) {

@@ -5,6 +5,8 @@ public enum ActionType {
 	MOVE_DOWN,
 	MOVE_LEFT,
 	MOVE_RIGHT,
+	TURN_LEFT,
+	TURN_RIGHT,
 	PICKUP_ITEM,
 	USE_ITEM;
 }

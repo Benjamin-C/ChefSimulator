@@ -78,7 +78,7 @@ public class ChefInteractEvent extends Event {
 			
 			int z = Game.getRoom().getSpace(c.getLocation()).size();
 			OpenGLItem chi = (OpenGLItem) c.getHand().getDataMap().get(DataMapKey.TEXTURE_OPENGL);
-			chi.setPosition(c.getHandLocation().getX()+.25f, z+.25f, c.getHandLocation().getY()+.25f);
+			chi.setPosition(c.getHandLocation().getX(), z, c.getHandLocation().getY());
 			chi.setScale(.5f);
 		} break;
 		case PUT_DOWN: {

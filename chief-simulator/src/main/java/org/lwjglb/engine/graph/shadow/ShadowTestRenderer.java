@@ -3,7 +3,7 @@ package org.lwjglb.engine.graph.shadow;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.ShaderProgram;
@@ -21,8 +21,8 @@ public class ShadowTestRenderer {
 
     private void setupTestShader() throws Exception {
         testShaderProgram = new ShaderProgram();
-        testShaderProgram.createVertexShader(Utils.loadResource("/shaders/test_vertex.vs"));
-        testShaderProgram.createFragmentShader(Utils.loadResource("/shaders/test_fragment.fs"));
+        testShaderProgram.createVertexShader(OpenGLUtils.loadResource("/shaders/test_vertex.vs"));
+        testShaderProgram.createFragmentShader(OpenGLUtils.loadResource("/shaders/test_fragment.fs"));
         testShaderProgram.link();
 
         for (int i = 0; i < ShadowRenderer.NUM_CASCADES; i++) {

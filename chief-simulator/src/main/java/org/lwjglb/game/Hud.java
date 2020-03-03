@@ -10,7 +10,7 @@ import org.lwjgl.nanovg.NVGColor;
 import static org.lwjgl.nanovg.NanoVG.*;
 import static org.lwjgl.nanovg.NanoVGGL3.*;
 import org.lwjgl.system.MemoryUtil;
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.Window;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -39,7 +39,7 @@ public class Hud {
             throw new Exception("Could not init nanovg");
         }
 
-        fontBuffer = Utils.ioResourceToByteBuffer("/fonts/OpenSans-Bold.ttf", 150 * 1024);
+        fontBuffer = OpenGLUtils.ioResourceToByteBuffer("/fonts/OpenSans-Bold.ttf", 150 * 1024);
         int font = nvgCreateFontMem(vg, FONT_NAME, fontBuffer, 0);
         if (font == -1) {
             throw new Exception("Could not add font");

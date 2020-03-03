@@ -7,7 +7,7 @@ import static org.lwjgl.stb.STBImage.*;
 import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.graph.HeightMapMesh;
 
 public class Terrain {
@@ -50,7 +50,7 @@ public class Terrain {
             IntBuffer avChannels = stack.mallocInt(1);
 
             // Load image data
-            ByteBuffer imageData = Utils.ioResourceToByteBuffer(heightMapFile, 1024);
+            ByteBuffer imageData = OpenGLUtils.ioResourceToByteBuffer(heightMapFile, 1024);
 
             // Decode texture image into a byte buffer
             ByteBuffer decodedImage = stbi_load_from_memory(imageData, w, h, avChannels, 4);

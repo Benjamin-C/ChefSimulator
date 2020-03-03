@@ -28,7 +28,7 @@ import org.lwjgl.assimp.AIScene;
 import org.lwjgl.assimp.AIVector3D;
 import org.lwjgl.assimp.AIVectorKey;
 import org.lwjgl.assimp.AIVertexWeight;
-import org.lwjglb.engine.Utils;
+import org.lwjglb.engine.OpenGLUtils;
 import org.lwjglb.engine.graph.Material;
 import org.lwjglb.engine.graph.Mesh;
 import org.lwjglb.engine.graph.anim.AnimGameItem;
@@ -211,9 +211,9 @@ public class AnimMeshesLoader extends StaticMeshesLoader {
         processIndices(aiMesh, indices);
         processBones(aiMesh, boneList, boneIds, weights);
 
-        Mesh mesh = new Mesh(Utils.listToArray(vertices), Utils.listToArray(textures),
-                Utils.listToArray(normals), Utils.listIntToArray(indices),
-                Utils.listIntToArray(boneIds), Utils.listToArray(weights));
+        Mesh mesh = new Mesh(OpenGLUtils.listToArray(vertices), OpenGLUtils.listToArray(textures),
+                OpenGLUtils.listToArray(normals), OpenGLUtils.listIntToArray(indices),
+                OpenGLUtils.listIntToArray(boneIds), OpenGLUtils.listToArray(weights));
         Material material;
         int materialIdx = aiMesh.mMaterialIndex();
         if (materialIdx >= 0 && materialIdx < materials.size()) {

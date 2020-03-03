@@ -18,7 +18,7 @@ import java.util.Scanner;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryUtil;
 
-public class Utils {
+public class OpenGLUtils {
 
     public static String loadResource(String fileName) throws Exception {
 //        String result;
@@ -37,7 +37,7 @@ public class Utils {
 
     public static List<String> readAllLines(String fileName) throws Exception {
         List<String> list = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Class.forName(Utils.class.getName()).getResourceAsStream(fileName)))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Class.forName(OpenGLUtils.class.getName()).getResourceAsStream(fileName)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 list.add(line);
@@ -62,7 +62,7 @@ public class Utils {
 
     public static boolean existsResourceFile(String fileName) {
         boolean result;
-        try (InputStream is = Utils.class.getResourceAsStream(fileName)) {
+        try (InputStream is = OpenGLUtils.class.getResourceAsStream(fileName)) {
             result = is != null;
         } catch (Exception excp) {
             result = false;
@@ -81,7 +81,7 @@ public class Utils {
             }
         } else {
             try (
-                InputStream source = Utils.class.getResourceAsStream(resource);
+                InputStream source = OpenGLUtils.class.getResourceAsStream(resource);
                 ReadableByteChannel rbc = Channels.newChannel(source)) {
                 buffer = MemoryUtil.memAlloc(bufferSize);
 

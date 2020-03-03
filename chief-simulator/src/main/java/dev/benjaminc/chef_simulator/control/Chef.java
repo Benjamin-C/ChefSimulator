@@ -69,36 +69,55 @@ public class Chef implements Tickable {
 		for(Map.Entry<ActionType, Integer> e : keys.entrySet()) {
 			keyActions.put(e.getKey(), new Action(e.getKey(), e.getValue(), 0d, false, false, false));
 		}
+		for(ActionType t : ActionType.values()) {
+			if(!keyActions.containsKey(t)) {
+				keyActions.put(t, new Action(t, 0, 0d, false, false, false));
+			}
+		}
 		movesDel = Math.round((1000d) / movesPerSecond);
 		System.out.println(movesDel);
 		Game.registerKeylistener(new KeyListenAction() {
 			@Override
 			public void keyReleaseEvent(int key) {
-				for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
-					Action a = e.getValue();
-					if(a.getKey() == key) {
-						a.setPressed(false);
-						if(!a.isUsed()) {
-							a.setDoOnce(true);
-						}
-						a.setUsed(false);
-						break;
-					}
-				}
+				doKeyRelease(key);
 			}
 			
 			@Override
 			public void keyPressEvent(int key) {
-				for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
-					if(e.getValue().getKey() == key) {
-						e.getValue().setPressed(true);
-						break;
-					}
-				}
+				doKeyPress(key);
 			}
 		});
 	}
 	
+	public void doKeyPress(int key) {
+		for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
+			if(e.getValue().getKey() == key) {
+				if(!e.getValue().isPressed()) {
+					e.getValue().setPressed(true);
+				}
+				break;
+			}
+		}
+	}
+	public void doKeyRelease(int key) {
+		for(Map.Entry<ActionType, Action> e : keyActions.entrySet()) {
+			Action a = e.getValue();
+			if(a.getKey() == key) {
+				if(e.getValue().isPressed()) {
+					a.setPressed(false);
+					if(!a.isUsed()) {
+						a.setDoOnce(true);
+					}
+					a.setUsed(false);
+				}
+				break;
+			}
+		}
+	}
+	
+	public Map<ActionType,Action> getActions() {
+		return keyActions;
+	}
 	/**
 	 * Tries to tick the cook
 	 * @param a		the {@link Action} to try
@@ -129,6 +148,8 @@ public class Chef implements Tickable {
 				case MOVE_LEFT: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.LEFT); } break;
 				case MOVE_RIGHT: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.RIGHT); } break;
 				case MOVE_UP: if(tryTick(e.getValue(), f, movesDel)) { move(Direction.UP); } break;
+				case TURN_LEFT: if(tryTick(e.getValue(), f, movesDel)) { turn(Direction.LEFT); }
+				case TURN_RIGHT: if(tryTick(e.getValue(), f, movesDel)) { turn(Direction.RIGHT); }
 				case PICKUP_ITEM: if(tryTick(e.getValue(), f, movesDel)) { pickUp(); } break;
 				case USE_ITEM: if(tryTick(e.getValue(), f, movesDel)) { useItem(); } break;
 				default: System.out.println("Cook tick reached default state. Something messed up"); break;
@@ -241,6 +262,11 @@ public class Chef implements Tickable {
 			}
 		}
 		EventHandler.fireEvent(new ChefMoveEvent(startDir, direction, startLoc, loc, this));
+	}
+	public void turn(Direction dir) {
+		Direction startDir = direction;
+		direction = direction.add(dir);
+		EventHandler.fireEvent(new ChefMoveEvent(startDir, direction, loc, loc, this));
 	}
 	/**
 	 * Gets the {@link Direction} the cook is facing
