@@ -1,0 +1,13 @@
+package dev.orangeben.chef_utils.graphics;
+
+public enum ShapeType {
+SOLID_RECTANTLE,
+EMPTY_RECTANGLE,
+SOLID_ELIPSE,
+EMPTY_ECLIPSE,
+SOLID_TRIANGLE_H,
+EMPTY_TRIANGLE_H,
+SOLID_TRIANGLE_V,
+EMPTY_TRIANGLE_V,
+LINE;
+}

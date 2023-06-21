@@ -1,7 +1,0 @@
-package dev.benjaminc.chef_simulator.things.types;
-
-import dev.benjaminc.chef_simulator.things.Thing;
-
-public interface Choppable {
-	public abstract Thing getChoppedThing();
-}
